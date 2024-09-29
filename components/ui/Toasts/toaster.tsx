@@ -7,7 +7,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport
-} from '@/components/ui/Toasts/toast'
+} from '@/components/ui/Toasts/Toast'
 import { useToast } from '@/components/ui/Toasts/use-toast'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'

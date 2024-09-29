@@ -1,4 +1,3 @@
-import Logo from '@/components/icons/Logo'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -9,13 +8,14 @@ import {
   getRedirectMethod
 } from '@/utils/auth-helpers/settings'
 import Card from '@/components/ui/Card'
-import PasswordSignIn from '@/components/ui/AuthForms/PasswordSignIn'
-import EmailSignIn from '@/components/ui/AuthForms/EmailSignIn'
-import Separator from '@/components/ui/AuthForms/Separator'
-import OauthSignIn from '@/components/ui/AuthForms/OauthSignIn'
-import ForgotPassword from '@/components/ui/AuthForms/ForgotPassword'
-import UpdatePassword from '@/components/ui/AuthForms/UpdatePassword'
-import SignUp from '@/components/ui/AuthForms/Signup'
+import PasswordSignIn from '@/components/modules/AuthForms/PasswordSignIn'
+import EmailSignIn from '@/components/modules/AuthForms/EmailSignIn'
+import Separator from '@/components/modules/AuthForms/Separator'
+import OauthSignIn from '@/components/modules/AuthForms/OauthSignIn'
+import ForgotPassword from '@/components/modules/AuthForms/ForgotPassword'
+import UpdatePassword from '@/components/modules/AuthForms/UpdatePassword'
+import SignUp from '@/components/modules/AuthForms/Signup'
+import LogoText from '@/components/icons/LogoText'
 
 export default async function SignIn({
   params,
@@ -56,11 +56,12 @@ export default async function SignIn({
 
   return (
     <div className="flex justify-center height-screen-helper">
-      <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
-        <div className="flex justify-center pb-12 ">
-          <Logo width="64px" height="64px" />
+      <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-96">
+        <div className="flex justify-center my-6">
+          <LogoText />
         </div>
         <Card
+          color="black"
           title={
             viewProp === 'forgot_password'
               ? 'Reset Password'

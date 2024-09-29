@@ -1,0 +1,19 @@
+.root {
+  @apply inset-y-0 left-0 z-10 hidden w-48 flex-col border-r sm:flex;
+}
+
+.logo {
+  @apply cursor-pointer rounded-full transform duration-100 ease-in-out no-underline mb-5;
+}
+
+.link {
+  @apply flex items-start gap-4 px-2.5 py-2 w-full bg-transparent;
+}
+
+.link:hover {
+  @apply bg-slate-100;
+}
+
+.active {
+  @apply bg-slate-200 font-medium;
+}

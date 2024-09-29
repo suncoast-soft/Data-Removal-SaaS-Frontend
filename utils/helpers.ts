@@ -131,3 +131,26 @@ export const getErrorRedirect = (
     disableButton,
     arbitraryParams
   )
+
+export const slugToTitle = (slug: string): string => {
+  return slug
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+export const getInitials = (nameOrEmail: string): string => {
+  if (!nameOrEmail) return ''
+
+  const nameParts = nameOrEmail.split(' ')
+
+  if (nameParts.length === 1) {
+    const emailName = nameParts[0].split('@')[0]
+    return emailName.charAt(0).toUpperCase()
+  }
+
+  const initials = nameParts
+    .map((part) => part.charAt(0).toUpperCase())
+    .join('')
+  return initials
+}

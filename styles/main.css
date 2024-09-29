@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-*:focus:not(ol) {
-  @apply outline-none ring-2 ring-pink-500 ring-opacity-50;
-}
-
 html {
   height: 100%;
   box-sizing: border-box;
@@ -20,40 +10,56 @@ html {
     'case' 1,
     'rlig' 1,
     'calt' 0;
+  @apply antialiased text-slate-800 bg-white scroll-smooth;
 }
 
-html,
-body {
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+html {
+  @apply m-0 p-0 h-full w-full;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue',
     'Helvetica', sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  @apply text-white bg-zinc-800 antialiased;
 }
 
 body {
   position: relative;
   min-height: 100%;
-  margin: 0;
+}
+
+*:focus {
+  @apply outline-none ring-0;
 }
 
 a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  @apply relative inline-block;
 }
 
-p a {
-  @apply hover:underline;
+a::after {
+  content: '';
+  @apply absolute w-full h-0.5 bottom-0 left-0 transition-transform duration-200 ease-out;
+  transform: scaleX(0);
+  background-color: currentColor;
+  transform-origin: bottom right;
 }
 
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+a:not(.disable-underline):hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 .height-screen-helper {
   min-height: calc(100vh - 80px);
+}
+
+.animated {
+  @apply duration-1000;
+  animation-fill-mode: both;
 }

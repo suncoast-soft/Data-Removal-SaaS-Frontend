@@ -26,11 +26,10 @@ export async function GET(request: NextRequest) {
   }
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(
-    getStatusRedirect(
-      `${requestUrl.origin}/account`,
-      'Success!',
-      'You are now signed in.'
-    )
+  const redirectPath = getStatusRedirect(
+    `${requestUrl.origin}/dashboard`,
+    'Success!',
+    'You are now signed in.'
   )
+  return NextResponse.redirect(redirectPath)
 }

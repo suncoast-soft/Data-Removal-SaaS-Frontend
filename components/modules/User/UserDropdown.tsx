@@ -1,0 +1,91 @@
+'use client'
+
+import Link from 'next/link'
+import { SignOut } from '@/utils/auth-helpers/server'
+import { handleRequest } from '@/utils/auth-helpers/client'
+import { usePathname, useRouter } from 'next/navigation'
+import { getRedirectMethod } from '@/utils/auth-helpers/settings'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/DropdownMenu'
+import Input from '@/components/ui/Input'
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
+import Button from '@/components/ui/Button'
+import { getInitials } from '@/utils/helpers'
+import { LogOut } from 'lucide-react'
+
+interface NavlinksProps {
+  user?: any
+  userDetails?: any
+}
+
+export default function UserDropdown({ user, userDetails }: NavlinksProps) {
+  const router = getRedirectMethod() === 'client' ? useRouter() : null
+
+  const name =
+    userDetails.firstName && userDetails.lastName
+      ? `${userDetails.firstName} ${userDetails.lastName}`
+      : user.email
+
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          size="icon"
+          variant="slim"
+          color="primary"
+          className="overflow-hidden rounded-full"
+        >
+          <Avatar>
+            <AvatarFallback className="text-white bg-secondary">
+              {getInitials(name)}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>{name}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Link href="/dashboard/settings" className={'disable-underline'}>
+            Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/dashboard/support" className={'disable-underline'}>
+            Support
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {user ? (
+          <DropdownMenuItem>
+            <form onSubmit={(e) => handleRequest(e, SignOut, router)}>
+              <Input type="hidden" name="pathName" value={usePathname()} />
+              <button
+                type="submit"
+                className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer text-slate-900 rounded-md p-1"
+              >
+                <LogOut size={16} />
+                <span className="ml-1">Sign out</span>
+              </button>
+            </form>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem>
+            <Link
+              href="/signin"
+              className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer text-slate-200 rounded-md p-1"
+            >
+              Sign In
+            </Link>
+          </DropdownMenuItem>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}

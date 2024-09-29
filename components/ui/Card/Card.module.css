@@ -1,0 +1,13 @@
+.root {
+  @apply p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 w-full;
+}
+
+.black {
+  @apply bg-slate-900 text-white;
+}
+.white {
+  @apply bg-white text-slate-800;
+}
+.slate {
+  @apply bg-slate-100 text-slate-900;
+}

@@ -1,22 +1,37 @@
 import { ReactNode } from 'react'
 
+import styles from './Card.module.css'
+import { cn } from '@/utils/cn'
+
 interface Props {
-  title: string
+  icon?: ReactNode
+  color?: 'black' | 'white' | 'slate'
+  title?: string
   description?: string
   footer?: ReactNode
+  className?: string
   children: ReactNode
 }
 
-export default function Card({ title, description, footer, children }: Props) {
+export default function Card({
+  color = 'white',
+  icon,
+  title,
+  description,
+  footer,
+  className,
+  children
+}: Props) {
   return (
-    <div className="w-full max-w-3xl m-auto my-8 border rounded-md p border-zinc-700">
+    <div className={cn(styles.root, styles[color], className)}>
       <div className="px-5 py-4">
-        <h3 className="mb-1 text-2xl font-medium">{title}</h3>
-        <p className="text-zinc-300">{description}</p>
+        {icon && icon}
+        {title && <h3 className="mt-4 text-2xl font-semibold">{title}</h3>}
+        {description && <p className="my-4">{description}</p>}
         {children}
       </div>
       {footer && (
-        <div className="p-4 border-t rounded-b-md border-zinc-700 bg-zinc-900 text-zinc-500">
+        <div className="p-4 border-t rounded-b-md  text-slate-500">
           {footer}
         </div>
       )}
