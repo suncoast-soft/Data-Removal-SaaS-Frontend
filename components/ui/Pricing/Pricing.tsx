@@ -1,36 +1,36 @@
-'use client';
+'use client'
 
-import Button from '@/components/ui/Button';
-import LogoCloud from '@/components/ui/LogoCloud';
-import type { Tables } from '@/types_db';
-import { getStripe } from '@/utils/stripe/client';
-import { checkoutWithStripe } from '@/utils/stripe/server';
-import { getErrorRedirect } from '@/utils/helpers';
-import { User } from '@supabase/supabase-js';
-import cn from 'classnames';
-import { useRouter, usePathname } from 'next/navigation';
-import { useState } from 'react';
+import Button from '@/components/ui/Button'
+import LogoCloud from '@/components/ui/LogoCloud'
+import type { Tables } from '@/types_db'
+import { getStripe } from '@/utils/stripe/client'
+import { checkoutWithStripe } from '@/utils/stripe/server'
+import { getErrorRedirect } from '@/utils/helpers'
+import { User } from '@supabase/supabase-js'
+import cn from 'classnames'
+import { useRouter, usePathname } from 'next/navigation'
+import { useState } from 'react'
 
-type Subscription = Tables<'subscriptions'>;
-type Product = Tables<'products'>;
-type Price = Tables<'prices'>;
+type Subscription = Tables<'subscriptions'>
+type Product = Tables<'products'>
+type Price = Tables<'prices'>
 interface ProductWithPrices extends Product {
-  prices: Price[];
+  prices: Price[]
 }
 interface PriceWithProduct extends Price {
-  products: Product | null;
+  products: Product | null
 }
 interface SubscriptionWithProduct extends Subscription {
-  prices: PriceWithProduct | null;
+  prices: PriceWithProduct | null
 }
 
 interface Props {
-  user: User | null | undefined;
-  products: ProductWithPrices[];
-  subscription: SubscriptionWithProduct | null;
+  user: User | null | undefined
+  products: ProductWithPrices[]
+  subscription: SubscriptionWithProduct | null
 }
 
-type BillingInterval = 'lifetime' | 'year' | 'month';
+type BillingInterval = 'lifetime' | 'year' | 'month'
 
 export default function Pricing({ user, products, subscription }: Props) {
   const intervals = Array.from(
@@ -39,47 +39,47 @@ export default function Pricing({ user, products, subscription }: Props) {
         product?.prices?.map((price) => price?.interval)
       )
     )
-  );
-  const router = useRouter();
+  )
+  const router = useRouter()
   const [billingInterval, setBillingInterval] =
-    useState<BillingInterval>('month');
-  const [priceIdLoading, setPriceIdLoading] = useState<string>();
-  const currentPath = usePathname();
+    useState<BillingInterval>('month')
+  const [priceIdLoading, setPriceIdLoading] = useState<string>()
+  const currentPath = usePathname()
 
   const handleStripeCheckout = async (price: Price) => {
-    setPriceIdLoading(price.id);
+    setPriceIdLoading(price.id)
 
     if (!user) {
-      setPriceIdLoading(undefined);
-      return router.push('/signin/signup');
+      setPriceIdLoading(undefined)
+      return router.push('/signin/signup')
     }
 
     const { errorRedirect, sessionId } = await checkoutWithStripe(
       price,
       currentPath
-    );
+    )
 
     if (errorRedirect) {
-      setPriceIdLoading(undefined);
-      return router.push(errorRedirect);
+      setPriceIdLoading(undefined)
+      return router.push(errorRedirect)
     }
 
     if (!sessionId) {
-      setPriceIdLoading(undefined);
+      setPriceIdLoading(undefined)
       return router.push(
         getErrorRedirect(
           currentPath,
           'An unknown error occurred.',
           'Please try again later or contact a system administrator.'
         )
-      );
+      )
     }
 
-    const stripe = await getStripe();
-    stripe?.redirectToCheckout({ sessionId });
+    const stripe = await getStripe()
+    stripe?.redirectToCheckout({ sessionId })
 
-    setPriceIdLoading(undefined);
-  };
+    setPriceIdLoading(undefined)
+  }
 
   if (!products.length) {
     return (
@@ -101,7 +101,7 @@ export default function Pricing({ user, products, subscription }: Props) {
         </div>
         <LogoCloud />
       </section>
-    );
+    )
   } else {
     return (
       <section className="bg-black">
@@ -147,13 +147,13 @@ export default function Pricing({ user, products, subscription }: Props) {
             {products.map((product) => {
               const price = product?.prices?.find(
                 (price) => price.interval === billingInterval
-              );
-              if (!price) return null;
+              )
+              if (!price) return null
               const priceString = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: price.currency!,
                 minimumFractionDigits: 0
-              }).format((price?.unit_amount || 0) / 100);
+              }).format((price?.unit_amount || 0) / 100)
               return (
                 <div
                   key={product.id}
@@ -193,12 +193,12 @@ export default function Pricing({ user, products, subscription }: Props) {
                     </Button>
                   </div>
                 </div>
-              );
+              )
             })}
           </div>
           <LogoCloud />
         </div>
       </section>
-    );
+    )
   }
 }

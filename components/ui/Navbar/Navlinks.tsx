@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { SignOut } from '@/utils/auth-helpers/server';
-import { handleRequest } from '@/utils/auth-helpers/client';
-import Logo from '@/components/icons/Logo';
-import { usePathname, useRouter } from 'next/navigation';
-import { getRedirectMethod } from '@/utils/auth-helpers/settings';
-import s from './Navbar.module.css';
+import Link from 'next/link'
+import { SignOut } from '@/utils/auth-helpers/server'
+import { handleRequest } from '@/utils/auth-helpers/client'
+import Logo from '@/components/icons/Logo'
+import { usePathname, useRouter } from 'next/navigation'
+import { getRedirectMethod } from '@/utils/auth-helpers/settings'
+import s from './Navbar.module.css'
 
 interface NavlinksProps {
-  user?: any;
+  user?: any
 }
 
 export default function Navlinks({ user }: NavlinksProps) {
-  const router = getRedirectMethod() === 'client' ? useRouter() : null;
+  const router = getRedirectMethod() === 'client' ? useRouter() : null
 
   return (
     <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
@@ -47,5 +47,5 @@ export default function Navlinks({ user }: NavlinksProps) {
         )}
       </div>
     </div>
-  );
+  )
 }
