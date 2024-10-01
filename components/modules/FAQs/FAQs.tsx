@@ -37,10 +37,10 @@ export default function FAQs() {
     <Accordion type="single" collapsible className="w-full">
       {faqs.map((faq) => (
         <AccordionItem key={faq.id} value={faq.id}>
-          <AccordionTrigger className="w-full text-left bg-slate-100 p-4 rounded-lg transition duration-200 hover:bg-slate-200 my-3">
+          <AccordionTrigger className="w-full text-left bg-primary/5 p-4 rounded-lg transition duration-200 hover:bg-primary/10 my-3">
             {faq.question}
           </AccordionTrigger>
-          <AccordionContent className="p-4 border-l-4 border-b-0 border-green-500 bg-slate-50 mt-2 rounded-lg">
+          <AccordionContent className="p-4 border-l-4 border-b-0 border-secondary bg-slate-50 mt-2 rounded-lg">
             {faq.answer}
           </AccordionContent>
         </AccordionItem>

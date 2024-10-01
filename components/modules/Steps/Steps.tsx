@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartBarBig, IdCard, ListChecks, Shapes } from 'lucide-react'
 
 export default function Steps() {
@@ -38,16 +38,22 @@ export default function Steps() {
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {cards.map((card, index) => (
-          <Card key={index} color="white">
-            <div className="flex flex-col items-center">
-              <div className="flex items-center justify-center mb-6 h-16 w-16 bg-primary rounded-full">
-                {card.icon}
-              </div>
+          <Card key={index}>
+            <CardHeader>
+              <CardTitle>
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center justify-center mb-6 h-16 w-16 bg-primary rounded-full">
+                    {card.icon}
+                  </div>
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <h3 className="text-2xl font-semibold text-center">
                 {card.title}
               </h3>
               <p className="mt-4 text-center">{card.description}</p>
-            </div>
+            </CardContent>
           </Card>
         ))}
       </div>

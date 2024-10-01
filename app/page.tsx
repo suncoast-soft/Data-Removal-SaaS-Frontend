@@ -22,7 +22,7 @@ export default async function PricingPage() {
 
   return (
     <>
-      <section className="bg-slate-100 py-20">
+      <section className="bg-primary/5 py-20">
         <div className="container mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold">
             Effortlessly Protect Your Privacy
@@ -31,12 +31,16 @@ export default async function PricingPage() {
             Quick, easy, and affordable service to remove your personal
             information from the internet.
           </p>
-          <div className="mt-8 flex gap-4 justify-center">
+          <div className="mt-8 flex space-x-8 justify-center">
             <Button variant="default" color="primary" asChild>
-              <Link href="/signin/signup">Get Started for FREE</Link>
+              <Link href="/signin/signup" className="no-underline">
+                Get Started for FREE
+              </Link>
             </Button>
-            <Button variant="default" color="white" asChild>
-              <Link href="#how-it-works">Learn More</Link>
+            <Button variant="outline" color="white" asChild>
+              <Link href="#how-it-works" className="no-underline">
+                Learn More
+              </Link>
             </Button>
           </div>
         </div>
@@ -48,7 +52,7 @@ export default async function PricingPage() {
         </div>
       </section>
 
-      <section id="pricing-plans" className="bg-slate-100 py-20">
+      <section id="pricing-plans" className="bg-primary/5 py-20">
         <div className="container mx-auto px-6">
           <Pricing />
         </div>
@@ -60,7 +64,7 @@ export default async function PricingPage() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-slate-100 py-20">
+      <section id="how-it-works" className="bg-primary/5 py-20">
         <div className="container mx-auto px-6">
           <Steps />
         </div>
@@ -78,7 +82,7 @@ export default async function PricingPage() {
         </div>
       </section>
 
-      <section id="contact" className="bg-slate-50 py-20">
+      <section id="contact" className="bg-primary/5 py-20">
         <div className="container mx-auto max-w-lg px-6">
           <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
 

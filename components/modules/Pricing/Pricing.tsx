@@ -40,16 +40,18 @@ export default function Pricing() {
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
         {cards.map((card, index) => (
-          <Card key={index} color="white">
+          <Card key={index}>
             <CardHeader>
               <CardTitle>{card.icon}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center">
-                <h3 className="text-2xl font-semibold mt-4">{card.title}</h3>
-                <p className="mt-4 text-center my-4">{card.description}</p>
+                <h3 className="text-2xl font-semibold">{card.title}</h3>
+                <p className="text-center my-4">{card.description}</p>
                 <Button variant="default" color="secondary" asChild>
-                  <Link href={card.link}>{card.button}</Link>
+                  <Link href={card.link} className="no-underline">
+                    {card.button}
+                  </Link>
                 </Button>
               </div>
             </CardContent>

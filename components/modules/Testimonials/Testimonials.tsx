@@ -32,13 +32,13 @@ export default function Testimonials() {
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
         {cards.map((card, index) => (
-          <Card key={index} color="slate">
+          <Card key={index}>
             <CardHeader>
               <CardTitle>{card.image}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-lg italic text-center mt-3">"{card.text}"</p>
-              <p className="mt-4 text-base font-bold text-center">
+              <p className="text-lg italic text-center">"{card.text}"</p>
+              <p className="mt-3 text-base font-bold text-center">
                 - {card.name}
               </p>
               <p className="text-sm text-slate-600 text-center">{card.role}</p>
