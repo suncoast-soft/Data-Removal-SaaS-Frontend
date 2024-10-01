@@ -271,7 +271,7 @@ export async function updateEmail(formData: FormData) {
   // Check that the email is valid
   if (!isValidEmail(newEmail)) {
     return getErrorRedirect(
-      '/account',
+      '/dashboard/settings',
       'Your email could not be updated.',
       'Invalid email address.'
     )
@@ -280,7 +280,11 @@ export async function updateEmail(formData: FormData) {
   const supabase = createClient()
 
   const callbackUrl = getURL(
-    getStatusRedirect('/account', 'Success!', `Your email has been updated.`)
+    getStatusRedirect(
+      '/dashboard/settings',
+      'Success!',
+      `Your email has been updated.`
+    )
   )
 
   const { error } = await supabase.auth.updateUser(
@@ -292,13 +296,13 @@ export async function updateEmail(formData: FormData) {
 
   if (error) {
     return getErrorRedirect(
-      '/account',
+      '/dashboard/settings',
       'Your email could not be updated.',
       error.message
     )
   } else {
     return getStatusRedirect(
-      '/account',
+      '/dashboard/settings',
       'Confirmation emails sent.',
       `You will need to confirm the update by clicking the links sent to both the old and new email addresses.`
     )
@@ -316,21 +320,71 @@ export async function updateName(formData: FormData) {
 
   if (error) {
     return getErrorRedirect(
-      '/account',
+      '/dashboard/settings',
       'Your name could not be updated.',
       error.message
     )
   } else if (data.user) {
     return getStatusRedirect(
-      '/account',
+      '/dashboard/settings',
       'Success!',
       'Your name has been updated.'
     )
   } else {
     return getErrorRedirect(
-      '/account',
+      '/dashboard/settings',
       'Hmm... Something went wrong.',
       'Your name could not be updated.'
     )
   }
+}
+
+export async function updateUser(formData: FormData) {
+  // Get form data
+  const firstName = String(formData.get('firstName')).trim()
+  const lastName = String(formData.get('lastName')).trim()
+  const gender = Number(formData.get('gender'))
+  const birthDate = String(formData.get('birthDate')).trim()
+  const city = String(formData.get('city')).trim()
+  const state = String(formData.get('state')).trim()
+
+  const supabase = createClient()
+  const {
+    error: userError,
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  if (userError || !user) {
+    return getErrorRedirect(
+      '/dashboard/settings',
+      'Your name could not be updated.',
+      userError?.message || 'Could not get user session.'
+    )
+  }
+
+  const { error: updateError } = await supabase
+    .from('users')
+    .update({
+      first_name: firstName ?? undefined,
+      last_name: lastName ?? undefined,
+      gender: gender ?? undefined,
+      birth_date: birthDate ?? undefined,
+      city: city ?? undefined,
+      state: state ?? undefined
+    })
+    .eq('id', user?.id)
+
+  if (updateError) {
+    return getErrorRedirect(
+      '/dashboard/settings',
+      'Your profile could not be updated. Please try again.',
+      updateError.message
+    )
+  }
+
+  return getStatusRedirect(
+    'dashbaord/settings',
+    'Success!',
+    'Your profile has been updated.'
+  )
 }

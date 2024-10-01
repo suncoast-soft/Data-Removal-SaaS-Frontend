@@ -6,8 +6,8 @@ import {
   getUser
 } from '@/utils/supabase/queries'
 import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
-import NameForm from '@/components/modules/AccountForms/NameForm'
 import EmailForm from '@/components/modules/AccountForms/EmailForm'
+import ProfileForm from '@/components/modules/AccountForms/ProfileForm'
 
 export default async function Account() {
   const supabase = createClient()
@@ -35,7 +35,8 @@ export default async function Account() {
       </div>
 
       <div className="p-4">
-        <NameForm userName={userDetails?.full_name ?? ''} />
+        <ProfileForm userDetails={userDetails} />
+
         <CustomerPortalForm subscription={subscription} />
 
         <EmailForm userEmail={user.email} />

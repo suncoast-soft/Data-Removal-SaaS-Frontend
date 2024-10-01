@@ -4,7 +4,7 @@ import Features from '@/components/modules/Features'
 import Pricing from '@/components/modules/Pricing'
 import Steps from '@/components/modules/Steps'
 import Testimonials from '@/components/modules/Testimonials'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
