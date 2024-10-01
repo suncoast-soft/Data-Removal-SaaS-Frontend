@@ -163,11 +163,15 @@ export async function signInWithPassword(formData: FormData) {
   return redirectPath
 }
 
-export async function signUp(formData: FormData) {
+export async function signUp({
+  email,
+  password
+}: {
+  email: string
+  password: string
+}) {
   const callbackURL = getURL('/auth/callback')
 
-  const email = String(formData.get('email')).trim()
-  const password = String(formData.get('password')).trim()
   let redirectPath: string
 
   if (!isValidEmail(email)) {
