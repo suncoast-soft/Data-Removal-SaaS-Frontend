@@ -1,48 +1,42 @@
 'use client'
 
-import Button from '@/components/ui/Button'
-import Card from '@/components/ui/Card'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import Input from '@/components/ui/Input'
 import { Tables } from '@/types_db'
 import { updateUser } from '@/utils/auth-helpers/server'
+import { Input } from '@/components/ui/input'
 
 type User = Tables<'users'>
 
 export default function ProfileForm({ userDetails }: { userDetails: User }) {
   const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true)
     handleRequest(e, updateUser, router)
-    setIsSubmitting(false)
   }
 
   return (
-    <Card
-      title="Your Name"
-      description="Please enter your full name, or a display name you are comfortable with."
-      footer={
-        <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
-          <p className="pb-4 sm:pb-0">64 characters maximum</p>
-          <Button
-            variant="slim"
-            type="submit"
-            form="profileForm"
-            loading={isSubmitting}
-          >
-            Update Profile
-          </Button>
-        </div>
-      }
-    >
-      <div className="mt-8 mb-4 text-xl font-semibold">
+    <Card>
+      <CardHeader>
+        <CardTitle>Your Profile</CardTitle>
+        <CardDescription>
+          Please enter your name, gender, birth date, and address information in
+          the below form.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="mt-8 mb-4 text-xl font-semibold">
         <form id="profileForm" onSubmit={(e) => handleSubmit(e)}>
           <Input
-            variant="white"
             type="text"
             name="firstName"
             defaultValue={userDetails.first_name ?? ''}
@@ -52,7 +46,6 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
           />
 
           <Input
-            variant="white"
             type="text"
             name="lastName"
             defaultValue={userDetails.first_name ?? ''}
@@ -62,7 +55,6 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
           />
 
           <Input
-            variant="white"
             type="date"
             name="firstName"
             defaultValue={userDetails.first_name ?? ''}
@@ -72,7 +64,6 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
           />
 
           <Input
-            variant="white"
             type="text"
             name="firstName"
             defaultValue={userDetails.first_name ?? ''}
@@ -82,7 +73,6 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
           />
 
           <Input
-            variant="white"
             type="text"
             name="firstName"
             defaultValue={userDetails.first_name ?? ''}
@@ -92,7 +82,6 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
           />
 
           <Input
-            variant="white"
             type="text"
             name="firstName"
             defaultValue={userDetails.first_name ?? ''}
@@ -101,7 +90,16 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
             required
           />
         </form>
-      </div>
+      </CardContent>
+
+      <CardFooter>
+        <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
+          <p className="pb-4 sm:pb-0">64 characters maximum</p>
+          <Button variant="default" type="submit" form="profileForm">
+            Update Profile
+          </Button>
+        </div>
+      </CardFooter>
     </Card>
   )
 }

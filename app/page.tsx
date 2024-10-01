@@ -4,8 +4,9 @@ import Features from '@/components/modules/Features'
 import Pricing from '@/components/modules/Pricing'
 import Steps from '@/components/modules/Steps'
 import Testimonials from '@/components/modules/Testimonials'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/server'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function PricingPage() {
@@ -31,11 +32,11 @@ export default async function PricingPage() {
             information from the internet.
           </p>
           <div className="mt-8 flex gap-4 justify-center">
-            <Button variant="slim" color="primary" link="/signin/signup">
-              Get Started for FREE
+            <Button variant="default" color="primary" asChild>
+              <Link href="/signin/signup">Get Started for FREE</Link>
             </Button>
-            <Button variant="slim" color="white" link="#how-it-works">
-              Learn More
+            <Button variant="default" color="white" asChild>
+              <Link href="#how-it-works">Learn More</Link>
             </Button>
           </div>
         </div>

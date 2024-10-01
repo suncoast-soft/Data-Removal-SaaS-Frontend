@@ -12,10 +12,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/DropdownMenu'
-import Input from '@/components/ui/Input'
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
-import Button from '@/components/ui/Button'
+} from '@/components/ui/dropdown-menu'
+import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import { getInitials } from '@/utils/helpers'
 import { LogOut } from 'lucide-react'
 
@@ -37,7 +37,7 @@ export default function UserDropdown({ user, userDetails }: NavlinksProps) {
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
-          variant="slim"
+          variant="default"
           color="primary"
           className="overflow-hidden rounded-full"
         >

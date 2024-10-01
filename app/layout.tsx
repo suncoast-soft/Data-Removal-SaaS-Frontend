@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Footer from '@/components/modules/Footer'
 import Navbar from '@/components/modules/Navbar'
-import { Toaster } from '@/components/ui/Toasts/Toaster'
+import { Toaster } from '@/components/ui/toaster'
 import { PropsWithChildren, Suspense } from 'react'
 import { getURL } from '@/utils/helpers'
 import { createClient } from '@/utils/supabase/server'

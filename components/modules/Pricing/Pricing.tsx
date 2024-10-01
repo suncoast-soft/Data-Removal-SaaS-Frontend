@@ -1,6 +1,7 @@
-import Button from '@/components/ui/Button'
-import Card from '@/components/ui/Card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { BadgeCent, ClipboardPenLine, ScrollText } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Pricing() {
   const cards = [
@@ -39,14 +40,19 @@ export default function Pricing() {
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
         {cards.map((card, index) => (
-          <Card key={index} color="white" icon={card.icon}>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold mt-4">{card.title}</h3>
-              <p className="mt-4 text-center my-4">{card.description}</p>
-              <Button variant="slim" color="secondary" link={card.link}>
-                {card.button}
-              </Button>
-            </div>
+          <Card key={index} color="white">
+            <CardHeader>
+              <CardTitle>{card.icon}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center">
+                <h3 className="text-2xl font-semibold mt-4">{card.title}</h3>
+                <p className="mt-4 text-center my-4">{card.description}</p>
+                <Button variant="default" color="secondary" asChild>
+                  <Link href={card.link}>{card.button}</Link>
+                </Button>
+              </div>
+            </CardContent>
           </Card>
         ))}
       </div>

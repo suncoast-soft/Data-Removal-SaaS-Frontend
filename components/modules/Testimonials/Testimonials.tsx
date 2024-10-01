@@ -1,4 +1,4 @@
-import Card from '@/components/ui/Card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Contact } from 'lucide-react'
 
 export default function Testimonials() {
@@ -32,12 +32,17 @@ export default function Testimonials() {
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
         {cards.map((card, index) => (
-          <Card key={index} color="slate" icon={card.image}>
-            <p className="text-lg italic text-center mt-3">"{card.text}"</p>
-            <p className="mt-4 text-base font-bold text-center">
-              - {card.name}
-            </p>
-            <p className="text-sm text-slate-600 text-center">{card.role}</p>
+          <Card key={index} color="slate">
+            <CardHeader>
+              <CardTitle>{card.image}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg italic text-center mt-3">"{card.text}"</p>
+              <p className="mt-4 text-base font-bold text-center">
+                - {card.name}
+              </p>
+              <p className="text-sm text-slate-600 text-center">{card.role}</p>
+            </CardContent>
           </Card>
         ))}
       </div>

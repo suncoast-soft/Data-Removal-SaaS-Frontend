@@ -9,7 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
-} from '@/components/ui/Breadcrumb'
+} from '@/components/ui/breadcrumb'
 import { usePathname } from 'next/navigation'
 import { slugToTitle } from '@/utils/helpers'
 

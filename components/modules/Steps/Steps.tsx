@@ -1,4 +1,4 @@
-import Card from '@/components/ui/Card'
+import { Card } from '@/components/ui/card'
 import { ChartBarBig, IdCard, ListChecks, Shapes } from 'lucide-react'
 
 export default function Steps() {

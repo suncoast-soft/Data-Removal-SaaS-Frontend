@@ -7,8 +7,8 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger
-} from '@/components/ui/Sheet'
-import Button from '@/components/ui/Button'
+} from '@/components/ui/sheet'
+import { Button } from '@/components/ui/button'
 import LogoText from '@/components/icons/LogoText'
 import { cn } from '@/utils/cn'
 import s from './Sidenav.module.css'
