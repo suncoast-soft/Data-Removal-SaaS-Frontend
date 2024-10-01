@@ -1,11 +1,32 @@
-import s from './Navbar.module.css'
 import Link from 'next/link'
 import LogoText from '@/components/icons/LogoText'
-import { cn } from '@/utils/cn'
+import { Button } from '@/components/ui/button'
 
 export default async function Navbar() {
+  const navLinks = [
+    {
+      link: '#pricing-plans',
+      name: 'Pricing'
+    },
+    {
+      link: '#features',
+      name: 'Features'
+    },
+    {
+      link: '#how-it-works',
+      name: 'How It Works'
+    },
+    {
+      link: '#faq',
+      name: 'FAQs'
+    },
+    {
+      link: '#contact',
+      name: 'Contact'
+    }
+  ]
   return (
-    <nav className={s.root}>
+    <nav className="sticky top-0 bg-white z-40 transition-all duration-150 h-16 md:h-20">
       <a href="#skip" className="sr-only focus:not-sr-only">
         Skip to content
       </a>
@@ -15,35 +36,31 @@ export default async function Navbar() {
           <div className="flex items-center flex-1">
             <Link
               href="/"
-              className={cn(s.logo, 'disable-underline')}
+              className="cursor-pointer rounded-full transform duration-100 ease-in-out no-underline"
               aria-label="Logo"
             >
               <LogoText />
             </Link>
 
             <nav className="ml-6 space-x-2 lg:block">
-              <Link href="#pricing-plans" className={s.link}>
-                Pricing
-              </Link>
-              <Link href="#features" className={s.link}>
-                Features
-              </Link>
-              <Link href="#how-it-works" className={s.link}>
-                How It Works
-              </Link>
-              <Link href="#faq" className={s.link}>
-                FAQs
-              </Link>
-              <Link href="#contact" className={s.link}>
-                Contact
-              </Link>
+              {navLinks.map((nav, index) => (
+                <Link
+                  key={index}
+                  href={nav.link}
+                  className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer text-slate-700 rounded-md p-1 hover:text-slate-900"
+                >
+                  {nav.name}
+                </Link>
+              ))}
             </nav>
           </div>
 
           <div className="flex justify-end items-center space-x-8">
-            <Link href="/signin" className={s.link}>
-              Sign In
-            </Link>
+            <Button variant="default" asChild>
+              <Link href="/signin" className="no-underline">
+                Sign In
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

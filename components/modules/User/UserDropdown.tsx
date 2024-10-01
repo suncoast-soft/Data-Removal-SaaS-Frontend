@@ -52,12 +52,12 @@ export default function UserDropdown({ user, userDetails }: NavlinksProps) {
         <DropdownMenuLabel>{name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/dashboard/settings" className={'disable-underline'}>
+          <Link href="/dashboard/settings" className={'no-underline'}>
             Settings
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/dashboard/support" className={'disable-underline'}>
+          <Link href="/dashboard/support" className={'no-underline'}>
             Support
           </Link>
         </DropdownMenuItem>

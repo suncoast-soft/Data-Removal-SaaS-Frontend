@@ -50,7 +50,7 @@ a::after {
   transform-origin: bottom right;
 }
 
-a:not(.disable-underline):hover::after {
+a:not(.no-underline):hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }

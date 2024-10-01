@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-2">
             <Link
               href="/"
-              className="flex items-center flex-initial font-bold md:mr-24 disable-underline"
+              className="flex items-center flex-initial font-bold md:mr-24 no-underline"
             >
               <span className="mr-2 border rounded-full border-slate-700">
                 <LogoIcon />
