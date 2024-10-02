@@ -394,7 +394,7 @@ export async function updateUser(formData: { [key: string]: string | number }) {
   }
 
   return getStatusRedirect(
-    'dashbaord/settings',
+    '/dashboard/settings',
     'Success!',
     'Your profile has been updated.'
   )

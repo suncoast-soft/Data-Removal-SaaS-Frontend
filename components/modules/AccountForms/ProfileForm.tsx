@@ -15,13 +15,53 @@ import { Tables } from '@/types_db'
 import { updateUser } from '@/utils/auth-helpers/server'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
-import { Form, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover'
+import { CalendarIcon } from 'lucide-react'
+import { cn } from '@/utils/cn'
+import { format } from 'date-fns'
 
 type User = Tables<'users'>
 
 const FormSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' })
+  firstName: z
+    .string()
+    .min(2, {
+      message: 'Name must be at least 2 characters.'
+    })
+    .max(32, {
+      message: 'Name can not be longer than 300 characters.'
+    }),
+  lastName: z
+    .string()
+    .min(2, {
+      message: 'Name must be at least 2 characters.'
+    })
+    .max(32, {
+      message: 'Name can not be longer than 300 characters.'
+    }),
+  gender: z.string(),
+  birthDate: z.date({
+    required_error: 'A date of birth is required.'
+  }),
+  city: z.string({ required_error: 'City is required.' }),
+  state: z.string({ required_error: 'State is required.' })
 })
 
 export default function ProfileForm({ userDetails }: { userDetails: User }) {
@@ -32,11 +72,16 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    handleRequest(data, updateUser, router)
+    const transformedData = {
+      ...data,
+      gender: Number(data.gender),
+      birthDate: data.birthDate.toISOString()
+    }
+    handleRequest(transformedData, updateUser, router)
   }
 
   return (
-    <Card>
+    <Card className="mb-6">
       <CardHeader>
         <CardTitle>Your Profile</CardTitle>
         <CardDescription>
@@ -45,73 +90,189 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="mt-8 mb-4 text-xl font-semibold">
+      <CardContent>
         <Form {...form}>
-          <form id="profileForm" onSubmit={form.handleSubmit(onSubmit)}>
-            <Input
-              type="text"
-              name="firstName"
-              defaultValue={userDetails.first_name ?? ''}
-              placeholder="First Name"
-              maxLength={64}
-              required
-            />
+          <form
+            id="profileForm"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
+            <div className="flex gap-4 md:gap-2 flex-col md:flex-row">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="First Name"
+                        defaultValue={userDetails.first_name ?? ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Input
-              type="text"
-              name="lastName"
-              defaultValue={userDetails.first_name ?? ''}
-              placeholder="Last Name"
-              maxLength={64}
-              required
-            />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="Last Name"
+                        defaultValue={userDetails.last_name ?? ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <Input
-              type="date"
-              name="birthDate"
-              defaultValue={userDetails.first_name ?? ''}
-              placeholder="Birth Date"
-              maxLength={64}
-              required
-            />
+            <div className="flex gap-8 md:gap-2 flex-col md:flex-row">
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>Gender</FormLabel>
+                    <FormControl>
+                      <ToggleGroup
+                        type="single"
+                        className="justify-start"
+                        defaultValue={String(userDetails?.gender)}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <ToggleGroupItem
+                          value="0"
+                          aria-label="Toggle Male"
+                          className="border border-primary data-[state=on]:bg-primary data-[state=on]:text-white"
+                        >
+                          <span className="w-3 h-5">M</span>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                          value="1"
+                          aria-label="Toggle Female"
+                          className="border border-primary data-[state=on]:bg-primary data-[state=on]:text-white"
+                        >
+                          <span className="w-3 h-5">F</span>
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Input
-              type="text"
-              name="gender"
-              defaultValue={userDetails.first_name ?? ''}
-              placeholder="Gender"
-              maxLength={64}
-              required
-            />
+              <FormField
+                control={form.control}
+                name="birthDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col w-full md:w-1/2">
+                    <FormLabel>Date of birth</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'w-[240px] pl-3 text-left font-normal',
+                              !field.value ||
+                                (userDetails.birth_date &&
+                                  'text-muted-foreground')
+                            )}
+                          >
+                            {field.value || userDetails.birth_date ? (
+                              format(
+                                field.value || userDetails.birth_date,
+                                'PPP'
+                              )
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value || userDetails.birth_date}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date('1900-01-01')
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Your date of birth is used to calculate your age.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <Input
-              type="text"
-              name="city"
-              defaultValue={userDetails.first_name ?? ''}
-              placeholder="City"
-              maxLength={64}
-              required
-            />
+            <div className="flex gap-4 md:gap-2 flex-col md:flex-row">
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="City"
+                        defaultValue={userDetails.city ?? ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Input
-              type="text"
-              name="state"
-              defaultValue={userDetails.first_name ?? ''}
-              placeholder="State"
-              maxLength={64}
-              required
-            />
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel>State</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="State"
+                        defaultValue={userDetails.state ?? ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button variant="default" type="submit" form="profileForm">
+              Update Profile
+            </Button>
           </form>
         </Form>
       </CardContent>
 
       <CardFooter>
-        <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
-          <p className="pb-4 sm:pb-0">64 characters maximum</p>
-          <Button variant="default" type="submit" form="profileForm">
-            Update Profile
-          </Button>
-        </div>
+        <p className="text-sm">All fields are required</p>
       </CardFooter>
     </Card>
   )

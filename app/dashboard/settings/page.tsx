@@ -34,7 +34,7 @@ export default async function Account() {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 max-w-xl mx-auto">
         <ProfileForm userDetails={userDetails} />
 
         <CustomerPortalForm subscription={subscription} />
