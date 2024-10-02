@@ -18,19 +18,39 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { getInitials } from '@/utils/helpers'
 import { LogOut } from 'lucide-react'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 
 interface NavlinksProps {
   user?: any
   userDetails?: any
 }
 
+const FormSchema = z.object({
+  pathName: z.string()
+})
+
 export default function UserDropdown({ user, userDetails }: NavlinksProps) {
   const router = getRedirectMethod() === 'client' ? useRouter() : null
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const name =
     userDetails.firstName && userDetails.lastName
       ? `${userDetails.firstName} ${userDetails.lastName}`
       : user.email
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema)
+  })
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsSubmitting(true)
+    await handleRequest(data, SignOut, router)
+    setIsSubmitting(false)
+  }
 
   return (
     <DropdownMenu modal={false}>
@@ -64,16 +84,35 @@ export default function UserDropdown({ user, userDetails }: NavlinksProps) {
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem>
-            <form onSubmit={(e) => handleRequest(e, SignOut, router)}>
-              <Input type="hidden" name="pathName" value={usePathname()} />
-              <button
-                type="submit"
-                className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer text-slate-900 rounded-md p-1"
-              >
-                <LogOut size={16} />
-                <span className="ml-1">Sign out</span>
-              </button>
-            </form>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="pathName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="hidden"
+                          {...field}
+                          defaultValue={usePathname()}
+                          {...form.register('pathName')}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full flex justify-center items-center"
+                >
+                  <LogOut size={16} />
+                  <span className="ml-1">Sign out</span>
+                </button>
+              </form>
+            </Form>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem>

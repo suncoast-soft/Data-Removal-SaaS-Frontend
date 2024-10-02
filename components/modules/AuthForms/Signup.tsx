@@ -19,14 +19,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
 
 interface SignUpProps {
   allowEmail: boolean
@@ -55,73 +47,68 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
-        <CardDescription>Sign Up using email and password</CardDescription>
-      </CardHeader>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="Your email address"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="Your email address"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Your Password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Your Password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <Button type="submit" disabled={isSubmitting}>
+            Sign Up
+          </Button>
+        </form>
+      </Form>
 
-            <Button type="submit" disabled={isSubmitting}>
-              Sign Up
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-
-      <CardFooter>
-        <div>
-          <h5 className="font-semibold text-lg text-secondary">
-            Already have an account?
-          </h5>
-          <Link href="/signin/password_signin" className="text-sm">
-            Sign in with email and password
+      <div className="mt-4">
+        <h5 className="text-md">Already have an account?</h5>
+        <Link
+          href="/signin/password_signin"
+          className="font-medium text-sm text-primary"
+        >
+          Sign in with email and password
+        </Link>
+        {allowEmail && (
+          <Link
+            href="/signin/email_signin"
+            className="font-medium text-sm text-primary"
+          >
+            Sign in via magic link
           </Link>
-          {allowEmail && (
-            <Link href="/signin/email_signin" className="text-sm">
-              Sign in via magic link
-            </Link>
-          )}
-        </div>
-      </CardFooter>
-    </Card>
+        )}
+      </div>
+    </>
   )
 }

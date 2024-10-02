@@ -14,14 +14,25 @@ import { useRouter } from 'next/navigation'
 import { Tables } from '@/types_db'
 import { updateUser } from '@/utils/auth-helpers/server'
 import { Input } from '@/components/ui/input'
+import { z } from 'zod'
+import { Form, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type User = Tables<'users'>
+
+const FormSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address.' })
+})
 
 export default function ProfileForm({ userDetails }: { userDetails: User }) {
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    handleRequest(e, updateUser, router)
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema)
+  })
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    handleRequest(data, updateUser, router)
   }
 
   return (
@@ -35,61 +46,63 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
       </CardHeader>
 
       <CardContent className="mt-8 mb-4 text-xl font-semibold">
-        <form id="profileForm" onSubmit={(e) => handleSubmit(e)}>
-          <Input
-            type="text"
-            name="firstName"
-            defaultValue={userDetails.first_name ?? ''}
-            placeholder="First Name"
-            maxLength={64}
-            required
-          />
+        <Form {...form}>
+          <form id="profileForm" onSubmit={form.handleSubmit(onSubmit)}>
+            <Input
+              type="text"
+              name="firstName"
+              defaultValue={userDetails.first_name ?? ''}
+              placeholder="First Name"
+              maxLength={64}
+              required
+            />
 
-          <Input
-            type="text"
-            name="lastName"
-            defaultValue={userDetails.first_name ?? ''}
-            placeholder="Last Name"
-            maxLength={64}
-            required
-          />
+            <Input
+              type="text"
+              name="lastName"
+              defaultValue={userDetails.first_name ?? ''}
+              placeholder="Last Name"
+              maxLength={64}
+              required
+            />
 
-          <Input
-            type="date"
-            name="firstName"
-            defaultValue={userDetails.first_name ?? ''}
-            placeholder="Birth Date"
-            maxLength={64}
-            required
-          />
+            <Input
+              type="date"
+              name="birthDate"
+              defaultValue={userDetails.first_name ?? ''}
+              placeholder="Birth Date"
+              maxLength={64}
+              required
+            />
 
-          <Input
-            type="text"
-            name="firstName"
-            defaultValue={userDetails.first_name ?? ''}
-            placeholder="First Name"
-            maxLength={64}
-            required
-          />
+            <Input
+              type="text"
+              name="gender"
+              defaultValue={userDetails.first_name ?? ''}
+              placeholder="Gender"
+              maxLength={64}
+              required
+            />
 
-          <Input
-            type="text"
-            name="firstName"
-            defaultValue={userDetails.first_name ?? ''}
-            placeholder="First Name"
-            maxLength={64}
-            required
-          />
+            <Input
+              type="text"
+              name="city"
+              defaultValue={userDetails.first_name ?? ''}
+              placeholder="City"
+              maxLength={64}
+              required
+            />
 
-          <Input
-            type="text"
-            name="firstName"
-            defaultValue={userDetails.first_name ?? ''}
-            placeholder="First Name"
-            maxLength={64}
-            required
-          />
-        </form>
+            <Input
+              type="text"
+              name="state"
+              defaultValue={userDetails.first_name ?? ''}
+              placeholder="State"
+              maxLength={64}
+              required
+            />
+          </form>
+        </Form>
       </CardContent>
 
       <CardFooter>

@@ -5,10 +5,31 @@ import { updatePassword } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Input } from '@/components/ui/input'
 
 interface UpdatePasswordProps {
   redirectMethod: string
 }
+
+const FormSchema = z.object({
+  password: z.string().min(6, {
+    message: 'Password must be at least 6 characters.'
+  }),
+  passwordConfirm: z.string().min(6, {
+    message: 'Password must be at least 6 characters.'
+  })
+})
 
 export default function UpdatePassword({
   redirectMethod
@@ -16,50 +37,65 @@ export default function UpdatePassword({
   const router = redirectMethod === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true) // Disable the button while the request is being handled
-    await handleRequest(e, updatePassword, router)
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema)
+  })
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    setIsSubmitting(true)
+    await handleRequest(data, updatePassword, router)
     setIsSubmitting(false)
   }
 
   return (
-    <div className="my-8">
+    <Form {...form}>
       <form
         noValidate={true}
         className="mb-4"
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <label htmlFor="password">New Password</label>
-            <input
-              id="password"
-              placeholder="Password"
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              className="w-full p-3 rounded-md bg-slate-800"
-            />
-            <label htmlFor="passwordConfirm">Confirm New Password</label>
-            <input
-              id="passwordConfirm"
-              placeholder="Password"
-              type="password"
-              name="passwordConfirm"
-              autoComplete="current-password"
-              className="w-full p-3 rounded-md bg-slate-800"
-            />
-          </div>
-          <Button
-            variant="default"
-            type="submit"
-            className="mt-1"
-            disabled={isSubmitting}
-          >
+        <div className="grid gap-3">
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Your Password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm New Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Your Password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" disabled={isSubmitting}>
             Update Password
           </Button>
         </div>
       </form>
-    </div>
+    </Form>
   )
 }

@@ -30,7 +30,7 @@ export default function OauthSignIn() {
   }
 
   return (
-    <div className="mt-8">
+    <div className="mt-4">
       {oAuthProviders.map((provider) => (
         <form
           key={provider.name}
@@ -39,7 +39,7 @@ export default function OauthSignIn() {
         >
           <input type="hidden" name="provider" value={provider.name} />
           <Button
-            variant="default"
+            variant="outline"
             type="submit"
             className="w-full"
             disabled={isSubmitting}

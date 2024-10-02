@@ -7,7 +7,13 @@ import {
   getDefaultSignInView,
   getRedirectMethod
 } from '@/utils/auth-helpers/settings'
-import { Card } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 import PasswordSignIn from '@/components/modules/AuthForms/PasswordSignIn'
 import EmailSignIn from '@/components/modules/AuthForms/EmailSignIn'
 import Separator from '@/components/modules/AuthForms/Separator'
@@ -17,13 +23,7 @@ import UpdatePassword from '@/components/modules/AuthForms/UpdatePassword'
 import SignUp from '@/components/modules/AuthForms/Signup'
 import LogoText from '@/components/icons/LogoText'
 
-export default async function SignIn({
-  params,
-  searchParams
-}: {
-  params: { id: string }
-  searchParams: { disable_button: boolean }
-}) {
+export default async function SignIn({ params }: { params: { id: string } }) {
   const { allowOauth, allowEmail, allowPassword } = getAuthTypes()
   const viewTypes = getViewTypes()
   const redirectMethod = getRedirectMethod()
@@ -60,51 +60,56 @@ export default async function SignIn({
         <div className="flex justify-center my-6">
           <LogoText />
         </div>
-        <Card
-          color="black"
-          title={
-            viewProp === 'forgot_password'
-              ? 'Reset Password'
-              : viewProp === 'update_password'
-                ? 'Update Password'
-                : viewProp === 'signup'
-                  ? 'Sign Up'
-                  : 'Sign In'
-          }
-        >
-          {viewProp === 'password_signin' && (
-            <PasswordSignIn
-              allowEmail={allowEmail}
-              redirectMethod={redirectMethod}
-            />
-          )}
-          {viewProp === 'email_signin' && (
-            <EmailSignIn
-              allowPassword={allowPassword}
-              redirectMethod={redirectMethod}
-              disableButton={searchParams.disable_button}
-            />
-          )}
-          {viewProp === 'forgot_password' && (
-            <ForgotPassword
-              allowEmail={allowEmail}
-              redirectMethod={redirectMethod}
-              disableButton={searchParams.disable_button}
-            />
-          )}
-          {viewProp === 'update_password' && (
-            <UpdatePassword redirectMethod={redirectMethod} />
-          )}
-          {viewProp === 'signup' && (
-            <SignUp allowEmail={allowEmail} redirectMethod={redirectMethod} />
-          )}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              {viewProp === 'forgot_password'
+                ? 'Reset Password'
+                : viewProp === 'update_password'
+                  ? 'Update Password'
+                  : viewProp === 'signup'
+                    ? 'Sign Up'
+                    : 'Sign In'}
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            {viewProp === 'password_signin' && (
+              <PasswordSignIn
+                allowEmail={allowEmail}
+                redirectMethod={redirectMethod}
+              />
+            )}
+            {viewProp === 'email_signin' && (
+              <EmailSignIn
+                allowPassword={allowPassword}
+                redirectMethod={redirectMethod}
+              />
+            )}
+            {viewProp === 'forgot_password' && (
+              <ForgotPassword
+                allowEmail={allowEmail}
+                redirectMethod={redirectMethod}
+              />
+            )}
+            {viewProp === 'update_password' && (
+              <UpdatePassword redirectMethod={redirectMethod} />
+            )}
+            {viewProp === 'signup' && (
+              <SignUp allowEmail={allowEmail} redirectMethod={redirectMethod} />
+            )}
+          </CardContent>
+
           {viewProp !== 'update_password' &&
             viewProp !== 'signup' &&
             allowOauth && (
-              <>
-                <Separator text="Third-party sign-in" />
-                <OauthSignIn />
-              </>
+              <CardFooter>
+                <div className="w-full">
+                  <Separator text="Third-party sign-in" />
+                  <OauthSignIn />
+                </div>
+              </CardFooter>
             )}
         </Card>
       </div>

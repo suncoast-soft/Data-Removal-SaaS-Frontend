@@ -7,8 +7,10 @@ import { redirectToPath } from './server'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 export async function handleRequest(
-  data: any,
-  requestFunc: (data: any) => Promise<string>,
+  data: {
+    [key: string]: string | number
+  },
+  requestFunc: (data: { [key: string]: string | number }) => Promise<string>,
   router: AppRouterInstance | null = null
 ): Promise<boolean | void> {
   const redirectUrl: string = await requestFunc(data)

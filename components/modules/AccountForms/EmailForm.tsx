@@ -12,6 +12,14 @@ import {
 import { updateEmail } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
+import { Form } from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const FormSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address.' })
+})
 
 export default function EmailForm({
   userEmail
@@ -20,12 +28,15 @@ export default function EmailForm({
 }) {
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (e.currentTarget.newEmail.value === userEmail) {
-      e.preventDefault()
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema)
+  })
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    if (data.email === userEmail) {
       return
     }
-    handleRequest(e, updateEmail, router)
+    handleRequest(data, updateEmail, router)
   }
 
   return (
@@ -38,16 +49,18 @@ export default function EmailForm({
       </CardHeader>
 
       <CardContent className="mt-8 mb-4 text-xl font-semibold">
-        <form id="emailForm" onSubmit={(e) => handleSubmit(e)}>
-          <input
-            type="text"
-            name="newEmail"
-            className="w-1/2 p-3 rounded-md bg-slate-800"
-            defaultValue={userEmail ?? ''}
-            placeholder="Your email"
-            maxLength={64}
-          />
-        </form>
+        <Form {...form}>
+          <form id="emailForm" onSubmit={form.handleSubmit(onSubmit)}>
+            <input
+              type="text"
+              name="email"
+              className="w-1/2 p-3 rounded-md bg-slate-800"
+              defaultValue={userEmail ?? ''}
+              placeholder="Your email"
+              maxLength={64}
+            />
+          </form>
+        </Form>
       </CardContent>
 
       <CardFooter>

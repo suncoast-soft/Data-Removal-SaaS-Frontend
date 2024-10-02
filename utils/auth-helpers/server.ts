@@ -15,8 +15,8 @@ export async function redirectToPath(path: string) {
   return redirect(path)
 }
 
-export async function SignOut(formData: FormData) {
-  const pathName = String(formData.get('pathName')).trim()
+export async function SignOut(formData: { [key: string]: string | number }) {
+  const pathName = String(formData['pathName']).trim()
 
   const supabase = createClient()
   const { error } = await supabase.auth.signOut()
@@ -32,11 +32,13 @@ export async function SignOut(formData: FormData) {
   return '/signin'
 }
 
-export async function signInWithEmail(formData: FormData) {
+export async function signInWithEmail(formData: {
+  [key: string]: string | number
+}) {
   const cookieStore = cookies()
   const callbackURL = getURL('/auth/callback')
 
-  const email = String(formData.get('email')).trim()
+  const email = String(formData['email']).trim()
   let redirectPath: string
 
   if (!isValidEmail(email)) {
@@ -86,11 +88,13 @@ export async function signInWithEmail(formData: FormData) {
   return redirectPath
 }
 
-export async function requestPasswordUpdate(formData: FormData) {
+export async function requestPasswordUpdate(formData: {
+  [key: string]: string | number
+}) {
   const callbackURL = getURL('/auth/reset_password')
 
   // Get form data
-  const email = String(formData.get('email')).trim()
+  const email = String(formData['email']).trim()
   let redirectPath: string
 
   if (!isValidEmail(email)) {
@@ -131,10 +135,12 @@ export async function requestPasswordUpdate(formData: FormData) {
   return redirectPath
 }
 
-export async function signInWithPassword(formData: FormData) {
+export async function signInWithPassword(formData: {
+  [key: string]: string | number
+}) {
   const cookieStore = cookies()
-  const email = String(formData.get('email')).trim()
-  const password = String(formData.get('password')).trim()
+  const email = String(formData['email']).trim()
+  const password = String(formData['password']).trim()
   let redirectPath: string
 
   const supabase = createClient()
@@ -163,13 +169,10 @@ export async function signInWithPassword(formData: FormData) {
   return redirectPath
 }
 
-export async function signUp({
-  email,
-  password
-}: {
-  email: string
-  password: string
-}) {
+export async function signUp(formData: { [key: string]: string | number }) {
+  const email = String(formData['email']).trim()
+  const password = String(formData['password']).trim()
+
   const callbackURL = getURL('/auth/callback')
 
   let redirectPath: string
@@ -226,9 +229,11 @@ export async function signUp({
   return redirectPath
 }
 
-export async function updatePassword(formData: FormData) {
-  const password = String(formData.get('password')).trim()
-  const passwordConfirm = String(formData.get('passwordConfirm')).trim()
+export async function updatePassword(formData: {
+  [key: string]: string | number
+}) {
+  const password = String(formData['password']).trim()
+  const passwordConfirm = String(formData['passwordConfirm']).trim()
   let redirectPath: string
 
   // Check that the password and confirmation match
@@ -268,9 +273,11 @@ export async function updatePassword(formData: FormData) {
   return redirectPath
 }
 
-export async function updateEmail(formData: FormData) {
+export async function updateEmail(formData: {
+  [key: string]: string | number
+}) {
   // Get form data
-  const newEmail = String(formData.get('newEmail')).trim()
+  const newEmail = String(formData['newEmail']).trim()
 
   // Check that the email is valid
   if (!isValidEmail(newEmail)) {
@@ -313,9 +320,9 @@ export async function updateEmail(formData: FormData) {
   }
 }
 
-export async function updateName(formData: FormData) {
+export async function updateName(formData: { [key: string]: string | number }) {
   // Get form data
-  const fullName = String(formData.get('fullName')).trim()
+  const fullName = String(formData['fullName']).trim()
 
   const supabase = createClient()
   const { error, data } = await supabase.auth.updateUser({
@@ -343,14 +350,14 @@ export async function updateName(formData: FormData) {
   }
 }
 
-export async function updateUser(formData: FormData) {
+export async function updateUser(formData: { [key: string]: string | number }) {
   // Get form data
-  const firstName = String(formData.get('firstName')).trim()
-  const lastName = String(formData.get('lastName')).trim()
-  const gender = Number(formData.get('gender'))
-  const birthDate = String(formData.get('birthDate')).trim()
-  const city = String(formData.get('city')).trim()
-  const state = String(formData.get('state')).trim()
+  const firstName = String(formData['firstName']).trim()
+  const lastName = String(formData['lastName']).trim()
+  const gender = Number(formData['gender'])
+  const birthDate = String(formData['birthDate']).trim()
+  const city = String(formData['city']).trim()
+  const state = String(formData['state']).trim()
 
   const supabase = createClient()
   const {
