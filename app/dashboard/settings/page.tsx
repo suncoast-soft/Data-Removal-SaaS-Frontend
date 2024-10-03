@@ -1,20 +1,15 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import {
-  getUserDetails,
-  getSubscription,
-  getUser
-} from '@/utils/supabase/queries'
+import { getUserDetails, getUser } from '@/utils/supabase/queries'
 import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
 import EmailForm from '@/components/modules/AccountForms/EmailForm'
 import ProfileForm from '@/components/modules/AccountForms/ProfileForm'
 
-export default async function Account() {
+export default async function Settings() {
   const supabase = createClient()
-  const [user, userDetails, subscription] = await Promise.all([
+  const [user, userDetails] = await Promise.all([
     getUser(supabase),
-    getUserDetails(supabase),
-    getSubscription(supabase)
+    getUserDetails(supabase)
   ])
 
   if (!user) {
