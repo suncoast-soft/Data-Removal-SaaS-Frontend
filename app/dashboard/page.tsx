@@ -1,3 +1,3 @@
 export default async function Account() {
-  return <section className="mb-32 bg-white"></section>
+  return <section className="mb-16 bg-white"></section>
 }

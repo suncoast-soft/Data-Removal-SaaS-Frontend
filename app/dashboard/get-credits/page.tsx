@@ -19,7 +19,7 @@ export default async function Index() {
 
   return (
     <>
-      <section className="mb-32 bg-white">
+      <section className="mb-16 bg-white">
         <div className="max-w-6xl px-4 py-8 mx-auto sm:px-6 lg:px-8">
           <div className="sm:align-center sm:flex sm:flex-col">
             <h1 className="text-4xl font-extrabold text-primary sm:text-center sm:text-6xl">
