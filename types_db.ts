@@ -39,6 +39,45 @@ export type Database = {
         }
         Relationships: []
       }
+      credits: {
+        Row: {
+          created_at: string
+          credits: number | null
+          id: number
+          updated_at: string | null
+          user: string | null
+        }
+        Insert: {
+          created_at?: string
+          credits?: number | null
+          id?: number
+          updated_at?: string | null
+          user?: string | null
+        }
+        Update: {
+          created_at?: string
+          credits?: number | null
+          id?: number
+          updated_at?: string | null
+          user?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credits_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credits_user_id_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           id: string
