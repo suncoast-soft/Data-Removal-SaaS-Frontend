@@ -86,9 +86,9 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
   }
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-8 bg-primary/10">
       <CardHeader>
-        <CardTitle>Your Profile</CardTitle>
+        <CardTitle>Profile Settings</CardTitle>
         <CardDescription>
           Please enter your name, gender, birth date, and address information in
           the below form.

@@ -35,11 +35,11 @@ export default async function Account() {
       </div>
 
       <div className="p-4 max-w-xl mx-auto">
+        <EmailForm userEmail={user.email} />
+
         <ProfileForm userDetails={userDetails} />
 
         <CustomerPortalForm subscription={subscription} />
-
-        <EmailForm userEmail={user.email} />
       </div>
     </section>
   )

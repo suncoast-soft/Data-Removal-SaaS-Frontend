@@ -277,7 +277,7 @@ export async function updateEmail(formData: {
   [key: string]: string | number
 }) {
   // Get form data
-  const newEmail = String(formData['newEmail']).trim()
+  const newEmail = String(formData['email']).trim()
 
   // Check that the email is valid
   if (!isValidEmail(newEmail)) {

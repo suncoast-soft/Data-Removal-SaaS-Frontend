@@ -12,10 +12,18 @@ import {
 import { updateEmail } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
-import { Form } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Input } from '@/components/ui/input'
 
 const FormSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' })
@@ -40,38 +48,50 @@ export default function EmailForm({
   }
 
   return (
-    <Card>
+    <Card className="mb-8 bg-primary/10">
       <CardHeader>
-        <CardTitle>Your Email</CardTitle>
+        <CardTitle>Account Settings</CardTitle>
         <CardDescription>
           Please enter the email address you want to use to login.
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="mt-8 mb-4 text-xl font-semibold">
+      <CardContent>
         <Form {...form}>
-          <form id="emailForm" onSubmit={form.handleSubmit(onSubmit)}>
-            <input
-              type="text"
+          <form
+            id="emailForm"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
+            <FormField
+              control={form.control}
               name="email"
-              className="w-1/2 p-3 rounded-md bg-slate-800"
-              defaultValue={userEmail ?? ''}
-              placeholder="Your email"
-              maxLength={64}
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Email Address"
+                      defaultValue={userEmail ?? ''}
+                      {...form.register('email')}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+
+            <Button variant="default" type="submit" form="emailForm">
+              Update Email
+            </Button>
           </form>
         </Form>
       </CardContent>
 
       <CardFooter>
-        <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
-          <p className="pb-4 sm:pb-0">
-            We will email you to verify the change.
-          </p>
-          <Button variant="default" type="submit" form="emailForm">
-            Update Email
-          </Button>
-        </div>
+        <p className="text-sm">We will email you to verify the change.</p>
       </CardFooter>
     </Card>
   )
