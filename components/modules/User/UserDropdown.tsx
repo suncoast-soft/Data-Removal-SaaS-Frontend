@@ -77,6 +77,11 @@ export default function UserDropdown({ user, userDetails }: NavlinksProps) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
+          <Link href="/dashboard/get-credits" className={'no-underline'}>
+            Get Credits
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <Link href="/dashboard/support" className={'no-underline'}>
             Support
           </Link>
