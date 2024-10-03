@@ -2,7 +2,6 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { createStripePortal } from '@/utils/stripe/server'
-import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -11,36 +10,11 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { Tables } from '@/types_db'
 import { Button } from '@/components/ui/button'
 
-type Subscription = Tables<'subscriptions'>
-type Price = Tables<'prices'>
-type Product = Tables<'products'>
-
-type SubscriptionWithPriceAndProduct = Subscription & {
-  prices:
-    | (Price & {
-        products: Product | null
-      })
-    | null
-}
-
-interface Props {
-  subscription: SubscriptionWithPriceAndProduct | null
-}
-
-export default function CustomerPortalForm({ subscription }: Props) {
+export default function CustomerPortalForm() {
   const router = useRouter()
   const currentPath = usePathname()
-
-  const subscriptionPrice =
-    subscription &&
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: subscription?.prices?.currency!,
-      minimumFractionDigits: 0
-    }).format((subscription?.prices?.unit_amount || 0) / 100)
 
   const handleStripePortalRequest = async () => {
     const redirectUrl = await createStripePortal(currentPath)
@@ -48,31 +22,24 @@ export default function CustomerPortalForm({ subscription }: Props) {
   }
 
   return (
-    <Card>
+    <Card className="mb-8 bg-primary/10">
       <CardHeader>
-        <CardTitle>Your Plan</CardTitle>
+        <CardTitle>Manage Billing</CardTitle>
         <CardDescription>
-          {subscription
-            ? `You are currently on the ${subscription?.prices?.products?.name} plan.`
-            : 'You are not currently subscribed to any plan.'}
+          Manage your billing methods, billing address, and invoices.
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="mt-8 mb-4 text-xl font-semibold">
-        {subscription ? (
-          `${subscriptionPrice}/${subscription?.prices?.interval}`
-        ) : (
-          <Link href="/">Choose your plan</Link>
-        )}
+      <CardContent>
+        <Button variant="default" onClick={handleStripePortalRequest}>
+          Open Billing Manager Portal
+        </Button>
       </CardContent>
 
       <CardFooter>
-        <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
-          <p className="pb-4 sm:pb-0">Manage your subscription on Stripe.</p>
-          <Button variant="default" onClick={handleStripePortalRequest}>
-            Open customer portal
-          </Button>
-        </div>
+        <p className="text-sm">
+          You will be redirected to your dedicated billing management dashboard.
+        </p>
       </CardFooter>
     </Card>
   )

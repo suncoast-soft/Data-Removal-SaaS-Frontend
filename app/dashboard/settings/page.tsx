@@ -39,7 +39,7 @@ export default async function Account() {
 
         <ProfileForm userDetails={userDetails} />
 
-        <CustomerPortalForm subscription={subscription} />
+        <CustomerPortalForm />
       </div>
     </section>
   )
