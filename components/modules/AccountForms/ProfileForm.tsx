@@ -68,7 +68,12 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
   const router = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      birthDate: userDetails.birth_date
+        ? new Date(userDetails.birth_date)
+        : undefined
+    }
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
@@ -110,6 +115,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         {...field}
                         placeholder="First Name"
                         defaultValue={userDetails.first_name ?? ''}
+                        {...form.register('firstName')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -129,6 +135,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         {...field}
                         placeholder="Last Name"
                         defaultValue={userDetails.last_name ?? ''}
+                        {...form.register('lastName')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -154,6 +161,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                       >
                         <ToggleGroupItem
                           value="0"
+                          {...form.register('gender')}
                           aria-label="Toggle Male"
                           className="border border-primary data-[state=on]:bg-primary data-[state=on]:text-white"
                         >
@@ -161,6 +169,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         </ToggleGroupItem>
                         <ToggleGroupItem
                           value="1"
+                          {...form.register('gender')}
                           aria-label="Toggle Female"
                           className="border border-primary data-[state=on]:bg-primary data-[state=on]:text-white"
                         >
@@ -177,44 +186,47 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                 control={form.control}
                 name="birthDate"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col w-full md:w-1/2">
+                  <FormItem className="w-full md:w-1/2">
                     <FormLabel>Date of birth</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value ||
-                                (userDetails.birth_date &&
-                                  'text-muted-foreground')
-                            )}
-                          >
-                            {field.value || userDetails.birth_date ? (
-                              format(
-                                field.value || userDetails.birth_date,
-                                'PPP'
-                              )
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value || userDetails.birth_date}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date('1900-01-01')
-                          }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'w-[240px] pl-3 text-left font-normal',
+                                !field.value ||
+                                  (userDetails.birth_date &&
+                                    'text-muted-foreground')
+                              )}
+                              {...form.register('birthDate')}
+                            >
+                              {field.value || userDetails.birth_date ? (
+                                format(
+                                  field.value || userDetails.birth_date,
+                                  'PPP'
+                                )
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value || userDetails.birth_date}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
                     <FormDescription>
                       Your date of birth is used to calculate your age.
                     </FormDescription>
@@ -237,6 +249,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         {...field}
                         placeholder="City"
                         defaultValue={userDetails.city ?? ''}
+                        {...form.register('city')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -256,6 +269,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         {...field}
                         placeholder="State"
                         defaultValue={userDetails.state ?? ''}
+                        {...form.register('state')}
                       />
                     </FormControl>
                     <FormMessage />
