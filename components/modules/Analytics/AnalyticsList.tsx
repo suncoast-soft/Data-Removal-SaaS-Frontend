@@ -9,6 +9,11 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover'
+import {
   Table,
   TableBody,
   TableCaption,
@@ -19,10 +24,42 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Tables } from '@/types_db'
+import { cn } from '@/utils/cn'
 import { formatDate } from 'date-fns'
 
 interface Job extends Omit<Tables<'jobs'>, 'broker'> {
   broker: Tables<'brokers'> | null
+}
+
+const TreeNode: React.FC<{ data: any; level?: number }> = ({
+  data,
+  level = 0
+}) => {
+  if (typeof data !== 'object' || data === null) {
+    return <span>{String(data)}</span>
+  }
+
+  if (Array.isArray(data)) {
+    return (
+      <ul className="my-1">
+        {data.map((item, index) => (
+          <li key={index}>
+            <TreeNode data={item} level={level + 1} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  return (
+    <ul className="my-1">
+      {Object.entries(data).map(([key, value], index) => (
+        <li key={index}>
+          <strong>{key}</strong>: <TreeNode data={value} level={level + 1} />
+        </li>
+      ))}
+    </ul>
+  )
 }
 
 export default function Analytics({
@@ -61,10 +98,27 @@ export default function Analytics({
               <TableCell className="font-medium">
                 {job.broker?.name ?? ''}
               </TableCell>
-              <TableCell>{job.status}</TableCell>
+              <TableCell
+                className={cn(job.status === 'completed' ? 'text-primary' : '')}
+              >
+                {job.status}
+              </TableCell>
               <TableCell>{formatDate(job.updated_at ?? '', 'PPP p')}</TableCell>
-              <TableCell className="text-right">
-                <Button>View Details</Button>
+              <TableCell className="text-right flex gap-2 justify-end">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button>View Details</Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    {job.result ? (
+                      <TreeNode data={job.result} />
+                    ) : (
+                      <>Search In Progress</>
+                    )}
+                  </PopoverContent>
+                </Popover>
+
+                <Button variant="destructive">Request Removal</Button>
               </TableCell>
             </TableRow>
           ))}
