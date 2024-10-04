@@ -93,41 +93,49 @@ export default function Analytics({
         </TableHeader>
 
         <TableBody>
-          {jobs.map((job: Job) => (
-            <TableRow key={job.id}>
-              <TableCell className="font-medium">
-                {job.broker?.name ?? ''}
-              </TableCell>
-              <TableCell
-                className={cn(job.status === 'completed' ? 'text-primary' : '')}
-              >
-                {job.status}
-              </TableCell>
-              <TableCell>{formatDate(job.updated_at ?? '', 'PPP p')}</TableCell>
-              <TableCell className="text-right flex gap-2 justify-end">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button>View Details</Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80">
-                    {job.result ? (
-                      <TreeNode data={job.result} />
-                    ) : (
-                      <>Search In Progress</>
-                    )}
-                  </PopoverContent>
-                </Popover>
+          {jobs
+            .filter((job) => job.broker?.enable_scraping)
+            .map((job: Job) => (
+              <TableRow key={job.id}>
+                <TableCell className="font-medium">
+                  {job.broker?.name ?? ''}
+                </TableCell>
+                <TableCell
+                  className={cn(
+                    job.status === 'completed' ? 'text-primary' : ''
+                  )}
+                >
+                  {job.status}
+                </TableCell>
+                <TableCell>
+                  {formatDate(job.updated_at ?? '', 'PPP p')}
+                </TableCell>
+                <TableCell className="text-right flex gap-2 justify-end">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button>View Details</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      {job.result ? (
+                        <TreeNode data={job.result} />
+                      ) : (
+                        <>Search In Progress</>
+                      )}
+                    </PopoverContent>
+                  </Popover>
 
-                <Button variant="destructive">Request Removal</Button>
-              </TableCell>
-            </TableRow>
-          ))}
+                  <Button variant="destructive">Request Removal</Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
 
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">{jobs.length}</TableCell>
+            <TableCell className="text-right">
+              {jobs.filter((job) => job.broker?.enable_scraping).length}
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
