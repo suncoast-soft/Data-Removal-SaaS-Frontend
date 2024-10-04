@@ -106,6 +106,8 @@ export type Database = {
           broker: number | null
           created_at: string
           id: number
+          note: string | null
+          removal_status: Database["public"]["Enums"]["removal_status"] | null
           result: Json | null
           status: Database["public"]["Enums"]["job_status"] | null
           updated_at: string | null
@@ -115,6 +117,8 @@ export type Database = {
           broker?: number | null
           created_at?: string
           id?: number
+          note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
           result?: Json | null
           status?: Database["public"]["Enums"]["job_status"] | null
           updated_at?: string | null
@@ -124,6 +128,8 @@ export type Database = {
           broker?: number | null
           created_at?: string
           id?: number
+          note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
           result?: Json | null
           status?: Database["public"]["Enums"]["job_status"] | null
           updated_at?: string | null
@@ -347,6 +353,7 @@ export type Database = {
       job_status: "queued" | "in_progress" | "completed" | "failed"
       pricing_plan_interval: "day" | "week" | "month" | "year"
       pricing_type: "one_time" | "recurring"
+      removal_status: "requested" | "in_progress" | "completed" | "failed"
       subscription_status:
         | "trialing"
         | "active"
