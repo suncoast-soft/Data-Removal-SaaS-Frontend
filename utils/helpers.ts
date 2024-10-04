@@ -190,3 +190,22 @@ export const getAgeFromBirth = (birthDate: Date): number => {
 
   return age
 }
+
+export const validateProfile = (userDetails: {
+  first_name: string
+  last_name: string
+  birth_date: Date
+  gender: number
+  city: string
+  state: string
+}) => {
+  return (
+    userDetails &&
+    userDetails.first_name &&
+    userDetails.last_name &&
+    userDetails.birth_date &&
+    userDetails.gender &&
+    userDetails.city &&
+    userDetails.state
+  )
+}

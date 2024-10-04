@@ -53,3 +53,19 @@ export const getCredits = cache(async (supabase: SupabaseClient) => {
     .single()
   return credits
 })
+
+export const getBrokers = cache(async (supabase: SupabaseClient) => {
+  const { data: brokers } = await supabase.from('brokers').select('*')
+  return brokers
+})
+
+export const getJobs = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: jobs } = await supabase
+    .from('jobs')
+    .select('*, broker(*)')
+    .eq('user', user.id)
+  return jobs
+})
