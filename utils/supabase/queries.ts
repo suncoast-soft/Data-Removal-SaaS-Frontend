@@ -31,9 +31,25 @@ export const getProducts = cache(async (supabase: SupabaseClient) => {
 })
 
 export const getUserDetails = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
   const { data: userDetails } = await supabase
     .from('users')
     .select('*')
+    .eq('id', user.id)
     .single()
   return userDetails
+})
+
+export const getCredits = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: credits } = await supabase
+    .from('credits')
+    .select('*')
+    .eq('user', user.id)
+    .single()
+  return credits
 })

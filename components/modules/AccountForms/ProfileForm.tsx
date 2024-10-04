@@ -70,7 +70,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      birthDate: userDetails.birth_date
+      birthDate: userDetails?.birth_date
         ? new Date(userDetails.birth_date)
         : undefined
     }
@@ -114,7 +114,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         type="text"
                         {...field}
                         placeholder="First Name"
-                        defaultValue={userDetails.first_name ?? ''}
+                        defaultValue={userDetails?.first_name ?? ''}
                         {...form.register('firstName')}
                       />
                     </FormControl>
@@ -134,7 +134,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         type="text"
                         {...field}
                         placeholder="Last Name"
-                        defaultValue={userDetails.last_name ?? ''}
+                        defaultValue={userDetails?.last_name ?? ''}
                         {...form.register('lastName')}
                       />
                     </FormControl>
@@ -197,12 +197,12 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                               className={cn(
                                 'w-[240px] pl-3 text-left font-normal',
                                 !field.value ||
-                                  (userDetails.birth_date &&
+                                  (userDetails?.birth_date &&
                                     'text-muted-foreground')
                               )}
                               {...form.register('birthDate')}
                             >
-                              {field.value || userDetails.birth_date ? (
+                              {field.value || userDetails?.birth_date ? (
                                 format(
                                   field.value || userDetails.birth_date,
                                   'PPP'
@@ -217,12 +217,11 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value || userDetails.birth_date}
+                            selected={field.value || userDetails?.birth_date}
                             onSelect={field.onChange}
                             disabled={(date) =>
                               date > new Date() || date < new Date('1900-01-01')
                             }
-                            initialFocus
                           />
                         </PopoverContent>
                       </Popover>
@@ -248,7 +247,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         type="text"
                         {...field}
                         placeholder="City"
-                        defaultValue={userDetails.city ?? ''}
+                        defaultValue={userDetails?.city ?? ''}
                         {...form.register('city')}
                       />
                     </FormControl>
@@ -268,7 +267,7 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         type="text"
                         {...field}
                         placeholder="State"
-                        defaultValue={userDetails.state ?? ''}
+                        defaultValue={userDetails?.state ?? ''}
                         {...form.register('state')}
                       />
                     </FormControl>

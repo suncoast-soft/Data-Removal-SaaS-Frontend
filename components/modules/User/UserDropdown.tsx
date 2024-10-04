@@ -38,7 +38,7 @@ export default function UserDropdown({ user, userDetails }: NavlinksProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const name =
-    userDetails.firstName && userDetails.lastName
+    userDetails?.firstName && userDetails?.lastName
       ? `${userDetails.firstName} ${userDetails.lastName}`
       : user.email
 

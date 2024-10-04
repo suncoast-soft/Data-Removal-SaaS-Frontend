@@ -1,17 +1,17 @@
 import StripePricingTable from '@/components/stripe/StripeTable'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { getCredits, getUser } from '@/utils/supabase/queries'
+import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Index() {
-  const supabase = createServerComponentClient({ cookies })
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+  const supabase = createClient()
+  const [user, credits] = await Promise.all([
+    getUser(supabase),
+    getCredits(supabase)
+  ])
 
   if (!user) {
     return redirect('/signin')
@@ -47,7 +47,9 @@ export default async function Index() {
           <CardContent>
             <p>
               Your current available credits are:{' '}
-              <span className="text-red-700 font-semibold text-lg px-2">0</span>
+              <span className="text-red-700 font-semibold text-lg px-2">
+                {credits?.credits ?? 0}
+              </span>
             </p>
           </CardContent>
         </Card>
