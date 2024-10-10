@@ -34,9 +34,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# editors
-.vscode
-
 # certificates
 certificates
 .env*.local
