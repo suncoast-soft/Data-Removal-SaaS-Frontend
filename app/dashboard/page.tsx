@@ -79,9 +79,9 @@ export default async function Dashboard() {
               <p>
                 Gender:{' '}
                 <span className="font-semibold text-primary">
-                  {userDetails?.gender === 0
+                  {userDetails?.gender === 'male'
                     ? 'Male'
-                    : userDetails?.gender === 1
+                    : userDetails?.gender === 'female'
                       ? 'Female'
                       : 'Unknown'}
                 </span>

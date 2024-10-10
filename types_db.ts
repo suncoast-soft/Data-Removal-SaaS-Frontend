@@ -157,7 +157,7 @@ export type Database = {
           birth_date: string | null
           city: string | null
           first_name: string | null
-          gender: number | null
+          gender: string | null
           id: string
           last_name: string | null
           state: string | null
@@ -166,7 +166,7 @@ export type Database = {
           birth_date?: string | null
           city?: string | null
           first_name?: string | null
-          gender?: number | null
+          gender?: string | null
           id: string
           last_name?: string | null
           state?: string | null
@@ -175,7 +175,7 @@ export type Database = {
           birth_date?: string | null
           city?: string | null
           first_name?: string | null
-          gender?: number | null
+          gender?: string | null
           id?: string
           last_name?: string | null
           state?: string | null

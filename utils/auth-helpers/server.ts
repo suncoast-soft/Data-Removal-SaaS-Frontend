@@ -354,7 +354,7 @@ export async function updateUser(formData: { [key: string]: string | number }) {
   // Get form data
   const firstName = String(formData['firstName']).trim()
   const lastName = String(formData['lastName']).trim()
-  const gender = Number(formData['gender'])
+  const gender = String(formData['gender'])
   const birthDate = String(formData['birthDate']).trim()
   const city = String(formData['city']).trim()
   const state = String(formData['state']).trim()

@@ -174,7 +174,7 @@ export const validateProfile = (userDetails: {
   first_name: string
   last_name: string
   birth_date: Date
-  gender: number
+  gender: string
   city: string
   state: string
 }) => {

@@ -56,7 +56,7 @@ const FormSchema = z.object({
     .max(32, {
       message: 'Name can not be longer than 300 characters.'
     }),
-  gender: z.string(),
+  gender: z.string({ required_error: 'Gender is required.' }),
   birthDate: z.date({
     required_error: 'A date of birth is required.'
   }),
@@ -79,7 +79,6 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const transformedData = {
       ...data,
-      gender: Number(data.gender),
       birthDate: data.birthDate.toISOString()
     }
     handleRequest(transformedData, updateUser, router)
@@ -160,20 +159,20 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         onValueChange={field.onChange}
                       >
                         <ToggleGroupItem
-                          value="0"
+                          value="male"
                           {...form.register('gender')}
                           aria-label="Toggle Male"
                           className="border border-primary data-[state=on]:bg-primary data-[state=on]:text-white"
                         >
-                          <span className="w-3 h-5">M</span>
+                          <span className="h-5">Male</span>
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                          value="1"
+                          value="female"
                           {...form.register('gender')}
                           aria-label="Toggle Female"
                           className="border border-primary data-[state=on]:bg-primary data-[state=on]:text-white"
                         >
-                          <span className="w-3 h-5">F</span>
+                          <span className="h-5">Female</span>
                         </ToggleGroupItem>
                       </ToggleGroup>
                     </FormControl>
@@ -217,7 +216,10 @@ export default function ProfileForm({ userDetails }: { userDetails: User }) {
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value || userDetails?.birth_date}
+                            defaultMonth={
+                              new Date(userDetails?.birth_date ?? '')
+                            }
+                            selected={field.value}
                             onSelect={field.onChange}
                             disabled={(date) =>
                               date > new Date() || date < new Date('1900-01-01')
