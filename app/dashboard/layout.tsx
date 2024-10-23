@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import DashboardBreadcrumb from '@/components/modules/DashboardBreadcrumb'
 import { DesktopNav, MobileNav } from '@/components/modules/Sidenav'
 import {
+  CreditCard,
   Gauge,
   LifeBuoy,
   ListChecks,
@@ -26,11 +27,6 @@ export default async function DashboardLayout({
    */
   const navs = [
     {
-      icon: <Gauge />,
-      name: 'Profiles',
-      link: '/dashboard/profiles'
-    },
-    {
       icon: <PackageSearch />,
       name: 'Search Reports',
       link: '/dashboard/reports'
@@ -41,14 +37,24 @@ export default async function DashboardLayout({
       link: '/dashboard/protections'
     },
     {
+      icon: <Settings />,
+      name: 'Account',
+      link: '/dashboard/settings/account'
+    },
+    {
+      icon: <Gauge />,
+      name: 'Profiles',
+      link: '/dashboard/settings/profiles'
+    },
+    {
+      icon: <CreditCard />,
+      name: 'Billing Method',
+      link: '/dashboard/settings/billing'
+    },
+    {
       icon: <LifeBuoy />,
       name: 'Support',
       link: '/dashboard/support'
-    },
-    {
-      icon: <Settings />,
-      name: 'Settings',
-      link: '/dashboard/settings/account'
     }
   ]
 

@@ -53,28 +53,37 @@ export const getProfiles = cache(async (supabase: SupabaseClient) => {
   return profiles
 })
 
-export const getBrokerSearches = cache(async (supabase: SupabaseClient) => {
-  const user = await getUser(supabase)
-  if (!user) return null
+export const getProfile = cache(
+  async (supabase: SupabaseClient, id: string) => {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', id)
+      .single()
+    return profile
+  }
+)
 
-  const { data: searches } = await supabase
-    .from('search')
-    .select('*, brokers(*)')
-    .eq('user_id', user.id)
-  return searches
-})
+export const getBrokerSearches = cache(
+  async (supabase: SupabaseClient, id: string) => {
+    const { data: searches } = await supabase
+      .from('search')
+      .select('*, brokers(*)')
+      .eq('profile_id', id)
+    return searches
+  }
+)
 
-export const getGoogleSearches = cache(async (supabase: SupabaseClient) => {
-  const user = await getUser(supabase)
-  if (!user) return null
-
-  const { data: google } = await supabase
-    .from('google')
-    .select('*')
-    .eq('user_id', user.id)
-    .single()
-  return google
-})
+export const getGoogleSearches = cache(
+  async (supabase: SupabaseClient, id: string) => {
+    const { data: google } = await supabase
+      .from('google')
+      .select('*')
+      .eq('profile_id', id)
+      .single()
+    return google
+  }
+)
 
 export const getCredits = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)

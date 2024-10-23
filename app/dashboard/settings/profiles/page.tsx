@@ -23,7 +23,7 @@ export default async function Profiles() {
                 </h4>
                 <Button variant="outline" asChild>
                   <Link
-                    href={`/dashboard/reports?id=${profile.id}`}
+                    href={`/dashboard/reports/${profile.id}`}
                     className="no-underline"
                   >
                     View Report

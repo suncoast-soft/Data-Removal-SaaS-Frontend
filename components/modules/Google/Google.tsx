@@ -8,10 +8,10 @@ type Profile = Tables<'profiles'>
 type Google = Tables<'google'>
 
 export default function GoogleReport({
-  profiles,
+  profile,
   searches
 }: {
-  profiles: Array<Profile>
+  profile: Profile
   searches: Array<Google>
 }) {
   console.log(searches)

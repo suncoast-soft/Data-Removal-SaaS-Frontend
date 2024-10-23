@@ -18,10 +18,10 @@ interface Search extends Tables<'search'> {
 }
 
 export default function Analytics({
-  profiles,
+  profile,
   searches
 }: {
-  profiles: Array<Profile>
+  profile: Profile
   searches: Array<Search>
 }) {
   console.log(searches)

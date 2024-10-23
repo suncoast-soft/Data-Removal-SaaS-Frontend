@@ -118,7 +118,7 @@ export default async function Dashboard() {
                   <div className="mb-5">17 Data brokers</div>
                   <Button asChild>
                     <Link
-                      href={`/dashboard/reports?id=${profile.id}`}
+                      href={`/dashboard/reports/${profile.id}`}
                       className="no-underline"
                     >
                       View Search Reports
@@ -141,7 +141,7 @@ export default async function Dashboard() {
                       </p>
                       <Button asChild>
                         <Link
-                          href={`/dashboard/activate-removal?id=${profile.id}`}
+                          href={`/dashboard/activate-removal/${profile.id}`}
                           className="no-underline"
                         >
                           Activate Removal
