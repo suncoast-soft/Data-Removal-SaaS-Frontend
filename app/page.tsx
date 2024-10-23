@@ -17,7 +17,7 @@ export default async function PricingPage() {
   } = await supabase.auth.getUser()
 
   if (user) {
-    return redirect('/dashboard/profiles')
+    return redirect('/dashboard/reports')
   }
 
   return (
