@@ -39,46 +39,212 @@ export type Database = {
         }
         Relationships: []
       }
-      credits: {
+      google: {
         Row: {
           created_at: string
-          credits: number | null
           id: number
+          profile_id: number | null
+          result: Json | null
+          status: Database["public"]["Enums"]["search_status"] | null
           updated_at: string | null
-          user: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
-          credits?: number | null
           id?: number
+          profile_id?: number | null
+          result?: Json | null
+          status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
-          user?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
-          credits?: number | null
           id?: number
+          profile_id?: number | null
+          result?: Json | null
+          status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
-          user?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "credits_user_fkey"
-            columns: ["user"]
+            foreignKeyName: "google_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "credits_user_id_fkey"
-            columns: ["user"]
+            foreignKeyName: "google_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      customers: {
+      pricing: {
+        Row: {
+          created_at: string
+          id: number
+          profile_id: number | null
+          type: Database["public"]["Enums"]["pricing_type"] | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          type?: Database["public"]["Enums"]["pricing_type"] | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          type?: Database["public"]["Enums"]["pricing_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          birth_date: string | null
+          city: string | null
+          created_at: string
+          first_name: string | null
+          gender: string | null
+          id: number
+          last_name: string | null
+          state: string | null
+          user_id: string | null
+        }
+        Insert: {
+          birth_date?: string | null
+          city?: string | null
+          created_at?: string
+          first_name?: string | null
+          gender?: string | null
+          id?: number
+          last_name?: string | null
+          state?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          birth_date?: string | null
+          city?: string | null
+          created_at?: string
+          first_name?: string | null
+          gender?: string | null
+          id?: number
+          last_name?: string | null
+          state?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      removal: {
+        Row: {
+          created_at: string
+          id: number
+          note: string | null
+          search_id: number | null
+          status: Database["public"]["Enums"]["removal_status"] | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          note?: string | null
+          search_id?: number | null
+          status?: Database["public"]["Enums"]["removal_status"] | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          note?: string | null
+          search_id?: number | null
+          status?: Database["public"]["Enums"]["removal_status"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "removal_search_id_fkey"
+            columns: ["search_id"]
+            isOneToOne: false
+            referencedRelation: "search"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      search: {
+        Row: {
+          broker_id: number | null
+          created_at: string
+          id: number
+          profile_id: number | null
+          result: Json | null
+          status: Database["public"]["Enums"]["search_status"] | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          broker_id?: number | null
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          result?: Json | null
+          status?: Database["public"]["Enums"]["search_status"] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          broker_id?: number | null
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          result?: Json | null
+          status?: Database["public"]["Enums"]["search_status"] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "search_broker_id_fkey"
+            columns: ["broker_id"]
+            isOneToOne: false
+            referencedRelation: "brokers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "search_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "search_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
         Row: {
           id: string
           stripe_customer_id: string | null
@@ -90,247 +256,6 @@ export type Database = {
         Update: {
           id?: string
           stripe_customer_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "customers_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      jobs: {
-        Row: {
-          broker: number | null
-          created_at: string
-          id: number
-          note: string | null
-          removal_status: Database["public"]["Enums"]["removal_status"] | null
-          result: Json | null
-          status: Database["public"]["Enums"]["job_status"] | null
-          updated_at: string | null
-          user: string | null
-        }
-        Insert: {
-          broker?: number | null
-          created_at?: string
-          id?: number
-          note?: string | null
-          removal_status?: Database["public"]["Enums"]["removal_status"] | null
-          result?: Json | null
-          status?: Database["public"]["Enums"]["job_status"] | null
-          updated_at?: string | null
-          user?: string | null
-        }
-        Update: {
-          broker?: number | null
-          created_at?: string
-          id?: number
-          note?: string | null
-          removal_status?: Database["public"]["Enums"]["removal_status"] | null
-          result?: Json | null
-          status?: Database["public"]["Enums"]["job_status"] | null
-          updated_at?: string | null
-          user?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "jobs_broker_fkey"
-            columns: ["broker"]
-            isOneToOne: false
-            referencedRelation: "brokers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "jobs_user_fkey"
-            columns: ["user"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      prices: {
-        Row: {
-          active: boolean | null
-          currency: string | null
-          description: string | null
-          id: string
-          interval: Database["public"]["Enums"]["pricing_plan_interval"] | null
-          interval_count: number | null
-          metadata: Json | null
-          product_id: string | null
-          trial_period_days: number | null
-          type: Database["public"]["Enums"]["pricing_type"] | null
-          unit_amount: number | null
-        }
-        Insert: {
-          active?: boolean | null
-          currency?: string | null
-          description?: string | null
-          id: string
-          interval?: Database["public"]["Enums"]["pricing_plan_interval"] | null
-          interval_count?: number | null
-          metadata?: Json | null
-          product_id?: string | null
-          trial_period_days?: number | null
-          type?: Database["public"]["Enums"]["pricing_type"] | null
-          unit_amount?: number | null
-        }
-        Update: {
-          active?: boolean | null
-          currency?: string | null
-          description?: string | null
-          id?: string
-          interval?: Database["public"]["Enums"]["pricing_plan_interval"] | null
-          interval_count?: number | null
-          metadata?: Json | null
-          product_id?: string | null
-          trial_period_days?: number | null
-          type?: Database["public"]["Enums"]["pricing_type"] | null
-          unit_amount?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "prices_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      products: {
-        Row: {
-          active: boolean | null
-          description: string | null
-          id: string
-          image: string | null
-          metadata: Json | null
-          name: string | null
-        }
-        Insert: {
-          active?: boolean | null
-          description?: string | null
-          id: string
-          image?: string | null
-          metadata?: Json | null
-          name?: string | null
-        }
-        Update: {
-          active?: boolean | null
-          description?: string | null
-          id?: string
-          image?: string | null
-          metadata?: Json | null
-          name?: string | null
-        }
-        Relationships: []
-      }
-      subscriptions: {
-        Row: {
-          cancel_at: string | null
-          cancel_at_period_end: boolean | null
-          canceled_at: string | null
-          created: string
-          current_period_end: string
-          current_period_start: string
-          ended_at: string | null
-          id: string
-          metadata: Json | null
-          price_id: string | null
-          quantity: number | null
-          status: Database["public"]["Enums"]["subscription_status"] | null
-          trial_end: string | null
-          trial_start: string | null
-          user_id: string
-        }
-        Insert: {
-          cancel_at?: string | null
-          cancel_at_period_end?: boolean | null
-          canceled_at?: string | null
-          created?: string
-          current_period_end?: string
-          current_period_start?: string
-          ended_at?: string | null
-          id: string
-          metadata?: Json | null
-          price_id?: string | null
-          quantity?: number | null
-          status?: Database["public"]["Enums"]["subscription_status"] | null
-          trial_end?: string | null
-          trial_start?: string | null
-          user_id: string
-        }
-        Update: {
-          cancel_at?: string | null
-          cancel_at_period_end?: boolean | null
-          canceled_at?: string | null
-          created?: string
-          current_period_end?: string
-          current_period_start?: string
-          ended_at?: string | null
-          id?: string
-          metadata?: Json | null
-          price_id?: string | null
-          quantity?: number | null
-          status?: Database["public"]["Enums"]["subscription_status"] | null
-          trial_end?: string | null
-          trial_start?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subscriptions_price_id_fkey"
-            columns: ["price_id"]
-            isOneToOne: false
-            referencedRelation: "prices"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "subscriptions_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      users: {
-        Row: {
-          billing_address: Json | null
-          birth_date: string | null
-          city: string | null
-          first_name: string | null
-          gender: string | null
-          id: string
-          last_name: string | null
-          payment_method: Json | null
-          state: string | null
-        }
-        Insert: {
-          billing_address?: Json | null
-          birth_date?: string | null
-          city?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id: string
-          last_name?: string | null
-          payment_method?: Json | null
-          state?: string | null
-        }
-        Update: {
-          billing_address?: Json | null
-          birth_date?: string | null
-          city?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string
-          last_name?: string | null
-          payment_method?: Json | null
-          state?: string | null
         }
         Relationships: [
           {
@@ -350,19 +275,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      job_status: "queued" | "in_progress" | "completed" | "failed"
-      pricing_plan_interval: "day" | "week" | "month" | "year"
-      pricing_type: "one_time" | "recurring"
-      removal_status: "requested" | "in_progress" | "completed" | "failed"
-      subscription_status:
-        | "trialing"
-        | "active"
-        | "canceled"
-        | "incomplete"
-        | "incomplete_expired"
-        | "past_due"
-        | "unpaid"
-        | "paused"
+      pricing_type: "one_year" | "two_year" | "annual_recurring"
+      removal_status:
+        | "queued"
+        | "in_progress"
+        | "need_customer_action"
+        | "completed"
+        | "failed"
+      search_status: "queued" | "in_progress" | "completed" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never

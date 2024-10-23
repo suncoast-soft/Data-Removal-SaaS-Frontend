@@ -282,7 +282,7 @@ export async function updateEmail(formData: {
   // Check that the email is valid
   if (!isValidEmail(newEmail)) {
     return getErrorRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Your email could not be updated.',
       'Invalid email address.'
     )
@@ -292,7 +292,7 @@ export async function updateEmail(formData: {
 
   const callbackUrl = getURL(
     getStatusRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Success!',
       `Your email has been updated.`
     )
@@ -307,13 +307,13 @@ export async function updateEmail(formData: {
 
   if (error) {
     return getErrorRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Your email could not be updated.',
       error.message
     )
   } else {
     return getStatusRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Confirmation emails sent.',
       `You will need to confirm the update by clicking the links sent to both the old and new email addresses.`
     )
@@ -331,19 +331,19 @@ export async function updateName(formData: { [key: string]: string | number }) {
 
   if (error) {
     return getErrorRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Your name could not be updated.',
       error.message
     )
   } else if (data.user) {
     return getStatusRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Success!',
       'Your name has been updated.'
     )
   } else {
     return getErrorRedirect(
-      '/dashboard/settings',
+      '/dashboard/settings/account',
       'Hmm... Something went wrong.',
       'Your name could not be updated.'
     )
@@ -367,35 +367,33 @@ export async function updateUser(formData: { [key: string]: string | number }) {
 
   if (userError || !user) {
     return getErrorRedirect(
-      '/dashboard/settings',
-      'Your name could not be updated.',
+      '/dashboard/settings/profiles',
+      'Your profile could not be submitted. Please try again.',
       userError?.message || 'Could not get user session.'
     )
   }
 
-  const { error: updateError } = await supabase
-    .from('users')
-    .update({
-      first_name: firstName ?? undefined,
-      last_name: lastName ?? undefined,
-      gender: gender ?? undefined,
-      birth_date: birthDate ?? undefined,
-      city: city ?? undefined,
-      state: state ?? undefined
-    })
-    .eq('id', user?.id)
+  const { error: insertError } = await supabase.from('profiles').insert({
+    user_id: user?.id,
+    first_name: firstName ?? undefined,
+    last_name: lastName ?? undefined,
+    gender: gender ?? undefined,
+    birth_date: birthDate ?? undefined,
+    city: city ?? undefined,
+    state: state ?? undefined
+  })
 
-  if (updateError) {
+  if (insertError) {
     return getErrorRedirect(
-      '/dashboard/settings',
-      'Your profile could not be updated. Please try again.',
-      updateError.message
+      '/dashboard/settings/profiles',
+      'Your profile could not be submitted. Please try again.',
+      insertError.message
     )
   }
 
   return getStatusRedirect(
-    '/dashboard/settings',
+    '/dashboard/settings/profiles',
     'Success!',
-    'Your profile has been updated.'
+    'Your profile has been submitted.'
   )
 }

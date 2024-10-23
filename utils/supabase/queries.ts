@@ -42,6 +42,40 @@ export const getUserDetails = cache(async (supabase: SupabaseClient) => {
   return userDetails
 })
 
+export const getProfiles = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('user_id', user.id)
+  return profiles
+})
+
+export const getBrokerSearches = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: searches } = await supabase
+    .from('search')
+    .select('*, brokers(*)')
+    .eq('user_id', user.id)
+  return searches
+})
+
+export const getGoogleSearches = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: google } = await supabase
+    .from('google')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+  return google
+})
+
 export const getCredits = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)
   if (!user) return null

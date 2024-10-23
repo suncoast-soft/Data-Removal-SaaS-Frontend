@@ -1,5 +1,13 @@
+import Image from 'next/image'
+
 const LogoIcon = ({ ...props }) => (
-  <img src="/logo-icon.svg" alt="Logo" className="h-12 text-white" />
+  <Image
+    src="/logo-icon.svg"
+    width={80}
+    height={80}
+    alt="Logo"
+    className="h-12 text-white"
+  />
 )
 
 export default LogoIcon

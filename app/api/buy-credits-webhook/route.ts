@@ -131,59 +131,59 @@ export async function POST(request: Request) {
 
       console.log('totalCreditsPurchased: ' + totalCreditsPurchased)
 
-      const { data: existingCredits } = await supabase
-        .from('credits')
-        .select('*')
-        .eq('user', userId)
-        .single()
+      // const { data: existingCredits } = await supabase
+      //   .from('credits')
+      //   .select('*')
+      //   .eq('user', userId)
+      //   .single()
 
       // If user has existing credits, add to it.
-      if (existingCredits) {
-        const newCredits = existingCredits.credits ?? 0 + totalCreditsPurchased
-        const { data, error } = await supabase
-          .from('credits')
-          .update({
-            credits: newCredits
-          })
-          .eq('user', userId)
+      // if (existingCredits) {
+      //   const newCredits = existingCredits.credits ?? 0 + totalCreditsPurchased
+      //   const { data, error } = await supabase
+      //     .from('credits')
+      //     .update({
+      //       credits: newCredits
+      //     })
+      //     .eq('user', userId)
 
-        if (error) {
-          console.log(error)
-          return NextResponse.json(
-            {
-              message: `Error updating credits: ${JSON.stringify(error)}. data=${data}`
-            },
-            {
-              status: 400
-            }
-          )
-        }
+      //   if (error) {
+      //     console.log(error)
+      //     return NextResponse.json(
+      //       {
+      //         message: `Error updating credits: ${JSON.stringify(error)}. data=${data}`
+      //       },
+      //       {
+      //         status: 400
+      //       }
+      //     )
+      //   }
 
-        return NextResponse.json(
-          {
-            message: 'success'
-          },
-          { status: 200 }
-        )
-      } else {
-        // Else create new credits row.
-        const { data, error } = await supabase.from('credits').insert({
-          user: userId,
-          credits: totalCreditsPurchased
-        })
+      //   return NextResponse.json(
+      //     {
+      //       message: 'success'
+      //     },
+      //     { status: 200 }
+      //   )
+      // } else {
+      //   // Else create new credits row.
+      //   const { data, error } = await supabase.from('credits').insert({
+      //     user: userId,
+      //     credits: totalCreditsPurchased
+      //   })
 
-        if (error) {
-          console.log(error)
-          return NextResponse.json(
-            {
-              message: `Error creating credits: ${error}\n ${data}`
-            },
-            {
-              status: 400
-            }
-          )
-        }
-      }
+      //   if (error) {
+      //     console.log(error)
+      //     return NextResponse.json(
+      //       {
+      //         message: `Error creating credits: ${error}\n ${data}`
+      //       },
+      //       {
+      //         status: 400
+      //       }
+      //     )
+      //   }
+      // }
 
       return NextResponse.json(
         {

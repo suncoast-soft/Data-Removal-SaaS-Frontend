@@ -3,12 +3,10 @@ import { redirect } from 'next/navigation'
 import DashboardBreadcrumb from '@/components/modules/DashboardBreadcrumb'
 import { DesktopNav, MobileNav } from '@/components/modules/Sidenav'
 import {
-  BookOpenCheck,
   Gauge,
   LifeBuoy,
   ListChecks,
   PackageSearch,
-  Rss,
   Settings
 } from 'lucide-react'
 import { User } from '@/components/modules/User/User'
@@ -29,23 +27,18 @@ export default async function DashboardLayout({
   const navs = [
     {
       icon: <Gauge />,
-      name: 'Dashboard',
-      link: '/dashboard'
+      name: 'Profiles',
+      link: '/dashboard/profiles'
     },
     {
       icon: <PackageSearch />,
-      name: 'Search',
-      link: '/dashboard/search'
+      name: 'Search Reports',
+      link: '/dashboard/reports'
     },
     {
       icon: <ListChecks />,
-      name: 'Removals',
-      link: '/dashboard/removals'
-    },
-    {
-      icon: <Rss />,
-      name: 'Inbox',
-      link: '/dashboard/inbox'
+      name: 'Protections',
+      link: '/dashboard/protections'
     },
     {
       icon: <LifeBuoy />,
@@ -53,14 +46,9 @@ export default async function DashboardLayout({
       link: '/dashboard/support'
     },
     {
-      icon: <BookOpenCheck />,
-      name: 'Docs',
-      link: '/dashboard/docs'
-    },
-    {
       icon: <Settings />,
       name: 'Settings',
-      link: '/dashboard/settings'
+      link: '/dashboard/settings/account'
     }
   ]
 

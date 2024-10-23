@@ -35,24 +35,7 @@ function DesktopNav({ navs }: NavProps) {
           <LogoText />
         </Link>
 
-        {navs.slice(0, -1).map((nav, index) => (
-          <Link
-            key={index}
-            href={nav.link}
-            className={cn(
-              s.link,
-              'no-underline',
-              currentPath === nav.link && s.active
-            )}
-          >
-            <span className="w-5 h-5">{nav.icon}</span>
-            <span>{nav.name}</span>
-          </Link>
-        ))}
-      </nav>
-
-      <nav className="mt-auto flex flex-col items-start gap-4 px-2 sm:py-5">
-        {navs.slice(-1).map((nav, index) => (
+        {navs.map((nav, index) => (
           <Link
             key={index}
             href={nav.link}

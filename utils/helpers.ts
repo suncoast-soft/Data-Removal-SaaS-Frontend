@@ -1,6 +1,6 @@
 import type { Tables } from '@/types_db'
 
-type Price = Tables<'prices'>
+// type Price = Tables<'prices'>
 
 export const getURL = (path: string = '') => {
   // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
@@ -26,22 +26,22 @@ export const getURL = (path: string = '') => {
   return path ? `${url}/${path}` : url
 }
 
-export const postData = async ({
-  url,
-  data
-}: {
-  url: string
-  data?: { price: Price }
-}) => {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
-    credentials: 'same-origin',
-    body: JSON.stringify(data)
-  })
+// export const postData = async ({
+//   url,
+//   data
+// }: {
+//   url: string
+//   data?: { price: Price }
+// }) => {
+//   const res = await fetch(url, {
+//     method: 'POST',
+//     headers: new Headers({ 'Content-Type': 'application/json' }),
+//     credentials: 'same-origin',
+//     body: JSON.stringify(data)
+//   })
 
-  return res.json()
-}
+//   return res.json()
+// }
 
 export const toDateTime = (secs: number) => {
   var t = new Date(+0) // Unix epoch start.

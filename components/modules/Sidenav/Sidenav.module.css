@@ -1,5 +1,5 @@
 .root {
-  @apply inset-y-0 left-0 top-0 z-10 hidden w-48 flex-col border-r sm:flex sticky h-screen;
+  @apply inset-y-0 left-0 top-0 z-10 hidden w-72 flex-col border-r sm:flex sticky h-screen;
 }
 
 .logo {
