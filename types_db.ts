@@ -44,7 +44,7 @@ export type Database = {
           created_at: string
           id: number
           profile_id: number | null
-          result: Json | null
+          results: Json | null
           status: Database["public"]["Enums"]["search_status"] | null
           updated_at: string | null
           user_id: string | null
@@ -53,7 +53,7 @@ export type Database = {
           created_at?: string
           id?: number
           profile_id?: number | null
-          result?: Json | null
+          results?: Json | null
           status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
           user_id?: string | null
@@ -62,7 +62,7 @@ export type Database = {
           created_at?: string
           id?: number
           profile_id?: number | null
-          result?: Json | null
+          results?: Json | null
           status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
           user_id?: string | null
@@ -184,12 +184,12 @@ export type Database = {
             foreignKeyName: "removal_search_id_fkey"
             columns: ["search_id"]
             isOneToOne: false
-            referencedRelation: "search"
+            referencedRelation: "searches"
             referencedColumns: ["id"]
           },
         ]
       }
-      search: {
+      searches: {
         Row: {
           broker_id: number | null
           created_at: string

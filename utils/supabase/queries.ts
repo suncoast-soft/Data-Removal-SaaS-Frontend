@@ -67,23 +67,21 @@ export const getProfile = cache(
 export const getBrokerSearches = cache(
   async (supabase: SupabaseClient, id: string) => {
     const { data: searches } = await supabase
-      .from('search')
+      .from('searches')
       .select('*, brokers(*)')
       .eq('profile_id', id)
     return searches
   }
 )
 
-export const getGoogleSearches = cache(
-  async (supabase: SupabaseClient, id: string) => {
-    const { data: google } = await supabase
-      .from('google')
-      .select('*')
-      .eq('profile_id', id)
-      .single()
-    return google
-  }
-)
+export const getGoogle = cache(async (supabase: SupabaseClient, id: string) => {
+  const { data: google } = await supabase
+    .from('google')
+    .select('*')
+    .eq('profile_id', id)
+    .single()
+  return google
+})
 
 export const getCredits = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)

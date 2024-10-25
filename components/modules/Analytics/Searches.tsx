@@ -11,20 +11,11 @@ import {
 import { Tables } from '@/types_db'
 import { formatDate } from 'date-fns'
 
-type Profile = Tables<'profiles'>
-
-interface Search extends Tables<'search'> {
+interface Search extends Tables<'searches'> {
   brokers: Tables<'brokers'> | null
 }
 
-export default function Analytics({
-  profile,
-  searches
-}: {
-  profile: Profile
-  searches: Array<Search>
-}) {
-  console.log(searches)
+export default function Searches({ searches }: { searches: Array<Search> }) {
   return (
     <Table className="mt-8">
       <TableHeader>

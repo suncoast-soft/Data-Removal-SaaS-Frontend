@@ -1,26 +1,21 @@
 'use client'
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
-import { Tables } from '@/types_db'
-import { formatDate } from 'date-fns'
 
-type Profile = Tables<'profiles'>
-type Google = Tables<'google'>
+interface GoogleSearchResult {
+  link: string
+}
 
 export default function GoogleReport({
-  profile,
-  searches
+  results
 }: {
-  profile: Profile
-  searches: Array<Google>
+  results: Array<GoogleSearchResult>
 }) {
-  console.log(searches)
-
   return (
     <Table className="mt-8">
       <TableBody>
-        {searches.map((search: Google) => (
-          <TableRow key={search.id}>
+        {results.map((search: GoogleSearchResult, index) => (
+          <TableRow key={index}>
             <TableCell>
               <ul>
                 {Object.entries(search)

@@ -1,10 +1,10 @@
-import Analytics from '@/components/modules/Analytics/AnalyticsList'
-import GoogleReport from '@/components/modules/Google/Google'
+import GoogleReport from '@/components/modules/Analytics/Google'
+import Searches from '@/components/modules/Analytics/Searches'
 import Title from '@/components/modules/Title'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   getBrokerSearches,
-  getGoogleSearches,
+  getGoogle,
   getProfile
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
@@ -16,7 +16,7 @@ export default async function Report({ params }: { params: { id: string } }) {
   const [profile, searches, google] = await Promise.all([
     getProfile(supabase, params.id),
     getBrokerSearches(supabase, params.id),
-    getGoogleSearches(supabase, params.id)
+    getGoogle(supabase, params.id)
   ])
 
   return (
@@ -56,13 +56,10 @@ export default async function Report({ params }: { params: { id: string } }) {
         </TabsList>
 
         <TabsContent value="google">
-          <GoogleReport
-            profile={profile ?? {}}
-            searches={google.result ?? []}
-          />
+          <GoogleReport results={google.results} />
         </TabsContent>
         <TabsContent value="brokers">
-          <Analytics profile={profile ?? []} searches={searches ?? []} />
+          <Searches searches={searches ?? []} />
         </TabsContent>
       </Tabs>
     </section>
