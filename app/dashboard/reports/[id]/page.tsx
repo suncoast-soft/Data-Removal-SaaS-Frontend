@@ -1,5 +1,6 @@
 import GoogleReport from '@/components/modules/Analytics/Google'
 import Searches from '@/components/modules/Analytics/Searches'
+import Loading from '@/components/modules/Loading'
 import Title from '@/components/modules/Title'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
@@ -56,10 +57,22 @@ export default async function Report({ params }: { params: { id: string } }) {
         </TabsList>
 
         <TabsContent value="google">
-          <GoogleReport results={google.results} />
+          {google.results ? (
+            <GoogleReport results={google.results} />
+          ) : (
+            <div className="py-8">
+              <Loading />
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="brokers">
-          <Searches searches={searches ?? []} />
+          {Array.isArray(searches) && searches.length > 0 ? (
+            <Searches searches={searches!} />
+          ) : (
+            <div className="py-8">
+              <Loading />
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </section>

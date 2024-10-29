@@ -16,6 +16,7 @@ export default function GoogleReport({
 }: {
   results: Array<GoogleSearchResult>
 }) {
+  console.log(results)
   return (
     <Table className="mt-8">
       <TableBody>

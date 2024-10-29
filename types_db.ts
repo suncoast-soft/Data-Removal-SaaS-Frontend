@@ -14,8 +14,10 @@ export type Database = {
           enable_scraping: boolean | null
           id: number
           name: string | null
+          need_captcha: boolean | null
+          need_vpn: boolean | null
+          notes: string | null
           optout_url: string | null
-          scraping_selector: string | null
           scraping_url: string | null
           site_url: string | null
         }
@@ -23,8 +25,10 @@ export type Database = {
           enable_scraping?: boolean | null
           id?: number
           name?: string | null
+          need_captcha?: boolean | null
+          need_vpn?: boolean | null
+          notes?: string | null
           optout_url?: string | null
-          scraping_selector?: string | null
           scraping_url?: string | null
           site_url?: string | null
         }
@@ -32,8 +36,10 @@ export type Database = {
           enable_scraping?: boolean | null
           id?: number
           name?: string | null
+          need_captcha?: boolean | null
+          need_vpn?: boolean | null
+          notes?: string | null
           optout_url?: string | null
-          scraping_selector?: string | null
           scraping_url?: string | null
           site_url?: string | null
         }

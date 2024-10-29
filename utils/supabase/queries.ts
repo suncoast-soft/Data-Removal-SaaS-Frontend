@@ -70,6 +70,7 @@ export const getBrokerSearches = cache(
       .from('searches')
       .select('*, brokers(*)')
       .eq('profile_id', id)
+      .eq('status', 'completed')
     return searches
   }
 )

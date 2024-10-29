@@ -27,29 +27,27 @@ export default function Searches({ searches }: { searches: Array<Search> }) {
       </TableHeader>
 
       <TableBody>
-        {searches
-          .filter((search) => search.status === 'completed')
-          .map((search: Search) => (
-            <TableRow key={search.id}>
-              <TableCell className="font-medium">
-                {search.brokers?.name ?? ''}
-              </TableCell>
-              <TableCell>
-                <ul>
-                  {Object.entries(search.result ?? {})
-                    .filter(([key, value]) => value)
-                    .map(([key, value]) => (
-                      <li key={key} className="list-none">
-                        <strong>{key}:</strong> {String(value)}
-                      </li>
-                    ))}
-                </ul>
-              </TableCell>
-              <TableCell>
-                {formatDate(search.updated_at ?? '', 'MM/dd/yyy p')}
-              </TableCell>
-            </TableRow>
-          ))}
+        {searches.map((search: Search) => (
+          <TableRow key={search.id}>
+            <TableCell className="font-medium">
+              {search.brokers?.name ?? ''}
+            </TableCell>
+            <TableCell>
+              <ul>
+                {Object.entries(search.result ?? {})
+                  .filter(([key, value]) => value)
+                  .map(([key, value]) => (
+                    <li key={key} className="list-none">
+                      <strong>{key}:</strong> {String(value)}
+                    </li>
+                  ))}
+              </ul>
+            </TableCell>
+            <TableCell>
+              {formatDate(search.updated_at ?? '', 'MM/dd/yyy p')}
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   )
