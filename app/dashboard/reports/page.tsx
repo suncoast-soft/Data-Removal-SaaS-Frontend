@@ -37,7 +37,7 @@ export default async function Dashboard() {
 
   const ProfileCard = async ({ profile }: { profile: Profile }) => {
     const pricing = await getPricing(supabase, profile.id)
-    const removalActivated = isRemovalActive(pricing)
+    const removalActivated = pricing ? isRemovalActive(pricing) : false
 
     return (
       <Card

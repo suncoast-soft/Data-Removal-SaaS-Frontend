@@ -27,7 +27,7 @@ export default async function Report({ params }: { params: { id: string } }) {
     getPricing(supabase, Number(params.id))
   ])
 
-  const removalActivated = isRemovalActive(pricing)
+  const removalActivated = pricing ? isRemovalActive(pricing) : false
 
   return (
     <section className="mb-16 bg-white">
