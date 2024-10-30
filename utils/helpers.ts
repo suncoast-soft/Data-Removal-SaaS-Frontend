@@ -174,7 +174,7 @@ export const getInitials = (nameOrEmail: string): string => {
   return initials
 }
 
-export const getAgeFromBirth = (birthDate: Date): number => {
+export const getAgeFromBirth = (birthDate: string): number => {
   const today = new Date()
   const birth = new Date(birthDate)
 
@@ -191,21 +191,28 @@ export const getAgeFromBirth = (birthDate: Date): number => {
   return age
 }
 
-export const validateProfile = (userDetails: {
-  first_name: string
-  last_name: string
-  birth_date: Date
-  gender: string
-  city: string
-  state: string
+export const isRemovalActive = (pricing: {
+  created_at: string
+  type: 'one_year' | 'two_year' | 'annual_recurring'
 }) => {
-  return (
-    userDetails &&
-    userDetails.first_name &&
-    userDetails.last_name &&
-    userDetails.birth_date &&
-    userDetails.gender &&
-    userDetails.city &&
-    userDetails.state
-  )
+  const now = new Date()
+  const createdAt = new Date(pricing.created_at)
+  let expirationDate
+
+  switch (pricing.type) {
+    case 'one_year':
+      expirationDate = new Date(createdAt)
+      expirationDate.setFullYear(expirationDate.getFullYear() + 1)
+      break
+    case 'two_year':
+      expirationDate = new Date(createdAt)
+      expirationDate.setFullYear(expirationDate.getFullYear() + 2)
+      break
+    case 'annual_recurring':
+      return true
+    default:
+      throw new Error(`Unknown membership type: ${pricing.type}`)
+  }
+
+  return now < expirationDate
 }

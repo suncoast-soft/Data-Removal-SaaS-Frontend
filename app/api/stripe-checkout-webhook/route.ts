@@ -20,17 +20,16 @@ if (!supabaseServiceRoleKey) {
   throw new Error('MISSING SUPABASE_SERVICE_ROLE_KEY!')
 }
 
-const tenCreditPriceId = process.env.STRIPE_PRICE_ID_TEN_CREDIT as string
-const thirtyCreditsPriceId = process.env
-  .STRIPE_PRICE_ID_THIRTY_CREDITS as string
-const fiftyCreditsPriceId = process.env.STRIPE_PRICE_ID_FIFTY_CREDITS as string
+const yearlyPriceId = process.env.STRIPE_PRICE_ID_YEARLY as string
+const oneyearPriceId = process.env.STRIPE_PRICE_ID_ONE_YEAR as string
+const twoyearPriceId = process.env.STRIPE_PRICE_ID_TWO_YEAR as string
 
-const creditsPerPriceId: {
-  [key: string]: number
+const typeFromPriceId: {
+  [key: string]: 'one_year' | 'two_year' | 'annual_recurring'
 } = {
-  [tenCreditPriceId]: 10,
-  [thirtyCreditsPriceId]: 30,
-  [fiftyCreditsPriceId]: 50
+  [yearlyPriceId]: 'annual_recurring',
+  [oneyearPriceId]: 'one_year',
+  [twoyearPriceId]: 'two_year'
 }
 
 export async function POST(request: Request) {
@@ -105,9 +104,9 @@ export async function POST(request: Request) {
     case 'checkout.session.completed':
       const checkoutSessionCompleted = event.data
         .object as Stripe.Checkout.Session
-      const userId = checkoutSessionCompleted.client_reference_id
+      const profileId = Number(checkoutSessionCompleted.client_reference_id)
 
-      if (!userId) {
+      if (!profileId) {
         return NextResponse.json(
           {
             message: `Missing client_reference_id`
@@ -119,71 +118,43 @@ export async function POST(request: Request) {
       const lineItems = await stripe.checkout.sessions.listLineItems(
         checkoutSessionCompleted.id
       )
-      const quantity = lineItems.data[0].quantity
       const priceId = lineItems.data[0].price!.id
-      const creditsPerUnit = creditsPerPriceId[priceId]
-      const totalCreditsPurchased = quantity! * creditsPerUnit
+      const type = typeFromPriceId[priceId]
 
-      console.log({ lineItems })
-      console.log({ quantity })
-      console.log({ priceId })
-      console.log({ creditsPerUnit })
+      // Get Existing profile from profile_id
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', profileId)
+        .single()
 
-      console.log('totalCreditsPurchased: ' + totalCreditsPurchased)
+      if (!profile) {
+        return NextResponse.json(
+          {
+            message: `User Profile Not Found`
+          },
+          { status: 400 }
+        )
+      }
 
-      // const { data: existingCredits } = await supabase
-      //   .from('credits')
-      //   .select('*')
-      //   .eq('user', userId)
-      //   .single()
+      // Insert into Pricing
+      const { data, error } = await supabase.from('pricing').insert({
+        profile_id: profileId,
+        user_id: profile.user_id,
+        type: type
+      })
 
-      // If user has existing credits, add to it.
-      // if (existingCredits) {
-      //   const newCredits = existingCredits.credits ?? 0 + totalCreditsPurchased
-      //   const { data, error } = await supabase
-      //     .from('credits')
-      //     .update({
-      //       credits: newCredits
-      //     })
-      //     .eq('user', userId)
-
-      //   if (error) {
-      //     console.log(error)
-      //     return NextResponse.json(
-      //       {
-      //         message: `Error updating credits: ${JSON.stringify(error)}. data=${data}`
-      //       },
-      //       {
-      //         status: 400
-      //       }
-      //     )
-      //   }
-
-      //   return NextResponse.json(
-      //     {
-      //       message: 'success'
-      //     },
-      //     { status: 200 }
-      //   )
-      // } else {
-      //   // Else create new credits row.
-      //   const { data, error } = await supabase.from('credits').insert({
-      //     user: userId,
-      //     credits: totalCreditsPurchased
-      //   })
-
-      //   if (error) {
-      //     console.log(error)
-      //     return NextResponse.json(
-      //       {
-      //         message: `Error creating credits: ${error}\n ${data}`
-      //       },
-      //       {
-      //         status: 400
-      //       }
-      //     )
-      //   }
-      // }
+      if (error) {
+        console.log(error)
+        return NextResponse.json(
+          {
+            message: `Error creating credits: ${error}\n ${data}`
+          },
+          {
+            status: 400
+          }
+        )
+      }
 
       return NextResponse.json(
         {

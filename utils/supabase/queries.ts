@@ -84,6 +84,17 @@ export const getGoogle = cache(async (supabase: SupabaseClient, id: string) => {
   return google
 })
 
+export const getPricing = cache(
+  async (supabase: SupabaseClient, id: number) => {
+    const { data: pricing } = await supabase
+      .from('pricing')
+      .select('*')
+      .eq('profile_id', id)
+      .single()
+    return pricing
+  }
+)
+
 export const getCredits = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)
   if (!user) return null

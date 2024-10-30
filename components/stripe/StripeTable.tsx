@@ -1,5 +1,6 @@
 'use client'
 
+import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
 import React, { useEffect } from 'react'
 
@@ -20,11 +21,14 @@ declare global {
   }
 }
 
+type Profile = Tables<'profiles'>
+
 type Props = {
   user: User
+  profile: Profile
 }
 
-const StripePricingTable = ({ user }: Props) => {
+const StripePricingTable = ({ user, profile }: Props) => {
   useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://js.stripe.com/v3/pricing-table.js'
@@ -42,7 +46,7 @@ const StripePricingTable = ({ user }: Props) => {
       <stripe-pricing-table
         pricing-table-id={process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID || ''}
         publishable-key={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
-        client-reference-id={user.id}
+        client-reference-id={profile.id}
         customer-email={user.email}
       ></stripe-pricing-table>
     </div>
