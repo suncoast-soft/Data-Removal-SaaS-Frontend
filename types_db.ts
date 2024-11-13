@@ -335,86 +335,34 @@ export type Database = {
         }
         Relationships: []
       }
-      google: {
-        Row: {
-          created_at: string
-          id: number
-          profile_id: number | null
-          search_result: Json | null
-          search_status: Database["public"]["Enums"]["search_status"] | null
-          updated_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          profile_id?: number | null
-          search_result?: Json | null
-          search_status?: Database["public"]["Enums"]["search_status"] | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          profile_id?: number | null
-          search_result?: Json | null
-          search_status?: Database["public"]["Enums"]["search_status"] | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "google_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "google_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      pricing: {
+      pricing_plans: {
         Row: {
           created_at: string
           id: number
           profile_id: number | null
           type: Database["public"]["Enums"]["pricing_type"] | null
-          user_id: string | null
+          updated_at: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           profile_id?: number | null
           type?: Database["public"]["Enums"]["pricing_type"] | null
-          user_id?: string | null
+          updated_at?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           profile_id?: number | null
           type?: Database["public"]["Enums"]["pricing_type"] | null
-          user_id?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "pricing_profile_id_fkey"
+            foreignKeyName: "pricing_plans_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "pricing_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -466,6 +414,7 @@ export type Database = {
       searches: {
         Row: {
           broker_id: number | null
+          broker_type: Database["public"]["Enums"]["broker_type"] | null
           created_at: string
           id: number
           profile_id: number | null
@@ -474,10 +423,10 @@ export type Database = {
           search_result: Json | null
           search_status: Database["public"]["Enums"]["search_status"] | null
           updated_at: string | null
-          user_id: string | null
         }
         Insert: {
           broker_id?: number | null
+          broker_type?: Database["public"]["Enums"]["broker_type"] | null
           created_at?: string
           id?: number
           profile_id?: number | null
@@ -486,10 +435,10 @@ export type Database = {
           search_result?: Json | null
           search_status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
-          user_id?: string | null
         }
         Update: {
           broker_id?: number | null
+          broker_type?: Database["public"]["Enums"]["broker_type"] | null
           created_at?: string
           id?: number
           profile_id?: number | null
@@ -498,28 +447,20 @@ export type Database = {
           search_result?: Json | null
           search_status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
-          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "search_broker_id_fkey"
+            foreignKeyName: "broker_searches_broker_id_fkey"
             columns: ["broker_id"]
             isOneToOne: false
             referencedRelation: "brokers"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "search_profile_id_fkey"
+            foreignKeyName: "broker_searches_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "search_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -555,6 +496,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      broker_type: "broker_site" | "google" | "bing" | "yahoo" | "duckduckgo"
       pricing_type: "one_year" | "two_year" | "annual_recurring"
       removal_status:
         | "queued"
