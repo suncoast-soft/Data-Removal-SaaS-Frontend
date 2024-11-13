@@ -340,8 +340,8 @@ export type Database = {
           created_at: string
           id: number
           profile_id: number | null
-          results: Json | null
-          status: Database["public"]["Enums"]["search_status"] | null
+          search_result: Json | null
+          search_status: Database["public"]["Enums"]["search_status"] | null
           updated_at: string | null
           user_id: string | null
         }
@@ -349,8 +349,8 @@ export type Database = {
           created_at?: string
           id?: number
           profile_id?: number | null
-          results?: Json | null
-          status?: Database["public"]["Enums"]["search_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -358,8 +358,8 @@ export type Database = {
           created_at?: string
           id?: number
           profile_id?: number | null
-          results?: Json | null
-          status?: Database["public"]["Enums"]["search_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -463,46 +463,16 @@ export type Database = {
           },
         ]
       }
-      removal: {
-        Row: {
-          created_at: string
-          id: number
-          note: string | null
-          search_id: number | null
-          status: Database["public"]["Enums"]["removal_status"] | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          note?: string | null
-          search_id?: number | null
-          status?: Database["public"]["Enums"]["removal_status"] | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          note?: string | null
-          search_id?: number | null
-          status?: Database["public"]["Enums"]["removal_status"] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "removal_search_id_fkey"
-            columns: ["search_id"]
-            isOneToOne: false
-            referencedRelation: "searches"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       searches: {
         Row: {
           broker_id: number | null
           created_at: string
           id: number
           profile_id: number | null
-          result: Json | null
-          status: Database["public"]["Enums"]["search_status"] | null
+          removal_note: string | null
+          removal_status: Database["public"]["Enums"]["removal_status"] | null
+          search_result: Json | null
+          search_status: Database["public"]["Enums"]["search_status"] | null
           updated_at: string | null
           user_id: string | null
         }
@@ -511,8 +481,10 @@ export type Database = {
           created_at?: string
           id?: number
           profile_id?: number | null
-          result?: Json | null
-          status?: Database["public"]["Enums"]["search_status"] | null
+          removal_note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -521,8 +493,10 @@ export type Database = {
           created_at?: string
           id?: number
           profile_id?: number | null
-          result?: Json | null
-          status?: Database["public"]["Enums"]["search_status"] | null
+          removal_note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
           updated_at?: string | null
           user_id?: string | null
         }
