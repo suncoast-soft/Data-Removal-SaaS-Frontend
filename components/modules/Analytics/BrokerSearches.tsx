@@ -15,6 +15,21 @@ interface Search extends Tables<'searches'> {
   brokers: Tables<'brokers'> | null
 }
 
+const renderValue = (value: any) => {
+  if (typeof value === 'object' && value !== null) {
+    return (
+      <ul className="pl-4 list-none">
+        {Object.entries(value).map(([nestedKey, nestedValue]) => (
+          <li key={nestedKey}>
+            <strong>{nestedKey}:</strong> {renderValue(nestedValue)}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  return String(value)
+}
+
 export default function BrokerSearches({
   searches
 }: {
@@ -31,27 +46,32 @@ export default function BrokerSearches({
       </TableHeader>
 
       <TableBody>
-        {searches.map((search: Search) => (
-          <TableRow key={search.id}>
-            <TableCell className="font-medium">
-              {search.brokers?.name ?? ''}
-            </TableCell>
-            <TableCell>
-              <ul>
-                {Object.entries(search.search_result ?? {})
-                  .filter(([key, value]) => value)
-                  .map(([key, value]) => (
-                    <li key={key} className="list-none">
-                      <strong>{key}:</strong> {String(value)}
-                    </li>
-                  ))}
-              </ul>
-            </TableCell>
-            <TableCell>
-              {formatDate(search.updated_at ?? '', 'MM/dd/yyy p')}
-            </TableCell>
-          </TableRow>
-        ))}
+        {searches
+          .filter((search) => search.search_status === 'completed')
+          .map((search: Search) => (
+            <TableRow key={search.id}>
+              <TableCell className="font-medium text-primary">
+                {search.brokers?.name ?? ''}
+              </TableCell>
+              <TableCell>
+                <ul>
+                  {Object.entries(search.search_result ?? {})
+                    .filter(([key, value]) => value)
+                    .map(([key, value]) => (
+                      <li key={key} className="list-none">
+                        <strong>{key}:</strong> {renderValue(value)}
+                      </li>
+                    ))}
+                </ul>
+              </TableCell>
+              <TableCell>
+                {formatDate(
+                  search.updated_at || search.created_at,
+                  'MM/dd/yyy p'
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   )

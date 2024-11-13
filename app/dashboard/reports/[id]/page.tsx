@@ -26,10 +26,10 @@ export default async function Report({ params }: { params: { id: string } }) {
   ])
 
   const brokerSearches = searches?.filter(
-    (search) => search.type === 'broker_site'
+    (search) => search.broker_type === 'broker_site'
   )
   const googleSearches = searches?.filter(
-    (search) => search.type === 'google'
+    (search) => search.broker_type === 'google'
   )[0]
 
   const removalActivated = pricing ? isRemovalActive(pricing) : false
@@ -110,7 +110,7 @@ export default async function Report({ params }: { params: { id: string } }) {
 
         <TabsContent value="google">
           {googleSearches?.search_result ? (
-            <GoogleSearches results={googleSearches.results} />
+            <GoogleSearches results={googleSearches.search_result} />
           ) : (
             <div className="py-8">
               <Loading />
