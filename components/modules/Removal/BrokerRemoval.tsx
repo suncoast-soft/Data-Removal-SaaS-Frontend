@@ -15,14 +15,10 @@ interface Search extends Tables<'searches'> {
   brokers: Tables<'brokers'> | null
 }
 
-interface Removal extends Tables<'removal'> {
-  searches: Search
-}
-
 export default function BrokerRemoval({
-  removals
+  searches
 }: {
-  removals: Array<Removal>
+  searches: Array<Search>
 }) {
   return (
     <Table className="mt-8">
@@ -36,15 +32,15 @@ export default function BrokerRemoval({
       </TableHeader>
 
       <TableBody>
-        {removals.map((removal: Removal) => (
-          <TableRow key={removal.id}>
+        {searches.map((search: Search) => (
+          <TableRow key={search.id}>
             <TableCell className="font-medium">
-              {removal.searches?.brokers?.name ?? ''}
+              {search.brokers?.name ?? ''}
             </TableCell>
-            <TableCell>{removal.status}</TableCell>
-            <TableCell>{removal.note}</TableCell>
+            <TableCell>{search.removal_status}</TableCell>
+            <TableCell>{search.removal_note}</TableCell>
             <TableCell className="text-right">
-              {formatDate(removal.created_at ?? '', 'MM/dd/yyy p')}
+              {formatDate(search.created_at ?? '', 'MM/dd/yyy p')}
             </TableCell>
           </TableRow>
         ))}

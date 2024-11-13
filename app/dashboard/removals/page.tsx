@@ -156,8 +156,8 @@ export default async function Dashboard() {
   return (
     <section className="mb-16 bg-white">
       <Title
-        title="Search Reports"
-        subtitle="View analytics reports about your personal information found on Google, Yahoo, DuckDuckGo, Microsoft Bing, and 17 data brokers."
+        title="Privacy Removal Services"
+        subtitle="Protect your privacy by activating the privacy removal service in a few steps."
       />
 
       <div className="p-4 grid gap-16 max-w-5xl mx-auto">

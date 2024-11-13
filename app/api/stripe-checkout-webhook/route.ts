@@ -138,9 +138,8 @@ export async function POST(request: Request) {
       }
 
       // Insert into Pricing
-      const { data, error } = await supabase.from('pricing').insert({
+      const { data, error } = await supabase.from('pricing_plans').insert({
         profile_id: profileId,
-        user_id: profile.user_id,
         type: type
       })
 

@@ -2,22 +2,18 @@ import Loading from '@/components/modules/Loading'
 import BrokerRemoval from '@/components/modules/Removal/BrokerRemoval'
 import Title from '@/components/modules/Title'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { getRemovals, getUser } from '@/utils/supabase/queries'
+import { getSearches, getUser } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
-export default async function Protection({
-  params
-}: {
-  params: { id: string }
-}) {
+export default async function Removal({ params }: { params: { id: string } }) {
   const supabase = createClient()
-  const [user, removals] = await Promise.all([
+  const [user, searches] = await Promise.all([
     getUser(supabase),
-    getRemovals(supabase)
+    getSearches(supabase, params.id)
   ])
 
   if (!user) {
@@ -67,8 +63,8 @@ export default async function Protection({
             </div>
           </TabsContent>
           <TabsContent value="brokers">
-            {Array.isArray(removals) && removals.length > 0 ? (
-              <BrokerRemoval removals={removals!} />
+            {Array.isArray(searches) && searches.length > 0 ? (
+              <BrokerRemoval searches={searches!} />
             ) : (
               <div className="py-8">
                 <Loading />

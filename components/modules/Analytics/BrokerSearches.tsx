@@ -15,7 +15,11 @@ interface Search extends Tables<'searches'> {
   brokers: Tables<'brokers'> | null
 }
 
-export default function Searches({ searches }: { searches: Array<Search> }) {
+export default function BrokerSearches({
+  searches
+}: {
+  searches: Array<Search>
+}) {
   return (
     <Table className="mt-8">
       <TableHeader>
@@ -34,7 +38,7 @@ export default function Searches({ searches }: { searches: Array<Search> }) {
             </TableCell>
             <TableCell>
               <ul>
-                {Object.entries(search.result ?? {})
+                {Object.entries(search.search_result ?? {})
                   .filter(([key, value]) => value)
                   .map(([key, value]) => (
                     <li key={key} className="list-none">

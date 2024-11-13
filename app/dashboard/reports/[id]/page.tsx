@@ -1,5 +1,5 @@
-import GoogleReport from '@/components/modules/Analytics/Google'
-import Searches from '@/components/modules/Analytics/Searches'
+import GoogleSearches from '@/components/modules/Analytics/GoogleSearches'
+import BrokerSearches from '@/components/modules/Analytics/BrokerSearches'
 import Loading from '@/components/modules/Loading'
 import Title from '@/components/modules/Title'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -7,9 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { isRemovalActive } from '@/utils/helpers'
 import {
-  getBrokerSearches,
-  getGoogle,
-  getPricing,
+  getSearches,
+  getPricingPlans,
   getProfile
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
@@ -20,12 +19,18 @@ import Link from 'next/link'
 export default async function Report({ params }: { params: { id: string } }) {
   const supabase = createClient()
 
-  const [profile, searches, google, pricing] = await Promise.all([
+  const [profile, searches, pricing] = await Promise.all([
     getProfile(supabase, params.id),
-    getBrokerSearches(supabase, params.id),
-    getGoogle(supabase, params.id),
-    getPricing(supabase, Number(params.id))
+    getSearches(supabase, params.id),
+    getPricingPlans(supabase, Number(params.id))
   ])
+
+  const brokerSearches = searches?.filter(
+    (search) => search.type === 'broker_site'
+  )
+  const googleSearches = searches?.filter(
+    (search) => search.type === 'google'
+  )[0]
 
   const removalActivated = pricing ? isRemovalActive(pricing) : false
 
@@ -45,7 +50,7 @@ export default async function Report({ params }: { params: { id: string } }) {
               <p>We are committed to continually safeguarding your privacy.</p>
               <Button asChild>
                 <Link
-                  href={`/dashboard/protections/${profile.id}`}
+                  href={`/dashboard/removals/${profile.id}`}
                   className="no-underline"
                 >
                   Check Improvements
@@ -104,8 +109,8 @@ export default async function Report({ params }: { params: { id: string } }) {
         </TabsList>
 
         <TabsContent value="google">
-          {google.results ? (
-            <GoogleReport results={google.results} />
+          {googleSearches?.search_result ? (
+            <GoogleSearches results={googleSearches.results} />
           ) : (
             <div className="py-8">
               <Loading />
@@ -113,8 +118,8 @@ export default async function Report({ params }: { params: { id: string } }) {
           )}
         </TabsContent>
         <TabsContent value="brokers">
-          {Array.isArray(searches) && searches.length > 0 ? (
-            <Searches searches={searches!} />
+          {Array.isArray(brokerSearches) && brokerSearches.length > 0 ? (
+            <BrokerSearches searches={brokerSearches!} />
           ) : (
             <div className="py-8">
               <Loading />

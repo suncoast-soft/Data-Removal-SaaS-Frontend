@@ -23,23 +23,24 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
+import { Tables } from '@/types_db'
 
 interface NavlinksProps {
   user?: any
-  userDetails?: any
+  profile?: Tables<'profiles'>
 }
 
 const FormSchema = z.object({
   pathName: z.string()
 })
 
-export default function UserDropdown({ user, userDetails }: NavlinksProps) {
+export default function UserDropdown({ user, profile }: NavlinksProps) {
   const router = getRedirectMethod() === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const name =
-    userDetails?.firstName && userDetails?.lastName
-      ? `${userDetails.firstName} ${userDetails.lastName}`
+    profile?.first_name && profile?.last_name
+      ? `${profile.first_name} ${profile.last_name}`
       : user.email
 
   const form = useForm<z.infer<typeof FormSchema>>({

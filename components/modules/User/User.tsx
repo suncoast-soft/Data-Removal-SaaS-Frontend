@@ -1,15 +1,14 @@
 import { createClient } from '@/utils/supabase/server'
 import UserDropdown from './UserDropdown'
-import { getUserDetails } from '@/utils/supabase/queries'
+import { getProfiles, getUser } from '@/utils/supabase/queries'
 
 export async function User() {
   const supabase = createClient()
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+  const [user, profiles] = await Promise.all([
+    getUser(supabase),
+    getProfiles(supabase)
+  ])
 
-  const userDetails = await getUserDetails(supabase)
-
-  return <UserDropdown user={user} userDetails={userDetails} />
+  return <UserDropdown user={user} profile={profiles?.[0]} />
 }

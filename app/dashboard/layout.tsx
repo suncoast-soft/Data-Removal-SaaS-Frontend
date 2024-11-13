@@ -33,8 +33,8 @@ export default async function DashboardLayout({
     },
     {
       icon: <ListChecks />,
-      name: 'Protections',
-      link: '/dashboard/protections'
+      name: 'Removals',
+      link: '/dashboard/removals'
     },
     {
       icon: <Settings />,

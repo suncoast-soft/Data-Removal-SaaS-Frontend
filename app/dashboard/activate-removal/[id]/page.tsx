@@ -27,7 +27,7 @@ export default async function ActivateRemoval({
     <>
       <section className="mb-16 bg-white">
         <Title
-          title="Activate Privacy Protection"
+          title="Activate Privacy Removal Service"
           subtitle="Pay for personal data removal service activation"
         />
 
