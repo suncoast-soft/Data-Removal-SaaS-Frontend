@@ -317,6 +317,10 @@ alter table "public"."profiles" add constraint "profiles_user_id_fkey" FOREIGN K
 
 alter table "public"."profiles" validate constraint "profiles_user_id_fkey";
 
+alter table "public"."settings" add constraint "settings_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) not valid;
+
+alter table "public"."settings" validate constraint "settings_user_id_fkey";
+
 alter table "public"."searches" add constraint "broker_searches_broker_id_fkey" FOREIGN KEY (broker_id) REFERENCES brokers(id) not valid;
 
 alter table "public"."searches" validate constraint "broker_searches_broker_id_fkey";
@@ -1041,7 +1045,6 @@ to authenticated
 using ((( SELECT auth.uid() AS uid) = id));
 
 
+CREATE TRIGGER handle_new_user AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 CREATE TRIGGER create_search_queue AFTER INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION create_search_queue();
-
-
 

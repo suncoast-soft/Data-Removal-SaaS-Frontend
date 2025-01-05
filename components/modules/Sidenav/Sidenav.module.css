@@ -1,19 +1,19 @@
 .root {
-  @apply inset-y-0 left-0 top-0 z-10 hidden w-72 flex-col border-r sm:flex sticky h-screen;
+  @apply inset-y-0 left-0 top-0 z-10 hidden min-w-[256px] flex-col lg:flex sticky h-screen bg-darkMain;
 }
 
 .logo {
-  @apply cursor-pointer rounded-full transform duration-100 ease-in-out no-underline mb-5;
+  @apply cursor-pointer duration-100 ease-in-out no-underline mb-10;
 }
 
 .link {
-  @apply flex items-start gap-4 px-2.5 py-2 w-full bg-transparent;
+  @apply text-white font-medium text-base leading-4 flex gap-2 items-center px-2 py-4 border-b border-white/20 w-full;
 }
 
 .link:hover {
-  @apply bg-slate-100;
+  @apply text-greenMain;
 }
 
 .active {
-  @apply bg-slate-200 font-medium;
+  @apply text-greenMain;
 }

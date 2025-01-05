@@ -29,8 +29,16 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="bg-white">
-        {!user && <Navbar />}
+        <Navbar user={user} />
 
         <main
           id="skip"

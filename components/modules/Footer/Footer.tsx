@@ -1,99 +1,268 @@
-import LogoIcon from '@/components/icons/LogoIcon'
+import Image from 'next/image'
 import Link from 'next/link'
-import SubscriptionForm from '../AccountForms/SubscriptionForm'
 
 export default function Footer() {
+  const socialLinks = [
+    'facebook.png',
+    'twitter.png',
+    'instagram.png',
+    'linked-in.png',
+    'youtube.png'
+  ]
   return (
-    <footer className="px-6 bg-slate-900">
-      <div className="max-w-6xl px-6 mx-auto">
-        <div className="grid grid-cols-1 gap-8 py-12 text-white transition-colors duration-150 border-b lg:grid-cols-8 border-slate-600 bg-slate-900">
-          <div className="col-span-1 lg:col-span-2">
-            <Link
-              href="/"
-              className="flex items-center flex-initial font-bold md:mr-24 no-underline"
-            >
-              <span className="mr-2 border rounded-full border-slate-700">
-                <LogoIcon />
-              </span>
-            </Link>
+    <footer className="bg-lp-footer-bg text-darkMain py-10 lg:pt-[89px] lg:pb-[80px]">
+      <div className="container mx-auto px-2 lg:px-[110px]">
+        <div className="flex flex-wrap items-center lg:items-start justify-center gap-6 pb-8 lg:pb-[60px] transition-colors duration-150 border-b border-dashed border-gray-300">
+          <div className="w-[340px]">
+            <div className="flex flex-col gap-4 items-center lg:items-start justify-center lg:justify-start">
+              <Link
+                href="/"
+                className="flex items-center flex-initial font-bold md:mr-24 no-underline"
+              >
+                <Image
+                  src={'/lp-footer-logo.png'}
+                  width={261}
+                  height={34}
+                  alt={`Logo`}
+                />
+              </Link>
+
+              <p className="text-base lg:text-lg opacity-50 text-center lg:text-left">
+                Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam
+                mauris sed ma
+              </p>
+              <div className="gap-2 hidden lg:flex">
+                {socialLinks.map((item) => (
+                  <Image
+                    src={`/footer-social-icons/${item}`}
+                    width={36}
+                    height={36}
+                    alt={item}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="col-span-1 lg:col-span-2">
+          <div className="lg:flex-1 px-5 lg:px-0">
             <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="py-3 md:py-0 md:pb-4">
-                <p className="font-bold text-white transition duration-150 ease-in-out hover:text-slate-200">
+              <li className="pb-4 lg:pb-6">
+                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
+                  Product
+                </p>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Features
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Case studies
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Reviews
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Updates
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="lg:flex-1 px-5 lg:px-0">
+            <ul className="flex flex-col flex-initial md:flex-1">
+              <li className="pb-4 lg:pb-6">
+                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
                   COMPANY
                 </p>
               </li>
-              <li className="py-3 md:py-0 md:pb-4">
+              <li className="pb-2 lg:pb-[18px]">
                 <Link
-                  href="/"
-                  className="text-white transition duration-150 ease-in-out hover:text-slate-200"
+                  href="/about"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
                 >
                   About
                 </Link>
               </li>
-              <li className="py-3 md:py-0 md:pb-4">
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/contact"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Contact us
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
                 <Link
                   href="/"
-                  className="text-white transition duration-150 ease-in-out hover:text-slate-200"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
                 >
                   Careers
                 </Link>
               </li>
-              <li className="py-3 md:py-0 md:pb-4">
+              <li className="pb-2 lg:pb-[18px]">
                 <Link
                   href="/"
-                  className="text-white transition duration-150 ease-in-out hover:text-slate-200"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Culture
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
                 >
                   Blog
                 </Link>
               </li>
             </ul>
           </div>
-          <div className="col-span-1 lg:col-span-2">
+
+          <div className="lg:flex-1 px-5 lg:px-0">
             <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="py-3 md:py-0 md:pb-4">
-                <p className="font-bold text-white transition duration-150 ease-in-out hover:text-slate-200">
-                  LEGAL
+              <li className="pb-4 lg:pb-6">
+                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
+                  Support
                 </p>
               </li>
-              <li className="py-3 md:py-0 md:pb-4">
+              <li className="pb-2 lg:pb-[18px]">
                 <Link
                   href="/"
-                  className="text-white transition duration-150 ease-in-out hover:text-slate-200"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
                 >
-                  Privacy Policy
+                  Getting started
                 </Link>
               </li>
-              <li className="py-3 md:py-0 md:pb-4">
+              <li className="pb-2 lg:pb-[18px]">
                 <Link
                   href="/"
-                  className="text-white transition duration-150 ease-in-out hover:text-slate-200"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
                 >
-                  Terms of Use
+                  Help center
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Server status
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Report a bug
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Chat support
                 </Link>
               </li>
             </ul>
           </div>
-          <div className="col-span-1 lg:col-span-2">
+          <div className="lg:flex-1 px-5 lg:px-0">
             <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="py-3 md:py-0 md:pb-4">
-                <p className="font-bold text-white transition duration-150 ease-in-out hover:text-slate-200">
-                  NEWSLETTER
+              <li className="pb-4 lg:pb-6">
+                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
+                  Downloads
                 </p>
               </li>
-              <li className="py-3 md:py-0 md:pb-4">
-                <SubscriptionForm />
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  iOS
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Android
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Mac
+                </Link>
+              </li>
+              <li className="pb-2 lg:pb-[18px]">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Windows
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="/"
+                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
+                >
+                  Chrome
+                </Link>
               </li>
             </ul>
+          </div>
+          <div className="gap-2 flex lg:hidden mt-2">
+            {socialLinks.map((item) => (
+              <Image
+                src={`/footer-social-icons/${item}`}
+                width={36}
+                height={36}
+                alt={item}
+              />
+            ))}
           </div>
         </div>
-        <div className="flex flex-col items-center justify-between py-6 space-y-2 md:flex-row bg-slate-900 text-white">
+        <div className="flex flex-col items-center justify-center pt-6 text-center text-sm">
           <div>
-            <small>
-              &copy; {new Date().getFullYear()} Pup Erase, Inc. All rights
-              reserved.
-            </small>
+            <p className="text-sm">
+              Copyright &copy; {new Date().getFullYear()} Pup Erase <br />
+              All Rights Reserved
+            </p>
+            <Link
+              href="/"
+              className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-sm leading-[18px] font-semibold mt-1"
+            >
+              Terms and Conditions | Privacy Policy
+            </Link>
           </div>
         </div>
       </div>

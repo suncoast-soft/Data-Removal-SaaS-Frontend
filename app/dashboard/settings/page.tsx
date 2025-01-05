@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/utils/supabase/queries'
-import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
-import EmailForm from '@/components/modules/AccountForms/EmailForm'
+// import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
 import ProfileForm from '@/components/modules/AccountForms/ProfileForm'
 
 export default async function Settings() {
@@ -27,11 +26,11 @@ export default async function Settings() {
       </div>
 
       <div className="p-4 max-w-xl mx-auto">
-        <EmailForm userEmail={user.email} />
+        {/* <EmailForm userEmail={user.email} /> */}
 
         <ProfileForm />
 
-        <CustomerPortalForm />
+        {/* <CustomerPortalForm /> */}
       </div>
     </section>
   )

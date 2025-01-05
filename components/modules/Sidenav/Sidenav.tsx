@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -12,61 +12,114 @@ import { Button } from '@/components/ui/button'
 import LogoText from '@/components/icons/LogoText'
 import { cn } from '@/utils/cn'
 import s from './Sidenav.module.css'
-import { PanelLeft } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { Input } from '@/components/ui/input'
+import Image from 'next/image'
+import MenuIcon from '@/components/icons/MenuIcon'
+import { User } from '@supabase/supabase-js'
+import ProfileForm from '../AccountForms/ProfileForm'
 
 type NavItem = {
   icon: ReactElement
   name: string
   link: string
+  isInbox?: boolean
 }
 
 interface NavProps {
   navs: NavItem[]
+  user: User
+  isPaidUser?: boolean
 }
 
-function DesktopNav({ navs }: NavProps) {
+function DesktopNav({ navs, user, isPaidUser }: NavProps) {
   const currentPath = usePathname()
-
+  const [search, setSearch] = useState('')
   return (
     <aside className={s.root}>
-      <nav className="flex flex-col items-start gap-2 px-2 sm:py-5">
-        <Link href="/" className={cn(s.logo, 'no-underline')} aria-label="Logo">
-          <LogoText />
-        </Link>
-
-        {navs.map((nav, index) => (
+      <nav className="flex flex-col items-start px-4 py-6 justify-between min-h-screen">
+        <div className="w-full">
           <Link
-            key={index}
-            href={nav.link}
+            href="/"
+            className={cn(s.logo, 'no-underline')}
+            aria-label="Logo"
+          >
+            <LogoText />
+          </Link>
+          <div className="relative w-full mb-6">
+            <div className="absolute left-5 top-[50%] -translate-y-[50%]">
+              <Search className="w-[18px] h-[18px] text-greenMain" />
+            </div>
+            <Input
+              type="text"
+              placeholder="Search for..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-[48px] bg-transparent border border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white text-base h-12"
+            />
+          </div>
+          <div
             className={cn(
-              s.link,
-              'no-underline',
-              currentPath === nav.link && s.active
+              'w-full overflow-y-auto',
+              isPaidUser ? 'max-h-[calc(100vh-428px)]' : ''
             )}
           >
-            <span className="w-5 h-5">{nav.icon}</span>
-            <span>{nav.name}</span>
-          </Link>
-        ))}
+            {navs.map((nav, index) => (
+              <Link
+                key={index}
+                href={nav.link}
+                className={cn(
+                  s.link,
+                  'no-underline flex justify-between',
+                  currentPath === nav.link && s.active
+                )}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 text-greenMain">{nav.icon}</span>
+                  <span>{nav.name}</span>
+                </div>
+                {nav.isInbox ? (
+                  <span className="w-[25px] h-[25px] text-white text-xs flex items-center justify-center bg-orangeMain rounded-full">
+                    2
+                  </span>
+                ) : null}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <FooterOptions user={user} isPaidUser={isPaidUser} />
       </nav>
     </aside>
   )
 }
 
-function MobileNav({ navs }: NavProps) {
+function MobileNav({ navs, user, isPaidUser }: NavProps) {
   const currentPath = usePathname()
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button size="icon" className="sm:hidden">
-          <PanelLeft className="h-5 w-5" />
-          <span className="sr-only">Toggle Menu</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="left" className="sm:max-w-xs">
-        <nav className="grid gap-6 text-lg font-medium">
+      <div className="lg:hidden bg-darkMain w-full h-[70px] flex justify-between items-center px-4">
+        <Link
+          href="/"
+          className={cn(s.logo, 'no-underline w-[170px] !mb-0')}
+          aria-label="Logo"
+        >
+          <LogoText />
+        </Link>
+        <SheetTrigger asChild>
+          <Button
+            size="icon"
+            className="text-white hover:no-underline p-0"
+            variant={'link'}
+          >
+            <MenuIcon />
+            <span className="sr-only">Toggle Menu</span>
+          </Button>
+        </SheetTrigger>
+      </div>
+      <SheetContent side="left" className={'bg-darkMain'}>
+        <nav className="flex flex-col items-start px-4 py-6">
           <SheetTitle className="sr-only">Menu</SheetTitle>
 
           <Link
@@ -76,24 +129,65 @@ function MobileNav({ navs }: NavProps) {
           >
             <LogoText />
           </Link>
+          <div className="w-full">
+            {navs.map((nav, index) => (
+              <Link
+                key={index}
+                href={nav.link}
+                className={cn(
+                  s.link,
+                  'no-underline',
+                  currentPath === nav.link && s.active
+                )}
+              >
+                <span className="w-6 h-6 text-greenMain">{nav.icon}</span>
+                <span>{nav.name}</span>
+              </Link>
+            ))}
+          </div>
 
-          {navs.map((nav, index) => (
-            <Link
-              key={index}
-              href={nav.link}
-              className={cn(
-                s.link,
-                'no-underline',
-                currentPath === nav.link && s.active
-              )}
-            >
-              <span className="w-5 h-5">{nav.icon}</span>
-              <span>{nav.name}</span>
-            </Link>
-          ))}
+          <FooterOptions user={user} isPaidUser={isPaidUser} />
         </nav>
       </SheetContent>
     </Sheet>
+  )
+}
+
+const FooterOptions = ({
+  user,
+  isPaidUser
+}: {
+  user: User
+  isPaidUser?: boolean
+}) => {
+  return (
+    isPaidUser && (
+      <div className="pt-[20px] mt-2 flex flex-col gap-2 shadow-[0_-4px_8px_-4px_rgba(0,0,0,0.2)]">
+        <h3 className="text-white text-[22px] leading-[28px] font-bold">
+          Loving Pup Premium?
+        </h3>
+        <Button
+          className="text-white border font-normal text-sm h-11"
+          variant={'outline'}
+        >
+          Send Someone a Gift
+        </Button>
+        <Button
+          className="text-white border font-normal text-sm h-11"
+          variant={'outline'}
+        >
+          Refer a Friend
+        </Button>
+        <ProfileForm>
+          <Button
+            className="text-white border font-normal text-sm h-11 w-full"
+            variant={'outline'}
+          >
+            Add a Family Member
+          </Button>
+        </ProfileForm>
+      </div>
+    )
   )
 }
 

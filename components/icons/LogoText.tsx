@@ -3,8 +3,8 @@ import Image from 'next/image'
 const LogoText = ({ ...props }) => (
   <Image
     src="/logo-text.svg"
-    width={200}
-    height={70}
+    width={261}
+    height={34.5}
     alt="Logo"
     className="text-white"
     {...props}

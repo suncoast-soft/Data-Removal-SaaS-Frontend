@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { updateEmail } from '@/utils/auth-helpers/server'
+// import { updateEmail } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
 import {
@@ -44,7 +44,7 @@ export default function EmailForm({
     if (data.email === userEmail) {
       return
     }
-    handleRequest(data, updateEmail, router)
+    // handleRequest(data, updateEmail, router)
   }
 
   return (

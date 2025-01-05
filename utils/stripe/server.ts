@@ -65,3 +65,53 @@ export async function createStripePortal(currentPath: string) {
     }
   }
 }
+
+
+
+export async function listInvoices(user_id: string) {
+
+  const supabase = createClient()
+  const {
+    data
+  } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', user_id)
+    .single()
+
+  if (!data?.stripe_customer_id) {
+    return;
+  }
+
+  const invoices = await stripe.invoices.list({
+    limit: 50,
+    customer: data?.stripe_customer_id
+  });
+
+  return invoices
+}
+
+export async function listPaymentMethods(user_id: string) {
+  const supabase = createClient()
+  const {
+    data
+  } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', user_id)
+    .single()
+
+  if (!data?.stripe_customer_id) {
+    return;
+  }
+
+  const paymentMethods = await stripe.customers.listPaymentMethods(
+    data.stripe_customer_id,
+    {
+      limit: 3,
+    }
+  );
+
+  return paymentMethods
+
+}

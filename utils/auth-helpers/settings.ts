@@ -17,7 +17,7 @@ export const getAuthTypes = () => {
 
 export const getViewTypes = () => {
   // Define the valid view types
-  let viewTypes: string[] = []
+  let viewTypes: string[] = ["signup"]
   if (allowEmail) {
     viewTypes = [...viewTypes, 'email_signin']
   }
@@ -27,7 +27,7 @@ export const getViewTypes = () => {
       'password_signin',
       'forgot_password',
       'update_password',
-      'signup'
+      // 'signup'
     ]
   }
 

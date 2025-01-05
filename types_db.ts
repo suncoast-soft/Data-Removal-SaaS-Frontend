@@ -369,35 +369,56 @@ export type Database = {
       }
       profiles: {
         Row: {
+          address: string | null
+          alternative_names: string | null
+          bio: string | null
           birth_date: string | null
           city: string | null
           created_at: string
+          email: string | null
           first_name: string | null
           gender: string | null
           id: number
+          isPrimary: boolean | null
           last_name: string | null
+          phone: string | null
+          social_security_number: string | null
           state: string | null
           user_id: string | null
         }
         Insert: {
+          address?: string | null
+          alternative_names?: string | null
+          bio?: string | null
           birth_date?: string | null
           city?: string | null
           created_at?: string
+          email?: string | null
           first_name?: string | null
           gender?: string | null
           id?: number
+          isPrimary?: boolean | null
           last_name?: string | null
+          phone?: string | null
+          social_security_number?: string | null
           state?: string | null
           user_id?: string | null
         }
         Update: {
+          address?: string | null
+          alternative_names?: string | null
+          bio?: string | null
           birth_date?: string | null
           city?: string | null
           created_at?: string
+          email?: string | null
           first_name?: string | null
           gender?: string | null
           id?: number
+          isPrimary?: boolean | null
           last_name?: string | null
+          phone?: string | null
+          social_security_number?: string | null
           state?: string | null
           user_id?: string | null
         }
@@ -461,6 +482,47 @@ export type Database = {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      settings: {
+        Row: {
+          allow_multi_device_login: boolean | null
+          created_at: string
+          deleted: boolean | null
+          id: number
+          receive_marketing_emails: boolean | null
+          receive_status_updates: string | null
+          require_multi_factor_verification: boolean | null
+          user_id: string | null
+        }
+        Insert: {
+          allow_multi_device_login?: boolean | null
+          created_at?: string
+          deleted?: boolean | null
+          id?: number
+          receive_marketing_emails?: boolean | null
+          receive_status_updates?: string | null
+          require_multi_factor_verification?: boolean | null
+          user_id?: string | null
+        }
+        Update: {
+          allow_multi_device_login?: boolean | null
+          created_at?: string
+          deleted?: boolean | null
+          id?: number
+          receive_marketing_emails?: boolean | null
+          receive_status_updates?: string | null
+          require_multi_factor_verification?: boolean | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]

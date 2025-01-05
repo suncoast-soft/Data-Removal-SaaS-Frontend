@@ -33,7 +33,7 @@ export default async function ActivateRemoval({
 
         <Alert variant="destructive" className="max-w-3xl mx-auto">
           <Info className="h-4 w-4" />
-          <AlertTitle>{`Activating Removal Service for ${profile.first_name} ${profile.last_name}`}</AlertTitle>
+          <AlertTitle>{`Activating Removal Service for ${profile?.first_name} ${profile?.last_name}`}</AlertTitle>
           <AlertDescription>
             You cannot swap profiles once the service is activated.
           </AlertDescription>

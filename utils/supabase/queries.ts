@@ -35,6 +35,28 @@ export const getProfile = cache(
   }
 )
 
+export const getPrimaryProfile = cache(
+  async (supabase: SupabaseClient, id: string) => {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .match({ user_id: id, isPrimary: true })
+      .single()
+    return profile
+  }
+)
+
+export const getSettings = cache(
+  async (supabase: SupabaseClient, id: string) => {
+    const { data: setting } = await supabase
+      .from('settings')
+      .select('*')
+      .eq('user_id', id)
+      .single()
+    return setting
+  }
+)
+
 export const getSearches = cache(
   async (supabase: SupabaseClient, id: string) => {
     const { data: searches } = await supabase

@@ -2,14 +2,14 @@ export const getURL = (path: string = '') => {
   // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL &&
-    process.env.NEXT_PUBLIC_SITE_URL.trim() !== ''
+      process.env.NEXT_PUBLIC_SITE_URL.trim() !== ''
       ? process.env.NEXT_PUBLIC_SITE_URL
       : // If not set, check for NEXT_PUBLIC_VERCEL_URL, which is automatically set by Vercel.
-        process?.env?.NEXT_PUBLIC_VERCEL_URL &&
-          process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ''
+      process?.env?.NEXT_PUBLIC_VERCEL_URL &&
+        process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ''
         ? process.env.NEXT_PUBLIC_VERCEL_URL
         : // If neither is set, default to localhost for local development.
-          'http://localhost:3000/'
+        'http://localhost:3000/'
 
   // Trim the URL and remove trailing slash if exists.
   url = url.replace(/\/+$/, '')
@@ -194,4 +194,29 @@ export const isRemovalActive = (pricing: {
   }
 
   return now < expirationDate
+}
+export const phoneRegex = new RegExp(
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+)
+export function splitName(fullName?: string) {
+  // Trim any leading/trailing spaces and split the name by spaces
+  const nameParts = fullName?.trim().split(/\s+/);
+
+  // If there's only one part, we can consider it as the first name
+  if (nameParts?.length === 1) {
+    return {
+      firstName: nameParts[0],
+      lastName: ''
+    };
+  }
+
+  // If there are more than one part, the first part is the first name,
+  // and the rest are considered as the last name
+  const first_name = nameParts?.[0];
+  const last_name = nameParts?.slice(1).join(' ');
+
+  return {
+    first_name,
+    last_name
+  };
 }
