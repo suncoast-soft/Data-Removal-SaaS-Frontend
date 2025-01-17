@@ -47,7 +47,7 @@ const useOptions = () => {
   return options
 }
 
-export default function StripeCheckout({ user }: { user: User | null }) {
+export default function StripeCheckout({ user }: { user?: User }) {
   const [loading, setLoading] = useState(false)
   const stripe = useStripe()
   const elements = useElements()

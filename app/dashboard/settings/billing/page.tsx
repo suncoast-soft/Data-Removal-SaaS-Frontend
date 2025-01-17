@@ -1,23 +1,18 @@
 import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
 import { isRemovalActive } from '@/utils/helpers'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
-import {
-  getPricingPlans,
-  getPrimaryProfile,
-  getUser
-} from '@/utils/supabase/queries'
+import { getPricingPlan, getUser } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 
 export default async function Billing() {
   const supabase = createClient()
   const user = await getUser(supabase)
-  const primaryProfile = await getPrimaryProfile(supabase, user?.id ?? '')
 
   const invoices = await listInvoices(user?.id ?? '')
 
   const paymentMethods = await listPaymentMethods(user?.id ?? '')
 
-  const pricing = await getPricingPlans(supabase, primaryProfile.id)
+  const pricing = await getPricingPlan(supabase)
   const removalActivated = pricing ? isRemovalActive(pricing) : false
 
   const isPaidUser = true || removalActivated

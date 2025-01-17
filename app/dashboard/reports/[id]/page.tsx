@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { isRemovalActive } from '@/utils/helpers'
 import {
   getSearches,
-  getPricingPlans,
+  getPricingPlan,
   getProfile
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
@@ -22,7 +22,7 @@ export default async function Report({ params }: { params: { id: string } }) {
   const [profile, searches, pricing] = await Promise.all([
     getProfile(supabase, params.id),
     getSearches(supabase, params.id),
-    getPricingPlans(supabase, Number(params.id))
+    getPricingPlan(supabase)
   ])
 
   const brokerSearches = searches?.filter(

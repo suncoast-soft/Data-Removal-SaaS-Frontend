@@ -6,6 +6,7 @@ import { PropsWithChildren, Suspense } from 'react'
 import { getURL } from '@/utils/helpers'
 import { createClient } from '@/utils/supabase/server'
 import 'styles/main.css'
+import { getUser } from '@/utils/supabase/queries'
 
 const title = 'Pup Erase'
 const description = 'Removal of unwanted data from the internet'
@@ -22,10 +23,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createClient()
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+  const user = await getUser(supabase)
 
   return (
     <html lang="en">

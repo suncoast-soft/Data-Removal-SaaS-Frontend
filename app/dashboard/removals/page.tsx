@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { Tables } from '@/types_db'
 import { cn } from '@/utils/cn'
 import { getAgeFromBirth, isRemovalActive } from '@/utils/helpers'
-import { getPricingPlans, getProfiles, getUser } from '@/utils/supabase/queries'
+import { getPricingPlan, getProfiles, getUser } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { BadgeCheck, TriangleAlert } from 'lucide-react'
 import Image from 'next/image'
@@ -36,8 +36,8 @@ export default async function Dashboard() {
   }
 
   const ProfileCard = async ({ profile }: { profile: Profile }) => {
-    const pricing = await getPricingPlans(supabase, profile.id)
-    const removalActivated = pricing ? isRemovalActive(pricing) : false
+    const pricing = await getPricingPlan(supabase)
+    const removalActivated = pricing && isRemovalActive(pricing)
 
     return (
       <Card

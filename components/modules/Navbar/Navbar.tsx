@@ -1,4 +1,5 @@
 'use client'
+
 import Link from 'next/link'
 import LogoText from '@/components/icons/LogoText'
 import { Button } from '@/components/ui/button'
@@ -28,6 +29,7 @@ export default async function Navbar({ user }: { user: User | null }) {
   const pathname = usePathname()
   const isDashboardLayout = pathname?.split('/')[1] === 'dashboard'
   if (isDashboardLayout) return null
+
   return (
     <nav className="sticky top-0 bg-darkMain z-40 transition-all duration-150 h-16 md:h-20 shadow-sm">
       <a href="#skip" className="sr-only focus:not-sr-only">

@@ -1,5 +1,5 @@
 import {
-  getPricingPlans,
+  getPricingPlan,
   getPrimaryProfile,
   getUser
 } from '@/utils/supabase/queries'
@@ -16,9 +16,10 @@ import { isRemovalActive } from '@/utils/helpers'
 export default async function Dashboard() {
   const supabase = createClient()
   const user = await getUser(supabase)
-  const primaryProfile = await getPrimaryProfile(supabase, user?.id ?? '')
-  const pricing = await getPricingPlans(supabase, primaryProfile.id)
-  const removalActivated = pricing ? isRemovalActive(pricing) : false
+
+  const primaryProfile = await getPrimaryProfile(supabase)
+  const pricing = await getPricingPlan(supabase)
+  const removalActivated = pricing && isRemovalActive(pricing)
 
   const isPaidUser = true || removalActivated
 

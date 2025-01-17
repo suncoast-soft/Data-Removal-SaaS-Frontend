@@ -35,16 +35,17 @@ export const getProfile = cache(
   }
 )
 
-export const getPrimaryProfile = cache(
-  async (supabase: SupabaseClient, id: string) => {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('*')
-      .match({ user_id: id, isPrimary: true })
-      .single()
-    return profile
-  }
-)
+export const getPrimaryProfile = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .match({ user_id: user.id, isPrimary: true })
+    .single()
+  return profile
+})
 
 export const getSettings = cache(
   async (supabase: SupabaseClient, id: string) => {
@@ -67,13 +68,14 @@ export const getSearches = cache(
   }
 )
 
-export const getPricingPlans = cache(
-  async (supabase: SupabaseClient, id: number) => {
-    const { data: pricing } = await supabase
-      .from('pricing')
-      .select('*')
-      .eq('profile_id', id)
-      .single()
-    return pricing
-  }
-)
+export const getPricingPlan = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: pricing } = await supabase
+    .from('pricing')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+  return pricing
+})

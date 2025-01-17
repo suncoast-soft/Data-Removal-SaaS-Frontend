@@ -9,10 +9,9 @@ import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
 import { cn } from '@/utils/cn'
 import BillingHistoryTable from '../Billing/BillingHistoryTable'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { User } from '@supabase/supabase-js'
 import { formatDate } from 'date-fns'
-import Loading from '../Loading/Loading'
 import { Mail } from 'lucide-react'
 
 export default function CustomerPortalForm({
@@ -129,7 +128,7 @@ export default function CustomerPortalForm({
                 'w-full lg:w-[271px] z-10 font-bold flex items-center gap-2 text-darkMain border-darkMain border-2 capitalize',
                 isPaidUser
                   ? 'border-darkMain bg-darkMain hover:bg-darkMain/90 text-white'
-                  : ' border-orangeMain'
+                  : ' border-secondary'
               )}
               type="button"
               asChild
@@ -178,7 +177,7 @@ export default function CustomerPortalForm({
                       </p>
                       {item.billing_details.email ? (
                         <div className="flex gap-2 items-center">
-                          <Mail className="w-5 h-5 text-greenMain" />{' '}
+                          <Mail className="w-5 h-5 text-primary" />{' '}
                           {item.billing_details.email}
                         </div>
                       ) : null}
@@ -186,7 +185,7 @@ export default function CustomerPortalForm({
                     <Button
                       type="button"
                       variant={'default'}
-                      className="bg-white hover:bg-orangeMain text-darkMain border-transparent w-full lg:w-[140px]"
+                      className="bg-white hover:bg-secondary text-darkMain border-transparent w-full lg:w-[140px]"
                       onClick={handleStripePortalRequest}
                     >
                       Edit
@@ -214,7 +213,7 @@ export default function CustomerPortalForm({
             <p className="text-sm text-center lg:text-right mt-2 lg:mt-10 text-white w-full">
               Powered by{' '}
               <a
-                className="text-greenMain font-bold no-underline border-b border-greenMain leading-3"
+                className="text-primary font-bold no-underline border-b border-primary leading-3"
                 href="https://stripe.com/"
               >
                 Stripe

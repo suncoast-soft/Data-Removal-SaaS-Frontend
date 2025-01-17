@@ -3,16 +3,14 @@ import CreateAccount from '@/components/modules/Landing/CreateAccount/CreateAcco
 import Features from '@/components/modules/Landing/Features'
 import Pricing from '@/components/modules/Landing/Pricing'
 import Process from '@/components/modules/Landing/Process/Process'
+import { getUser } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
 export default async function HomePage() {
   const supabase = createClient()
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+  const user = await getUser(supabase)
 
   if (user) {
     return redirect('/dashboard/reports')
