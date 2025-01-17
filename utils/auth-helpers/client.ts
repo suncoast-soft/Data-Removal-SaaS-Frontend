@@ -10,7 +10,9 @@ export async function handleRequest(
   data: {
     [key: string]: string | number | boolean
   },
-  requestFunc: (data: { [key: string]: string | number | boolean }) => Promise<string | void>,
+  requestFunc: (data: {
+    [key: string]: string | number | boolean
+  }) => Promise<string | void>,
   router: AppRouterInstance | null = null
 ): Promise<boolean | void> {
   const redirectUrl: string | void = await requestFunc(data)
@@ -20,8 +22,7 @@ export async function handleRequest(
     return router.push(redirectUrl, { scroll: false })
   } else {
     // Otherwise, redirect server-side
-    if (redirectUrl)
-      return await redirectToPath(redirectUrl)
+    if (redirectUrl) return await redirectToPath(redirectUrl)
   }
 }
 
