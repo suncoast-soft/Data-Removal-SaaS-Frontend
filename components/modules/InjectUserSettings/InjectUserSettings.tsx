@@ -7,13 +7,13 @@ import { useEffect } from 'react'
 
 export default function InjectUserSettings({ user }: { user: User }) {
   const router = useRouter()
-  useEffect(() => {
-    if (user) injectSettings()
-  }, [user])
 
-  const injectSettings = async () => {
-    await handleRequest({ id: user?.id ?? '' }, createUserSettings, router)
-  }
+  useEffect(() => {
+    const injectSettings = async () => {
+      await handleRequest({ id: user?.id ?? '' }, createUserSettings, router)
+    }
+    if (user) injectSettings()
+  }, [router, user])
 
   return null
 }

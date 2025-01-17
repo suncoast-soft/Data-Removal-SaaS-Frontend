@@ -9,9 +9,6 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-// import { updateEmail } from '@/utils/auth-helpers/server'
-import { handleRequest } from '@/utils/auth-helpers/client'
-import { useRouter } from 'next/navigation'
 import {
   Form,
   FormControl,
@@ -34,8 +31,6 @@ export default function EmailForm({
 }: {
   userEmail: string | undefined
 }) {
-  const router = useRouter()
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
   })

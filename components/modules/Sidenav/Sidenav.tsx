@@ -32,7 +32,7 @@ interface NavProps {
   isPaidUser?: boolean
 }
 
-function DesktopNav({ navs, user, isPaidUser }: NavProps) {
+function DesktopNav({ navs, isPaidUser }: NavProps) {
   const currentPath = usePathname()
   const [search, setSearch] = useState('')
   return (
@@ -87,13 +87,13 @@ function DesktopNav({ navs, user, isPaidUser }: NavProps) {
             ))}
           </div>
         </div>
-        <FooterOptions user={user} isPaidUser={isPaidUser} />
+        <FooterOptions isPaidUser={isPaidUser} />
       </nav>
     </aside>
   )
 }
 
-function MobileNav({ navs, user, isPaidUser }: NavProps) {
+function MobileNav({ navs, isPaidUser }: NavProps) {
   const currentPath = usePathname()
 
   return (
@@ -145,20 +145,14 @@ function MobileNav({ navs, user, isPaidUser }: NavProps) {
             ))}
           </div>
 
-          <FooterOptions user={user} isPaidUser={isPaidUser} />
+          <FooterOptions isPaidUser={isPaidUser} />
         </nav>
       </SheetContent>
     </Sheet>
   )
 }
 
-const FooterOptions = ({
-  user,
-  isPaidUser
-}: {
-  user: User
-  isPaidUser?: boolean
-}) => {
+const FooterOptions = ({ isPaidUser }: { isPaidUser?: boolean }) => {
   return (
     isPaidUser && (
       <div className="pt-[20px] mt-2 flex flex-col gap-2 shadow-[0_-4px_8px_-4px_rgba(0,0,0,0.2)]">

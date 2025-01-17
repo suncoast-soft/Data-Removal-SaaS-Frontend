@@ -1,4 +1,6 @@
 'use client'
+
+import React from 'react'
 import ResultCharts from '@/components/modules/Dashboard/ResultCharts'
 import Tags from '@/components/modules/Dashboard/Tags'
 import ResultTabs from '@/components/modules/Dashboard/ResultTabs'
@@ -8,99 +10,53 @@ import SocialPlatformResultsTab from '@/components/modules/Dashboard/SocialPlatf
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import SearchResultTable from '@/components/modules/Dashboard/SearchResultTable'
-import { User } from '@supabase/supabase-js'
 import { Tables } from '@/types_db'
 import useResult from '@/hooks/useResult'
 
 type Profile = Tables<'profiles'>
 
-export default function DashboardRoot({
-  user,
-  primaryProfile,
-  isPaidUser
-}: {
-  user: User | null
+interface DashboardRootProps {
   primaryProfile: Profile | null
   isPaidUser?: boolean
-}) {
-  const { googleResultData, brokerResultData } = useResult(primaryProfile)
-  const tags = [
-    { label: 'phone number' },
-    { label: 'ssn' },
-    { label: 'address' },
-    { label: 'employer' },
-    { label: 'ssn' },
-    { label: 'phone number' },
-    { label: 'employer' },
-    { label: 'address' },
-    { label: 'ssn' },
-    { label: 'address' },
-    { label: 'employer' },
-    { label: 'phone number' },
-    { label: 'address' },
-    { label: 'ssn' },
-    { label: 'address' }
+}
+
+export default function DashboardRoot({
+  primaryProfile,
+  isPaidUser = false
+}: DashboardRootProps) {
+  const { googleResultData } = useResult(primaryProfile)
+
+  // Tags and Categories
+  const tags = Array(15).fill({ label: 'phone number' })
+  const proTags = tags.map((tag, index) => ({
+    ...tag,
+    variant: index % 2 === 0 ? 'secondary' : 'outline'
+  }))
+  const freeCategories = [
+    { count: '300', title: 'sites searched', isFill: true },
+    { count: '137', title: 'sites found', isFill: true },
+    { count: '0/100', title: 'search results removed' },
+    { count: '0/100', title: 'broker reports removed' }
   ]
-  const proTags = [
-    { label: 'phone number', variant: 'outline' },
-    { label: 'ssn', variant: 'outline' },
-    { label: 'address', variant: 'secondary' },
-    { label: 'employer', variant: 'secondary' },
-    { label: 'ssn', variant: 'secondary' },
-    { label: 'phone number', variant: 'secondary' },
-    { label: 'employer' },
-    { label: 'address' },
-    { label: 'ssn' },
-    { label: 'address' },
-    { label: 'employer' },
-    { label: 'phone number' },
-    { label: 'address' },
-    { label: 'ssn' },
-    { label: 'address' }
+  const proCategories = [
+    { count: '40/100', title: 'search engine results removed' },
+    { count: '3/7', title: 'data broker results removed' }
   ]
+
+  // Tab Definitions
   const tabs = [
-    {
-      value: 'google',
-      name: 'Google',
-      count: 200
-    },
+    { value: 'google', name: 'Google', count: 200 },
     { value: 'bing', name: 'Bing', count: 32 },
-    {
-      value: 'duckduckgo',
-      name: 'Duck Duck Go',
-      count: 18
-    },
-    {
-      value: 'yahoo',
-      name: 'Yahoo',
-      count: 11
-    },
-    {
-      value: 'brokers',
-      name: 'Data Brokers',
-      count: 37
-    }
+    { value: 'duckduckgo', name: 'Duck Duck Go', count: 18 },
+    { value: 'yahoo', name: 'Yahoo', count: 11 },
+    { value: 'brokers', name: 'Data Brokers', count: 37 }
   ]
   const paidTabs = [
-    {
-      value: 'queue',
-      name: 'In Queue',
-      count: 135
-    },
+    { value: 'queue', name: 'In Queue', count: 135 },
     { value: 'in_progress', name: 'In Progress', count: 3 },
-    {
-      value: 'erased',
-      name: 'Successfully Erased',
-      count: 1
-    },
-    {
-      value: 'action_required',
-      name: 'Your Action Required'
-    },
-    {
-      value: 'unable_to_remove',
-      name: 'Unable to Remove'
-    }
+    { value: 'erased', name: 'Successfully Erased', count: 1 },
+    { value: 'action_required', name: 'Your Action Required' },
+    { value: 'unable_to_remove', name: 'Unable to Remove' }
   ]
 
   const brokersResult = [
@@ -123,49 +79,34 @@ export default function DashboardRoot({
     }
   ]
 
-  const googleResults = [
-    {
-      name: 'Congratulations Joe | Scouts BSA Troops 279...',
-      url: 'www.website.org',
-      subUrl: 'https://www.scouttroop279.org/2024/11/07/',
-      date: 'Nov 7, 2024 ... Tonight November 7th 2024'
-    },
-    {
-      name: 'Congratulations Joe | Scouts BSA Troops 279...',
-      url: 'www.website.org',
-      subUrl: 'https://www.scouttroop279.org/2024/11/07/',
-      date: 'Nov 7, 2024 ... Tonight November 7th 2024'
-    },
-    {
-      name: 'Congratulations Joe | Scouts BSA Troops 279...',
-      url: 'www.website.org',
-      subUrl: 'https://www.scouttroop279.org/2024/11/07/',
-      date: 'Nov 7, 2024 ... Tonight November 7th 2024'
-    },
-    {
-      name: 'Congratulations Joe | Scouts BSA Troops 279...',
-      url: 'www.website.org',
-      subUrl: 'https://www.scouttroop279.org/2024/11/07/',
-      date: 'Nov 7, 2024 ... Tonight November 7th 2024'
-    }
-  ]
+  const googleResults = Array(4).fill({
+    name: 'Congratulations Joe | Scouts BSA Troops 279...',
+    url: 'www.website.org',
+    subUrl: 'https://www.scouttroop279.org/2024/11/07/',
+    date: 'Nov 7, 2024 ... Tonight November 7th 2024'
+  })
 
-  const freeCategories = [
-    { count: '300', title: 'sites searched', isFill: true },
-    { count: '137', title: 'sites found', isFill: true },
-    { count: '0/100', title: 'search results removed' },
-    { count: '0/100', title: 'broker reports removed' }
-  ]
+  const chartCategories = isPaidUser ? proCategories : freeCategories
 
-  const proCategories = [
-    { count: '40/100', title: 'search engine results removed' },
-    { count: '3/7', title: 'data broker results removed' }
-  ]
+  // Render Tab Content
+  const renderTabsContent = (value: string) => {
+    const isBrokersTab = value === 'brokers'
+    const data = googleResultData.length ? googleResultData : googleResults
+
+    return isBrokersTab ? (
+      <BrokersTabContent data={brokersResult} />
+    ) : isPaidUser ? (
+      <SearchResultTable data={data} />
+    ) : (
+      <SocialPlatformResultsTab data={data} />
+    )
+  }
 
   return (
     <>
+      {/* Chart Section */}
       <ResultCharts
-        categories={isPaidUser ? proCategories : freeCategories}
+        categories={chartCategories}
         heroImage="/free-dashboard-image.png"
         title={
           isPaidUser
@@ -175,118 +116,50 @@ export default function DashboardRoot({
         subtitle={
           isPaidUser
             ? 'We are already hard at work removing your data'
-            : 'Don’t worry, we’re here to erase them for you '
+            : 'Don’t worry, we’re here to erase them for you'
         }
-        wrapperClassName={`[&>div>p]:!mt-4 [&>div>p]:mb-10 max-w-[1068px] ${isPaidUser ? '[&>div>div>span]:flex-1' : ''}`}
+        wrapperClassName={`max-w-[1068px] ${
+          isPaidUser ? '[&>div>div>span]:flex-1' : ''
+        }`}
       />
-      <div className="mt-6 mb-[60px] lg:my-6">
+
+      {/* Tags Section */}
+      <div className="mt-6 mb-16 lg:my-6">
         <Tags tags={isPaidUser ? proTags : tags} />
       </div>
-      <hr className="my-4 border-darkMain/10 border-[1.4px] mt-6 hidden lg:block mb-[50px] " />
-      <h2 className="text-2xl lg:text-[32px] lg:leading-[35px] font-bold text-center ">
+
+      <hr className="my-4 border-darkMain/10 hidden lg:block" />
+
+      {/* Tabs Section */}
+      <h2 className="text-2xl lg:text-4xl font-bold text-center">
         {isPaidUser ? 'Stay up to date on your removals' : 'Search Results'}
       </h2>
-
-      <div className="mt-[25px] lg:mt-[60px]">
+      <div className="mt-6 lg:mt-16">
         <ResultTabs
-          defaultValue={isPaidUser ? 'queue' : 'brokers'}
+          defaultValue={isPaidUser ? 'queue' : 'google'}
           tabs={isPaidUser ? paidTabs : tabs}
-          // onChange={}
         >
+          {/* Search Input */}
           <div className="flex flex-wrap justify-between items-center">
-            {isPaidUser ? (
-              <h3 className="text-center lg:text-left text-2xl font-bold ">
-                135 Removals Queued
-              </h3>
-            ) : (
-              <div />
+            {isPaidUser && (
+              <h3 className="text-2xl font-bold">135 Removals Queued</h3>
             )}
-
-            <div className="relative w-full lg:w-[224px] ml-auto mb-4">
-              <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                <Search className="w-[24px] h-[24px] text-greenMain" />
-              </div>
+            <div className="relative w-full lg:w-56 ml-auto mb-4">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-greenMain" />
               <Input
                 type="text"
                 placeholder="Search for..."
-                // value={search}
-                // onChange={(e) => setSearch(e.target.value)}
-                className="pl-[48px] bg-transparent border-darkMain border-[1.4px] [&::placeholder]:text-darkMain [&::placeholder]:opacity-60 text-greenMain text-base h-12"
+                className="pl-12 bg-transparent border-darkMain border text-base h-12"
               />
             </div>
           </div>
-          <TabsContent value={isPaidUser ? 'queue' : 'google'}>
-            {isPaidUser ? (
-              <SearchResultTable
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            ) : (
-              <SocialPlatformResultsTab
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            )}
-          </TabsContent>
 
-          <TabsContent value={isPaidUser ? 'in_progress' : 'bing'}>
-            {isPaidUser ? (
-              <SearchResultTable
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            ) : (
-              <SocialPlatformResultsTab
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            )}
-          </TabsContent>
-          <TabsContent value={isPaidUser ? 'erased' : 'duckduckgo'}>
-            {isPaidUser ? (
-              <SearchResultTable
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            ) : (
-              <SocialPlatformResultsTab
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            )}
-          </TabsContent>
-          <TabsContent value={isPaidUser ? 'action_required' : 'yahoo'}>
-            {isPaidUser ? (
-              <SearchResultTable
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            ) : (
-              <SocialPlatformResultsTab
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            )}
-          </TabsContent>
-          <TabsContent value={isPaidUser ? 'unable_to_remove' : 'brokers'}>
-            {isPaidUser ? (
-              <SearchResultTable
-                data={
-                  googleResultData.length ? googleResultData : googleResults
-                }
-              />
-            ) : (
-              <BrokersTabContent data={brokersResult} />
-            )}
-          </TabsContent>
+          {/* Dynamic Tab Content */}
+          {(isPaidUser ? paidTabs : tabs).map((tab) => (
+            <TabsContent key={tab.value} value={tab.value}>
+              {renderTabsContent(tab.value)}
+            </TabsContent>
+          ))}
         </ResultTabs>
       </div>
     </>

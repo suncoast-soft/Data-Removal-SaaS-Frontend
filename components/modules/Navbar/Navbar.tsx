@@ -1,11 +1,8 @@
-'use client'
-
 import Link from 'next/link'
 import LogoText from '@/components/icons/LogoText'
 import { Button } from '@/components/ui/button'
 import Menu from './Menu'
 import { User } from '@supabase/supabase-js'
-import { usePathname } from 'next/navigation'
 
 export default async function Navbar({ user }: { user: User | null }) {
   const navLinks = [
@@ -26,9 +23,6 @@ export default async function Navbar({ user }: { user: User | null }) {
       name: 'Contact'
     }
   ]
-  const pathname = usePathname()
-  const isDashboardLayout = pathname?.split('/')[1] === 'dashboard'
-  if (isDashboardLayout) return null
 
   return (
     <nav className="sticky top-0 bg-darkMain z-40 transition-all duration-150 h-16 md:h-20 shadow-sm">

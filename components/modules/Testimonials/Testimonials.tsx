@@ -37,7 +37,9 @@ export default function Testimonials() {
               <CardTitle>{card.image}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-lg italic text-center">"{card.text}"</p>
+              <p className="text-lg italic text-center">
+                &quot;{card.text}&quot;
+              </p>
               <p className="mt-3 text-base font-bold text-center">
                 - {card.name}
               </p>

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-const LogoIcon = ({ ...props }) => (
+const LogoIcon = () => (
   <Image
     src="/logo-icon.svg"
     width={80}

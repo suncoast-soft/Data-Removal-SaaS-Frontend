@@ -1,8 +1,4 @@
-import {
-  getPricingPlan,
-  getPrimaryProfile,
-  getUser
-} from '@/utils/supabase/queries'
+import { getPricingPlan, getPrimaryProfile } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import UpgradeSection from '@/components/modules/Dashboard/UpgradeSection'
@@ -15,7 +11,6 @@ import { isRemovalActive } from '@/utils/helpers'
 
 export default async function Dashboard() {
   const supabase = createClient()
-  const user = await getUser(supabase)
 
   const primaryProfile = await getPrimaryProfile(supabase)
   const pricing = await getPricingPlan(supabase)
@@ -28,7 +23,6 @@ export default async function Dashboard() {
       <div className="container mx-auto max-w-[1132px]">
         <DashboardRoot
           primaryProfile={primaryProfile}
-          user={user}
           isPaidUser={isPaidUser}
         />
         {!isPaidUser && (

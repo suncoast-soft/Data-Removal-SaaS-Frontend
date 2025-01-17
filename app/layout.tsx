@@ -5,8 +5,9 @@ import { Toaster } from '@/components/ui/toaster'
 import { PropsWithChildren, Suspense } from 'react'
 import { getURL } from '@/utils/helpers'
 import { createClient } from '@/utils/supabase/server'
-import 'styles/main.css'
 import { getUser } from '@/utils/supabase/queries'
+import { Figtree } from 'next/font/google'
+import 'styles/main.css'
 
 const title = 'Pup Erase'
 const description = 'Removal of unwanted data from the internet'
@@ -21,20 +22,18 @@ export const metadata: Metadata = {
   }
 }
 
+const figtree = Figtree({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-figtree'
+})
+
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createClient()
   const user = await getUser(supabase)
 
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${figtree.variable}`}>
       <body className="bg-white">
         <Navbar user={user} />
 

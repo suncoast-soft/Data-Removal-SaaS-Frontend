@@ -1,44 +1,62 @@
 'use client'
+
 import MenuIcon from '@/components/icons/MenuIcon'
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-export default function Menu({ navLinks }: any) {
-  const [toggle, setToggle] = useState(false)
+interface NavLink {
+  name: string
+  link: string
+}
+
+export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <>
+      {/* Hamburger Menu Button */}
       <Button
-        variant={'link'}
-        className="lg:hidden hover:no-underline p-0"
-        onClick={() => setToggle(!toggle)}
+        variant="link"
+        className="lg:hidden p-0 hover:no-underline"
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+        aria-label="Toggle Menu"
       >
         <MenuIcon />
       </Button>
-      {toggle && (
-        <div className="fixed left-0 top-0 flex flex-col px-4 py-5 gap-6 lg:hidden bg-darkMain/90 w-full h-screen pt-12">
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-darkMain/90 flex flex-col items-start gap-6 px-4 py-5 lg:hidden pt-12 z-50">
+          {/* Close Button */}
           <X
-            className="text-orangeMain text-xl cursor-pointer absolute right-4 top-4"
-            onClick={() => setToggle(false)}
+            className="text-orangeMain text-xl absolute right-4 top-4 cursor-pointer"
+            onClick={() => setIsMenuOpen(false)}
+            aria-label="Close Menu"
           />
+
+          {/* Navigation Links */}
           <nav className="ml-6 flex flex-col gap-7">
-            {navLinks.map((nav: any, index: number) => (
+            {navLinks.map((nav, index) => (
               <Link
                 key={index}
                 href={nav.link}
-                className="inline-flex items-center text-lg leading-[18px] font-medium transition ease-in-out duration-75 cursor-pointer text-white rounded-md p-1 hover:text-gray-300"
+                className="text-lg font-medium leading-[18px] text-white transition hover:text-gray-300 rounded-md p-1"
+                onClick={() => setIsMenuOpen(false)} // Close menu on link click
               >
                 {nav.name}
               </Link>
             ))}
           </nav>
-          <Button variant="default" asChild className="h-[54px]">
+
+          {/* Action Buttons */}
+          <Button variant="default" asChild className="h-14 w-full">
             <Link href="/signin/signup" className="no-underline">
               Get started
             </Link>
           </Button>
-          <Button variant="secondary" asChild className="h-[54px]">
+          <Button variant="secondary" asChild className="h-14 w-full">
             <Link href="/signin" className="no-underline">
               Sign In
             </Link>

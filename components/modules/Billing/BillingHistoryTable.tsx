@@ -12,77 +12,105 @@ import { Checkbox } from '@/components/ui/checkbox'
 import InvoiceIcon from '@/components/icons/InvoiceIcon'
 import { cn } from '@/utils/cn'
 
-export default function BillingHistoryTable({ data }: any) {
+interface BillingHistoryTableProps {
+  data: {
+    name: string
+    status: string
+    date: string
+    amount: string
+    user: number
+    invoice_pdf: string
+  }[]
+}
+
+export default function BillingHistoryTable({
+  data
+}: BillingHistoryTableProps) {
   return (
-    <div className="mt-6 mb-8 rounded-2xl border border-darkMain/20 bg-[#342E3705] overflow-x-auto max-w-[calc(100vw-32px)]">
-      <Table className="">
+    <div className="mt-6 mb-8 rounded-2xl border border-darkMain/20 bg-[#342E3705] overflow-x-auto">
+      <Table>
+        {/* Table Header */}
         <TableHeader>
-          <TableRow className="bg-darkMain hover:bg-transparent h-[60px]">
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-base text-white rounded-tl-2xl lg:min-w-[331px]"></TableHead>
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-base text-white ">
+          <TableRow className="bg-darkMain text-white h-14">
+            <TableHead className="font-bold text-sm lg:text-base rounded-tl-2xl"></TableHead>
+            <TableHead className="font-bold text-sm lg:text-base">
               Billing Date
             </TableHead>
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-base text-white ">
+            <TableHead className="font-bold text-sm lg:text-base">
               Amount
             </TableHead>
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-base text-white ">
+            <TableHead className="font-bold text-sm lg:text-base">
               Plan
             </TableHead>
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-medium text-sm lg:text-base text-white">
+            <TableHead className="font-medium text-sm lg:text-base">
               Users
             </TableHead>
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-medium text-sm lg:text-base text-white"></TableHead>
-            <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-medium text-sm lg:text-base text-white rounded-tr-2xl"></TableHead>
+            <TableHead className="font-medium text-sm lg:text-base"></TableHead>
+            <TableHead className="font-medium text-sm lg:text-base rounded-tr-2xl"></TableHead>
           </TableRow>
         </TableHeader>
 
+        {/* Table Body */}
         <TableBody>
-          {data.map((item: any) => (
-            <TableRow className="h-[84px]">
-              <TableCell className=" font-medium text-darkMain">
+          {data.map((item, index) => (
+            <TableRow key={index} className="h-20">
+              {/* Invoice Name and Status */}
+              <TableCell className="font-medium text-darkMain">
                 <div className="flex items-center gap-3">
-                  <Checkbox id="invoice-no" />
+                  <Checkbox id={`invoice-${index}`} />
                   <InvoiceIcon />
                   <p className="text-xs lg:text-lg font-semibold">
                     {item.name}
                   </p>
                   <div
                     className={cn(
-                      'min-w-[60px] bg-greenMain rounded-full text-darkMain flex items-center justify-center px-4 py-1 capitalize',
-                      item.status !== 'paid' ? 'bg-orangeMain' : ''
+                      'min-w-[60px] px-4 py-1 rounded-full text-sm text-center capitalize',
+                      item.status === 'paid'
+                        ? 'bg-greenMain text-darkMain'
+                        : 'bg-orangeMain text-darkMain'
                     )}
                   >
                     {item.status}
                   </div>
                 </div>
               </TableCell>
+
+              {/* Billing Date */}
               <TableCell className="font-medium">
                 <p className="text-xs lg:text-lg font-semibold">{item.date}</p>
               </TableCell>
+
+              {/* Amount */}
               <TableCell className="font-medium">
                 <p className="text-xs lg:text-lg font-semibold">
                   {item.amount}
                 </p>
               </TableCell>
 
+              {/* Plan */}
               <TableCell className="font-medium">
                 <p className="text-xs lg:text-lg font-semibold">Basic Plan</p>
               </TableCell>
 
+              {/* Users */}
               <TableCell className="font-medium">
                 <p className="text-xs lg:text-lg font-semibold">
                   {item.user} user
                 </p>
               </TableCell>
-              <TableCell className="font-medium ">
+
+              {/* Download Link */}
+              <TableCell>
                 <a href={item.invoice_pdf} className="no-underline">
-                  <span className="px-1 py-[5.5px] max-w-fit min-w-[91px] text-center bg-darkMain rounded-full text-[11px] font-semibold lg:px-[10.5px] leading-[17px] lg:text-xs text-white flex gap-1 items-center cursor-pointer hover:bg-darkMain/90">
-                    <Download className="w-[16px] h-[16px]" /> Download
+                  <span className="px-2 py-1 text-xs lg:text-sm font-semibold bg-darkMain text-white rounded-full flex items-center gap-1 cursor-pointer hover:bg-darkMain/90">
+                    <Download className="w-4 h-4" /> Download
                   </span>
                 </a>
               </TableCell>
-              <TableCell className="font-medium ">
-                <span className="w-[28px] h-[28px] rounded-full text-darkMain border-[1.4px] flex items-center justify-center cursor-pointer hover:bg-darkMain hover:text-white transition">
+
+              {/* Options */}
+              <TableCell>
+                <span className="w-7 h-7 rounded-full border border-darkMain text-darkMain flex items-center justify-center cursor-pointer hover:bg-darkMain hover:text-white transition">
                   <Ellipsis className="w-5 h-5" />
                 </span>
               </TableCell>

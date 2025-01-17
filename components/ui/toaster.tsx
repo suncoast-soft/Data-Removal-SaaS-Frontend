@@ -45,7 +45,7 @@ export function Toaster() {
       const redirectPath = `${pathname}?${newSearchParams.toString()}`
       router.replace(redirectPath, { scroll: false })
     }
-  }, [searchParams])
+  }, [pathname, router, searchParams, toast])
 
   return (
     <ToastProvider>

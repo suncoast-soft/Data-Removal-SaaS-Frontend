@@ -32,6 +32,7 @@ export default function EmailSignIn({
   allowPassword,
   redirectMethod
 }: EmailSignInProps) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = redirectMethod === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -88,7 +89,7 @@ export default function EmailSignIn({
               href="/signin/signup"
               className="font-medium text-sm text-primary"
             >
-              Don't have an account? Sign up
+              Don&apos;t have an account? Sign up
             </Link>
           </p>
         </div>

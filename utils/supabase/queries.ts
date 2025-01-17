@@ -47,16 +47,17 @@ export const getPrimaryProfile = cache(async (supabase: SupabaseClient) => {
   return profile
 })
 
-export const getSettings = cache(
-  async (supabase: SupabaseClient, id: string) => {
-    const { data: setting } = await supabase
-      .from('settings')
-      .select('*')
-      .eq('user_id', id)
-      .single()
-    return setting
-  }
-)
+export const getSettings = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: setting } = await supabase
+    .from('settings')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+  return setting
+})
 
 export const getSearches = cache(
   async (supabase: SupabaseClient, id: string) => {

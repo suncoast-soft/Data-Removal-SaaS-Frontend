@@ -1,269 +1,140 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
+
+const socialLinks = [
+  'facebook.png',
+  'twitter.png',
+  'instagram.png',
+  'linked-in.png',
+  'youtube.png'
+]
+
+const footerLinks = [
+  {
+    title: 'Product',
+    links: [
+      { label: 'Features', href: '/' },
+      { label: 'Pricing', href: '/' },
+      { label: 'Case studies', href: '/' },
+      { label: 'Reviews', href: '/' },
+      { label: 'Updates', href: '/' }
+    ]
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '/about' },
+      { label: 'Contact us', href: '/contact' },
+      { label: 'Careers', href: '/' },
+      { label: 'Culture', href: '/' },
+      { label: 'Blog', href: '/' }
+    ]
+  },
+  {
+    title: 'Support',
+    links: [
+      { label: 'Getting started', href: '/' },
+      { label: 'Help center', href: '/' },
+      { label: 'Server status', href: '/' },
+      { label: 'Report a bug', href: '/' },
+      { label: 'Chat support', href: '/' }
+    ]
+  },
+  {
+    title: 'Downloads',
+    links: [
+      { label: 'iOS', href: '/' },
+      { label: 'Android', href: '/' },
+      { label: 'Mac', href: '/' },
+      { label: 'Windows', href: '/' },
+      { label: 'Chrome', href: '/' }
+    ]
+  }
+]
 
 export default function Footer() {
-  const socialLinks = [
-    'facebook.png',
-    'twitter.png',
-    'instagram.png',
-    'linked-in.png',
-    'youtube.png'
-  ]
   return (
     <footer className="bg-lp-footer-bg text-darkMain py-10 lg:pt-[89px] lg:pb-[80px]">
-      <div className="container mx-auto px-2 lg:px-[110px]">
-        <div className="flex flex-wrap items-center lg:items-start justify-center gap-6 pb-8 lg:pb-[60px] transition-colors duration-150 border-b border-dashed border-gray-300">
-          <div className="w-[340px]">
-            <div className="flex flex-col gap-4 items-center lg:items-start justify-center lg:justify-start">
-              <Link
-                href="/"
-                className="flex items-center flex-initial font-bold md:mr-24 no-underline"
-              >
+      <div className="container mx-auto px-4 lg:px-[110px]">
+        {/* Top Section */}
+        <div className="flex flex-wrap items-start justify-center gap-6 pb-8 lg:pb-[60px] border-b border-dashed border-gray-300">
+          {/* Logo and Social Links */}
+          <div className="w-[340px] flex flex-col gap-4 items-center lg:items-start">
+            <Link href="/" className="flex items-center font-bold no-underline">
+              <Image
+                src="/lp-footer-logo.png"
+                width={261}
+                height={34}
+                alt="Logo"
+              />
+            </Link>
+            <p className="text-base lg:text-lg opacity-50 text-center lg:text-left">
+              Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam
+              mauris sed ma.
+            </p>
+            <div className="hidden lg:flex gap-2">
+              {socialLinks.map((link, index) => (
                 <Image
-                  src={'/lp-footer-logo.png'}
-                  width={261}
-                  height={34}
-                  alt={`Logo`}
+                  key={index}
+                  src={`/footer-social-icons/${link}`}
+                  width={36}
+                  height={36}
+                  alt={link.split('.')[0]}
                 />
-              </Link>
-
-              <p className="text-base lg:text-lg opacity-50 text-center lg:text-left">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam
-                mauris sed ma
-              </p>
-              <div className="gap-2 hidden lg:flex">
-                {socialLinks.map((item) => (
-                  <Image
-                    src={`/footer-social-icons/${item}`}
-                    width={36}
-                    height={36}
-                    alt={item}
-                  />
-                ))}
-              </div>
+              ))}
             </div>
           </div>
-          <div className="lg:flex-1 px-5 lg:px-0">
-            <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="pb-4 lg:pb-6">
-                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
-                  Product
-                </p>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Features
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Case studies
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Reviews
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Updates
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="lg:flex-1 px-5 lg:px-0">
-            <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="pb-4 lg:pb-6">
-                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
-                  COMPANY
-                </p>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/about"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  About
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/contact"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Contact us
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Careers
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Culture
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Blog
-                </Link>
-              </li>
-            </ul>
-          </div>
 
-          <div className="lg:flex-1 px-5 lg:px-0">
-            <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="pb-4 lg:pb-6">
-                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
-                  Support
-                </p>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Getting started
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Help center
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Server status
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Report a bug
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Chat support
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="lg:flex-1 px-5 lg:px-0">
-            <ul className="flex flex-col flex-initial md:flex-1">
-              <li className="pb-4 lg:pb-6">
-                <p className="font-bold text-xl transition duration-150 ease-in-out hover:text-gray-700">
-                  Downloads
-                </p>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  iOS
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Android
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Mac
-                </Link>
-              </li>
-              <li className="pb-2 lg:pb-[18px]">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Windows
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/"
-                  className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg leading-[18px]"
-                >
-                  Chrome
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="gap-2 flex lg:hidden mt-2">
-            {socialLinks.map((item) => (
+          {/* Footer Links */}
+          {footerLinks.map((section, index) => (
+            <div key={index} className="lg:flex-1 px-5 lg:px-0">
+              <ul className="flex flex-col">
+                <li className="pb-4 lg:pb-6">
+                  <p className="font-bold text-xl transition hover:text-gray-700">
+                    {section.title}
+                  </p>
+                </li>
+                {section.links.map((link, linkIndex) => (
+                  <li key={linkIndex} className="pb-2 lg:pb-[18px]">
+                    <Link
+                      href={link.href}
+                      className="transition hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Social Links for Small Screens */}
+          <div className="flex gap-2 lg:hidden mt-2">
+            {socialLinks.map((link, index) => (
               <Image
-                src={`/footer-social-icons/${item}`}
+                key={index}
+                src={`/footer-social-icons/${link}`}
                 width={36}
                 height={36}
-                alt={item}
+                alt={link.split('.')[0]}
               />
             ))}
           </div>
         </div>
+
+        {/* Bottom Section */}
         <div className="flex flex-col items-center justify-center pt-6 text-center text-sm">
-          <div>
-            <p className="text-sm">
-              Copyright &copy; {new Date().getFullYear()} Pup Erase <br />
-              All Rights Reserved
-            </p>
-            <Link
-              href="/"
-              className=" transition duration-150 ease-in-out hover:text-gray-700 no-underline border-b border-darkMain text-sm leading-[18px] font-semibold mt-1"
-            >
-              Terms and Conditions | Privacy Policy
-            </Link>
-          </div>
+          <p className="text-sm">
+            Copyright &copy; {new Date().getFullYear()} Pup Erase <br />
+            All Rights Reserved
+          </p>
+          <Link
+            href="/"
+            className="transition hover:text-gray-700 no-underline border-b border-darkMain text-sm font-semibold mt-1"
+          >
+            Terms and Conditions | Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>

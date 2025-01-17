@@ -11,7 +11,6 @@ import {
   FormItem,
   FormMessage
 } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from './helper-components'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -31,24 +30,26 @@ export default function VerifyOTPForm() {
     resolver: zodResolver(FormSchema)
   })
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit() {
     setIsSubmitting(true)
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 3000))
     setIsVerified(true)
     setIsSubmitting(false)
   }
+
   const handleResend = async () => {
     setIsResending(true)
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsResending(false)
   }
+
   useEffect(() => {
     if (isVerified) {
       router.push('/verify/otp?success=true')
     }
-  }, [isVerified])
+  }, [isVerified, router])
 
   return (
     <Form {...form}>

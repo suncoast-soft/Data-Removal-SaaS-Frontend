@@ -1,31 +1,59 @@
 import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
+import { Tables } from '@/types_db'
 import { isRemovalActive } from '@/utils/helpers'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
 import { getPricingPlan, getUser } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 
+interface Invoice {
+  lines: {
+    data: {
+      currency: string
+      amount: number
+      description: string
+    }[]
+  }
+  number: string
+  created: number
+  status: string
+  invoice_pdf: string
+}
+
+interface PaymentMethod {
+  card: {
+    brand: string
+    last4: string
+    exp_month: number
+    exp_year: number
+  }
+  billing_details: {
+    email?: string
+  }
+}
+
+type PricingPlan = Tables<'pricing_plans'>
+
 export default async function Billing() {
   const supabase = createClient()
+
   const user = await getUser(supabase)
 
-  const invoices = await listInvoices(user?.id ?? '')
+  const [invoices, paymentMethods, pricing] = await Promise.all([
+    listInvoices(user?.id ?? '') as Promise<{ data: Invoice[] }>,
+    listPaymentMethods(user?.id ?? '') as Promise<{ data: PaymentMethod[] }>,
+    getPricingPlan(supabase) as Promise<PricingPlan | null>
+  ])
 
-  const paymentMethods = await listPaymentMethods(user?.id ?? '')
-
-  const pricing = await getPricingPlan(supabase)
-  const removalActivated = pricing ? isRemovalActive(pricing) : false
-
-  const isPaidUser = true || removalActivated
+  const isPaidUser = pricing ? isRemovalActive(pricing) : false
 
   return (
-    <div className="pt-0 px-0 container mx-auto">
-      <h1 className="my-6 lg:my-0 text-[34px] lg:text-[50px] lg:leading-[55px] font-bold text-darkMain text-center lg:text-left">
+    <div className="container mx-auto pt-0 px-0">
+      <h1 className="my-6 text-2xl lg:text-4xl font-bold text-darkMain text-center lg:text-left">
         Billing Information
       </h1>
       <CustomerPortalForm
-        user={user}
-        invoicesData={invoices?.data}
-        paymentMethodsData={paymentMethods?.data}
+        invoicesData={invoices?.data ?? []}
+        paymentMethodsData={paymentMethods?.data ?? []}
         isPaidUser={isPaidUser}
       />
     </div>

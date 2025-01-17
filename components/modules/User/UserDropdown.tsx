@@ -26,7 +26,9 @@ import { useState } from 'react'
 import { Tables } from '@/types_db'
 
 interface NavlinksProps {
-  user?: any
+  user?: {
+    email: string
+  }
   profile?: Tables<'profiles'>
 }
 
@@ -35,13 +37,16 @@ const FormSchema = z.object({
 })
 
 export default function UserDropdown({ user, profile }: NavlinksProps) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = getRedirectMethod() === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const pathname = usePathname()
 
   const name =
     profile?.first_name && profile?.last_name
       ? `${profile.first_name} ${profile.last_name}`
-      : user.email
+      : user?.email || 'Guest'
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
@@ -49,18 +54,22 @@ export default function UserDropdown({ user, profile }: NavlinksProps) {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsSubmitting(true)
-    await handleRequest(data, SignOut, router)
-    setIsSubmitting(false)
+    try {
+      await handleRequest(data, SignOut, router)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <DropdownMenu modal={false}>
+      {/* Dropdown Trigger */}
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
           variant="default"
-          color="primary"
-          className="overflow-hidden rounded-full"
+          className="rounded-full overflow-hidden"
+          aria-label="User menu"
         >
           <Avatar>
             <AvatarFallback className="text-white bg-secondary">
@@ -69,16 +78,18 @@ export default function UserDropdown({ user, profile }: NavlinksProps) {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
+
+      {/* Dropdown Content */}
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>{name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/dashboard/settings/account" className={'no-underline'}>
+          <Link href="/dashboard/settings/account" className="no-underline">
             Settings
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/dashboard/support" className={'no-underline'}>
+          <Link href="/dashboard/support" className="no-underline">
             Support
           </Link>
         </DropdownMenuItem>
@@ -96,21 +107,19 @@ export default function UserDropdown({ user, profile }: NavlinksProps) {
                         <Input
                           type="hidden"
                           {...field}
-                          defaultValue={usePathname()}
-                          {...form.register('pathName')}
+                          defaultValue={pathname || '/'}
                         />
                       </FormControl>
                     </FormItem>
                   )}
                 />
-
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex justify-center items-center"
+                  className="flex items-center justify-center w-full text-slate-700 hover:text-slate-500"
                 >
                   <LogOut size={16} />
-                  <span className="ml-1">Sign out</span>
+                  <span className="ml-2">Sign out</span>
                 </button>
               </form>
             </Form>
@@ -119,7 +128,7 @@ export default function UserDropdown({ user, profile }: NavlinksProps) {
           <DropdownMenuItem>
             <Link
               href="/signin"
-              className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer text-slate-200 rounded-md p-1"
+              className="text-slate-200 hover:text-slate-400 transition"
             >
               Sign In
             </Link>

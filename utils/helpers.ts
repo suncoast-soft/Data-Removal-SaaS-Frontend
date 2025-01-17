@@ -2,14 +2,14 @@ export const getURL = (path: string = '') => {
   // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL &&
-      process.env.NEXT_PUBLIC_SITE_URL.trim() !== ''
+    process.env.NEXT_PUBLIC_SITE_URL.trim() !== ''
       ? process.env.NEXT_PUBLIC_SITE_URL
       : // If not set, check for NEXT_PUBLIC_VERCEL_URL, which is automatically set by Vercel.
-      process?.env?.NEXT_PUBLIC_VERCEL_URL &&
-        process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ''
+        process?.env?.NEXT_PUBLIC_VERCEL_URL &&
+          process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ''
         ? process.env.NEXT_PUBLIC_VERCEL_URL
         : // If neither is set, default to localhost for local development.
-        'http://localhost:3000/'
+          'http://localhost:3000/'
 
   // Trim the URL and remove trailing slash if exists.
   url = url.replace(/\/+$/, '')
@@ -23,7 +23,7 @@ export const getURL = (path: string = '') => {
 }
 
 export const toDateTime = (secs: number) => {
-  var t = new Date(+0) // Unix epoch start.
+  const t = new Date(+0) // Unix epoch start.
   t.setSeconds(secs)
   return t
 }
@@ -172,7 +172,7 @@ export const getAgeFromBirth = (birthDate: string): number => {
 
 export const isRemovalActive = (pricing: {
   created_at: string
-  type: 'one_year' | 'two_year' | 'annual_recurring'
+  type: 'one_year' | 'two_year' | 'annual_recurring' | null
 }) => {
   const now = new Date()
   const createdAt = new Date(pricing.created_at)
@@ -200,23 +200,23 @@ export const phoneRegex = new RegExp(
 )
 export function splitName(fullName?: string) {
   // Trim any leading/trailing spaces and split the name by spaces
-  const nameParts = fullName?.trim().split(/\s+/);
+  const nameParts = fullName?.trim().split(/\s+/)
 
   // If there's only one part, we can consider it as the first name
   if (nameParts?.length === 1) {
     return {
       firstName: nameParts[0],
       lastName: ''
-    };
+    }
   }
 
   // If there are more than one part, the first part is the first name,
   // and the rest are considered as the last name
-  const first_name = nameParts?.[0];
-  const last_name = nameParts?.slice(1).join(' ');
+  const first_name = nameParts?.[0]
+  const last_name = nameParts?.slice(1).join(' ')
 
   return {
     first_name,
     last_name
-  };
+  }
 }

@@ -13,7 +13,7 @@ interface Search extends Tables<'searches'> {
   brokers: Tables<'brokers'> | null
 }
 
-const renderValue = (value: any) => {
+const renderValue = (value: unknown) => {
   if (typeof value === 'object' && value !== null) {
     return (
       <ul className="pl-4 list-none">
@@ -54,7 +54,7 @@ export default function BrokerSearches({
               <TableCell>
                 <ul>
                   {Object.entries(search.search_result ?? {})
-                    .filter(([key, value]) => value)
+                    .filter(([, value]) => value)
                     .map(([key, value]) => (
                       <li key={key} className="list-none">
                         <strong>{key}:</strong> {renderValue(value)}

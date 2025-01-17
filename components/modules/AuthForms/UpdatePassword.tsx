@@ -34,6 +34,7 @@ const FormSchema = z.object({
 export default function UpdatePassword({
   redirectMethod
 }: UpdatePasswordProps) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = redirectMethod === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
 

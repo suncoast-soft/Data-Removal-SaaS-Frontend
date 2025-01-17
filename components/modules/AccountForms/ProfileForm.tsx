@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dialog'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Tables } from '@/types_db'
 import { updateProfile, updateUser } from '@/utils/auth-helpers/server'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
@@ -35,7 +34,6 @@ import {
 } from '@/components/ui/popover'
 import {
   Building2,
-  CalendarIcon,
   CalendarRange,
   Mail,
   MapPin,

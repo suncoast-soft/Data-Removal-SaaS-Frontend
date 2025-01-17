@@ -5,9 +5,8 @@ import {
   getSettings,
   getUser
 } from '@/utils/supabase/queries'
-import EmailForm from '@/components/modules/AccountForms/EmailForm'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, Pencil } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import Link from 'next/link'
 import { Accordion } from '@/components/ui/accordion'
 import { cn } from '@/utils/cn'
@@ -78,8 +77,8 @@ export default async function Account() {
   const supabase = createClient()
   const user = await getUser(supabase)
   const profiles = await getProfiles(supabase)
-  const settings = await getSettings(supabase, user?.id ?? '')
-  const primaryProfile = await getPrimaryProfile(supabase, user?.id ?? '')
+  const settings = await getSettings(supabase)
+  const primaryProfile = await getPrimaryProfile(supabase)
   return (
     <div>
       <SectionHeader title="Account" addProfile />

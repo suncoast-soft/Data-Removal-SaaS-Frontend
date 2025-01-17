@@ -1,34 +1,47 @@
 import { cn } from '@/utils/cn'
 import React from 'react'
 
-export default function ResultItem({
-  isLast,
-  item
-}: {
-  item: any
+interface ResultItemProps {
+  item: {
+    url: string
+    name: string
+    subUrl?: string
+    date: string
+  }
   isLast: boolean
-}) {
+}
+
+export default function ResultItem({ isLast, item }: ResultItemProps) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-1 border-b-[1.8px] border-darkMain/10 mb-[15px] pb-[15px] social-platform-result',
-        isLast ? 'border-none' : ''
+        'flex flex-col gap-2 pb-4 mb-4 border-b border-darkMain/10',
+        isLast && 'border-none'
       )}
     >
       <a
         href={item.url}
-        className="font-normal text-darkMain text-base leading-[18px] no-underline"
+        className="text-base font-normal text-darkMain no-underline hover:underline"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         {item.url}
       </a>
-      <b className="text-base font-bold leading-[18px]">{item.name}</b>
-      <a
-        href={item.subUrl}
-        className="font-normal text-darkMain text-base leading-[18px] no-underline"
-      >
-        {item.subUrl}
-      </a>
-      <p className="text-base mt-6">{item.date}</p>
+
+      <b className="text-base font-bold">{item.name}</b>
+
+      {item.subUrl && (
+        <a
+          href={item.subUrl}
+          className="text-base font-normal text-darkMain no-underline hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {item.subUrl}
+        </a>
+      )}
+
+      <p className="text-base mt-4 text-gray-600">{item.date}</p>
     </div>
   )
 }

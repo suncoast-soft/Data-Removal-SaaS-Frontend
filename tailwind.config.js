@@ -1,4 +1,4 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans]
+        sans: ['var(--font-figtree)']
       },
       keyframes: {
         'accordion-down': {
@@ -46,7 +46,7 @@ module.exports = {
         primary: '#055fab',
         secondary: '#3ebeb8',
         darkMain: '#342E37',
-        primary: '#A2D829',
+        greenMain: '#A2D829',
         orangeMain: '#FA824C',
         blue50: '#F9FCFF',
         darkSecondary: '#48434B',
