@@ -24,11 +24,10 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Tables } from '@/types_db'
+import { User } from '@supabase/supabase-js'
 
 interface NavlinksProps {
-  user?: {
-    email: string
-  }
+  user?: User | null
   profile?: Tables<'profiles'>
 }
 

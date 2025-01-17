@@ -81,7 +81,7 @@ export default function CustomerPortalForm({
     status: invoice.status,
     plan: invoice.lines.data[0].description,
     invoice_pdf: invoice.invoice_pdf,
-    users: 1
+    user: 1
   }))
 
   return (

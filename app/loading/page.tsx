@@ -2,5 +2,5 @@ import GenReportLoader from '@/components/modules/Landing/GenReportLoader/GenRep
 import React from 'react'
 
 export default function Loading() {
-  return <GenReportLoader />
+  return <GenReportLoader searchTerm={''} />
 }
