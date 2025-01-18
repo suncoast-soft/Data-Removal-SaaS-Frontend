@@ -76,7 +76,7 @@ export default function SearchForm() {
         <Button
           variant="default"
           color="white"
-          className="w-full lg:w-[171px] z-10 font-bold uppercase flex items-center gap-2"
+          className="w-full lg:w-44 z-10 font-bold uppercase flex items-center gap-2"
           type="submit"
         >
           Search <ArrowRight />

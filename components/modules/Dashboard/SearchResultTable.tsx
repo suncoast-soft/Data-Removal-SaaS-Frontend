@@ -64,7 +64,7 @@ export default function SearchResultTable({ data }: SearchResultTableProps) {
 
               {/* Status */}
               <TableCell className="font-medium">
-                <span className="block min-w-[91px] px-2 py-1 text-center text-xs font-semibold text-white bg-blue rounded-full">
+                <span className="block min-w-[91px] px-2 py-1 text-center text-xs font-semibold text-white bg-blue-500 rounded-full">
                   Pending
                 </span>
               </TableCell>

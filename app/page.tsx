@@ -1,42 +1,37 @@
 import SearchForm from '@/components/modules/AccountForms/SearchForm'
 import CreateAccount from '@/components/modules/Landing/CreateAccount/CreateAccount'
-import Features from '@/components/modules/Landing/Features'
-import Pricing from '@/components/modules/Landing/Pricing'
-import Process from '@/components/modules/Landing/Process/Process'
-import { getUser } from '@/utils/supabase/queries'
-import { createClient } from '@/utils/supabase/server'
+import FeaturedColumns from '@/components/sections/FeaturedColumns'
+import PricingTable from '@/components/sections/PricingTable'
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
 
 export default async function HomePage() {
-  const supabase = createClient()
-  const user = await getUser(supabase)
-
-  if (user) {
-    return redirect('/dashboard/reports')
-  }
-
   return (
     <>
       <section className="bg-lp-hero-section-bg bg-cover bg-bottom pt-[21px] pb-7 lg:py-[135px]">
         <div className="container mx-auto px-4 lg:px-[110px]">
           <div className="flex-col flex items-center lg:flex-row gap-[42px] lg:gap-4">
             <div className="max-w-fit lg:max-w-[568px]">
-              <h1 className="text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold">
-                Your private information is everywhere. Don’t believe us?{' '}
-                <span className="bg-dark leading-[55px] text-white px-2 relative">
-                  Take a look.{' '}
-                  <Image
-                    src={'/hero-section-arrow.png'}
-                    width={281}
-                    height={328}
-                    alt={'Take a Look Arrow'}
-                    className="hidden lg:block absolute -right-[19px] top-4"
-                  />
-                </span>
-              </h1>
+              <div className="relative text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold">
+                <h1>
+                  <span>
+                    Your private information is everywhere. Don’t believe us?
+                  </span>
+                  <span className="ml-2 bg-dark leading-[55px] text-white px-2 relative">
+                    Take a look.{' '}
+                  </span>
+                </h1>
+
+                <Image
+                  src={'/hero-section-arrow.png'}
+                  width={281}
+                  height={328}
+                  alt={'Take a Look Arrow'}
+                  className="hidden lg:block absolute top-32 right-0"
+                />
+              </div>
               <SearchForm />
             </div>
+
             <div className="relative">
               <Image
                 src={'/hero-image.png'}
@@ -64,29 +59,73 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="features" className="bg-blue-50 mt-[60px] lg:mt-[100px]">
-        <div className="container mx-auto px-4 lg:px-[110px] lg:py-[60px]">
-          <Features />
+      <section id="features" className="bg-[#F9FCFF] mt-16 lg:mt-24">
+        <div className="container mx-auto px-4 lg:px-28 lg:py-16">
+          <FeaturedColumns
+            title="Prying eyes are eager to access your information"
+            description="Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu egestas morbi sem vulputate etiam facilisis pellentesque ut quis."
+            columns={[
+              {
+                image: '/lp-features-1.png',
+                title: 'Data Removal',
+                description:
+                  'We help you remove your personal information from various websites, safeguarding your privacy.'
+              },
+              {
+                image: '/lp-features-2.png',
+                title: 'Regular Monitoring',
+                description:
+                  'Our regular monitoring ensures that your private information doesn`t reappear on the internet.'
+              },
+              {
+                image: '/lp-features-3.png',
+                title: 'Customer Support',
+                description:
+                  'Get access to our dedicated customer support team who are ready to assist you 24/7.'
+              }
+            ]}
+          />
         </div>
       </section>
 
-      <section id="process" className="bg-white my-[70px] lg:my-[100px]">
-        <div className="container mx-auto px-4 lg:px-[110px]">
-          <Process />
+      <section id="process" className="bg-white my-16 lg:my-24">
+        <div className="container mx-auto px-4 lg:px-28">
+          <FeaturedColumns
+            title="Get started as easy as 1, 2, 3"
+            subtitle="Our process"
+            description="Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu egestas morbi sem vulputate etiam facilisis pellentesque ut quis."
+            columns={[
+              {
+                image: '/lp-process-1.png',
+                title: 'Create an account',
+                description:
+                  'Lorem ipsum dolor sit amet consecte tur adipiscing elit semper dalar consectur elementum tempus hac.'
+              },
+              {
+                image: '/lp-process-2.png',
+                title: 'Run a quick search',
+                description:
+                  'Lorem ipsum dolor sit amet consecte tur adipiscing elit semper dalar consectur elementum tempus hac.'
+              },
+              {
+                image: '/lp-process-3.png',
+                title: 'We remove your info',
+                description:
+                  'Lorem ipsum dolor sit amet consecte tur adipiscing elit semper dalar consectur elementum tempus hac.'
+              }
+            ]}
+          />
         </div>
       </section>
 
-      <section id="pricing-plans" className="bg-white my-[70px] lg:my-[100px]">
-        <div className="container mx-auto px-4 lg:px-[110px]">
-          <Pricing />
+      <section id="pricing-plans" className="bg-white my-16 lg:my-24">
+        <div className="container mx-auto px-4 lg:px-24">
+          <PricingTable />
         </div>
       </section>
 
-      <section
-        id="create-your-account"
-        className="bg-white my-[70px] lg:my-[100px]"
-      >
-        <div className="container mx-auto px-2 lg:px-[110px]">
+      <section id="create-your-account" className="bg-white my-16 lg:my-24">
+        <div className="container mx-auto px-2 lg:px-28">
           <CreateAccount />
         </div>
       </section>
