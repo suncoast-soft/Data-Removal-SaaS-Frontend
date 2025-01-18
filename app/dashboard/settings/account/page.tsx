@@ -40,7 +40,7 @@ const SectionHeader = ({
 }) => {
   return (
     <div className="flex gap-6 flex-col lg:flex-row lg:justify-between mb-6">
-      <h1 className="text-[34px] leading-3 lg:text-[50px] lg:leading-[55px] font-bold text-darkMain">
+      <h1 className="text-[34px] leading-3 lg:text-[50px] lg:leading-[55px] font-bold text-dark">
         {title}
       </h1>
       {addProfile ? (
@@ -49,7 +49,7 @@ const SectionHeader = ({
             variant="outline"
             type="button"
             className={cn(
-              'w-full lg:w-[178px] h-11 text-sm font-bold text-darkMain border-[1.4px]'
+              'w-full lg:w-[178px] h-11 text-sm font-bold text-dark border-[1.4px]'
             )}
           >
             Add another profile
@@ -61,8 +61,8 @@ const SectionHeader = ({
             variant="outline"
             type="button"
             className={cn(
-              'w-full lg:w-[178px] h-11 text-sm font-bold text-darkMain border-[1.4px]',
-              'border-orangeMain hover:bg-orangeMain/90'
+              'w-full lg:w-[178px] h-11 text-sm font-bold text-dark border-[1.4px]',
+              'border-secondary hover:bg-secondary/90'
             )}
           >
             Delete My Account
@@ -82,7 +82,7 @@ export default async function Account() {
   return (
     <div>
       <SectionHeader title="Account" addProfile />
-      <div className="bg-darkMain rounded-[20px] p-4 lg:p-8">
+      <div className="bg-dark rounded-[20px] p-4 lg:p-8">
         <div className="flex justify-between flex-wrap items-center mb-4">
           <div className="flex flex-col gap-2">
             <h3 className="font-bold text-xl lg:text-2xl text-white">
@@ -96,7 +96,7 @@ export default async function Account() {
             <Button
               variant="outline"
               type="submit"
-              className="w-full lg:w-[282px] h-[56px] text-sm font-semibold text-white border-2 my-4 lg:my-0 border-orangeMain hover:bg-orangeMain/90 pl-0 items-center [&>svg]:text-orangeMain"
+              className="w-full lg:w-[282px] h-[56px] text-sm font-semibold text-white border-2 my-4 lg:my-0 border-secondary hover:bg-secondary/90 pl-0 items-center [&>svg]:text-secondary"
             >
               <Pencil className="mr-2 pl-2" /> Edit your profile to run a new
               scan
@@ -105,44 +105,42 @@ export default async function Account() {
         </div>
         <div className="flex lg:flex-wrap flex-col lg:flex-row gap-4 lg:gap-8">
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-greenMain font-normal mr-2">Name:</span>{' '}
+            <span className="text-primary font-normal mr-2">Name:</span>{' '}
             {`${primaryProfile?.first_name} ${primaryProfile?.last_name}`}
           </h3>
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-greenMain font-normal mr-2">
+            <span className="text-primary font-normal mr-2">
               Social Security Number:
             </span>
             {primaryProfile?.social_security_number}
           </h3>
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-greenMain font-normal mr-2">
+            <span className="text-primary font-normal mr-2">
               Alternative Names:
             </span>
             {primaryProfile?.alternative_names}
           </h3>
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-greenMain font-normal mr-2">
-              Phone Number:
-            </span>
+            <span className="text-primary font-normal mr-2">Phone Number:</span>
             {primaryProfile?.phone}
           </h3>
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-greenMain font-normal mr-2">Birthdate:</span>
+            <span className="text-primary font-normal mr-2">Birthdate:</span>
 
             {primaryProfile?.birth_date}
           </h3>
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-greenMain font-normal mr-2">Email:</span>
+            <span className="text-primary font-normal mr-2">Email:</span>
 
             {primaryProfile?.email}
           </h3>
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%]">
-            <span className="text-greenMain font-normal mr-2">Gender:</span>
+            <span className="text-primary font-normal mr-2">Gender:</span>
             {primaryProfile?.gender}
           </h3>
           <div className="flex flex-1 flex-wrap lg:flex-nowrap gap-[34px] lg:gap-[23px]">
             <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%]">
-              <span className="text-greenMain font-normal mr-2">Address:</span>
+              <span className="text-primary font-normal mr-2">Address:</span>
 
               {primaryProfile?.address}
             </h3>
@@ -153,7 +151,7 @@ export default async function Account() {
 
               <Link
                 href={'?why-profile-edit=true'}
-                className="text-sm font-bold transition ease-in-out duration-75 cursor-pointer text-orangeMain hover:text-orangeMain/90 border-b border-orangeMain"
+                className="text-sm font-bold transition ease-in-out duration-75 cursor-pointer text-secondary hover:text-secondary/90 border-b border-secondary"
               >
                 Why
               </Link>
@@ -174,26 +172,26 @@ export default async function Account() {
           deleteAccount
           settings={settings}
         />
-        <div className="mt-6 mb-[60px] rounded-2xl p-6 lg:p-8 border border-darkMain/20 bg-[#342E3705]">
+        <div className="mt-6 mb-[60px] rounded-2xl p-6 lg:p-8 border border-dark/20 bg-[#342E3705]">
           <AccountSettings user={user} settings={settings} />
         </div>
       </div>
       <div className="mt-[60px]">
         <SectionHeader title="Log In History" />
-        <div className="mt-6 mb-[60px] rounded-2xl border border-darkMain/20 bg-[#342E3705]">
+        <div className="mt-6 mb-[60px] rounded-2xl border border-dark/20 bg-[#342E3705]">
           <Table className="">
             <TableHeader>
-              <TableRow className="bg-darkMain hover:bg-transparent h-[60px]">
-                <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-lg text-white rounded-tl-2xl">
+              <TableRow className="bg-dark hover:bg-transparent h-[60px]">
+                <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white rounded-tl-2xl">
                   Date
                 </TableHead>
-                <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-lg text-white">
+                <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white">
                   Time
                 </TableHead>
-                <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-lg text-white">
+                <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white">
                   Device
                 </TableHead>
-                <TableHead className="bg-darkMain hover:bg-darkMain h-[60px] font-bold text-sm lg:text-lg text-white rounded-tr-2xl">
+                <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white rounded-tr-2xl">
                   Location
                 </TableHead>
               </TableRow>

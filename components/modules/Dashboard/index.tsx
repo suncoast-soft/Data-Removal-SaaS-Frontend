@@ -128,7 +128,7 @@ export default function DashboardRoot({
         <Tags tags={isPaidUser ? proTags : tags} />
       </div>
 
-      <hr className="my-4 border-darkMain/10 hidden lg:block" />
+      <hr className="my-4 border-dark/10 hidden lg:block" />
 
       {/* Tabs Section */}
       <h2 className="text-2xl lg:text-4xl font-bold text-center">
@@ -145,11 +145,11 @@ export default function DashboardRoot({
               <h3 className="text-2xl font-bold">135 Removals Queued</h3>
             )}
             <div className="relative w-full lg:w-56 ml-auto mb-4">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-greenMain" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-primary" />
               <Input
                 type="text"
                 placeholder="Search for..."
-                className="pl-12 bg-transparent border-darkMain border text-base h-12"
+                className="pl-12 bg-transparent border-dark border text-base h-12"
               />
             </div>
           </div>

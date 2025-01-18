@@ -27,11 +27,11 @@ export default function BillingHistoryTable({
   data
 }: BillingHistoryTableProps) {
   return (
-    <div className="mt-6 mb-8 rounded-2xl border border-darkMain/20 bg-[#342E3705] overflow-x-auto">
+    <div className="mt-6 mb-8 rounded-2xl border border-dark/20 bg-[#342E3705] overflow-x-auto">
       <Table>
         {/* Table Header */}
         <TableHeader>
-          <TableRow className="bg-darkMain text-white h-14">
+          <TableRow className="bg-dark text-white h-14">
             <TableHead className="font-bold text-sm lg:text-base rounded-tl-2xl"></TableHead>
             <TableHead className="font-bold text-sm lg:text-base">
               Billing Date
@@ -55,7 +55,7 @@ export default function BillingHistoryTable({
           {data.map((item, index) => (
             <TableRow key={index} className="h-20">
               {/* Invoice Name and Status */}
-              <TableCell className="font-medium text-darkMain">
+              <TableCell className="font-medium text-dark">
                 <div className="flex items-center gap-3">
                   <Checkbox id={`invoice-${index}`} />
                   <InvoiceIcon />
@@ -66,8 +66,8 @@ export default function BillingHistoryTable({
                     className={cn(
                       'min-w-[60px] px-4 py-1 rounded-full text-sm text-center capitalize',
                       item.status === 'paid'
-                        ? 'bg-greenMain text-darkMain'
-                        : 'bg-orangeMain text-darkMain'
+                        ? 'bg-primary text-dark'
+                        : 'bg-secondary text-dark'
                     )}
                   >
                     {item.status}
@@ -102,7 +102,7 @@ export default function BillingHistoryTable({
               {/* Download Link */}
               <TableCell>
                 <a href={item.invoice_pdf} className="no-underline">
-                  <span className="px-2 py-1 text-xs lg:text-sm font-semibold bg-darkMain text-white rounded-full flex items-center gap-1 cursor-pointer hover:bg-darkMain/90">
+                  <span className="px-2 py-1 text-xs lg:text-sm font-semibold bg-dark text-white rounded-full flex items-center gap-1 cursor-pointer hover:bg-dark/90">
                     <Download className="w-4 h-4" /> Download
                   </span>
                 </a>
@@ -110,7 +110,7 @@ export default function BillingHistoryTable({
 
               {/* Options */}
               <TableCell>
-                <span className="w-7 h-7 rounded-full border border-darkMain text-darkMain flex items-center justify-center cursor-pointer hover:bg-darkMain hover:text-white transition">
+                <span className="w-7 h-7 rounded-full border border-dark text-dark flex items-center justify-center cursor-pointer hover:bg-dark hover:text-white transition">
                   <Ellipsis className="w-5 h-5" />
                 </span>
               </TableCell>

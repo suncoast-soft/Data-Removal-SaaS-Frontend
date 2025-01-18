@@ -27,7 +27,7 @@ const PlansPage = () => {
   ]
 
   return (
-    <div className="pt-4 pb-12 lg:pt-24 lg:pb-10 text-darkMain">
+    <div className="pt-4 pb-12 lg:pt-24 lg:pb-10 text-dark">
       <div className="container mx-auto px-4">
         <div className="text-center mx-auto">
           <h1 className="text-2xl lg:text-4xl font-bold">Choose A Plan</h1>
@@ -74,11 +74,9 @@ const PlanCard: React.FC<PlanCardProps> = ({ variant, features }) => {
           <div className="text-center">
             <p className="mb-4 text-base font-normal text-white">
               Best Value with{' '}
-              <span className="font-bold text-greenMain">Pup Premium</span>
+              <span className="font-bold text-primary">Pup Premium</span>
             </p>
-            <h3 className="text-xl lg:text-2xl font-bold text-greenMain">
-              $179
-            </h3>
+            <h3 className="text-xl lg:text-2xl font-bold text-primary">$179</h3>
             <span className="text-lg text-white">for 2 years</span>
           </div>
         )
@@ -90,10 +88,10 @@ const PlanCard: React.FC<PlanCardProps> = ({ variant, features }) => {
   return (
     <Card
       className={cn(
-        'flex flex-col justify-between p-6 max-w-md rounded-3xl text-darkMain border-2 flex-1',
+        'flex flex-col justify-between p-6 max-w-md rounded-3xl text-dark border-2 flex-1',
         {
-          'bg-greenMain text-white border-greenMain': variant === 'pro_1',
-          'bg-darkMain text-white': variant === 'pro_2'
+          'bg-primary text-white border-primary': variant === 'pro_1',
+          'bg-dark text-white': variant === 'pro_2'
         }
       )}
     >
@@ -110,8 +108,8 @@ const PlanCard: React.FC<PlanCardProps> = ({ variant, features }) => {
               className={cn(
                 'flex items-center gap-3',
                 variant === 'pro_2'
-                  ? '[&>svg>g>path]:fill-greenMain [&>svg>g>path]:stroke-darkMain'
-                  : '[&>svg>g>path]:fill-darkMain [&>svg>g>path]:stroke-greenMain'
+                  ? '[&>svg>g>path]:fill-primary [&>svg>g>path]:stroke-dark'
+                  : '[&>svg>g>path]:fill-dark [&>svg>g>path]:stroke-primary'
               )}
             >
               <OrangeCircleCheck />
@@ -124,9 +122,9 @@ const PlanCard: React.FC<PlanCardProps> = ({ variant, features }) => {
           className={cn(
             'w-full lg:w-72 mx-auto text-sm font-semibold capitalize',
             {
-              'bg-white text-darkMain border-white shadow':
+              'bg-white text-dark border-white shadow':
                 variant === 'pro_1' || variant === 'pro_2',
-              'bg-darkMain text-white border-darkMain hover:bg-darkMain/90':
+              'bg-dark text-white border-dark hover:bg-dark/90':
                 variant === 'free'
             }
           )}

@@ -83,11 +83,11 @@ export default function ResultCharts({
       <span
         key={index}
         className={cn(
-          'p-2 h-24 flex items-center justify-center border border-darkMain/40 text-center rounded-2xl gap-4 w-48 lg:w-64',
-          c.isFill ? 'bg-darkMain text-white' : 'bg-darkMain/5'
+          'p-2 h-24 flex items-center justify-center border border-dark/40 text-center rounded-2xl gap-4 w-48 lg:w-64',
+          c.isFill ? 'bg-dark text-white' : 'bg-dark/5'
         )}
       >
-        <span className={cn('text-orangeMain', !c.isFill && 'text-darkMain')}>
+        <span className={cn('text-secondary', !c.isFill && 'text-dark')}>
           {c.isFill ? <WebSearchIcon /> : <CleaningIcon />}
         </span>
         <span>
@@ -119,7 +119,7 @@ export default function ResultCharts({
     return chartData.map((chart, index) => (
       <div
         key={index}
-        className="w-80 min-w-[340px] h-96 p-6 rounded-2xl border border-darkMain/10"
+        className="w-80 min-w-[340px] h-96 p-6 rounded-2xl border border-dark/10"
       >
         <PieChartCard
           title={chart.title}
@@ -150,7 +150,7 @@ export default function ResultCharts({
         {resultsCountSubtitle && (
           <p className="my-2 text-xl lg:text-2xl text-center">
             {resultsCountSubtitle}{' '}
-            <span className="text-greenMain font-bold">
+            <span className="text-primary font-bold">
               just through your name.
             </span>
           </p>

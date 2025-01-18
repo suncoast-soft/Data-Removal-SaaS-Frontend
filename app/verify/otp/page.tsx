@@ -13,7 +13,7 @@ export default function VerifyOTPPage({ searchParams }: VerifyOTPPageProps) {
   const isPhoneVerified = searchParams.success
 
   return (
-    <div className="bg-lp-hero-section-bg bg-cover bg-bottom pt-12 pb-16 lg:pb-20 text-darkMain h-[calc(100vh-60px)]">
+    <div className="bg-lp-hero-section-bg bg-cover bg-bottom pt-12 pb-16 lg:pb-20 text-dark h-[calc(100vh-60px)]">
       <div className="container mx-auto px-4 lg:px-24 h-full">
         <div className="text-center max-w-lg mx-auto h-full flex flex-col justify-center items-center gap-16 lg:gap-6">
           <Image

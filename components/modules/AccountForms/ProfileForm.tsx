@@ -147,7 +147,7 @@ export default function ProfileForm({ ...props }) {
           </DialogTrigger>
         ) : null}
 
-        <DialogContent className="bg-darkMain text-white border-none max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-dark text-white border-none max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl lg:text-3xl text-white leading-[55px] flex items-center">
               {props.defaultValues ? 'Edit Profile' : 'Submit Profile'}
@@ -185,12 +185,12 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        First Name <sup className="text-orangeMain pt-1">*</sup>
+                        First Name <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <div className="relative w-full">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <User className="w-5 text-greenMain" />
+                            <User className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -211,12 +211,12 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        Last Name <sup className="text-orangeMain pt-1">*</sup>
+                        Last Name <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <div className="relative w-full">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <User className="w-5 text-greenMain" />
+                            <User className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -238,12 +238,12 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        Phone <sup className="text-orangeMain pt-1">*</sup>
+                        Phone <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <PhoneCall className="w-5 text-greenMain" />
+                            <PhoneCall className="w-5 text-primary" />
                           </div>
                           <Input
                             type="tel"
@@ -264,12 +264,12 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        Email <sup className="text-orangeMain pt-1">*</sup>
+                        Email <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Mail className="w-5 text-greenMain" />
+                            <Mail className="w-5 text-primary" />
                           </div>
                           <Input
                             type="email"
@@ -296,7 +296,7 @@ export default function ProfileForm({ ...props }) {
                       <FormControl>
                         <div className="relative w-full">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-greenMain" />
+                            <Building2 className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -322,7 +322,7 @@ export default function ProfileForm({ ...props }) {
                       <FormControl>
                         <div className="relative w-full">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-greenMain" />
+                            <Building2 className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -344,14 +344,14 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        Birth Year <sup className="text-orangeMain pt-1">*</sup>
+                        Birth Year <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <Popover>
                           <PopoverTrigger asChild>
                             <div className="relative w-full">
                               <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                                <CalendarRange className="w-5 text-greenMain" />
+                                <CalendarRange className="w-5 text-primary" />
                               </div>
                               <Button
                                 type="button"
@@ -402,7 +402,7 @@ export default function ProfileForm({ ...props }) {
                       <FormControl>
                         <div className="relative w-full">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-greenMain" />
+                            <Building2 className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -428,7 +428,7 @@ export default function ProfileForm({ ...props }) {
                       <FormControl>
                         <div className="relative w-full">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-greenMain" />
+                            <Building2 className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -450,12 +450,12 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        Address <sup className="text-orangeMain pt-1">*</sup>
+                        Address <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <MapPin className="w-5 text-greenMain" />
+                            <MapPin className="w-5 text-primary" />
                           </div>
                           <Input
                             type="text"
@@ -477,7 +477,7 @@ export default function ProfileForm({ ...props }) {
                   render={({ field }) => (
                     <FormItem className="w-full min-w-[28%] lg:flex-1">
                       <FormLabel className="text-white font-bold text-lg">
-                        Gender <sup className="text-orangeMain pt-1">*</sup>
+                        Gender <sup className="text-secondary pt-1">*</sup>
                       </FormLabel>
                       <FormControl>
                         <ToggleGroup
@@ -490,7 +490,7 @@ export default function ProfileForm({ ...props }) {
                             value="male"
                             {...form.register('gender')}
                             aria-label="Toggle Male"
-                            className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-darkMain"
+                            className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-dark"
                           >
                             <span className="font-bold text-xl">M</span>
                           </ToggleGroupItem>
@@ -498,7 +498,7 @@ export default function ProfileForm({ ...props }) {
                             value="female"
                             {...form.register('gender')}
                             aria-label="Toggle Female"
-                            className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-darkMain"
+                            className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-dark"
                           >
                             <span className="font-bold text-xl">F</span>
                           </ToggleGroupItem>
@@ -519,7 +519,7 @@ export default function ProfileForm({ ...props }) {
                       <FormControl>
                         <div className="relative">
                           <div className="absolute left-6 top-3.5">
-                            <Pencil className="w-5 text-greenMain" />
+                            <Pencil className="w-5 text-primary" />
                           </div>
                           <Textarea
                             placeholder="Tell us a little bit about your request"

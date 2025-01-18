@@ -34,7 +34,7 @@ export default function DeleteAccountModel({ ...props }) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{props.children}</DialogTrigger>
 
-        <DialogContent className="bg-darkMain text-white border-none max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-dark text-white border-none max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl lg:text-3xl text-red-600 leading-[55px]">
               Delete Account
@@ -54,7 +54,7 @@ export default function DeleteAccountModel({ ...props }) {
             </Button>
             <Button
               variant={'outline'}
-              className="bg-darkMain h-11 hover:bg-darkMain/90 text-white border-white"
+              className="bg-dark h-11 hover:bg-dark/90 text-white border-white"
               onClick={() => setOpen(false)}
             >
               Cancel

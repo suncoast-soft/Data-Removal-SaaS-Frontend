@@ -24,7 +24,7 @@ export default async function HomePage() {
             <div className="max-w-fit lg:max-w-[568px]">
               <h1 className="text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold">
                 Your private information is everywhere. Don’t believe us?{' '}
-                <span className="bg-darkMain leading-[55px] text-white px-2 relative">
+                <span className="bg-dark leading-[55px] text-white px-2 relative">
                   Take a look.{' '}
                   <Image
                     src={'/hero-section-arrow.png'}
@@ -64,7 +64,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="features" className="bg-blue50 mt-[60px] lg:mt-[100px]">
+      <section id="features" className="bg-blue-50 mt-[60px] lg:mt-[100px]">
         <div className="container mx-auto px-4 lg:px-[110px] lg:py-[60px]">
           <Features />
         </div>

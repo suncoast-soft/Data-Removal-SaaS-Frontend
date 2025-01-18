@@ -26,10 +26,10 @@ export default function Steps() {
   return (
     <>
       <div className="text-center max-w-[706px] mx-auto">
-        <h2 className="text-4xl lg:text-[45px] lg:leading-[55px] font-bold text-center text-darkMain">
+        <h2 className="text-4xl lg:text-[45px] lg:leading-[55px] font-bold text-center text-dark">
           Prying eyes are eager to access your information
         </h2>
-        <p className="mt-4 text-base text-darkMain lg:text-lg text-center opacity-60">
+        <p className="mt-4 text-base text-dark lg:text-lg text-center opacity-60">
           Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu
           egestas morbi sem vulputate etiam facilisis pellentesque ut quis.
         </p>

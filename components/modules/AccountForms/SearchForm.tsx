@@ -66,7 +66,7 @@ export default function SearchForm() {
             <Info className="w-[18px] h-[18px]" />
             <Link
               href={'/'}
-              className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-darkMain hover:text-gray-700 w-fit no-underline border-b border-darkMain"
+              className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-dark hover:text-gray-700 w-fit no-underline border-b border-dark"
             >
               How we use your information?
             </Link>

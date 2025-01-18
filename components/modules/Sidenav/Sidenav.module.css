@@ -1,5 +1,5 @@
 .root {
-  @apply inset-y-0 left-0 top-0 z-10 hidden min-w-[256px] flex-col lg:flex sticky h-screen bg-darkMain;
+  @apply inset-y-0 left-0 top-0 z-10 hidden min-w-[256px] flex-col lg:flex sticky h-screen bg-dark;
 }
 
 .logo {
@@ -11,9 +11,9 @@
 }
 
 .link:hover {
-  @apply text-greenMain;
+  @apply text-primary;
 }
 
 .active {
-  @apply text-greenMain;
+  @apply text-primary;
 }

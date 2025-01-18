@@ -93,13 +93,11 @@ export default function AccountSettings({
     <>
       <div className="grid gap-8 lg:grid-cols-2">
         <section>
-          <h2 className="mb-6 text-2xl font-bold text-darkMain">
-            Preferences:
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-dark">Preferences:</h2>
 
           <div className="flex flex-col gap-6">
             <div className="flex gap-4 flex-col">
-              <p className="text-base font-bold text-darkMain">
+              <p className="text-base font-bold text-dark">
                 Receive status updates
               </p>
               <div className="flex gap-6">
@@ -137,7 +135,7 @@ export default function AccountSettings({
             </div>
 
             <div className="flex gap-4 flex-col">
-              <p className="text-base text-darkMain font-bold">
+              <p className="text-base text-dark font-bold">
                 Receive marketing emails?
               </p>
               <div className="flex gap-6">
@@ -175,7 +173,7 @@ export default function AccountSettings({
             </div>
 
             <div className="flex gap-4 flex-col">
-              <p className="text-base text-darkMain font-bold">
+              <p className="text-base text-dark font-bold">
                 Allow multi-device log-in?
               </p>
               <div className="flex gap-6">
@@ -213,7 +211,7 @@ export default function AccountSettings({
             </div>
 
             <div className="flex gap-4 flex-col">
-              <p className="text-base text-darkMain font-bold">
+              <p className="text-base text-dark font-bold">
                 Require Multi-Factor Verification?
               </p>
               <div className="flex gap-6">
@@ -252,7 +250,7 @@ export default function AccountSettings({
 
             <Link
               href="#"
-              className="no-underline border-b border-orangeMain h-fit text-base text-orangeMain hover:text-orangeMain/60 w-fit"
+              className="no-underline border-b border-secondary h-fit text-base text-secondary hover:text-secondary/60 w-fit"
             >
               Learn how to set it up
             </Link>
@@ -262,21 +260,21 @@ export default function AccountSettings({
         <section>
           <div className="flex flex-col justify-between h-full">
             <div>
-              <h2 className="mb-6 text-2xl font-bold text-darkMain">
+              <h2 className="mb-6 text-2xl font-bold text-dark">
                 Contact Details:
               </h2>
 
               <div className="space-y-6">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between w-fit gap-4">
-                    <p className="text-base text-darkMain font-bold">
+                    <p className="text-base text-dark font-bold">
                       Contact email:
                     </p>
                     {editingField !== 'email' && (
                       <Button
                         variant={'link'}
                         onClick={() => handleEdit('email')}
-                        className="text-orangeMain hover:text-orangeMain/60 p-0 h-fit"
+                        className="text-secondary hover:text-secondary/60 p-0 h-fit"
                       >
                         <Pencil className="h-5 w-5" />
                         <span className="sr-only">Edit email</span>
@@ -289,7 +287,7 @@ export default function AccountSettings({
                         type="email"
                         value={tempValue}
                         onChange={(e) => setTempValue(e.target.value)}
-                        className="w-full border-greenMain border px-3 py-2"
+                        className="w-full border-primary border px-3 py-2"
                       />
                       <Button
                         variant={'link'}
@@ -314,14 +312,14 @@ export default function AccountSettings({
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between w-fit gap-4">
-                    <p className="text-base text-darkMain font-bold">
+                    <p className="text-base text-dark font-bold">
                       Contact phone number:
                     </p>
                     {editingField !== 'phone' && (
                       <Button
                         variant={'link'}
                         onClick={() => handleEdit('phone')}
-                        className="text-orangeMain hover:text-orangeMain/60 hover:no-underline p-0 h-fit"
+                        className="text-secondary hover:text-secondary/60 hover:no-underline p-0 h-fit"
                       >
                         <Pencil className="h-5 w-5" />
                         <span className="sr-only">Edit phone number</span>
@@ -334,7 +332,7 @@ export default function AccountSettings({
                         type="tel"
                         value={tempValue}
                         onChange={(e) => setTempValue(e.target.value)}
-                        className="w-full border-greenMain border px-3 py-2"
+                        className="w-full border-primary border px-3 py-2"
                       />
                       <Button
                         variant={'link'}
@@ -364,7 +362,7 @@ export default function AccountSettings({
               <Button
                 variant={'default'}
                 type="button"
-                className="bg-darkMain w-full lg:w-[200px] hover:bg-darkMain/90 text-white text-lg"
+                className="bg-dark w-full lg:w-[200px] hover:bg-dark/90 text-white text-lg"
                 asChild
               >
                 <Link

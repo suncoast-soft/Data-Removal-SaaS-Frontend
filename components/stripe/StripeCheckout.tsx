@@ -81,7 +81,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
         <div className="space-y-6">
           <Link
             href="#"
-            className="inline-flex text-darkMain hover:no-underline"
+            className="inline-flex text-dark hover:no-underline"
             onClick={() => router.back()}
           >
             <MoveLeft className="w-6 h-6" />
@@ -102,14 +102,14 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="bg-darkMain rounded-3xl p-8 text-white w-full max-w-full lg:min-w-[514px] lg:max-w-[514px]"
+          className="bg-dark rounded-3xl p-8 text-white w-full max-w-full lg:min-w-[514px] lg:max-w-[514px]"
         >
           <div className="space-y-4">
             <div className="space-y-1">
               <label className="text-white font-bold text-lg">Email</label>
               <div className="relative">
                 <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                  <Mail className="w-5 text-greenMain" />
+                  <Mail className="w-5 text-primary" />
                 </div>
                 <Input
                   type="email"
@@ -126,7 +126,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
               </label>
               <div className="relative">
                 <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                  <CreditCard className="w-5 text-greenMain" />
+                  <CreditCard className="w-5 text-primary" />
                 </div>
                 <CardNumberElement
                   options={options}
@@ -150,7 +150,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="relative">
                 <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                  <CalendarDays className="w-5 text-greenMain" />
+                  <CalendarDays className="w-5 text-primary" />
                 </div>
                 <CardExpiryElement
                   options={options}
@@ -171,7 +171,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
               </div>
               <div className="relative">
                 <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                  <Mail className="w-5 text-greenMain" />
+                  <Mail className="w-5 text-primary" />
                 </div>
                 <CardCvcElement
                   options={options}
@@ -197,7 +197,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
               </label>
               <div className="relative">
                 <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                  <UserIcon className="w-5 text-greenMain" />
+                  <UserIcon className="w-5 text-primary" />
                 </div>
                 <Input
                   type="text"
@@ -213,7 +213,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
                 </label>
                 <div className="relative">
                   <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                    <MapPin className="w-5 text-greenMain" />
+                    <MapPin className="w-5 text-primary" />
                   </div>
                   <Input
                     type="text"
@@ -226,7 +226,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
                 <label className="text-white font-bold text-lg">ZIP</label>
                 <div className="relative">
                   <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                    <MapPin className="w-5 text-greenMain" />
+                    <MapPin className="w-5 text-primary" />
                   </div>
                   <Input
                     type="text"
@@ -250,11 +250,11 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
 
             <div className="space-y-1">
               <label className="text-white font-bold text-lg">
-                Phone <sup className="text-orangeMain pt-1">*</sup>
+                Phone <sup className="text-secondary pt-1">*</sup>
               </label>
               <div className="relative">
                 <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                  <PhoneCall className="w-5 text-greenMain" />
+                  <PhoneCall className="w-5 text-primary" />
                 </div>
                 <Input
                   type="tel"
@@ -266,7 +266,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
             <div className="text-center">
               <a
                 href="#"
-                className="text-orangeMain text-sm no-underline border-b border-orangeMain hover:no-underline font-bold"
+                className="text-secondary text-sm no-underline border-b border-secondary hover:no-underline font-bold"
               >
                 More Info
               </a>

@@ -88,7 +88,7 @@ export default function CustomerPortalForm({
     <div>
       {/* Plan Details Section */}
       <div className="mt-6 lg:mt-10 flex flex-col lg:flex-row gap-6">
-        <Card className="bg-white p-6 max-w-xl border-2 border-darkMain rounded-3xl flex-1">
+        <Card className="bg-white p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
           <CardHeader>
             <CardTitle>
               <div className="flex flex-col lg:flex-row items-center gap-6">
@@ -149,8 +149,8 @@ export default function CustomerPortalForm({
               className={cn(
                 'w-full lg:w-72 mt-6 font-bold text-sm capitalize',
                 isPaidUser
-                  ? 'bg-darkMain text-white hover:bg-darkMain/90'
-                  : 'bg-white text-darkMain border-secondary hover:bg-gray-100'
+                  ? 'bg-dark text-white hover:bg-dark/90'
+                  : 'bg-white text-dark border-secondary hover:bg-gray-100'
               )}
             >
               <Link href="/checkout" className="no-underline">
@@ -161,7 +161,7 @@ export default function CustomerPortalForm({
         </Card>
 
         {/* Payment Methods Section */}
-        <Card className="bg-darkMain p-6 lg:p-8 border-2 border-darkMain rounded-3xl flex-1">
+        <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
           <CardHeader>
             <CardTitle>
               <h3 className="text-2xl lg:text-4xl font-bold text-white">
@@ -196,7 +196,7 @@ export default function CustomerPortalForm({
                   </div>
                   <Button
                     variant="default"
-                    className="bg-white text-darkMain border-transparent"
+                    className="bg-white text-dark border-transparent"
                     onClick={handleStripePortalRequest}
                   >
                     Edit
@@ -228,7 +228,7 @@ export default function CustomerPortalForm({
 
       {/* Billing History */}
       <div className="mt-16">
-        <h3 className="text-2xl lg:text-4xl font-bold text-darkMain">
+        <h3 className="text-2xl lg:text-4xl font-bold text-dark">
           Billing History
         </h3>
         <BillingHistoryTable data={billings} />

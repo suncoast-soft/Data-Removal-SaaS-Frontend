@@ -48,7 +48,7 @@ export default async function Billing() {
 
   return (
     <div className="container mx-auto pt-0 px-0">
-      <h1 className="my-6 text-2xl lg:text-4xl font-bold text-darkMain text-center lg:text-left">
+      <h1 className="my-6 text-2xl lg:text-4xl font-bold text-dark text-center lg:text-left">
         Billing Information
       </h1>
       <CustomerPortalForm

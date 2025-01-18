@@ -48,7 +48,7 @@ function DesktopNav({ navs, isPaidUser }: NavProps) {
           </Link>
           <div className="relative w-full mb-6">
             <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-              <Search className="w-[18px] h-[18px] text-greenMain" />
+              <Search className="w-[18px] h-[18px] text-primary" />
             </div>
             <Input
               type="text"
@@ -75,11 +75,11 @@ function DesktopNav({ navs, isPaidUser }: NavProps) {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 text-greenMain">{nav.icon}</span>
+                  <span className="w-6 h-6 text-primary">{nav.icon}</span>
                   <span>{nav.name}</span>
                 </div>
                 {nav.isInbox ? (
-                  <span className="w-[25px] h-[25px] text-white text-xs flex items-center justify-center bg-orangeMain rounded-full">
+                  <span className="w-[25px] h-[25px] text-white text-xs flex items-center justify-center bg-secondary rounded-full">
                     2
                   </span>
                 ) : null}
@@ -98,7 +98,7 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
 
   return (
     <Sheet>
-      <div className="lg:hidden bg-darkMain w-full h-[70px] flex justify-between items-center px-4">
+      <div className="lg:hidden bg-dark w-full h-[70px] flex justify-between items-center px-4">
         <Link
           href="/"
           className={cn(s.logo, 'no-underline w-[170px] !mb-0')}
@@ -117,7 +117,7 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
           </Button>
         </SheetTrigger>
       </div>
-      <SheetContent side="left" className={'bg-darkMain'}>
+      <SheetContent side="left" className={'bg-dark'}>
         <nav className="flex flex-col items-start px-4 py-6">
           <SheetTitle className="sr-only">Menu</SheetTitle>
 
@@ -139,7 +139,7 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
                   currentPath === nav.link && s.active
                 )}
               >
-                <span className="w-6 h-6 text-greenMain">{nav.icon}</span>
+                <span className="w-6 h-6 text-primary">{nav.icon}</span>
                 <span>{nav.name}</span>
               </Link>
             ))}

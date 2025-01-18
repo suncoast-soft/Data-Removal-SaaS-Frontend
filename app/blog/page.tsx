@@ -40,24 +40,24 @@ const bestBlogs: BlogSectionProps[] = [
 ]
 
 const BlogCategoryChip = ({ title }: { title: string }) => (
-  <span className="px-4 py-2 border border-greenMain text-center rounded-full text-xs font-semibold">
+  <span className="px-4 py-2 border border-primary text-center rounded-full text-xs font-semibold">
     {title}
   </span>
 )
 
 const BlogCard = ({ blog }: { blog: Blog }) => (
-  <div className="bg-darkSecondary rounded-2xl p-4 lg:min-w-[15rem] lg:w-[15rem]">
-    <span className="px-3 py-2 border border-greenMain text-center rounded-full text-xs font-semibold">
+  <div className="bg-gray rounded-2xl p-4 lg:min-w-[15rem] lg:w-[15rem]">
+    <span className="px-3 py-2 border border-primary text-center rounded-full text-xs font-semibold">
       {blog.category}
     </span>
     <h4 className="font-bold my-4 text-base">{blog.title}</h4>
     <div className="flex justify-between">
       <div className="flex gap-1 items-center text-xs font-normal">
-        <Clock5 className="w-3 text-greenMain" />
+        <Clock5 className="w-3 text-primary" />
         <span>{blog.date}</span>
       </div>
       <div className="flex gap-1 items-center text-xs font-normal">
-        <CalendarRange className="w-3 text-greenMain" />
+        <CalendarRange className="w-3 text-primary" />
         <span>{blog.read}</span>
       </div>
     </div>
@@ -67,13 +67,13 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
 const BlogSection = ({ title, blogs }: BlogSectionProps) => (
   <div className="mt-10">
     <div className="flex justify-between items-center mb-6">
-      <span className="px-3 py-2 bg-greenMain text-center rounded-full text-xs font-semibold text-darkMain">
+      <span className="px-3 py-2 bg-primary text-center rounded-full text-xs font-semibold text-dark">
         {title}
       </span>
       <div className="flex items-center">
         <Link
           href="/blog"
-          className="text-sm font-semibold border-b border-darkMain hover:text-darkMain/90"
+          className="text-sm font-semibold border-b border-dark hover:text-dark/90"
         >
           View all
         </Link>
@@ -136,7 +136,7 @@ export default function BlogPage() {
             </h2>
             <Button
               variant="secondary"
-              className="mt-4 font-semibold text-lg text-darkMain border-greenMain border-2 hover:bg-greenMain/10"
+              className="mt-4 font-semibold text-lg text-dark border-primary border-2 hover:bg-primary/10"
             >
               Book a Demo now
             </Button>

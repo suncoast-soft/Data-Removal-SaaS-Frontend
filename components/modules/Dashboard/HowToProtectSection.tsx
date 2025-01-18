@@ -12,7 +12,7 @@ export default function HowToProtectSection() {
         <Button
           variant="secondary"
           color="white"
-          className="w-full lg:w-[371px] z-10 font-semibold text-lg bg-transparent text-darkMain border-darkMain hover:bg-darkMain hover:text-white border-2"
+          className="w-full lg:w-[371px] z-10 font-semibold text-lg bg-transparent text-dark border-dark hover:bg-dark hover:text-white border-2"
           type="button"
           asChild
         >
@@ -21,7 +21,7 @@ export default function HowToProtectSection() {
           </Link>
         </Button>
       </div>
-      <hr className="my-4 border-darkMain/10 border-[1.4px] mt-[23px] hidden lg:block mb-[50px] " />
+      <hr className="my-4 border-dark/10 border-[1.4px] mt-[23px] hidden lg:block mb-[50px] " />
     </>
   )
 }

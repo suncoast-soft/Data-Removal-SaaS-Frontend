@@ -55,7 +55,7 @@ export default function FAQs({
           key={faq.id}
           value={faq.id}
           className={cn(
-            "p-4 lg:p-6 rounded-[20px] border border-darkMain/20 mb-4 [&[data-state='open']]:bg-darkMain [&[data-state='open']]:text-white shrink-0 transition duration-200",
+            "p-4 lg:p-6 rounded-[20px] border border-dark/20 mb-4 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white shrink-0 transition duration-200",
             accordionItemClassName
           )}
         >

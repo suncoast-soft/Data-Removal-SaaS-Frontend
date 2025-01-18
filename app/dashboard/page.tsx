@@ -37,7 +37,7 @@ export default async function Dashboard() {
               <Button
                 variant="secondary"
                 color="white"
-                className="w-full lg:w-[371px] z-10 font-semibold text-lg text-darkMain border-greenMain hover:bg-greenMain hover:text-white border-2"
+                className="w-full lg:w-[371px] z-10 font-semibold text-lg text-dark border-primary hover:bg-primary hover:text-white border-2"
                 type="submit"
               >
                 Upgrade and protect yourself today

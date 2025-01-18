@@ -55,7 +55,7 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-lp-footer-bg text-darkMain py-10 lg:pt-[89px] lg:pb-[80px]">
+    <footer className="bg-lp-footer-bg text-dark py-10 lg:pt-[89px] lg:pb-[80px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
         {/* Top Section */}
         <div className="flex flex-wrap items-start justify-center gap-6 pb-8 lg:pb-[60px] border-b border-dashed border-gray-300">
@@ -99,7 +99,7 @@ export default function Footer() {
                   <li key={linkIndex} className="pb-2 lg:pb-[18px]">
                     <Link
                       href={link.href}
-                      className="transition hover:text-gray-700 no-underline border-b border-darkMain text-base lg:text-lg"
+                      className="transition hover:text-gray-700 no-underline border-b border-dark text-base lg:text-lg"
                     >
                       {link.label}
                     </Link>
@@ -131,7 +131,7 @@ export default function Footer() {
           </p>
           <Link
             href="/"
-            className="transition hover:text-gray-700 no-underline border-b border-darkMain text-sm font-semibold mt-1"
+            className="transition hover:text-gray-700 no-underline border-b border-dark text-sm font-semibold mt-1"
           >
             Terms and Conditions | Privacy Policy
           </Link>

@@ -20,17 +20,17 @@ export default function SocialPlatformResultsTab({
   searchTerm = 'Joe Smith'
 }: SocialPlatformResultsTabProps) {
   return (
-    <div className="border border-darkMain/10 bg-darkMain/5 rounded-2xl py-6 px-6 flex flex-wrap gap-6 justify-between items-center">
+    <div className="border border-dark/10 bg-dark/5 rounded-2xl py-6 px-6 flex flex-wrap gap-6 justify-between items-center">
       {/* Results Section */}
       <div className="flex-1">
         <div className="mb-6 flex gap-4 items-center text-mainDark">
           <SlidersHorizontal />
           <p className="text-lg font-semibold">
             {data.length} Results for your profile:{' '}
-            <span className="text-orangeMain">“{searchTerm}”</span>
+            <span className="text-secondary">“{searchTerm}”</span>
           </p>
         </div>
-        <div className="text-darkMain">
+        <div className="text-dark">
           {data.map((item, index) => (
             <ResultItem
               key={index}

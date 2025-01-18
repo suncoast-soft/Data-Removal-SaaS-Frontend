@@ -13,9 +13,9 @@ export default function FaqsSection() {
         </p>
       </div>
       <FAQs
-        accordionItemClassName="!p-4 !border-none !bg-white !text-darkMain w-full !h-fit lg:max-w-[48%] mb-0"
+        accordionItemClassName="!p-4 !border-none !bg-white !text-dark w-full !h-fit lg:max-w-[48%] mb-0"
         accordionTriggerClassName="!text-base lg:!text-lg [&[data-state=open]>div]:rotate-45"
-        accordionContentClassName="!text-darkMain text-sm lg:text-base [&>hr]:hidden"
+        accordionContentClassName="!text-dark text-sm lg:text-base [&>hr]:hidden"
         accordionClassName="flex flex-wrap gap-2 lg:gap-4"
       />
     </div>

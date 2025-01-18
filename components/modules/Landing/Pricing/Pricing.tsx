@@ -28,13 +28,13 @@ export default function Pricing() {
     <div className="container mx-auto px-4 lg:px-12">
       {/* Header Section */}
       <div className="text-center max-w-3xl mx-auto mb-10">
-        <h6 className="text-orangeMain text-xl tracking-widest uppercase">
+        <h6 className="text-secondary text-xl tracking-widest uppercase">
           Pricing
         </h6>
-        <h2 className="text-4xl lg:text-5xl font-bold text-darkMain">
+        <h2 className="text-4xl lg:text-5xl font-bold text-dark">
           Affordable pricing plans
         </h2>
-        <p className="mt-4 text-lg text-darkMain opacity-60">
+        <p className="mt-4 text-lg text-dark opacity-60">
           Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu
           egestas morbi sem vulputate etiam facilisis pellentesque ut quis.
         </p>
@@ -43,12 +43,12 @@ export default function Pricing() {
       {/* Pricing Plans */}
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Basic Plan */}
-        <Card className="bg-transparent p-6 lg:p-8 border-2 border-darkMain rounded-3xl flex-1">
+        <Card className="bg-transparent p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
           <CardHeader className="p-0">
             <CardTitle>
-              <h3 className="text-right text-2xl lg:text-3xl font-bold text-darkMain lg:mb-8">
+              <p className="text-right text-2xl lg:text-3xl font-bold text-dark lg:mb-8">
                 Free
-              </h3>
+              </p>
               <div className="flex flex-col lg:flex-row lg:gap-6 items-center">
                 <Image
                   src="/lp-basic-pricing-image.png"
@@ -58,10 +58,10 @@ export default function Pricing() {
                   className="min-w-[153px]"
                 />
                 <div className="mt-6 lg:mt-0">
-                  <h3 className="text-4xl lg:text-5xl font-bold text-darkMain">
+                  <p className="text-4xl lg:text-5xl font-bold text-dark">
                     Basic Plan
-                  </h3>
-                  <p className="mt-4 text-lg text-darkMain opacity-80">
+                  </p>
+                  <p className="mt-4 text-lg text-dark opacity-80">
                     Vitae commodo consectetur volutpat aolme atolmerol euismod
                     amet at arcu volutpa.
                   </p>
@@ -74,13 +74,13 @@ export default function Pricing() {
               {basicPlanFeatures.map((feature, index) => (
                 <li key={index} className="flex gap-4 items-center">
                   <GreenCircleCheck />
-                  <p className="font-bold text-lg text-darkMain">{feature}</p>
+                  <p className="font-bold text-lg text-dark">{feature}</p>
                 </li>
               ))}
             </ul>
             <Button
               variant="outline"
-              className="w-full font-bold uppercase flex items-center gap-2 text-darkMain border-darkMain border-2 hover:bg-darkMain hover:text-white"
+              className="w-full font-bold uppercase flex items-center gap-2 text-dark border-dark border-2 hover:bg-dark hover:text-white"
             >
               Start for Free <ArrowRight />
             </Button>
@@ -88,12 +88,12 @@ export default function Pricing() {
         </Card>
 
         {/* Pro Plan */}
-        <Card className="bg-darkMain p-6 lg:p-8 border-2 border-darkMain rounded-3xl flex-1">
+        <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
           <CardHeader className="p-0">
             <CardTitle>
-              <h3 className="text-right text-2xl lg:text-3xl font-bold text-orangeMain lg:mb-8">
+              <p className="text-right text-2xl lg:text-3xl font-bold text-secondary lg:mb-8">
                 $99/year
-              </h3>
+              </p>
               <div className="flex flex-col lg:flex-row lg:gap-6 items-center">
                 <Image
                   src="/lp-pro-pricing-image.png"
@@ -103,9 +103,9 @@ export default function Pricing() {
                   className="min-w-[153px]"
                 />
                 <div className="mt-6 lg:mt-0">
-                  <h3 className="text-4xl lg:text-5xl font-bold text-white">
+                  <p className="text-4xl lg:text-5xl font-bold text-white">
                     Full Protection Plan
-                  </h3>
+                  </p>
                   <p className="mt-4 text-lg text-white opacity-80">
                     Vitae commodo consectetur volutpat a atolmerol euismod amet
                     at arcu volutpat aliquet justo.
@@ -125,7 +125,7 @@ export default function Pricing() {
             </ul>
             <Button
               variant="default"
-              className="w-full font-bold uppercase flex items-center gap-2 text-darkMain border-darkMain border-2 bg-white hover:bg-gray-200"
+              className="w-full font-bold uppercase flex items-center gap-2 text-dark border-dark border-2 bg-white hover:bg-gray-200"
             >
               Get Started <ArrowRight />
             </Button>

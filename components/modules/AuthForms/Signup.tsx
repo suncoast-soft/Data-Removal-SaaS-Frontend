@@ -92,8 +92,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
       render={({ field }) => (
         <FormItem className="w-full min-w-[48%] lg:flex-1">
           <FormLabel className="text-white font-bold text-lg">
-            {label}{' '}
-            {isRequired && <sup className="text-orangeMain pt-1">*</sup>}
+            {label} {isRequired && <sup className="text-secondary pt-1">*</sup>}
           </FormLabel>
           <FormControl>
             <div className="relative">
@@ -130,13 +129,13 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
             'first_name',
             'First Name',
             'John',
-            <User className="w-5 text-greenMain" />
+            <User className="w-5 text-primary" />
           )}
           {renderInputField(
             'last_name',
             'Last Name',
             'Doe',
-            <User className="w-5 text-greenMain" />,
+            <User className="w-5 text-primary" />,
             'text',
             true
           )}
@@ -146,14 +145,14 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
             render={({ field }) => (
               <FormItem className="w-full min-w-[48%] lg:flex-1">
                 <FormLabel className="text-white font-bold text-lg">
-                  Birth Year <sup className="text-orangeMain pt-1">*</sup>
+                  Birth Year <sup className="text-secondary pt-1">*</sup>
                 </FormLabel>
                 <FormControl>
                   <Popover>
                     <PopoverTrigger asChild>
                       <div className="relative">
                         <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                          <CalendarRange className="w-5 text-greenMain" />
+                          <CalendarRange className="w-5 text-primary" />
                         </div>
                         <Button
                           type="button"
@@ -186,7 +185,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
             'address',
             'Address',
             '123 Main St',
-            <MapPin className="w-5 text-greenMain" />,
+            <MapPin className="w-5 text-primary" />,
             'text',
             true
           )}
@@ -194,7 +193,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
             'phone',
             'Phone',
             '(123) 456-7890',
-            <PhoneCall className="w-5 text-greenMain" />,
+            <PhoneCall className="w-5 text-primary" />,
             'tel',
             true
           )}
@@ -202,7 +201,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
             'email',
             'Email',
             'example@email.com',
-            <Mail className="w-5 text-greenMain" />,
+            <Mail className="w-5 text-primary" />,
             'email',
             true
           )}
@@ -210,7 +209,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
             'password',
             'Password',
             '*******',
-            <Mail className="w-5 text-greenMain" />,
+            <Mail className="w-5 text-primary" />,
             'password',
             true
           )}

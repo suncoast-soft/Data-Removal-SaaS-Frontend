@@ -28,10 +28,10 @@ export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-darkMain/90 flex flex-col items-start gap-6 px-4 py-5 lg:hidden pt-12 z-50">
+        <div className="fixed inset-0 bg-dark/90 flex flex-col items-start gap-6 px-4 py-5 lg:hidden pt-12 z-50">
           {/* Close Button */}
           <X
-            className="text-orangeMain text-xl absolute right-4 top-4 cursor-pointer"
+            className="text-secondary text-xl absolute right-4 top-4 cursor-pointer"
             onClick={() => setIsMenuOpen(false)}
             aria-label="Close Menu"
           />

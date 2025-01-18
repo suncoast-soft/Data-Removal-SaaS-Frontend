@@ -13,7 +13,7 @@ export default async function ResultsPage({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   return (
-    <div className="pt-4 pb-[47px] lg:pt-[100px] lg:pb-[40px] text-darkMain">
+    <div className="pt-4 pb-[47px] lg:pt-[100px] lg:pb-[40px] text-dark">
       <div className="container mx-auto px-4 lg:px-[110px] max-w-[1288px]">
         <ResultRoot name={(searchParams.name ?? '') as string} />
 
@@ -28,7 +28,7 @@ export default async function ResultsPage({
         <Button
           variant="secondary"
           color="white"
-          className="w-full lg:w-[371px] z-10 font-semibold text-lg text-darkMain border-greenMain hover:bg-greenMain hover:text-white border-2"
+          className="w-full lg:w-[371px] z-10 font-semibold text-lg text-dark border-primary hover:bg-primary hover:text-white border-2"
           type="button"
         >
           <Link href="/checkout" className="no-underline">

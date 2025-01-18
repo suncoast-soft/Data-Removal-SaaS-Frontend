@@ -7,7 +7,7 @@ export default async function contactUsPage() {
     <div className="bg-lp-hero-section-bg bg-cover bg-bottom py-[70px] lg:py-[100px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
         <div className="flex items-center flex-col lg:flex-row gap-[39px] lg:gap-[50px]">
-          <div className="rounded-[30px] bg-darkMain p-4 py-6 lg:pb-10 lg:p-10 max-w-[616px]">
+          <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 max-w-[616px]">
             <h1 className="font-bold text-[43px] lg:text-[50px] text-white leading-[55px] mb-4 lg:mb-6">
               Get in touch today
             </h1>

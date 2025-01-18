@@ -14,7 +14,7 @@ interface BrokersTabContentProps {
 
 export default function BrokersTabContent({ data }: BrokersTabContentProps) {
   return (
-    <div className="border border-darkMain/10 bg-darkMain/5 rounded-2xl py-4 lg:py-6 flex flex-wrap gap-6">
+    <div className="border border-dark/10 bg-dark/5 rounded-2xl py-4 lg:py-6 flex flex-wrap gap-6">
       <div className="w-full lg:w-1/2">
         {data?.map((item, i) => (
           <article key={i} className="px-6 flex flex-col gap-4">
@@ -22,7 +22,7 @@ export default function BrokersTabContent({ data }: BrokersTabContentProps) {
             <div className="flex flex-wrap gap-2 justify-between">
               <a
                 href={item.url}
-                className="font-bold text-greenMain text-sm lg:text-base border-b-2 border-greenMain no-underline w-fit"
+                className="font-bold text-primary text-sm lg:text-base border-b-2 border-primary no-underline w-fit"
               >
                 {item.url}
               </a>
@@ -50,13 +50,13 @@ export default function BrokersTabContent({ data }: BrokersTabContentProps) {
             {/* Not My Info Link */}
             <a
               href="#"
-              className="text-sm lg:text-base font-medium no-underline border-b border-darkMain w-fit"
+              className="text-sm lg:text-base font-medium no-underline border-b border-dark w-fit"
             >
               Not my info
             </a>
 
             {/* Divider */}
-            {i < data.length - 1 && <hr className="border-darkMain/10 my-4" />}
+            {i < data.length - 1 && <hr className="border-dark/10 my-4" />}
           </article>
         ))}
       </div>

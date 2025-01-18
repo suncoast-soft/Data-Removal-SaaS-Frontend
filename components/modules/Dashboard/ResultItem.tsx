@@ -15,13 +15,13 @@ export default function ResultItem({ isLast, item }: ResultItemProps) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-2 pb-4 mb-4 border-b border-darkMain/10',
+        'flex flex-col gap-2 pb-4 mb-4 border-b border-dark/10',
         isLast && 'border-none'
       )}
     >
       <a
         href={item.url}
-        className="text-base font-normal text-darkMain no-underline hover:underline"
+        className="text-base font-normal text-dark no-underline hover:underline"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -33,7 +33,7 @@ export default function ResultItem({ isLast, item }: ResultItemProps) {
       {item.subUrl && (
         <a
           href={item.subUrl}
-          className="text-base font-normal text-darkMain no-underline hover:underline"
+          className="text-base font-normal text-dark no-underline hover:underline"
           target="_blank"
           rel="noopener noreferrer"
         >

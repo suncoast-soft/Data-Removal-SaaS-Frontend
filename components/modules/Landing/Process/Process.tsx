@@ -26,13 +26,13 @@ export default function Process() {
   return (
     <>
       <div className="text-center max-w-[706px] mx-auto">
-        <h6 className="text-orangeMain text-xl tracking-widest uppercase">
+        <h6 className="text-secondary text-xl tracking-widest uppercase">
           Our process
         </h6>
-        <h2 className="text-4xl lg:text-[45px] lg:leading-[55px] font-bold text-center text-darkMain">
+        <h2 className="text-4xl lg:text-[45px] lg:leading-[55px] font-bold text-center text-dark">
           Get started as easy as 1, 2, 3
         </h2>
-        <p className="text-base mt-4 text-darkMain lg:text-lg text-center opacity-60">
+        <p className="text-base mt-4 text-dark lg:text-lg text-center opacity-60">
           Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu
           egestas morbi sem vulputate etiam facilisis pellentesque ut quis.
         </p>
@@ -56,7 +56,7 @@ export default function Process() {
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-0 text-darkMain">
+            <CardContent className="p-0 text-dark">
               <h3 className="text-[28px] leading-[38px] font-bold text-center mt-2 lg:mt-4">
                 {card.title}
               </h3>

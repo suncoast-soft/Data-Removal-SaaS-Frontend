@@ -69,11 +69,11 @@ const AboutSection = () => (
 )
 
 const AboutContent = () => (
-  <div className="max-w-fit lg:max-w-[1138px] text-darkMain">
+  <div className="max-w-fit lg:max-w-[1138px] text-dark">
     <h1 className="text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold text-center">
       About Us
     </h1>
-    <p className="mt-4 text-base font-normal lg:text-[22px] lg:leading-[26px] text-center text-darkMain/60">
+    <p className="mt-4 text-base font-normal lg:text-[22px] lg:leading-[26px] text-center text-dark/60">
       Remember when the internet was about exploration and self-expression? We
       sure do. And we’re just as frustrated as you that it has become the
       playground for predatory marketers, shadowy hackers, and other
@@ -119,7 +119,7 @@ const TeamList = () => (
 )
 
 const TrustSection = () => (
-  <section className="mb-[60px] text-darkMain">
+  <section className="mb-[60px] text-dark">
     <div className="mx-auto px-4 lg:px-[110px] max-w-[1440px]">
       <h1 className="text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold text-center mb-[82px]">
         Why Trust Us
@@ -149,7 +149,7 @@ const TrustStatements = () => (
 
 const StatementItem = ({ item }: { item: string }) => (
   <div className={cn('flex gap-3 items-center')}>
-    <div className="[&>svg>g>path]:stroke-white [&>svg>g>path]:fill-orangeMain">
+    <div className="[&>svg>g>path]:stroke-white [&>svg>g>path]:fill-secondary">
       <OrangeCircleCheck />
     </div>
     <p className="font-normal text-base lg:text-[22px] lg:leading-[28px] text-left">
@@ -159,9 +159,9 @@ const StatementItem = ({ item }: { item: string }) => (
 )
 
 const TeamItem = ({ item }: { item: TeamMember }) => (
-  <div className="max-w-[48%] px-2.5 py-4 border border-darkMain/10 flex flex-col gap-2 justify-center items-center rounded-xl">
-    <h4 className="font-bold text-[20px] text-darkMain">{item.name}</h4>
-    <h6 className="font-bold text-greenMain text-xs">{item.role}</h6>
-    <p className="text-center text-base text-darkMain/60">{item.description}</p>
+  <div className="max-w-[48%] px-2.5 py-4 border border-dark/10 flex flex-col gap-2 justify-center items-center rounded-xl">
+    <h4 className="font-bold text-[20px] text-dark">{item.name}</h4>
+    <h6 className="font-bold text-primary text-xs">{item.role}</h6>
+    <p className="text-center text-base text-dark/60">{item.description}</p>
   </div>
 )

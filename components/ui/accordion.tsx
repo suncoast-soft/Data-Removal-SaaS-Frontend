@@ -34,7 +34,7 @@ const AccordionTrigger = React.forwardRef<
       {...props}
     >
       {children}
-      <div className="h-8 w-8 items-center flex justify-center rounded-full bg-greenMain text-darkMain shrink-0 transition-transform duration-200 [&[data-state=open]>div]:rotate-45 default-trigger-icon">
+      <div className="h-8 w-8 items-center flex justify-center rounded-full bg-primary text-dark shrink-0 transition-transform duration-200 [&[data-state=open]>div]:rotate-45 default-trigger-icon">
         <PlusIcon className="h-5 w-5" />
       </div>
     </AccordionPrimitive.Trigger>

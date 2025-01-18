@@ -71,7 +71,7 @@ export default function VerifyOTPForm() {
                         <InputOTPSlot
                           key={index}
                           {...slot}
-                          className="w-[60px] h-[60px] lg:w-[120px] lg:h-[120px] text-2xl font-bold border bg-white text-darkMain border-darkMain/15 rounded-[10px] lg:rounded-[20px] focus:border-orange-500 focus:ring-orange-500"
+                          className="w-[60px] h-[60px] lg:w-[120px] lg:h-[120px] text-2xl font-bold border bg-white text-dark border-dark/15 rounded-[10px] lg:rounded-[20px] focus:border-orange-500 focus:ring-orange-500"
                         />
                       ))}
                     </InputOTPGroup>
@@ -93,7 +93,7 @@ export default function VerifyOTPForm() {
         <Button
           type="button"
           variant="link"
-          className="text-orangeMain hover:text-orangeMain/90 text-lg p-0 h-fit"
+          className="text-secondary hover:text-secondary/90 text-lg p-0 h-fit"
           disabled={isResending || isSubmitting}
           onClick={handleResend}
         >

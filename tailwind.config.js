@@ -43,13 +43,10 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out'
       },
       colors: {
-        primary: '#055fab',
-        secondary: '#3ebeb8',
-        darkMain: '#342E37',
-        greenMain: '#A2D829',
-        orangeMain: '#FA824C',
-        blue50: '#F9FCFF',
-        darkSecondary: '#48434B',
+        primary: '#A2D829',
+        secondary: '#FA824C',
+        dark: '#342E37',
+        gray: '#48434B',
         blue: '#3B91E5'
       },
       backgroundImage: {

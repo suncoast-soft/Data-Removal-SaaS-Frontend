@@ -25,7 +25,7 @@ export default async function Navbar({ user }: { user: User | null }) {
   ]
 
   return (
-    <nav className="sticky top-0 bg-darkMain z-40 transition-all duration-150 h-16 md:h-20 shadow-sm">
+    <nav className="sticky top-0 bg-dark z-40 transition-all duration-150 h-16 md:h-20 shadow-sm">
       <a href="#skip" className="sr-only focus:not-sr-only">
         Skip to content
       </a>

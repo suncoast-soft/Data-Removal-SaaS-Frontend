@@ -20,7 +20,7 @@ interface PieChartCardProps {
 export function PieChartCard({ title, data, legendItems }: PieChartCardProps) {
   return (
     <div className="h-full">
-      <h4 className="text-lg font-bold text-darkMain mb-4">{title}</h4>
+      <h4 className="text-lg font-bold text-dark mb-4">{title}</h4>
       <div className="flex flex-wrap gap-4 mb-4">
         {legendItems.map((item, index) => (
           <div key={index} className="flex items-center gap-1 min-w-[40%]">
@@ -28,9 +28,7 @@ export function PieChartCard({ title, data, legendItems }: PieChartCardProps) {
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: item.color }}
             />
-            <span className="text-base text-darkmain font-medium">
-              {item.name}
-            </span>
+            <span className="text-base text-dark font-medium">{item.name}</span>
           </div>
         ))}
       </div>
