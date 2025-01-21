@@ -29,7 +29,7 @@ export default function FeaturedCTA() {
           </Button>
 
           <Button variant="outline" asChild>
-            <Link href="/contact-us" className="no-underline">
+            <Link href="/contact" className="no-underline">
               TALK TO SALES
             </Link>
           </Button>

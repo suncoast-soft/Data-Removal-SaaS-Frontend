@@ -48,16 +48,16 @@ export default async function SignIn({ params }: { params: { id: string } }) {
   return (
     <div className="bg-lp-hero-section-bg bg-cover bg-bottom py-[40px] lg:py-[100px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
-        <div className="flex items-center flex-col lg:flex-row gap-[39px] lg:gap-[50px]">
-          <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 max-w-[600px]">
-            <h1 className="font-bold text-5xl text-white mb-4">
+        <div className="flex items-center flex-col lg:flex-row justify-between gap-8 lg:gap-16">
+          <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 lg:w-1/2 flex-shrink-0">
+            <h1 className="font-bold text-3xl lg:text-[44px] leading-tight text-white mb-4">
               {viewProp === 'forgot_password'
                 ? 'Reset Password'
                 : viewProp === 'update_password'
                   ? 'Update Password'
                   : viewProp === 'signup'
                     ? 'Welcome to Pup Erase!'
-                    : 'Sign In'}
+                    : 'Login'}
             </h1>
 
             {viewProp === 'password_signin' && (
@@ -66,39 +66,46 @@ export default async function SignIn({ params }: { params: { id: string } }) {
                 redirectMethod={redirectMethod}
               />
             )}
+
             {viewProp === 'email_signin' && (
               <EmailSignIn
                 allowPassword={allowPassword}
                 redirectMethod={redirectMethod}
               />
             )}
+
             {viewProp === 'forgot_password' && (
               <ForgotPassword
                 allowEmail={allowEmail}
                 redirectMethod={redirectMethod}
               />
             )}
+
             {viewProp === 'update_password' && (
               <UpdatePassword redirectMethod={redirectMethod} />
             )}
+
             {viewProp === 'signup' && (
               <SignUp redirectMethod={redirectMethod} />
             )}
+
             {viewProp !== 'update_password' &&
               viewProp !== 'signup' &&
               allowOauth && (
-                <div className="w-full">
+                <div className="w-full mt-4">
                   <Separator text="Third-party sign-in" />
                   <OauthSignIn />
                 </div>
               )}
           </div>
-          <div className="">
+
+          <div>
             <Image
               src={'/signup-image.png'}
               width={554}
               height={708}
-              alt={`Vector`}
+              alt="Singup"
+              className="object-contain"
             />
           </div>
         </div>

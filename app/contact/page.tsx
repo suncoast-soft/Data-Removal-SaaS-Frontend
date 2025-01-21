@@ -6,19 +6,22 @@ export default async function contactUsPage() {
   return (
     <div className="bg-lp-hero-section-bg bg-cover bg-bottom py-[70px] lg:py-[100px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
-        <div className="flex items-center flex-col lg:flex-row gap-[39px] lg:gap-[50px]">
-          <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 max-w-[616px]">
-            <h1 className="font-bold text-[43px] lg:text-[50px] text-white leading-[55px] mb-4 lg:mb-6">
+        <div className="flex items-center flex-col lg:flex-row justify-between gap-8 lg:gap-16">
+          <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 lg:w-1/2 flex-shrink-0">
+            <h1 className="font-bold text-3xl lg:text-[44px] leading-tight text-white mb-4">
               Get in touch today
             </h1>
-            <p className="font-normal text-lg lg:text-[22px] leading-[26px] mb-4 lg:mb-6 text-white opacity-60">
+
+            <p className="font-light text-xl leading-snug tracking-wide mb-4 text-white/60">
               Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu
               dolorol egestas morbi sem vulputate etiam facilisis pellentesque
               ut quis.
             </p>
+
             <ContactForm />
           </div>
-          <div className="">
+
+          <div>
             <Image
               src={'/contact-us-image.png'}
               width={554}

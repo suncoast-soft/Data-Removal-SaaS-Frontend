@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { signInWithEmail } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
@@ -28,10 +27,7 @@ const FormSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' })
 })
 
-export default function EmailSignIn({
-  allowPassword,
-  redirectMethod
-}: EmailSignInProps) {
+export default function EmailSignIn({ redirectMethod }: EmailSignInProps) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = redirectMethod === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -49,17 +45,22 @@ export default function EmailSignIn({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="text-white font-semibold text-lg">
+                  Email
+                  <sup className="text-secondary pt-1"> *</sup>
+                </FormLabel>
+
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="Your email address"
+                    className="text-dark placeholder:text-dark/60"
                     {...field}
                   />
                 </FormControl>
@@ -68,32 +69,16 @@ export default function EmailSignIn({
             )}
           />
 
-          <Button type="submit" disabled={isSubmitting}>
-            Sign In
+          <Button
+            variant="secondary"
+            type="submit"
+            className="w-full"
+            disabled={isSubmitting}
+          >
+            Login
           </Button>
         </form>
       </Form>
-
-      {allowPassword && (
-        <div className="mt-4">
-          <p>
-            <Link
-              href="/signin/password_signin"
-              className="font-medium text-sm text-primary"
-            >
-              Sign in with email and password
-            </Link>
-          </p>
-          <p>
-            <Link
-              href="/signin/signup"
-              className="font-medium text-sm text-primary"
-            >
-              Don&apos;t have an account? Sign up
-            </Link>
-          </p>
-        </div>
-      )}
     </>
   )
 }

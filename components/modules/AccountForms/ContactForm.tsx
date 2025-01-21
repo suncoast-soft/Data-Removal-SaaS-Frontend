@@ -16,6 +16,7 @@ import { toast } from '@/hooks/use-toast'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import Image from 'next/image'
+import { MailIcon, UserIcon } from 'lucide-react'
 
 const FormSchema = z.object({
   name: z.string(),
@@ -37,10 +38,42 @@ export default function ContactForm() {
     })
   }
 
-  const inputContainerStyles =
-    'relative w-full bg-transparent border-2 border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60'
-  const iconStyles =
-    'absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 object-contain'
+  const renderInputField = (
+    name: keyof z.infer<typeof FormSchema>,
+    label: string,
+    placeholder: string,
+    icon: React.ReactNode,
+    type: 'text' | 'email',
+    isRequired = false
+  ) => (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className="w-full min-w-[48%] lg:flex-1">
+          <FormLabel className="text-white font-semibold text-lg">
+            {label}
+            {isRequired && <sup className="text-secondary pt-1"> *</sup>}
+          </FormLabel>
+          <FormControl>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                {icon}
+              </div>
+              <Input
+                type={type}
+                placeholder={placeholder}
+                {...field}
+                value={field.value}
+                className="bg-white text-dark [&::placeholder]:text-dark/60 py-3"
+              />
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
 
   return (
     <Form {...form}>
@@ -49,74 +82,31 @@ export default function ContactForm() {
         className="flex flex-col gap-4 lg:gap-6"
       >
         <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-4 text-white">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="w-full lg:w-auto lg:flex-1">
-                <FormLabel className="text-white font-bold text-lg">
-                  Name
-                </FormLabel>
-                <FormControl>
-                  <div className={inputContainerStyles}>
-                    <Image
-                      src="/green-user.png"
-                      width={20}
-                      height={20}
-                      alt="Name"
-                      className={iconStyles}
-                    />
-                    <Input
-                      type="text"
-                      placeholder="John Carter"
-                      {...field}
-                      className="pl-12"
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {renderInputField(
+            'name',
+            'Name',
+            'Your Name',
+            <UserIcon className="w-5 text-primary" />,
+            'text',
+            true
+          )}
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-full lg:w-auto lg:flex-1">
-                <FormLabel className="text-white font-bold text-lg">
-                  Email
-                </FormLabel>
-                <FormControl>
-                  <div className={inputContainerStyles}>
-                    <Image
-                      src="/green-email.png"
-                      width={20}
-                      height={20}
-                      alt="Email"
-                      className={iconStyles}
-                    />
-                    <Input
-                      type="email"
-                      placeholder="example@email.com"
-                      {...field}
-                      className="pl-12"
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {renderInputField(
+            'email',
+            'Email',
+            'example@email.com',
+            <MailIcon className="w-5 text-primary" />,
+            'email',
+            true
+          )}
         </div>
 
-        {/* Message Field */}
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel className="text-white font-bold text-lg">
+              <FormLabel className="text-white font-semibold text-lg">
                 Leave us a message
               </FormLabel>
               <FormControl>
@@ -126,12 +116,12 @@ export default function ContactForm() {
                     width={20}
                     height={20}
                     alt="Message"
-                    className="absolute left-6 top-8 w-5 h-4 object-contain"
+                    className="absolute left-2 top-5 w-5 h-4 object-contain"
                   />
                   <Textarea
-                    placeholder="Tell us a little bit about your request"
+                    placeholder="Tell us a little bit about yourself"
                     {...field}
-                    className="pl-12 resize-none bg-transparent border-2 border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60"
+                    className="px-4 py-4 pl-8 resize-none bg-transparent border border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60 ring-offset-white focus-visible:outline-none focus-visible:ring-offset-0 focus-visible:ring-white"
                   />
                 </div>
               </FormControl>
@@ -139,11 +129,7 @@ export default function ContactForm() {
           )}
         />
 
-        <Button
-          type="submit"
-          variant="secondary"
-          className="w-full lg:w-52 text-center"
-        >
+        <Button type="submit" variant="secondary" className="w-full lg:w-52">
           Send Message
         </Button>
       </form>

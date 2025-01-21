@@ -162,7 +162,7 @@ export default function SignUp({ redirectMethod }: SignUpProps) {
                             variant="outline"
                             className={cn(
                               'font-normal py-3 w-full border px-10 bg-transparent border-white text-white justify-start',
-                              !field.value && 'text-white/60'
+                              !field.value && 'text-white/60 font-light'
                             )}
                           >
                             {field.value

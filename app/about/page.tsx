@@ -59,7 +59,7 @@ export default async function AboutUsPage() {
 
 const AboutSection = () => (
   <section className="lg:bg-blue-dots-bg bg-cover bg-bottom pt-[21px] pb-7 lg:py-[92px]">
-    <div className="mx-auto px-4 lg:px-[110px] max-w-[1440px]">
+    <div className="container">
       <div className="flex-col flex items-center justify-center gap-10">
         <AboutContent />
         <TeamList />
@@ -69,24 +69,30 @@ const AboutSection = () => (
 )
 
 const AboutContent = () => (
-  <div className="max-w-fit lg:max-w-[1138px] text-dark">
-    <h1 className="text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold text-center">
+  <div className="max-w-5xl">
+    <h1 className="text-4xl lg:text-5xl font-bold text-dark text-center mb-6">
       About Us
     </h1>
-    <p className="mt-4 text-base font-normal lg:text-[22px] lg:leading-[26px] text-center text-dark/60">
+
+    <p className="text-dark/60 text-xl mb-4">
       Remember when the internet was about exploration and self-expression? We
       sure do. And we’re just as frustrated as you that it has become the
       playground for predatory marketers, shadowy hackers, and other
       ne’er-do-wells.
-      <br /> <br />
+    </p>
+
+    <p className="text-dark/60 text-xl mb-4">
       That’s why we’ve made it our mission to make the internet a bit safer for
       everyone. We can’t build a time machine, but we can keep prying eyes away
       from what they want most: your personal information.
-      <br /> <br />
+    </p>
+
+    <p className="text-dark/60 text-xl mb-6">
       Protecting user privacy, or Pup, is our guiding principle. We long for a
       day when our service isn’t necessary. But until then, we’re focused on one
       thing: keeping your personal information personal.
     </p>
+
     <Images />
   </div>
 )
@@ -119,11 +125,12 @@ const TeamList = () => (
 )
 
 const TrustSection = () => (
-  <section className="mb-[60px] text-dark">
-    <div className="mx-auto px-4 lg:px-[110px] max-w-[1440px]">
-      <h1 className="text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold text-center mb-[82px]">
+  <section className="mb-16">
+    <div className="container">
+      <h1 className="text-5xl font-bold text-dark text-center mb-8">
         Why Trust Us
       </h1>
+
       <div className="text-center flex items-center flex-col lg:flex-row gap-[56px]">
         <div>
           <Image
