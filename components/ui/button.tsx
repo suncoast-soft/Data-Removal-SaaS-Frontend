@@ -22,7 +22,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline dark:text-slate-50'
       },
       size: {
-        default: 'h-[66px] rounded-full px-8 py-6 font-bold',
+        default: 'w-fit h-fit rounded-full px-8 py-4 font-bold leading-relaxed',
         icon: 'h-9 w-9 rounded-full flex justify-center items-center p-2'
       }
     },

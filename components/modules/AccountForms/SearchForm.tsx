@@ -53,7 +53,7 @@ export default function SearchForm() {
                   <Input
                     type="text"
                     placeholder="Enter your Full Name..."
-                    className="lg:w-[340px]"
+                    className="lg:w-80"
                     {...field}
                   />
                 </FormControl>

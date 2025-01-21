@@ -49,8 +49,8 @@ export default async function SignIn({ params }: { params: { id: string } }) {
     <div className="bg-lp-hero-section-bg bg-cover bg-bottom py-[40px] lg:py-[100px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
         <div className="flex items-center flex-col lg:flex-row gap-[39px] lg:gap-[50px]">
-          <div className="rounded-[30px] bg-zinc-700 p-4 py-6 lg:pb-10 lg:p-10 max-w-[616px]">
-            <h1 className="font-bold text-[43px] lg:text-[50px] text-white leading-[55px] mb-4 lg:mb-6">
+          <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 max-w-[600px]">
+            <h1 className="font-bold text-5xl text-white mb-4">
               {viewProp === 'forgot_password'
                 ? 'Reset Password'
                 : viewProp === 'update_password'
@@ -59,9 +59,7 @@ export default async function SignIn({ params }: { params: { id: string } }) {
                     ? 'Welcome to Pup Erase!'
                     : 'Sign In'}
             </h1>
-            <p className="font-normal text-lg lg:text-[22px] leading-[26px] mb-4 lg:mb-6 text-white opacity-60">
-              All details to your profile to ensure correct results.
-            </p>
+
             {viewProp === 'password_signin' && (
               <PasswordSignIn
                 allowEmail={allowEmail}
@@ -84,7 +82,7 @@ export default async function SignIn({ params }: { params: { id: string } }) {
               <UpdatePassword redirectMethod={redirectMethod} />
             )}
             {viewProp === 'signup' && (
-              <SignUp allowEmail={allowEmail} redirectMethod={redirectMethod} />
+              <SignUp redirectMethod={redirectMethod} />
             )}
             {viewProp !== 'update_password' &&
               viewProp !== 'signup' &&
