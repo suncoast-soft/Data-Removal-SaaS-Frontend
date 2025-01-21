@@ -42,7 +42,7 @@ export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
               <Link
                 key={index}
                 href={nav.link}
-                className="text-lg font-medium leading-[18px] text-white transition hover:text-gray-300 rounded-md p-1"
+                className="text-lg font-medium leading-[18px] text-white transition hover:text-slate-300 rounded-md p-1"
                 onClick={() => setIsMenuOpen(false)} // Close menu on link click
               >
                 {nav.name}

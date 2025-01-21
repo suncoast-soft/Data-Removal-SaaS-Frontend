@@ -306,7 +306,7 @@ export default function AccountSettings({
                       </Button>
                     </div>
                   ) : (
-                    <p className="text-gray-600">{contactDetails.email}</p>
+                    <p className="text-slate-600">{contactDetails.email}</p>
                   )}
                 </div>
 
@@ -351,7 +351,7 @@ export default function AccountSettings({
                       </Button>
                     </div>
                   ) : (
-                    <p className="text-gray-600">{contactDetails.phone}</p>
+                    <p className="text-slate-600">{contactDetails.phone}</p>
                   )}
                 </div>
               </div>

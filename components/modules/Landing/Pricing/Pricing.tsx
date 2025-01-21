@@ -82,7 +82,7 @@ export default function Pricing() {
               variant="outline"
               className="w-full font-bold uppercase flex items-center gap-2 text-dark border-dark border-2 hover:bg-dark hover:text-white"
             >
-              Start for Free <ArrowRight />
+              START FOR FREE <ArrowRight />
             </Button>
           </CardContent>
         </Card>

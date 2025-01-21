@@ -66,20 +66,16 @@ export default function SearchForm() {
             <Info className="w-[18px] h-[18px]" />
             <Link
               href={'/'}
-              className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-dark hover:text-gray-700 w-fit no-underline border-b border-dark"
+              className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-dark hover:text-slate-700 w-fit no-underline border-b border-dark"
             >
               How we use your information?
             </Link>
           </div>
         </div>
 
-        <Button
-          variant="default"
-          color="white"
-          className="w-full lg:w-44 z-10 font-bold uppercase flex items-center gap-2"
-          type="submit"
-        >
-          Search <ArrowRight />
+        <Button variant="default" type="submit" className="z-10">
+          <span className="mr-2">SEARCH</span>
+          <ArrowRight />
         </Button>
       </form>
     </Form>

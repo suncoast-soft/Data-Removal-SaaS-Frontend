@@ -5,6 +5,7 @@ import ArrowRight from '@/components/icons/ArrowRight'
 import GreenCircleCheck from '@/components/icons/GreenCircleCheck'
 import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
 import SectionHeader from '@/components/modules/SectionHeader'
+import Link from 'next/link'
 
 const basicPlanFeatures = [
   'All analytics features',
@@ -73,11 +74,14 @@ export default function PricingTable() {
                 ))}
               </ul>
 
-              <Button
-                variant="outline"
-                className="font-bold uppercase flex items-center gap-2 text-dark border-dark border-2 hover:bg-dark hover:text-white"
-              >
-                Start for Free <ArrowRight />
+              <Button variant="outline" asChild>
+                <Link
+                  href="/signin/signup"
+                  className="no-underline inline-block w-fit"
+                >
+                  <span className="mr-2">START FOR FREE</span>
+                  <ArrowRight />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -122,12 +126,14 @@ export default function PricingTable() {
                 ))}
               </ul>
 
-              <Button
-                variant="default"
-                color="white"
-                className="w-full lg:w-60 z-10 font-bold uppercase flex items-center gap-2"
-              >
-                Get Started <ArrowRight />
+              <Button asChild>
+                <Link
+                  href="/signin/signup"
+                  className="no-underline inline-block w-fit"
+                >
+                  <span className="mr-2">GET STARTED</span>
+                  <ArrowRight />
+                </Link>
               </Button>
             </CardContent>
           </Card>

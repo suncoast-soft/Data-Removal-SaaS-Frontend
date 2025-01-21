@@ -11,19 +11,19 @@ const buttonVariants = cva(
       variant: {
         default:
           'bg-secondary text-dark hover:bg-secondary/90 dark:bg-slate-50 dark:text-primary dark:hover:bg-slate-50/90',
-        destructive:
-          'bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90',
-        outline:
-          'border border-primary bg-transparent text-primary hover:bg-primary/80 hover:text-white dark:border-primary dark:bg-primary dark:hover:bg-primary dark:hover:text-slate-50 font-bold',
         secondary:
           'bg-primary text-dark hover:bg-primary/80 dark:bg-primary dark:text-slate-50 dark:hover:bg-primary/80',
+        destructive:
+          'bg-dark text-primary hover:bg-slate-800 dark:bg-dark dark:primary dark:hover:bg-slate-800',
+        outline:
+          'text-dark border-dark border-2 hover:bg-dark hover:text-white',
         ghost:
           'hover:bg-slate-100 hover:text-primary dark:hover:bg-primary dark:hover:text-slate-50',
         link: 'text-primary underline-offset-4 hover:underline dark:text-slate-50'
       },
       size: {
-        default: 'h-[66px] rounded-full p-6',
-        icon: 'h-10 w-10'
+        default: 'h-[66px] rounded-full px-8 py-6 font-bold',
+        icon: 'h-9 w-9 rounded-full flex justify-center items-center p-2'
       }
     },
     defaultVariants: {

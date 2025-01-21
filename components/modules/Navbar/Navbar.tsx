@@ -33,22 +33,18 @@ export default async function Navbar({ user }: { user: User | null }) {
       <div className="container px-4 lg:px-[110px] mx-auto h-full">
         <div className="relative flex flex-row justify-between align-center h-full">
           <div className="flex items-center flex-1 justify-between">
-            <Link
-              href="/"
-              className="cursor-pointer rounded-full transform duration-100 ease-in-out no-underline w-[170px] lg:min-w-[170px] lg:h-[34.5px]"
-              aria-label="Logo"
-            >
+            <Link href="/" className="no-underline" aria-label="Logo">
               <LogoText />
             </Link>
             <Menu navLinks={navLinks} />
 
             <div className="items-center justify-between gap-6 hidden lg:flex">
-              <nav className="ml-6 flex gap-7">
+              <nav className="mx-6 flex gap-7">
                 {navLinks.map((nav, index) => (
                   <Link
                     key={index}
                     href={nav.link}
-                    className="inline-flex items-center text-lg leading-[18px] font-normal transition ease-in-out duration-75 cursor-pointer text-white rounded-md p-1 hover:text-gray-300"
+                    className="no-underline text-white hover:text-slate-100"
                   >
                     {nav.name}
                   </Link>
@@ -56,14 +52,21 @@ export default async function Navbar({ user }: { user: User | null }) {
               </nav>
               {!user ? (
                 <>
-                  <Button variant="secondary" asChild className="h-[54px]">
-                    <Link href="/signin/signup" className="no-underline">
+                  <Button variant="secondary" className="h-12 px-6" asChild>
+                    <Link
+                      href="/signin/signup"
+                      className="no-underline font-semibold"
+                    >
                       Get started
                     </Link>
                   </Button>
-                  <Button variant="outline" asChild className="h-[54px]">
-                    <Link href="/signin" className="no-underline">
-                      Sign In
+                  <Button
+                    variant="outline"
+                    className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"
+                    asChild
+                  >
+                    <Link href="/signin" className="no-underline font-semibold">
+                      Login
                     </Link>
                   </Button>
                 </>

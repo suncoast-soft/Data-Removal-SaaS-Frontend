@@ -1,5 +1,5 @@
 import SearchForm from '@/components/modules/AccountForms/SearchForm'
-import CreateAccount from '@/components/modules/Landing/CreateAccount/CreateAccount'
+import FeaturedCTA from '@/components/sections/FeaturedCTA'
 import FeaturedColumns from '@/components/sections/FeaturedColumns'
 import PricingTable from '@/components/sections/PricingTable'
 import Image from 'next/image'
@@ -126,7 +126,7 @@ export default async function HomePage() {
 
       <section id="create-your-account" className="bg-white my-16 lg:my-24">
         <div className="container mx-auto px-2 lg:px-28">
-          <CreateAccount />
+          <FeaturedCTA />
         </div>
       </section>
     </>

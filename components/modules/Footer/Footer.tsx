@@ -1,13 +1,29 @@
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 const socialLinks = [
-  'facebook.png',
-  'twitter.png',
-  'instagram.png',
-  'linked-in.png',
-  'youtube.png'
+  {
+    icon: 'Facebook.svg',
+    link: 'https://www.facebook.com'
+  },
+  {
+    icon: 'Twitter.svg',
+    link: 'https://www.twitter.com'
+  },
+  {
+    icon: 'Instagram.svg',
+    link: 'https://www.instagram.com'
+  },
+  {
+    icon: 'LinkedIn.svg',
+    link: 'https://www.linkedin.com'
+  },
+  {
+    icon: 'YouTube.svg',
+    link: 'https://www.youtube.com'
+  }
 ]
 
 const footerLinks = [
@@ -74,14 +90,28 @@ export default function Footer() {
               mauris sed ma.
             </p>
             <div className="hidden lg:flex gap-2">
-              {socialLinks.map((link, index) => (
-                <Image
+              {socialLinks.map((socialLink, index) => (
+                <Button
                   key={index}
-                  src={`/footer-social-icons/${link}`}
-                  width={36}
-                  height={36}
-                  alt={link.split('.')[0]}
-                />
+                  variant="destructive"
+                  size="icon"
+                  className="rounded-full"
+                  asChild
+                >
+                  <Link
+                    href={socialLink.link}
+                    target="_blank"
+                    className="no-underline"
+                  >
+                    <Image
+                      src={`/footer-social-icons/${socialLink.icon}`}
+                      width={64}
+                      height={64}
+                      alt={socialLink.icon}
+                      className="w-full h-full object-contain"
+                    />
+                  </Link>
+                </Button>
               ))}
             </div>
           </div>
@@ -91,16 +121,13 @@ export default function Footer() {
             <div key={index} className="lg:flex-1 px-5 lg:px-0">
               <ul className="flex flex-col">
                 <li className="pb-4 lg:pb-6">
-                  <p className="font-bold text-xl transition hover:text-gray-700">
+                  <p className="font-bold text-xl transition hover:text-slate-700">
                     {section.title}
                   </p>
                 </li>
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex} className="pb-2 lg:pb-[18px]">
-                    <Link
-                      href={link.href}
-                      className="transition hover:text-gray-700 no-underline border-b border-dark text-base lg:text-lg"
-                    >
+                    <Link href={link.href} className="underline">
                       {link.label}
                     </Link>
                   </li>
@@ -111,14 +138,28 @@ export default function Footer() {
 
           {/* Social Links for Small Screens */}
           <div className="flex gap-2 lg:hidden mt-2">
-            {socialLinks.map((link, index) => (
-              <Image
+            {socialLinks.map((socialLink, index) => (
+              <Button
                 key={index}
-                src={`/footer-social-icons/${link}`}
-                width={36}
-                height={36}
-                alt={link.split('.')[0]}
-              />
+                variant="destructive"
+                size="icon"
+                className="rounded-full"
+                asChild
+              >
+                <Link
+                  href={socialLink.link}
+                  target="_blank"
+                  className="no-underline"
+                >
+                  <Image
+                    src={`/footer-social-icons/${socialLink.icon}`}
+                    width={64}
+                    height={64}
+                    alt={socialLink.icon}
+                    className="w-full h-full object-contain"
+                  />
+                </Link>
+              </Button>
             ))}
           </div>
         </div>
@@ -126,15 +167,16 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="flex flex-col items-center justify-center pt-6 text-center text-sm">
           <p className="text-sm">
-            Copyright &copy; {new Date().getFullYear()} Pup Erase <br />
-            All Rights Reserved
+            Copyright &copy; {new Date().getFullYear()} Pup Erase
           </p>
-          <Link
-            href="/"
-            className="transition hover:text-gray-700 no-underline border-b border-dark text-sm font-semibold mt-1"
-          >
-            Terms and Conditions | Privacy Policy
-          </Link>
+
+          <p className="text-sm">All Rights Reserved</p>
+
+          <div className="flex gap-1">
+            <Link href="/terms-and-conditions">Terms and Conditions</Link>
+            <div className="border-r"></div>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+          </div>
         </div>
       </div>
     </footer>
