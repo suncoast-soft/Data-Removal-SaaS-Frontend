@@ -6,7 +6,6 @@ import { PropsWithChildren, Suspense } from 'react'
 import { getURL } from '@/utils/helpers'
 import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/utils/supabase/queries'
-import { Figtree } from 'next/font/google'
 import 'styles/main.css'
 import { redirect } from 'next/navigation'
 
@@ -23,12 +22,6 @@ export const metadata: Metadata = {
   }
 }
 
-const figtree = Figtree({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-figtree'
-})
-
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createClient()
   const user = await getUser(supabase)
@@ -38,20 +31,18 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   }
 
   return (
-    <html lang="en" className={`${figtree.variable}`}>
-      <body className="bg-white">
-        <Navbar user={user} />
+    <>
+      <Navbar user={user} />
 
-        <main id="skip" className="min-h-[calc(100dvh-40rem)]">
-          {children}
-        </main>
+      <main id="skip" className="min-h-[calc(100dvh-40rem)]">
+        {children}
+      </main>
 
-        {!user && <Footer />}
+      {!user && <Footer />}
 
-        <Suspense>
-          <Toaster />
-        </Suspense>
-      </body>
-    </html>
+      <Suspense>
+        <Toaster />
+      </Suspense>
+    </>
   )
 }
