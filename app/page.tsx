@@ -22,9 +22,9 @@ export default async function HomePage() {
                 </h1>
 
                 <Image
-                  src={'/hero-section-arrow.png'}
-                  width={281}
-                  height={328}
+                  src={'/icons/dot-arrow-0.svg'}
+                  width={300}
+                  height={312}
                   alt={'Take a Look Arrow'}
                   className="hidden lg:block absolute top-32 right-0"
                 />
@@ -49,9 +49,9 @@ export default async function HomePage() {
                 className="lg:hidden"
               />
               <Image
-                src={'/hero-section-arrow-mb.png'}
-                width={223}
-                height={245}
+                src={'/icons/dot-arrow-1.svg'}
+                width={210}
+                height={268}
                 alt={'Take a Look Arrow'}
                 className="lg:hidden absolute right-[25px] -top-[258px]"
               />
