@@ -10,7 +10,7 @@ html {
     'case' 1,
     'rlig' 1,
     'calt' 0;
-  @apply antialiased text-slate-800 bg-white scroll-smooth;
+  @apply antialiased text-dark bg-white scroll-smooth;
 }
 
 *,

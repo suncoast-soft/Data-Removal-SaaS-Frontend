@@ -22,9 +22,7 @@ export default function GoogleSearches({
         {results.map((search: GoogleSearchResult, index) => (
           <TableRow key={index}>
             <TableCell>
-              <p className="font-semibold text-slate-600">
-                {search.displayLink}
-              </p>
+              <p className="font-semibold text-dark/80">{search.displayLink}</p>
               <Link href={search.link} className="no-underline mb-2">
                 <p
                   dangerouslySetInnerHTML={{ __html: search.htmlTitle }}

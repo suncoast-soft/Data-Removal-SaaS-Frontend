@@ -41,7 +41,7 @@ export default function ResultItem({ isLast, item }: ResultItemProps) {
         </a>
       )}
 
-      <p className="text-base mt-4 text-slate-600">{item.date}</p>
+      <p className="text-base mt-4 text-dark/80">{item.date}</p>
     </div>
   )
 }

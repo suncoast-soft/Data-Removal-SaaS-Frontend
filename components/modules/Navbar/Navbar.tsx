@@ -40,7 +40,7 @@ export default async function Navbar({ user }: { user: User | null }) {
                   <Link
                     key={index}
                     href={nav.link}
-                    className="no-underline text-white hover:text-slate-100"
+                    className="no-underline text-white hover:text-white/80"
                   >
                     {nav.name}
                   </Link>

@@ -4,19 +4,19 @@ import { Contact } from 'lucide-react'
 export default function Testimonials() {
   const cards = [
     {
-      image: <Contact className="mx-auto text-slate-900 w-auto h-10" />,
+      image: <Contact className="mx-auto text-dark w-auto h-10" />,
       name: 'Sarah F.',
       text: 'The free analysis was eye-opening, and the process was seamless. I feel much safer now!',
       role: 'Marketing Manager'
     },
     {
-      image: <Contact className="mx-auto text-slate-900 w-auto h-10" />,
+      image: <Contact className="mx-auto text-dark w-auto h-10" />,
       name: 'David K.',
       text: 'Choosing and paying only for the brokers I wanted made it very affordable.',
       role: 'Software Engineer'
     },
     {
-      image: <Contact className="mx-auto text-slate-900 w-auto h-10" />,
+      image: <Contact className="mx-auto text-dark w-auto h-10" />,
       name: 'Michelle T.',
       text: 'The pay-as-you-go model is perfect. Great customer support and effective results!',
       role: 'HR Specialist'
@@ -43,7 +43,7 @@ export default function Testimonials() {
               <p className="mt-3 text-base font-bold text-center">
                 - {card.name}
               </p>
-              <p className="text-sm text-slate-600 text-center">{card.role}</p>
+              <p className="text-sm text-dark/80 text-center">{card.role}</p>
             </CardContent>
           </Card>
         ))}

@@ -115,7 +115,7 @@ export default function UserDropdown({ user, profile }: NavlinksProps) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center justify-center w-full text-slate-700 hover:text-slate-500"
+                  className="flex items-center justify-center w-full text-dark hover:text-gray"
                 >
                   <LogOut size={16} />
                   <span className="ml-2">Sign out</span>
@@ -127,7 +127,7 @@ export default function UserDropdown({ user, profile }: NavlinksProps) {
           <DropdownMenuItem>
             <Link
               href="/signin"
-              className="text-slate-200 hover:text-slate-400 transition"
+              className="text-dark/40 hover:text-dark/60 transition"
             >
               Sign In
             </Link>

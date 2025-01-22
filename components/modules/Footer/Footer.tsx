@@ -121,7 +121,7 @@ export default function Footer() {
             <div key={index} className="lg:flex-1 px-5 lg:px-0">
               <ul className="flex flex-col">
                 <li className="pb-4 lg:pb-6">
-                  <p className="font-bold text-xl transition hover:text-slate-700">
+                  <p className="font-bold text-xl transition hover:text-dark">
                     {section.title}
                   </p>
                 </li>

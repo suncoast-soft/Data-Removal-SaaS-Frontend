@@ -49,43 +49,36 @@ export default async function AboutUsPage() {
                 About Us
               </h1>
 
-              <p className="text-dark/60 text-xl mb-4">
+              <p className="text-dark/70 text-lg lg:text-xl mb-4">
                 Remember when the internet was about exploration and
                 self-expression? We sure do. And we’re just as frustrated as you
                 that it has become the playground for predatory marketers,
                 shadowy hackers, and other ne’er-do-wells.
               </p>
 
-              <p className="text-dark/60 text-xl mb-4">
+              <p className="text-dark/70 text-lg lg:text-xl mb-4">
                 That’s why we’ve made it our mission to make the internet a bit
                 safer for everyone. We can’t build a time machine, but we can
                 keep prying eyes away from what they want most: your personal
                 information.
               </p>
 
-              <p className="text-dark/60 text-xl mb-6">
+              <p className="text-dark/70 text-lg lg:text-xl mb-4">
                 Protecting user privacy, or Pup, is our guiding principle. We
                 long for a day when our service isn’t necessary. But until then,
                 we’re focused on one thing: keeping your personal information
                 personal.
               </p>
+            </div>
 
-              <div className="relative">
-                <Image
-                  src={'/about-us-hero-image-mb.png'}
-                  width={400}
-                  height={350}
-                  alt={'Team image'}
-                  className="lg:hidden"
-                />
-                <Image
-                  src={'/about-us-hero-image.png'}
-                  width={1220}
-                  height={555}
-                  alt={'Team image'}
-                  className="hidden lg:block"
-                />
-              </div>
+            <div className="max-w-6xl px-4">
+              <Image
+                src={'/about-us-hero-image.png'}
+                width={1220}
+                height={555}
+                alt={'Team image'}
+                className="object-contain"
+              />
             </div>
 
             <div className="lg:hidden flex gap-2.5 flex-wrap">
