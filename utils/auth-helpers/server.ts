@@ -7,11 +7,11 @@ import { getURL, getErrorRedirect, getStatusRedirect } from 'utils/helpers'
 import { getAuthTypes } from 'utils/auth-helpers/settings'
 
 function isValidEmail(email: string) {
-  var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
   return regex.test(email)
 }
 function isValidPhone(phone: string) {
-  var regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  const regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
   return regex.test(phone)
 }
 
@@ -56,7 +56,7 @@ export async function signInWithEmail(formData: {
   }
 
   const supabase = createClient()
-  let options = {
+  const options = {
     emailRedirectTo: callbackURL,
     shouldCreateUser: true
   }
@@ -112,7 +112,7 @@ export async function signInWithPhone(formData: {
   }
 
   const supabase = createClient()
-  let options = {
+  const options = {
     emailRedirectTo: callbackURL,
     shouldCreateUser: true
   }
@@ -723,7 +723,7 @@ export async function updateUserSettings(formData: {
 
   const supabase = createClient()
 
-  const { data, error: insertError } = await supabase
+  const { error: insertError } = await supabase
     .from('settings')
     .update({
       receive_status_updates: receive_status_updates ?? 'email',

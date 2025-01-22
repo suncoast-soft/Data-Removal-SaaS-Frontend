@@ -8,8 +8,8 @@ export default async function HomePage() {
   return (
     <>
       <section className="bg-lp-hero-section-bg bg-cover bg-bottom py-6 lg:py-28">
-        <div className="container max-w-sm lg:max-w-full px-4 lg:px-16">
-          <div className="flex-col flex items-center lg:flex-row gap-10 lg:gap-4">
+        <div className="container max-w-sm lg:max-w-7xl px-4 lg:px-16">
+          <div className="flex-col flex justify-between items-center lg:flex-row gap-10 lg:gap-4">
             <div className="max-w-fit lg:max-w-xl">
               <div className="relative text-3xl lg:text-5xl leading-wide font-bold">
                 <h1>

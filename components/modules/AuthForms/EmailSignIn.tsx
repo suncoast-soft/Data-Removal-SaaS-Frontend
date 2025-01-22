@@ -43,42 +43,43 @@ export default function EmailSignIn({ redirectMethod }: EmailSignInProps) {
   }
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white font-semibold text-lg">
-                  Email
-                  <sup className="text-secondary pt-1"> *</sup>
-                </FormLabel>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 max-w-xl"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-white font-semibold text-lg">
+                Email
+                <sup className="text-secondary pt-1"> *</sup>
+              </FormLabel>
 
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="Your email address"
-                    className="text-dark placeholder:text-dark/60"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="Your email address"
+                  className="text-dark placeholder:text-dark/60"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Button
-            variant="secondary"
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
-            Login
-          </Button>
-        </form>
-      </Form>
-    </>
+        <Button
+          variant="secondary"
+          type="submit"
+          className="w-full"
+          disabled={isSubmitting}
+        >
+          Login
+        </Button>
+      </form>
+    </Form>
   )
 }
