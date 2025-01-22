@@ -20,15 +20,23 @@ export default function FeaturedCTA() {
           Create your account today and get started for free!
         </h2>
 
-        <div className="flex items-center gap-4 lg:gap-6 mt-4 lg:mt-10">
-          <Button variant="secondary" asChild>
+        <div className="flex flex-wrap items-center gap-2 lg:gap-6 mt-4 lg:mt-10">
+          <Button
+            variant="secondary"
+            className="px-6 py-3 text-base lg:px-8 lg:py-5 lg:text-lg !leading-none"
+            asChild
+          >
             <Link href="/signin/signup" className="no-underline">
               <span className="mr-2">GET STARTED</span>
               <ArrowRight />
             </Link>
           </Button>
 
-          <Button variant="outline" asChild>
+          <Button
+            variant="outline"
+            className="px-6 py-3 text-base lg:px-8 lg:py-5 lg:text-lg !leading-none"
+            asChild
+          >
             <Link href="/contact" className="no-underline">
               TALK TO SALES
             </Link>

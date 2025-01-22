@@ -29,7 +29,7 @@ export default function FeaturedColumns({
         description={description}
       />
 
-      <div className="mt-6 gap-6 lg:mt-10 lg:gap-10 flex items-center flex-col lg:flex-row">
+      <div className="mt-6 lg:mt-10 gap-10 flex items-center flex-col lg:flex-row">
         {columns.map((column, index) => (
           <Card
             key={index}
@@ -48,10 +48,10 @@ export default function FeaturedColumns({
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0 text-dark">
-              <h3 className="text-[28px] leading-[38px] font-bold text-center mt-2 lg:mt-4">
+              <h3 className="text-2xl font-bold text-center mt-2 lg:mt-4">
                 {column.title}
               </h3>
-              <p className="mt-4 text-center text-lg opacity-60">
+              <p className="lg:mt-4 text-center lg:text-lg opacity-60">
                 {column.description}
               </p>
             </CardContent>

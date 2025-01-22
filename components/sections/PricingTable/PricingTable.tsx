@@ -35,7 +35,7 @@ export default function PricingTable() {
       />
 
       <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-5">
+        <div className="col-span-12 lg:col-span-5">
           <Card className="border-2 border-dark rounded-3xl h-full">
             <CardHeader>
               <p className="text-right text-2xl lg:text-3xl font-bold text-dark lg:mb-8">
@@ -65,7 +65,7 @@ export default function PricingTable() {
             </CardHeader>
 
             <CardContent>
-              <ul className="mt-10 mb-8 space-y-4">
+              <ul className="mt-4 lg:mt-10 mb-8 space-y-4">
                 {basicPlanFeatures.map((feature, index) => (
                   <li key={index} className="flex gap-4 items-center">
                     <GreenCircleCheck />
@@ -87,7 +87,7 @@ export default function PricingTable() {
           </Card>
         </div>
 
-        <div className="col-span-7">
+        <div className="col-span-12 lg:col-span-7">
           <Card className="bg-dark border-2 border-dark rounded-3xl">
             <CardHeader>
               <p className="text-right text-2xl lg:text-3xl font-bold text-secondary lg:mb-8">
@@ -117,7 +117,7 @@ export default function PricingTable() {
             </CardHeader>
 
             <CardContent>
-              <ul className="mt-10 mb-8 space-y-4 columns-2">
+              <ul className="mt-4 lg:mt-10 mb-8 space-y-4 lg:columns-2">
                 {proPlanFeatures.map((feature, index) => (
                   <li key={index} className="flex gap-4 items-center">
                     <OrangeCircleCheck />

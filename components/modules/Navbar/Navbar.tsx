@@ -32,6 +32,7 @@ export default async function Navbar({ user }: { user: User | null }) {
             <Link href="/" className="no-underline" aria-label="Logo">
               <LogoText />
             </Link>
+
             <Menu navLinks={navLinks} />
 
             <div className="items-center justify-between gap-6 hidden lg:flex">
@@ -46,6 +47,7 @@ export default async function Navbar({ user }: { user: User | null }) {
                   </Link>
                 ))}
               </nav>
+
               {!user ? (
                 <>
                   <Button variant="secondary" className="h-12 px-6" asChild>
@@ -56,6 +58,7 @@ export default async function Navbar({ user }: { user: User | null }) {
                       Get started
                     </Link>
                   </Button>
+
                   <Button
                     variant="outline"
                     className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"

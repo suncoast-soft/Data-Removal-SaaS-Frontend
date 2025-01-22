@@ -57,6 +57,7 @@ export default function SearchForm() {
                     {...field}
                   />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -73,7 +74,11 @@ export default function SearchForm() {
           </div>
         </div>
 
-        <Button variant="default" type="submit" className="z-10">
+        <Button
+          variant="default"
+          type="submit"
+          className="z-10 w-full lg:w-auto"
+        >
           <span className="mr-2">SEARCH</span>
           <ArrowRight />
         </Button>

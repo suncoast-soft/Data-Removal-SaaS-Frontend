@@ -7,11 +7,11 @@ import Image from 'next/image'
 export default async function HomePage() {
   return (
     <>
-      <section className="bg-lp-hero-section-bg bg-cover bg-bottom pt-[21px] pb-7 lg:py-[135px]">
-        <div className="container mx-auto px-4 lg:px-[110px]">
-          <div className="flex-col flex items-center lg:flex-row gap-[42px] lg:gap-4">
-            <div className="max-w-fit lg:max-w-[568px]">
-              <div className="relative text-[34px] leading-[38px] lg:leading-[55px] lg:text-[50px] font-bold">
+      <section className="bg-lp-hero-section-bg bg-cover bg-bottom py-6 lg:py-28">
+        <div className="container max-w-sm lg:max-w-full px-4 lg:px-16">
+          <div className="flex-col flex items-center lg:flex-row gap-10 lg:gap-4">
+            <div className="max-w-fit lg:max-w-xl">
+              <div className="relative text-3xl lg:text-5xl leading-wide font-bold">
                 <h1>
                   <span>
                     Your private information is everywhere. Don’t believe us?
@@ -26,7 +26,7 @@ export default async function HomePage() {
                   width={300}
                   height={312}
                   alt={'Take a Look Arrow'}
-                  className="hidden lg:block absolute top-32 right-0"
+                  className="hidden lg:block absolute top-28 right-6"
                 />
               </div>
 
@@ -50,10 +50,10 @@ export default async function HomePage() {
               />
               <Image
                 src={'/icons/dot-arrow-1.svg'}
-                width={210}
-                height={268}
+                width={180}
+                height={230}
                 alt={'Take a Look Arrow'}
-                className="lg:hidden absolute right-[25px] -top-[258px]"
+                className="lg:hidden absolute right-[25px] -top-[228px]"
               />
             </div>
           </div>
@@ -61,7 +61,7 @@ export default async function HomePage() {
       </section>
 
       <section id="features" className="bg-[#F9FCFF] mt-16 lg:mt-24">
-        <div className="container mx-auto px-4 lg:px-28 lg:py-16">
+        <div className="container mx-auto px-4 lg:px-28 py-10 lg:py-16">
           <FeaturedColumns
             title="Prying eyes are eager to access your information"
             description="Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu egestas morbi sem vulputate etiam facilisis pellentesque ut quis."

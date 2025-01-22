@@ -17,13 +17,9 @@ export default function SectionHeader({
         </h6>
       )}
 
-      <h2 className="text-3xl lg:text-4xl font-bold text-center text-dark">
-        {title}
-      </h2>
+      <h2 className="text-4xl font-bold text-center text-dark">{title}</h2>
 
-      <p className="text-base lg:text-lg mt-4 text-dark/60 text-center">
-        {description}
-      </p>
+      <p className="lg:text-lg mt-4 text-dark/60 text-center">{description}</p>
     </div>
   )
 }

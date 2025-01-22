@@ -28,7 +28,7 @@ export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-dark/90 flex flex-col items-start gap-6 px-4 py-5 lg:hidden pt-12 z-50">
+        <div className="fixed inset-0 bg-dark/95 flex flex-col items-start gap-6 px-4 py-5 lg:hidden pt-12 z-50">
           {/* Close Button */}
           <X
             className="text-secondary text-xl absolute right-4 top-4 cursor-pointer"
@@ -50,17 +50,26 @@ export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
             ))}
           </nav>
 
-          {/* Action Buttons */}
-          <Button variant="default" asChild className="h-14 w-full">
-            <Link href="/signin/signup" className="no-underline">
-              Get started
-            </Link>
-          </Button>
-          <Button variant="secondary" asChild className="h-14 w-full">
-            <Link href="/signin" className="no-underline">
-              Sign In
-            </Link>
-          </Button>
+          <div className="px-6 space-y-4">
+            <Button variant="secondary" className="h-12 px-6" asChild>
+              <Link
+                href="/signin/signup"
+                className="no-underline font-semibold w-full"
+              >
+                Get started
+              </Link>
+            </Button>
+
+            <Button
+              variant="outline"
+              className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary w-full"
+              asChild
+            >
+              <Link href="/signin" className="no-underline font-semibold">
+                Login
+              </Link>
+            </Button>
+          </div>
         </div>
       )}
     </>
