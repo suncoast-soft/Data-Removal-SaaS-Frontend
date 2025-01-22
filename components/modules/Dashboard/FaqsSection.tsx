@@ -12,6 +12,7 @@ export default function FaqsSection() {
           Learn more about how puperase works
         </p>
       </div>
+
       <FAQs
         accordionItemClassName="!p-4 !border-none !bg-white !text-dark w-full !h-fit lg:max-w-[48%] mb-0"
         accordionTriggerClassName="!text-base lg:!text-lg [&[data-state=open]>div]:rotate-45"

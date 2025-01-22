@@ -45,11 +45,7 @@ export default function FAQs({
   ]
 
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className={cn('w-full', accordionClassName)}
-    >
+    <Accordion type="multiple" className={cn('w-full', accordionClassName)}>
       {faqs.map((faq) => (
         <AccordionItem
           key={faq.id}
@@ -61,19 +57,20 @@ export default function FAQs({
         >
           <AccordionTrigger
             className={cn(
-              'w-full text-left p-0 font-bold text-lg lg:text-[24px] no-underline hover:no-underline',
+              'w-full text-left p-0 font-semibold text-lg lg:text-2xl no-underline hover:no-underline',
               accordionTriggerClassName
             )}
           >
             {faq.question}
           </AccordionTrigger>
+
           <AccordionContent
             className={cn(
-              'p-0  mt-2 text-base opacity-60  leading-[22px] lg:text-[22px] lg:leading-[26px]',
+              'p-0 mt-3 text-white/60 text-lg lg:text-xl',
               accordionContentClassName
             )}
           >
-            <hr className="my-4 border-white/20 border-[1.4px]" />
+            <hr className="my-4 border-t border-white/20 w-5/6" />
             {faq.answer}
           </AccordionContent>
         </AccordionItem>

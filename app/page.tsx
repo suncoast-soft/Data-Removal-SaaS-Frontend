@@ -29,6 +29,7 @@ export default async function HomePage() {
                   className="hidden lg:block absolute top-32 right-0"
                 />
               </div>
+
               <SearchForm />
             </div>
 

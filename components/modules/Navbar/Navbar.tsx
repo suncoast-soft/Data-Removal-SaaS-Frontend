@@ -15,17 +15,13 @@ export default async function Navbar({ user }: { user: User | null }) {
       name: 'About Us'
     },
     {
-      link: '/blog',
-      name: 'Blog'
-    },
-    {
       link: '/contact',
       name: 'Contact'
     }
   ]
 
   return (
-    <nav className="sticky top-0 bg-dark z-40 transition-all duration-150 h-16 md:h-20 shadow-sm">
+    <nav className="sticky top-0 bg-dark z-40 transition-all duration-150 h-16 md:h-20 shadow-sm shadow-white/60">
       <a href="#skip" className="sr-only focus:not-sr-only">
         Skip to content
       </a>
