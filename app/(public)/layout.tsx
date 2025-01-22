@@ -8,6 +8,7 @@ import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/utils/supabase/queries'
 import { Figtree } from 'next/font/google'
 import 'styles/main.css'
+import { redirect } from 'next/navigation'
 
 const title = 'Pup Erase'
 const description = 'Removal of unwanted data from the internet'
@@ -31,6 +32,10 @@ const figtree = Figtree({
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createClient()
   const user = await getUser(supabase)
+
+  if (user) {
+    return redirect('/dashboard/reports')
+  }
 
   return (
     <html lang="en" className={`${figtree.variable}`}>
