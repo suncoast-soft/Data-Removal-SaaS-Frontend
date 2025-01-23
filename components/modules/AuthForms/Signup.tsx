@@ -43,12 +43,21 @@ const FormSchema = z.object({
   address: z.string().min(1, { message: 'Address is required' }),
   message: z.string().optional(),
   phone: z.string().regex(phoneRegex, 'Invalid Number!'),
-  birthDate: z.date({ required_error: 'A date of birth is required.' })
+  birth_date: z.date({ required_error: 'A date of birth is required.' })
 })
 
 export default function SignUp({ redirectMethod }: SignUpProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      address: '',
+      message: '',
+      phone: '',
+      birth_date: new Date('1990-01-01')
+    }
   })
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -62,7 +71,7 @@ export default function SignUp({ redirectMethod }: SignUpProps) {
     try {
       const transformedData = {
         ...data,
-        birthDate: data.birthDate.toISOString()
+        birth_date: data.birth_date.toISOString()
       }
       await handleRequest(transformedData, signUp, router)
       setIsSubmitting(false)
@@ -144,7 +153,7 @@ export default function SignUp({ redirectMethod }: SignUpProps) {
             )}
             <FormField
               control={form.control}
-              name="birthDate"
+              name="birth_date"
               render={({ field }) => (
                 <FormItem className="w-full min-w-[48%] lg:flex-1">
                   <FormLabel className="text-white font-bold text-lg">

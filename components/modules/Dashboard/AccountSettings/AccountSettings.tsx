@@ -8,12 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { User } from '@supabase/supabase-js'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import {
-  updateUserField,
-  updateUserSettings
-} from '@/utils/auth-helpers/server'
+import { updateUserField } from '@/utils/auth-helpers/server'
 import { useRouter } from 'next/navigation'
 import { Tables } from '@/types_db'
+import { updateUserSettings } from '@/utils/supabase/mutations'
 
 type Setting = Tables<'settings'>
 

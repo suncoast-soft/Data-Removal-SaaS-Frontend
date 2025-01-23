@@ -2,26 +2,26 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { getURL, getErrorRedirect, getStatusRedirect } from 'utils/helpers'
-import { getAuthTypes } from 'utils/auth-helpers/settings'
 
-function isValidEmail(email: string) {
-  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-  return regex.test(email)
-}
-function isValidPhone(phone: string) {
-  const regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
-  return regex.test(phone)
+import {
+  getURL,
+  getErrorRedirect,
+  getStatusRedirect,
+  isValidEmail,
+  isValidPhone
+} from 'utils/helpers'
+import { getAuthTypes } from 'utils/auth-helpers/settings'
+import { redirect } from 'next/navigation'
+
+interface FormData {
+  [key: string]: string | number | boolean
 }
 
 export async function redirectToPath(path: string) {
   return redirect(path)
 }
 
-export async function SignOut(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function SignOut(formData: FormData) {
   const pathName = String(formData['pathName']).trim()
 
   const supabase = createClient()
@@ -38,9 +38,7 @@ export async function SignOut(formData: {
   return '/signin'
 }
 
-export async function signInWithEmail(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function signInWithEmail(formData: FormData) {
   const cookieStore = cookies()
   const callbackURL = getURL('/auth/callback')
 
@@ -94,9 +92,7 @@ export async function signInWithEmail(formData: {
   return redirectPath
 }
 
-export async function signInWithPhone(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function signInWithPhone(formData: FormData) {
   const cookieStore = cookies()
   const callbackURL = getURL('/auth/callback')
 
@@ -150,9 +146,7 @@ export async function signInWithPhone(formData: {
   return redirectPath
 }
 
-export async function verifyOTP(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function verifyOTP(formData: FormData) {
   const phone = String(formData['phone']).trim()
   const otp = String(formData['otp']).trim()
   let redirectPath: string
@@ -212,9 +206,7 @@ export async function verifyOTP(formData: {
   return redirectPath
 }
 
-export async function requestPasswordUpdate(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function requestPasswordUpdate(formData: FormData) {
   const callbackURL = getURL('/auth/reset_password')
 
   // Get form data
@@ -259,9 +251,7 @@ export async function requestPasswordUpdate(formData: {
   return redirectPath
 }
 
-export async function signInWithPassword(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function signInWithPassword(formData: FormData) {
   const cookieStore = cookies()
   const email = String(formData['email']).trim()
   const password = String(formData['password']).trim()
@@ -280,22 +270,8 @@ export async function signInWithPassword(formData: {
       error.message
     )
   } else if (data.user) {
-    const isDeleted = await accountDeleted(data.user.id)
-    if (isDeleted) {
-      await supabase.auth.signOut()
-      redirectPath = getErrorRedirect(
-        '/signin',
-        'Hmm... Something went wrong.',
-        'You could not be signed in. Please contact support'
-      )
-    } else {
-      cookieStore.set('preferredSignInView', 'password_signin', { path: '/' })
-      redirectPath = getStatusRedirect(
-        '/',
-        'Success!',
-        'You are now signed in.'
-      )
-    }
+    cookieStore.set('preferredSignInView', 'password_signin', { path: '/' })
+    redirectPath = getStatusRedirect('/', 'Success!', 'You are now signed in.')
   } else {
     redirectPath = getErrorRedirect(
       '/signin/password_signin',
@@ -307,12 +283,10 @@ export async function signInWithPassword(formData: {
   return redirectPath
 }
 
-export async function signUp(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function signUp(formData: FormData) {
   const email = String(formData['email']).trim()
-  const password = String(formData['password']).trim()
   const phone = String(formData['phone']).trim()
+  const password = String(formData['password']).trim()
 
   const callbackURL = getURL('/auth/callback')
 
@@ -371,9 +345,7 @@ export async function signUp(formData: {
   return redirectPath
 }
 
-export async function updatePassword(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function updatePassword(formData: FormData) {
   const password = String(formData['password']).trim()
   const passwordConfirm = String(formData['passwordConfirm']).trim()
   let redirectPath: string
@@ -415,9 +387,7 @@ export async function updatePassword(formData: {
   return redirectPath
 }
 
-export async function updateUserField(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function updateUserField(formData: FormData) {
   // Get form data
   const value = String(formData['value']).trim()
   const field = String(formData['field']).trim()
@@ -471,9 +441,7 @@ export async function updateUserField(formData: {
   }
 }
 
-export async function updateName(formData: {
-  [key: string]: string | number | boolean
-}) {
+export async function updateName(formData: FormData) {
   // Get form data
   const fullName = String(formData['fullName']).trim()
 
@@ -501,294 +469,4 @@ export async function updateName(formData: {
       'Your name could not be updated.'
     )
   }
-}
-
-export async function updateUser(formData: {
-  [key: string]: string | number | boolean
-}) {
-  // Get form data
-  const firstName = String(formData['firstName']).trim()
-  const lastName = String(formData['lastName']).trim()
-  const gender = String(formData['gender'])
-  const birthDate = String(formData['birthDate']).trim()
-  const city = String(formData['city']).trim()
-  const state = String(formData['state']).trim()
-  const bio = String(formData['bio']).trim()
-  const address = String(formData['address']).trim()
-  const alternativeNames = String(formData['alternativeNames']).trim()
-  const social_security_number = String(
-    formData['social_security_number']
-  ).trim()
-  const phone = String(formData['phone']).trim()
-  const email = String(formData['email']).trim()
-  const isPrimary = Boolean(formData['isPrimary'])
-
-  const supabase = createClient()
-  const {
-    error: userError,
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  if (userError || !user) {
-    return getErrorRedirect(
-      '/dashboard/settings/profiles',
-      'Your profile could not be submitted. Please try again.',
-      userError?.message || 'Could not get user session.'
-    )
-  }
-
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('user_id', user.id)
-
-  const isFistProfile = (profiles || []).length < 1
-
-  const { data, error: insertError } = await supabase
-    .from('profiles')
-    .insert({
-      user_id: user?.id,
-      first_name: firstName ?? undefined,
-      last_name: lastName ?? undefined,
-      gender: gender ?? undefined,
-      birth_date: birthDate ?? undefined,
-      city: city ?? undefined,
-      state: state ?? undefined,
-      bio: bio ?? undefined,
-      address: address ?? undefined,
-      alternative_names: alternativeNames ?? undefined,
-      social_security_number: social_security_number ?? undefined,
-      phone: phone ?? undefined,
-      email: email ?? undefined,
-      isPrimary: isFistProfile ? true : (Boolean(isPrimary) ?? undefined)
-    })
-    .select('id')
-    .maybeSingle()
-
-  if (!isFistProfile) {
-    await supabase
-      .from('profiles')
-      .update({ isPrimary: false })
-      .neq('id', data?.id)
-      .select()
-  }
-
-  if (insertError) {
-    return getErrorRedirect(
-      '/dashboard/settings/account',
-      'Your profile could not be submitted. Please try again.',
-      insertError.message
-    )
-  }
-
-  return getStatusRedirect(
-    '/dashboard/settings/account',
-    'Success!',
-    'Your profile has been submitted.'
-  )
-}
-
-export async function updateProfile(formData: {
-  [key: string]: string | number | boolean
-}) {
-  // Get form data
-  const id = String(formData['id']).trim()
-  const firstName = String(formData['firstName']).trim()
-  const lastName = String(formData['lastName']).trim()
-  const gender = String(formData['gender'])
-  const birthDate = String(formData['birthDate']).trim()
-  const city = String(formData['city']).trim()
-  const state = String(formData['state']).trim()
-  const bio = String(formData['bio']).trim()
-  const address = String(formData['address']).trim()
-  const alternativeNames = String(formData['alternativeNames']).trim()
-  const social_security_number = String(
-    formData['social_security_number']
-  ).trim()
-  const phone = String(formData['phone']).trim()
-  const email = String(formData['email']).trim()
-  const isPrimary = String(formData['isPrimary']).trim()
-
-  const supabase = createClient()
-  const {
-    error: userError,
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  if (userError || !user) {
-    return getErrorRedirect(
-      '/dashboard/settings/account',
-      'Your profile could not be updated. Please try again.',
-      userError?.message || 'Could not get user session.'
-    )
-  }
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('user_id', user.id)
-
-  const isFistProfile = (profiles || []).length < 1
-
-  const { error: insertError } = await supabase
-    .from('profiles')
-    .update({
-      first_name: firstName ?? undefined,
-      last_name: lastName ?? undefined,
-      gender: gender ?? undefined,
-      birth_date: birthDate ?? undefined,
-      city: city ?? undefined,
-      state: state ?? undefined,
-      bio: bio ?? undefined,
-      address: address ?? undefined,
-      alternative_names: alternativeNames ?? undefined,
-      social_security_number: social_security_number ?? undefined,
-      phone: phone ?? undefined,
-      email: email ?? undefined,
-      isPrimary: isFistProfile ? true : (Boolean(isPrimary) ?? undefined)
-    })
-    .eq('id', id)
-
-  if (!isFistProfile) {
-    await supabase
-      .from('profiles')
-      .update({ isPrimary: false })
-      .neq('id', id)
-      .select()
-  }
-
-  if (insertError) {
-    return getErrorRedirect(
-      '/dashboard/settings/account',
-      'Your profile could not be updated. Please try again.',
-      insertError.message
-    )
-  }
-
-  return getStatusRedirect(
-    '/dashboard/settings/account',
-    'Success!',
-    'Your profile has been updated.'
-  )
-}
-
-export async function createUser(formData: {
-  [key: string]: string | number | boolean
-}) {
-  // Get form data
-  const firstName = String(formData['firstName']).trim()
-  const lastName = String(formData['lastName']).trim()
-  const birthDate = String(formData['birthDate']).trim()
-  const email = String(formData['email']).trim()
-  const address = String(formData['address']).trim()
-  const phone = String(formData['phone']).trim()
-  const bio = String(formData['bio']).trim()
-
-  const supabase = createClient()
-
-  const { error: insertError } = await supabase.from('profiles').insert({
-    first_name: firstName ?? undefined,
-    last_name: lastName ?? undefined,
-    birth_date: birthDate ?? undefined,
-    email: email ?? undefined,
-    address: address ?? undefined,
-    phone: phone ?? undefined,
-    bio: bio ?? undefined
-  })
-
-  if (insertError) {
-    return getErrorRedirect(
-      '/signin/signup',
-      'Your profile could not be submitted. Please try again.',
-      insertError.message
-    )
-  }
-
-  return getStatusRedirect('/', 'Success!', 'User signed up successfully')
-}
-
-export async function updateUserSettings(formData: {
-  [key: string]: string | number | boolean | null
-}) {
-  // Get form data
-  const id = String(formData['id']).trim()
-  const receive_status_updates = String(
-    formData['receive_status_updates']
-  ).trim()
-  const receive_marketing_emails = Boolean(formData['receive_marketing_emails'])
-  const allow_multi_device_login = Boolean(formData['allow_multi_device_login'])
-  const require_multi_factor_verification = Boolean(
-    formData['require_multi_factor_verification']
-  )
-  const deleted = Boolean(formData['deleted'])
-
-  const supabase = createClient()
-
-  const { error: insertError } = await supabase
-    .from('settings')
-    .update({
-      receive_status_updates: receive_status_updates ?? 'email',
-      receive_marketing_emails: Boolean(receive_marketing_emails),
-      allow_multi_device_login: Boolean(allow_multi_device_login),
-      require_multi_factor_verification: Boolean(
-        require_multi_factor_verification
-      ),
-      deleted: Boolean(deleted)
-    })
-    .eq('id', id)
-    .select()
-
-  if (insertError) {
-    return getErrorRedirect(
-      '/dashboard/settings/account',
-      'Your settings could not be updated. Please try again.',
-      insertError.message
-    )
-  }
-
-  if (deleted) {
-    await supabase.auth.signOut()
-    return '/signin'
-  }
-
-  return getStatusRedirect(
-    '/dashboard/settings/account',
-    'Success!',
-    'User settings updated successfully'
-  )
-}
-
-const accountDeleted = async (id: string) => {
-  const supabase = createClient()
-  if (!id) return false
-  const { data } = await supabase
-    .from('settings')
-    .select('*')
-    .eq('user_id', id)
-    .maybeSingle()
-  return data?.deleted
-}
-
-export async function createUserSettings(formData: {
-  [key: string]: string | number | boolean | null
-}) {
-  const user_id = String(formData['id']).trim()
-  const supabase = createClient()
-  const { data } = await supabase
-    .from('settings')
-    .select('*')
-    .eq('user_id', user_id)
-    .maybeSingle()
-  if (data) {
-    return
-  }
-
-  const { error } = await supabase.from('settings').insert({
-    user_id,
-    receive_status_updates: 'email',
-    receive_marketing_emails: true,
-    allow_multi_device_login: true,
-    require_multi_factor_verification: false
-  })
-
-  console.log(error, 'error')
 }

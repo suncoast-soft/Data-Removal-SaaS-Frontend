@@ -1,6 +1,6 @@
 'use client'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import { createUserSettings } from '@/utils/auth-helpers/server'
+import { createUserSettings } from '@/utils/supabase/mutations'
 import { User } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'

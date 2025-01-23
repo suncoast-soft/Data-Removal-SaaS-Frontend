@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dialog'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { updateProfile, updateUser } from '@/utils/auth-helpers/server'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -46,6 +45,7 @@ import { format } from 'date-fns'
 import { useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
+import { updateProfile, updateUser } from '@/utils/supabase/mutations'
 
 const FormSchema = z.object({
   firstName: z

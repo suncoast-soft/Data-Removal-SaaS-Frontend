@@ -195,9 +195,11 @@ export const isRemovalActive = (pricing: {
 
   return now < expirationDate
 }
+
 export const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 )
+
 export function splitName(fullName?: string) {
   // Trim any leading/trailing spaces and split the name by spaces
   const nameParts = fullName?.trim().split(/\s+/)
@@ -219,4 +221,14 @@ export function splitName(fullName?: string) {
     first_name,
     last_name
   }
+}
+
+export const isValidEmail = (email: string) => {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+  return regex.test(email)
+}
+
+export const isValidPhone = (phone: string) => {
+  const regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  return regex.test(phone)
 }

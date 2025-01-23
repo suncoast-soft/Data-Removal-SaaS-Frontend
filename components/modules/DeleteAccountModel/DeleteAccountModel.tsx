@@ -11,7 +11,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import { updateUserSettings } from '@/utils/auth-helpers/server'
+import { updateUserSettings } from '@/utils/supabase/mutations'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
