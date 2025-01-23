@@ -5,7 +5,7 @@ import {
 } from '@/components/ui/accordion'
 import { ChevronDown, Pencil } from 'lucide-react'
 import React from 'react'
-import ProfileForm from '../../AccountForms/ProfileForm'
+import ProfileForm from '../../../modules/Forms/ProfileForm'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 

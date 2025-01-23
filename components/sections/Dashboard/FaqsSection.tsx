@@ -1,5 +1,5 @@
 import React from 'react'
-import FAQs from '../Landing/FAQs/FAQs'
+import FAQs from '../../modules/Landing/FAQs/FAQs'
 
 export default function FaqsSection() {
   return (

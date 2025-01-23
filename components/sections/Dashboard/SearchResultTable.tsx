@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import ResultItem from '@/components/modules/Dashboard/ResultItem'
+import ResultItem from '@/components/sections/Dashboard/ResultItem'
 import { Button } from '@/components/ui/button'
 import { ChevronDown } from 'lucide-react'
 

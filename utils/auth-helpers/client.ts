@@ -10,6 +10,7 @@ export async function handleRequest(
   data: {
     [key: string]: string | number | boolean
   },
+  // eslint-disable-next-line no-unused-vars
   requestFunc: (data: {
     [key: string]: string | number | boolean
   }) => Promise<string | void>,
@@ -33,7 +34,7 @@ export async function signInWithOAuth(e: React.FormEvent<HTMLFormElement>) {
   const provider = String(formData.get('provider')).trim() as Provider
 
   // Create client-side supabase client and call signInWithOAuth
-  const supabase = createClient()
+  const supabase = await createClient()
   const redirectURL = getURL('/auth/callback')
   await supabase.auth.signInWithOAuth({
     provider: provider,

@@ -17,10 +17,10 @@ import { usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import MenuIcon from '@/components/icons/MenuIcon'
 import { User } from '@supabase/supabase-js'
-import ProfileForm from '../AccountForms/ProfileForm'
+import ProfileForm from '../Forms/ProfileForm'
 
 type NavItem = {
-  icon: ReactElement
+  icon: ReactElement<any>
   name: string
   link: string
   isInbox?: boolean

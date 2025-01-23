@@ -17,7 +17,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Report({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const [profile, searches, pricing] = await Promise.all([
     getProfile(supabase, params.id),

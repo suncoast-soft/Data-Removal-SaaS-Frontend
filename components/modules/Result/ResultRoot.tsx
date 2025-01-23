@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import ResultTabs from '../Dashboard/ResultTabs'
-import ResultCharts from '../Dashboard/ResultCharts'
-import SocialPlatformResultsTab from '../Dashboard/SocialPlatformResultsTab'
+import ResultTabs from '../../sections/Dashboard/ResultTabs'
+import ResultCharts from '../../sections/Dashboard/ResultCharts'
+import SocialPlatformResultsTab from '../../sections/Dashboard/SocialPlatformResultsTab'
 import { TabsContent } from '@/components/ui/tabs'
-import BrokersTabContent from '../Dashboard/BrokersTabContent'
+import BrokersTabContent from '../../sections/Dashboard/BrokersTabContent'
 import useResult from '@/hooks/useResult'
 import GenReportLoader from '../Landing/GenReportLoader/GenReportLoader'
 

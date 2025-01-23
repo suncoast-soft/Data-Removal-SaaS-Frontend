@@ -21,7 +21,7 @@ import { redirect } from 'next/navigation'
 type Profile = Tables<'profiles'>
 
 export default async function Dashboard() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const [user, profiles] = await Promise.all([
     getUser(supabase),
     getProfiles(supabase)

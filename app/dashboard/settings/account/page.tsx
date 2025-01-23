@@ -10,7 +10,6 @@ import { Pencil } from 'lucide-react'
 import Link from 'next/link'
 import { Accordion } from '@/components/ui/accordion'
 import { cn } from '@/utils/cn'
-import AccountSettings from '@/components/modules/Dashboard/AccountSettings/AccountSettings'
 import {
   Table,
   TableBody,
@@ -20,10 +19,12 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { formatDate } from 'date-fns'
-import ProfileForm from '@/components/modules/AccountForms/ProfileForm'
 import DeleteAccountModel from '@/components/modules/DeleteAccountModel/DeleteAccountModel'
-import ProfileAccordion from '@/components/modules/Dashboard/ProfileAccordion/ProfileAccordion'
 import { Tables } from '@/types_db'
+import SignoutForm from '@/components/modules/Forms/SignoutForm'
+import ProfileForm from '@/components/modules/Forms/ProfileForm'
+import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion/ProfileAccordion'
+import AccountSettings from '@/components/sections/Dashboard/AccountSettings/AccountSettings'
 
 type Setting = Tables<'settings'>
 
@@ -43,6 +44,7 @@ const SectionHeader = ({
       <h1 className="text-[34px] leading-3 lg:text-[50px] lg:leading-[55px] font-bold text-dark">
         {title}
       </h1>
+
       {addProfile ? (
         <ProfileForm>
           <Button
@@ -56,25 +58,27 @@ const SectionHeader = ({
           </Button>
         </ProfileForm>
       ) : deleteAccount ? (
-        <DeleteAccountModel settings={settings}>
-          <Button
-            variant="outline"
-            type="button"
-            className={cn(
-              'w-full lg:w-[178px] h-11 text-sm font-bold text-dark border-[1.4px]',
-              'border-secondary hover:bg-secondary/90'
-            )}
-          >
-            Delete My Account
-          </Button>
-        </DeleteAccountModel>
+        <div className="flex gap-2">
+          <SignoutForm />
+
+          <DeleteAccountModel settings={settings}>
+            <Button
+              variant="outline"
+              type="button"
+              size="small"
+              className="border-secondary hover:bg-secondary/90"
+            >
+              Delete My Account
+            </Button>
+          </DeleteAccountModel>
+        </div>
       ) : null}
     </div>
   )
 }
 
 export default async function Account() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const user = await getUser(supabase)
   const profiles = await getProfiles(supabase)
   const settings = await getSettings(supabase)
@@ -212,7 +216,6 @@ export default async function Account() {
           </Table>
         </div>
       </div>
-      {/* <EmailForm userEmail={user?.email} /> */}
     </div>
   )
 }

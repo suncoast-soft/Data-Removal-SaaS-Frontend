@@ -1,7 +1,7 @@
 import CleaningIcon from '@/components/icons/CleaningIcon'
 import WebSearchIcon from '@/components/icons/WebSearchIcon'
 import React from 'react'
-import { PieChartCard } from '../PieChart/PieChart'
+import { PieChartCard } from '../../modules/PieChart/PieChart'
 import { cn } from '@/utils/cn'
 import Image from 'next/image'
 

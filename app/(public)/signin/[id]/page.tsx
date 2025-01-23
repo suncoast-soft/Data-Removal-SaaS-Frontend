@@ -7,18 +7,15 @@ import {
   getDefaultSignInView,
   getRedirectMethod
 } from '@/utils/auth-helpers/settings'
-import PasswordSignIn from '@/components/modules/AuthForms/PasswordSignIn'
-import EmailSignIn from '@/components/modules/AuthForms/EmailSignIn'
-import Separator from '@/components/modules/AuthForms/Separator'
-import OauthSignIn from '@/components/modules/AuthForms/OauthSignIn'
-import ForgotPassword from '@/components/modules/AuthForms/ForgotPassword'
-import UpdatePassword from '@/components/modules/AuthForms/UpdatePassword'
-import SignUp from '@/components/modules/AuthForms/Signup'
+import EmailSignIn from '@/components/modules/Forms/EmailSignIn'
+import OauthSignIn from '@/components/modules/Forms/OauthSignIn'
+import SignUp from '@/components/modules/Forms/Signup'
 import Image from 'next/image'
 import { getUser } from '@/utils/supabase/queries'
+import Separator from '@/components/modules/Separator'
 
 export default async function SignIn({ params }: { params: { id: string } }) {
-  const { allowOauth, allowEmail, allowPassword } = getAuthTypes()
+  const { allowOauth } = getAuthTypes()
   const viewTypes = getViewTypes()
   const redirectMethod = getRedirectMethod()
 
@@ -36,7 +33,7 @@ export default async function SignIn({ params }: { params: { id: string } }) {
   }
 
   // Check if the user is already logged in and redirect to the account page if so
-  const supabase = createClient()
+  const supabase = await createClient()
   const user = await getUser(supabase)
 
   if (user && viewProp !== 'update_password') {
@@ -60,43 +57,20 @@ export default async function SignIn({ params }: { params: { id: string } }) {
                     : 'Login'}
             </h1>
 
-            {viewProp === 'password_signin' && (
-              <PasswordSignIn
-                allowEmail={allowEmail}
-                redirectMethod={redirectMethod}
-              />
-            )}
-
             {viewProp === 'email_signin' && (
-              <EmailSignIn
-                allowPassword={allowPassword}
-                redirectMethod={redirectMethod}
-              />
-            )}
-
-            {viewProp === 'forgot_password' && (
-              <ForgotPassword
-                allowEmail={allowEmail}
-                redirectMethod={redirectMethod}
-              />
-            )}
-
-            {viewProp === 'update_password' && (
-              <UpdatePassword redirectMethod={redirectMethod} />
+              <EmailSignIn redirectMethod={redirectMethod} />
             )}
 
             {viewProp === 'signup' && (
               <SignUp redirectMethod={redirectMethod} />
             )}
 
-            {viewProp !== 'update_password' &&
-              viewProp !== 'signup' &&
-              allowOauth && (
-                <div className="w-full mt-4">
-                  <Separator text="Third-party sign-in" />
-                  <OauthSignIn />
-                </div>
-              )}
+            {viewProp === 'email_signin' && allowOauth && (
+              <div className="w-full mt-4">
+                <Separator text="Third-party sign-in" />
+                <OauthSignIn />
+              </div>
+            )}
           </div>
 
           <div>

@@ -13,7 +13,7 @@ export default async function ActivateRemoval({
 }: {
   params: { id: string }
 }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const [user, profile] = await Promise.all([
     getUser(supabase),
     getProfile(supabase, params.id)

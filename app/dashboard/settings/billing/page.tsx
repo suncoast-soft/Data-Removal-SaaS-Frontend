@@ -1,4 +1,4 @@
-import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
+import CustomerPortalForm from '@/components/modules/Forms/CustomerPortalForm'
 import { Tables } from '@/types_db'
 import { isRemovalActive } from '@/utils/helpers'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
@@ -34,7 +34,7 @@ interface PaymentMethod {
 type PricingPlan = Tables<'pricing_plans'>
 
 export default async function Billing() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const user = await getUser(supabase)
 

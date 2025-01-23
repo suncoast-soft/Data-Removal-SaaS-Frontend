@@ -1,3 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "semi": ["off"],
+    "no-unused-vars": ["warn"],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" }
+    ],
+    "react-hooks/rules-of-hooks": ["off"],
+    "@typescript-eslint/no-explicit-any": ["off", {}],
+    "@typescript-eslint/no-unsafe-function-type": ["off"]
+  }
 }

@@ -1,4 +1,4 @@
-import SearchForm from '@/components/modules/AccountForms/SearchForm'
+import SearchForm from '@/components/modules/Forms/SearchForm'
 import FeaturedCTA from '@/components/sections/FeaturedCTA'
 import FeaturedColumns from '@/components/sections/FeaturedColumns'
 import PricingTable from '@/components/sections/PricingTable'

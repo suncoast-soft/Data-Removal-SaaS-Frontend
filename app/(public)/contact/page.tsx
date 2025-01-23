@@ -1,4 +1,4 @@
-import ContactForm from '@/components/modules/AccountForms/ContactForm'
+import ContactForm from '@/components/modules/Forms/ContactForm'
 import Image from 'next/image'
 import React from 'react'
 

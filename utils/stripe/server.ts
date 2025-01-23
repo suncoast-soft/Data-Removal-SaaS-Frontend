@@ -7,7 +7,7 @@ import { getURL, getErrorRedirect } from '@/utils/helpers'
 
 export async function createStripePortal(currentPath: string) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     const {
       error,
       data: { user }
@@ -67,7 +67,7 @@ export async function createStripePortal(currentPath: string) {
 }
 
 export async function listInvoices(user_id: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data } = await supabase
     .from('users')
     .select('*')
@@ -87,7 +87,7 @@ export async function listInvoices(user_id: string) {
 }
 
 export async function listPaymentMethods(user_id: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data } = await supabase
     .from('users')
     .select('*')

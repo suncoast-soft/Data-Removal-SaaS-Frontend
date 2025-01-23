@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation'
 export const dynamic = 'force-dynamic'
 
 export default async function Removal({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const [user, searches] = await Promise.all([
     getUser(supabase),
     getSearches(supabase, params.id)

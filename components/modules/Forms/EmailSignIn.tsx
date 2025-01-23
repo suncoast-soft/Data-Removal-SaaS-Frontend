@@ -19,7 +19,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 
 interface EmailSignInProps {
-  allowPassword: boolean
   redirectMethod: string
 }
 

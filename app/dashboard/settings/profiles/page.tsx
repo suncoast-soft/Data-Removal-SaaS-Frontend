@@ -1,12 +1,12 @@
 import { createClient } from '@/utils/supabase/server'
 import { getProfiles } from '@/utils/supabase/queries'
-import ProfileForm from '@/components/modules/AccountForms/ProfileForm'
+import ProfileForm from '@/components/modules/Forms/ProfileForm'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export default async function Profiles() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const profiles = await getProfiles(supabase)
 
   return (

@@ -63,7 +63,7 @@ export const getSearches = cache(
   async (supabase: SupabaseClient, id: string) => {
     const { data: searches } = await supabase
       .from('searches')
-      .select('*, profiles(*), brokers(*)')
+      .select('*')
       .eq('profile_id', id)
     return searches
   }

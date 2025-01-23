@@ -57,7 +57,7 @@ export const createProfile = cache(
 )
 
 export async function updateUser(formData: FormData): Promise<string | void> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const user = await getUser(supabase)
   if (!user) return
@@ -132,7 +132,7 @@ export async function updateUser(formData: FormData): Promise<string | void> {
 export async function updateProfile(
   formData: FormData
 ): Promise<string | void> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const user = await getUser(supabase)
   if (!user) return
@@ -206,7 +206,7 @@ export async function updateProfile(
 export async function updateUserSettings(
   formData: FormData
 ): Promise<string | void> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const user = await getUser(supabase)
   if (!user) return
@@ -259,7 +259,7 @@ export async function updateUserSettings(
 export async function createUserSettings(
   formData: FormData
 ): Promise<string | void> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const user_id = String(formData['id']).trim()
   const { data } = await supabase
