@@ -11,8 +11,8 @@ import {
 import { Button } from '@/components/ui/button'
 import LogoWhite from '@/components/icons/LogoWhite'
 import { cn } from '@/utils/cn'
-import s from './Sidenav.module.css'
-import { Search } from 'lucide-react'
+import s from './DashboardNav.module.css'
+import { SearchIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import MenuIcon from '@/components/icons/MenuIcon'
@@ -32,24 +32,27 @@ interface NavProps {
   isPaidUser?: boolean
 }
 
-function DesktopNav({ navs, isPaidUser }: NavProps) {
+function DashboardNavDesktop({ navs, isPaidUser }: NavProps) {
   const currentPath = usePathname()
   const [search, setSearch] = useState('')
+
   return (
     <aside className={s.root}>
       <nav className="flex flex-col items-start px-4 py-6 justify-between min-h-screen">
         <div className="w-full">
           <Link
-            href="/"
+            href="/dashboard"
             className={cn(s.logo, 'no-underline')}
             aria-label="Logo"
           >
             <LogoWhite />
           </Link>
+
           <div className="relative w-full mb-6">
             <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-              <Search className="w-[18px] h-[18px] text-primary" />
+              <SearchIcon className="w-[18px] h-[18px] text-primary" />
             </div>
+
             <Input
               type="text"
               placeholder="Search for..."
@@ -58,6 +61,7 @@ function DesktopNav({ navs, isPaidUser }: NavProps) {
               className="pl-[48px] bg-transparent border border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white text-base h-12"
             />
           </div>
+
           <div
             className={cn(
               'w-full overflow-y-auto',
@@ -87,25 +91,27 @@ function DesktopNav({ navs, isPaidUser }: NavProps) {
             ))}
           </div>
         </div>
+
         <FooterOptions isPaidUser={isPaidUser} />
       </nav>
     </aside>
   )
 }
 
-function MobileNav({ navs, isPaidUser }: NavProps) {
+function DashboardNavMobile({ navs, isPaidUser }: NavProps) {
   const currentPath = usePathname()
 
   return (
     <Sheet>
       <div className="lg:hidden bg-dark w-full h-[70px] flex justify-between items-center px-4">
         <Link
-          href="/"
+          href="/dashboard"
           className={cn(s.logo, 'no-underline w-[170px] !mb-0')}
           aria-label="Logo"
         >
           <LogoWhite />
         </Link>
+
         <SheetTrigger asChild>
           <Button
             size="icon"
@@ -117,17 +123,19 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
           </Button>
         </SheetTrigger>
       </div>
+
       <SheetContent side="left" className={'bg-dark'}>
         <nav className="flex flex-col items-start px-4 py-6">
           <SheetTitle className="sr-only">Menu</SheetTitle>
 
           <Link
-            href="/"
+            href="/dashboard"
             className={cn(s.logo, 'no-underline')}
             aria-label="Logo"
           >
             <LogoWhite />
           </Link>
+
           <div className="w-full">
             {navs.map((nav, index) => (
               <Link
@@ -155,26 +163,32 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
 const FooterOptions = ({ isPaidUser }: { isPaidUser?: boolean }) => {
   return (
     isPaidUser && (
-      <div className="pt-[20px] mt-2 flex flex-col gap-2 shadow-[0_-4px_8px_-4px_rgba(0,0,0,0.2)]">
-        <h3 className="text-white text-[22px] leading-[28px] font-bold">
+      <div className="py-4 space-y-2">
+        <h3 className="text-white text-xl font-bold text-center">
           Loving Pup Premium?
         </h3>
+
         <Button
-          className="text-white border font-normal text-sm h-11"
-          variant={'outline'}
+          variant="outline"
+          size="small"
+          className="text-white border-primary hover:bg-primary w-full"
         >
           Send Someone a Gift
         </Button>
+
         <Button
-          className="text-white border font-normal text-sm h-11"
-          variant={'outline'}
+          variant="outline"
+          size="small"
+          className="text-white border-primary hover:bg-primary w-full"
         >
           Refer a Friend
         </Button>
+
         <ProfileForm>
           <Button
-            className="text-white border font-normal text-sm h-11 w-full"
-            variant={'outline'}
+            variant="outline"
+            size="small"
+            className="text-white border-primary hover:bg-primary w-full"
           >
             Add a Family Member
           </Button>
@@ -184,4 +198,4 @@ const FooterOptions = ({ isPaidUser }: { isPaidUser?: boolean }) => {
   )
 }
 
-export { DesktopNav, MobileNav }
+export { DashboardNavDesktop, DashboardNavMobile }

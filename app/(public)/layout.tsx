@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   const user = await getUser(supabase)
 
   if (user) {
-    return redirect('/dashboard/reports')
+    return redirect('/dashboard')
   }
 
   return (

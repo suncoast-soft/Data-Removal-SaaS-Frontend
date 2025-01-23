@@ -20,37 +20,34 @@ export default async function Dashboard() {
 
   return (
     <>
-      <div className="container mx-auto max-w-[1132px]">
-        <DashboardRoot
-          primaryProfile={primaryProfile}
-          isPaidUser={isPaidUser}
-        />
-        {!isPaidUser && (
-          <>
-            <div className="my-[60px] lg:my-[50px]">
-              <UpgradeSection />
-            </div>
-            <FaqsSection />
-            <HowToProtectSection />
-            <ArticlesSection />
-            <div className="mt-4 lg:mt-[45px] flex justify-center mx-auto  px-4 lg:px-0">
-              <Button
-                variant="secondary"
-                color="white"
-                className="w-full lg:w-[371px] z-10 font-semibold text-lg text-dark border-primary hover:bg-primary hover:text-white border-2"
-                type="submit"
-              >
-                Upgrade and protect yourself today
-              </Button>
-            </div>
-          </>
-        )}
-        {isPaidUser && (
-          <div className="mt-8">
-            <HelpBanner />
+      <DashboardRoot primaryProfile={primaryProfile} isPaidUser={isPaidUser} />
+
+      {!isPaidUser && (
+        <>
+          <div className="my-[60px] lg:my-[50px]">
+            <UpgradeSection />
           </div>
-        )}
-      </div>
+          <FaqsSection />
+          <HowToProtectSection />
+          <ArticlesSection />
+          <div className="mt-4 lg:mt-[45px] flex justify-center mx-auto  px-4 lg:px-0">
+            <Button
+              variant="secondary"
+              color="white"
+              className="w-full lg:w-[371px] z-10 font-semibold text-lg text-dark border-primary hover:bg-primary hover:text-white border-2"
+              type="submit"
+            >
+              Upgrade and protect yourself today
+            </Button>
+          </div>
+        </>
+      )}
+
+      {isPaidUser && (
+        <div className="mt-8">
+          <HelpBanner />
+        </div>
+      )}
     </>
   )
 }
