@@ -9,7 +9,7 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import LogoText from '@/components/icons/LogoText'
+import LogoWhite from '@/components/icons/LogoWhite'
 import { cn } from '@/utils/cn'
 import s from './Sidenav.module.css'
 import { Search } from 'lucide-react'
@@ -44,7 +44,7 @@ function DesktopNav({ navs, isPaidUser }: NavProps) {
             className={cn(s.logo, 'no-underline')}
             aria-label="Logo"
           >
-            <LogoText />
+            <LogoWhite />
           </Link>
           <div className="relative w-full mb-6">
             <div className="absolute left-5 top-[50%] -translate-y-[50%]">
@@ -104,7 +104,7 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
           className={cn(s.logo, 'no-underline w-[170px] !mb-0')}
           aria-label="Logo"
         >
-          <LogoText />
+          <LogoWhite />
         </Link>
         <SheetTrigger asChild>
           <Button
@@ -126,7 +126,7 @@ function MobileNav({ navs, isPaidUser }: NavProps) {
             className={cn(s.logo, 'no-underline')}
             aria-label="Logo"
           >
-            <LogoText />
+            <LogoWhite />
           </Link>
           <div className="w-full">
             {navs.map((nav, index) => (

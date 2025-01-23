@@ -41,7 +41,7 @@ const FormSchema = z.object({
   last_name: z.string().min(1, { message: 'Last name is required' }),
   email: z.string().email({ message: 'Invalid email address.' }),
   address: z.string().min(1, { message: 'Address is required' }),
-  message: z.string().optional(),
+  bio: z.string().optional(),
   phone: z.string().regex(phoneRegex, 'Invalid Number!'),
   birth_date: z.date({ required_error: 'A date of birth is required.' })
 })
@@ -54,7 +54,7 @@ export default function SignUp({ redirectMethod }: SignUpProps) {
       last_name: '',
       email: '',
       address: '',
-      message: '',
+      bio: '',
       phone: '',
       birth_date: new Date('1990-01-01')
     }
@@ -222,7 +222,7 @@ export default function SignUp({ redirectMethod }: SignUpProps) {
           {showAdditional ? (
             <FormField
               control={form.control}
-              name="message"
+              name="bio"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel className="text-white font-semibold text-lg">

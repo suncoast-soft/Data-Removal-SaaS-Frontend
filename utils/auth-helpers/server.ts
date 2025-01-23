@@ -12,6 +12,7 @@ import {
 } from 'utils/helpers'
 import { getAuthTypes } from 'utils/auth-helpers/settings'
 import { redirect } from 'next/navigation'
+import { createProfile } from '../supabase/mutations'
 
 interface FormData {
   [key: string]: string | number | boolean
@@ -317,7 +318,7 @@ export async function signUp(formData: FormData) {
       error.message
     )
   } else if (data.session) {
-    redirectPath = getStatusRedirect('/', 'Success!', 'You are now signed in.')
+    redirectPath = await createProfile(supabase, formData, true)
   } else if (
     data.user &&
     data.user.identities &&

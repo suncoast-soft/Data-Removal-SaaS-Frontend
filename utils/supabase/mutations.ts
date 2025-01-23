@@ -1,3 +1,5 @@
+'use server'
+
 import { SupabaseClient } from '@supabase/supabase-js'
 import { cache } from 'react'
 import { getBrokers, getUser } from './queries'
@@ -8,37 +10,51 @@ interface FormData {
   [key: string]: string | number | boolean
 }
 
-export async function createUser(formData: FormData): Promise<string | void> {
-  const supabase = createClient()
+export const createProfile = cache(
+  async (
+    supabase: SupabaseClient,
+    formData: FormData,
+    primary: boolean = false
+  ) => {
+    const user = await getUser(supabase)
+    if (!user) {
+      return getErrorRedirect(
+        '/signin/signup',
+        'Your profile could not be submitted. Please try again.'
+      )
+    }
 
-  const firstName = String(formData['firstName']).trim()
-  const lastName = String(formData['lastName']).trim()
-  const birthDate = String(formData['birthDate']).trim()
-  const email = String(formData['email']).trim()
-  const address = String(formData['address']).trim()
-  const phone = String(formData['phone']).trim()
-  const bio = String(formData['bio']).trim()
+    const firstName = String(formData['first_name']).trim()
+    const lastName = String(formData['last_name']).trim()
+    const birthDate = String(formData['birth_date']).trim()
+    const email = String(formData['email']).trim()
+    const address = String(formData['address']).trim()
+    const phone = String(formData['phone']).trim()
+    const bio = String(formData['bio']).trim()
 
-  const { error: insertError } = await supabase.from('profiles').insert({
-    first_name: firstName ?? undefined,
-    last_name: lastName ?? undefined,
-    birth_date: birthDate ?? undefined,
-    email: email ?? undefined,
-    address: address ?? undefined,
-    phone: phone ?? undefined,
-    bio: bio ?? undefined
-  })
+    const { error: insertError } = await supabase.from('profiles').insert({
+      user_id: user.id,
+      first_name: firstName,
+      last_name: lastName,
+      birth_date: birthDate,
+      email: email,
+      address: address,
+      phone: phone,
+      bio: bio,
+      isPrimary: primary
+    })
 
-  if (insertError) {
-    return getErrorRedirect(
-      '/signin/signup',
-      'Your profile could not be submitted. Please try again.',
-      insertError.message
-    )
+    if (insertError) {
+      return getErrorRedirect(
+        '/signin/signup',
+        'Your profile could not be submitted. Please try again.',
+        insertError.message
+      )
+    }
+
+    return getStatusRedirect('/', 'Success!', 'User signed up successfully')
   }
-
-  return getStatusRedirect('/', 'Success!', 'User signed up successfully')
-}
+)
 
 export async function updateUser(formData: FormData): Promise<string | void> {
   const supabase = createClient()

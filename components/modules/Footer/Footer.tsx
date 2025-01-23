@@ -1,3 +1,4 @@
+import LogoDark from '@/components/icons/LogoDark'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -78,12 +79,7 @@ export default function Footer() {
           {/* Logo and Social Links */}
           <div className="w-[340px] flex flex-col gap-4 items-center lg:items-start">
             <Link href="/" className="flex items-center font-bold no-underline">
-              <Image
-                src="/lp-footer-logo.png"
-                width={261}
-                height={34}
-                alt="Logo"
-              />
+              <LogoDark />
             </Link>
             <p className="text-base lg:text-lg opacity-50 text-center lg:text-left">
               Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LogoText from '@/components/icons/LogoText'
+import LogoWhite from '@/components/icons/LogoWhite'
 import { Button } from '@/components/ui/button'
 import Menu from './Menu'
 import { User } from '@supabase/supabase-js'
@@ -30,7 +30,7 @@ export default async function Navbar({ user }: { user: User | null }) {
         <div className="relative flex flex-row justify-between align-center h-full">
           <div className="flex items-center flex-1 justify-between">
             <Link href="/" className="no-underline" aria-label="Logo">
-              <LogoText />
+              <LogoWhite />
             </Link>
 
             <Menu navLinks={navLinks} />
