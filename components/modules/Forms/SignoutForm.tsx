@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { getRedirectMethod } from '@/utils/auth-helpers/settings'
 import { Input } from '@/components/ui/input'
 import { LogOutIcon } from 'lucide-react'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,11 +18,8 @@ const FormSchema = z.object({
 })
 
 export default function SignoutForm() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = getRedirectMethod() === 'client' ? useRouter() : null
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const pathname = usePathname()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
@@ -40,20 +37,10 @@ export default function SignoutForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="pathName"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="hidden"
-                  {...field}
-                  defaultValue={pathname || '/'}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+        <Input
+          type="hidden"
+          defaultValue={usePathname()}
+          {...form.register('pathName')}
         />
         <Button
           type="submit"
