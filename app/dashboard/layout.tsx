@@ -13,7 +13,6 @@ import FAQsIcon from '@/components/icons/FAQsIcon'
 import BlogIcon from '@/components/icons/BlogIcon'
 import ScanHistoryIcon from '@/components/icons/ScanHistoryIcon'
 import { isRemovalActive } from '@/utils/helpers'
-import DashboardHeader from '@/components/modules/DashboardHeader'
 
 export default async function DashboardLayout({
   children
@@ -86,11 +85,7 @@ export default async function DashboardLayout({
           />
         </header>
 
-        <main className="container mx-auto max-w-6xl">
-          <DashboardHeader />
-
-          {children}
-        </main>
+        <main className="container max-w-6xl">{children}</main>
       </div>
     </main>
   )

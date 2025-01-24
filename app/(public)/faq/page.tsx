@@ -1,4 +1,4 @@
-import FAQs from '@/components/modules/Landing/FAQs/FAQs'
+import PublicFAQs from '@/components/sections/PublicFAQs'
 import Image from 'next/image'
 import React from 'react'
 
@@ -26,7 +26,7 @@ export default function FAQPage() {
         </div>
 
         <div className="mt-6 lg:mt-10">
-          <FAQs />
+          <PublicFAQs />
         </div>
       </div>
     </div>

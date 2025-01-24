@@ -7,6 +7,7 @@ export default function WebSearchIcon() {
       height="32"
       viewBox="0 0 32 32"
       fill="none"
+      color="#FA824C"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clipPath="url(#clip0_3025_48032)">

@@ -11,7 +11,7 @@ interface GoogleSearchResult {
   htmlFormattedUrl: string
 }
 
-export default function GoogleSearches({
+export default function GoogleSearchResults({
   results
 }: {
   results: Array<GoogleSearchResult>

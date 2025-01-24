@@ -20,6 +20,7 @@ export default function ArticlesSection() {
           </p>
         </div>
       </div>
+
       <div className="w-[340px] min-w-[340px] p-6 rounded-[20px] flex flex-col gap-4 lg:gap-6 justify-center items-center">
         <Image
           src={'/result-article2.png'}
@@ -36,6 +37,7 @@ export default function ArticlesSection() {
           </p>
         </div>
       </div>
+
       <div className="w-[340px] min-w-[340px] p-6 rounded-[20px] flex flex-col gap-4 lg:gap-6 justify-center items-center">
         <Image
           src={'/result-article3.png'}

@@ -28,7 +28,7 @@ const renderValue = (value: unknown) => {
   return String(value)
 }
 
-export default function BrokerSearches({
+export default function BrokerSearchResults({
   searches
 }: {
   searches: Array<Search>
