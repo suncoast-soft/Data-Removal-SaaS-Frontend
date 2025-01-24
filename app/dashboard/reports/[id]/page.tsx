@@ -1,5 +1,5 @@
-import GoogleSearches from '@/components/modules/SearchResult/Google'
-import BrokerSearches from '@/components/modules/SearchResult/Broker'
+import GoogleSearches from '@/components/sections/SearchReport/SearchResults/SearchResult/Google'
+import BrokerSearches from '@/components/sections/SearchReport/SearchResults/SearchResult/Broker'
 import Loading from '@/components/modules/Loading'
 import Title from '@/components/modules/Title'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'

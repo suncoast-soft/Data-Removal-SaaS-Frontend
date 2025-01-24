@@ -7,7 +7,6 @@ import {
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
-import FaqsSection from '@/components/sections/Dashboard/FaqsSection'
 import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
 import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
 import HelpBanner from '@/components/sections/Dashboard/HelpBanner'

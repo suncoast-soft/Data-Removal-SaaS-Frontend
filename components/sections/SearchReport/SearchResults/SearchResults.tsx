@@ -1,5 +1,5 @@
-import BrokerSearchResults from '@/components/modules/SearchResult/Broker'
-import GoogleSearchResults from '@/components/modules/SearchResult/Google'
+import BrokerSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Broker'
+import GoogleSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Google'
 import Loading from '@/components/modules/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Tables } from '@/types_db'
