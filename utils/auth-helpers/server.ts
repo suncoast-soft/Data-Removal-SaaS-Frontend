@@ -256,6 +256,12 @@ export async function signUp(formData: FormData) {
   const email = String(formData['email']).trim()
   const phone = String(formData['phone']).trim()
   const password = String(formData['password']).trim()
+  const first_name = String(formData['first_name']).trim()
+  const last_name = String(formData['last_name']).trim()
+  const birth_date = String(formData['birth_date']).trim()
+  const gender = String(formData['gender']).trim()
+  const address = String(formData['address']).trim()
+  const bio = String(formData['bio']).trim()
 
   const callbackURL = getURL('/auth/callback')
 
@@ -275,7 +281,17 @@ export async function signUp(formData: FormData) {
     password,
     phone,
     options: {
-      emailRedirectTo: callbackURL
+      emailRedirectTo: callbackURL,
+      data: {
+        email,
+        phone,
+        first_name,
+        last_name,
+        birth_date,
+        gender,
+        address,
+        bio
+      }
     }
   })
 
@@ -286,7 +302,11 @@ export async function signUp(formData: FormData) {
       error.message
     )
   } else if (data.session) {
-    redirectPath = await createProfile(supabase, formData, true)
+    redirectPath = getStatusRedirect(
+      `/dashboard`,
+      'Success!',
+      'You are now signed in.'
+    )
   } else if (
     data.user &&
     data.user.identities &&
@@ -298,7 +318,6 @@ export async function signUp(formData: FormData) {
       'There is already an account associated with this email address. Try resetting your password.'
     )
   } else if (data.user) {
-    await createProfile(supabase, formData, true)
     redirectPath = getStatusRedirect(
       '/',
       'Success!',
