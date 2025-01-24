@@ -1041,6 +1041,7 @@ to authenticated
 using ((( SELECT auth.uid() AS uid) = id));
 
 
+CREATE TRIGGER handle_new_user AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 CREATE TRIGGER create_search_queue AFTER INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION create_search_queue();
 
 
