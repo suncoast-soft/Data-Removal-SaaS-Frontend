@@ -298,6 +298,7 @@ export async function signUp(formData: FormData) {
       'There is already an account associated with this email address. Try resetting your password.'
     )
   } else if (data.user) {
+    await createProfile(supabase, formData, true)
     redirectPath = getStatusRedirect(
       '/',
       'Success!',
