@@ -17,6 +17,7 @@ import { BellIcon } from 'lucide-react'
 import SearchReport from '@/components/sections/SearchReport'
 import RemovalReport from '@/components/sections/RemovalReport'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
+import Link from 'next/link'
 
 type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
@@ -73,7 +74,7 @@ export default async function Dashboard() {
         </>
       ) : (
         <>
-          <SearchReport brokers={brokers as Broker[]} searches={searches} />
+          <SearchReport searches={searches} />
 
           <HelpBanner />
 
@@ -86,8 +87,10 @@ export default async function Dashboard() {
           <ArticlesSection />
 
           <div className="text-center my-12">
-            <Button variant="secondary" color="white" type="submit">
-              Upgrade and protect yourself today
+            <Button variant="secondary" asChild>
+              <Link href="/checkout" className="no-underline">
+                Upgrade and protect yourself today
+              </Link>
             </Button>
           </div>
         </>

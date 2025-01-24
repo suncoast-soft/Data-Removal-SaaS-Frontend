@@ -7,12 +7,10 @@ import SearchResults from './SearchResults'
 import ProfileDropdown from '@/components/modules/ProfileDropdown'
 import Image from 'next/image'
 
-type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
 type Search = Tables<'searches'>
 
 interface SectionProps {
-  brokers: Broker[]
   searches: {
     profile: Profile
     searches: Search[]
