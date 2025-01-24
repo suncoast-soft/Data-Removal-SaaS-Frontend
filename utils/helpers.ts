@@ -196,30 +196,32 @@ export const isRemovalActive = (pricing: {
   return now < expirationDate
 }
 
-export const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
-)
+export function splitName(fullName?: string): {
+  firstName: string
+  lastName: string
+} {
+  if (!fullName) {
+    return {
+      firstName: '',
+      lastName: ''
+    }
+  }
 
-export function splitName(fullName?: string) {
-  // Trim any leading/trailing spaces and split the name by spaces
-  const nameParts = fullName?.trim().split(/\s+/)
+  const nameParts = fullName.trim().split(/\s+/)
 
-  // If there's only one part, we can consider it as the first name
-  if (nameParts?.length === 1) {
+  if (nameParts.length === 1) {
     return {
       firstName: nameParts[0],
       lastName: ''
     }
   }
 
-  // If there are more than one part, the first part is the first name,
-  // and the rest are considered as the last name
-  const first_name = nameParts?.[0]
-  const last_name = nameParts?.slice(1).join(' ')
+  const firstName = nameParts[0]
+  const lastName = nameParts.slice(1).join(' ')
 
   return {
-    first_name,
-    last_name
+    firstName,
+    lastName
   }
 }
 

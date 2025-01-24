@@ -2,19 +2,16 @@ import BrokerSearchResults from '@/components/sections/SearchReport/SearchResult
 import GoogleSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Google'
 import Loading from '@/components/modules/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Tables } from '@/types_db'
-
-type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
+import { Json } from '@/types_db'
 
 interface SectionProps {
-  search: {
-    profile: Profile
-    searches: Search[]
-  }
+  searches: {
+    broker_type: string
+    search_result: Json
+  }[]
 }
 
-export default function SearchResults({ search }: SectionProps) {
+export default function SearchResults({ searches }: SectionProps) {
   const tabs = [
     {
       value: 'google',
@@ -38,10 +35,10 @@ export default function SearchResults({ search }: SectionProps) {
     }
   ]
 
-  const brokerSearches = search.searches?.filter(
+  const brokerSearches = searches?.filter(
     (search) => search.broker_type === 'broker_site'
   )
-  const googleSearches = search.searches?.filter(
+  const googleSearches = searches?.filter(
     (search) => search.broker_type === 'google'
   )[0]
 

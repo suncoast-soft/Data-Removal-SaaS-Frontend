@@ -1,9 +1,14 @@
 import { Button } from '@/components/ui/button'
+import { getUser } from '@/utils/supabase/queries'
+import { createClient } from '@/utils/supabase/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-export default function UpgradeSection() {
+export default async function UpgradeSection() {
+  const supabase = await createClient()
+  const user = await getUser(supabase)
+
   return (
     <div className="flex flex-col gap-6 lg:gap-8 items-center my-12">
       <h2 className="text-2xl lg:text-[32px] lg:leading-[38px] font-bold text-left text-dark">
@@ -24,9 +29,15 @@ export default function UpgradeSection() {
 
           <div className="mt-7 flex justify-start">
             <Button variant="default" className="w-48" asChild>
-              <Link href={'/checkout'} className="no-underline">
-                Upgrade
-              </Link>
+              {user ? (
+                <Link href={'/checkout'} className="no-underline">
+                  Upgrade
+                </Link>
+              ) : (
+                <Link href={'/signin/signup'} className="no-underline">
+                  Get Started
+                </Link>
+              )}
             </Button>
           </div>
         </div>

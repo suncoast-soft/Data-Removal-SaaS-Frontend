@@ -8,22 +8,20 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 
 export async function handleRequest(
   data: {
-    [key: string]: string | number | boolean
+    [key: string]: string | number
   },
   // eslint-disable-next-line no-unused-vars
-  requestFunc: (data: {
-    [key: string]: string | number | boolean
-  }) => Promise<string | void>,
+  requestFunc: (data: { [key: string]: string | number }) => Promise<string>,
   router: AppRouterInstance | null = null
 ): Promise<boolean | void> {
-  const redirectUrl: string | void = await requestFunc(data)
+  const redirectUrl: string = await requestFunc(data)
 
-  if (router && redirectUrl) {
+  if (router) {
     // If client-side router is provided, use it to redirect
-    return router.push(redirectUrl, { scroll: false })
+    return router.push(redirectUrl)
   } else {
     // Otherwise, redirect server-side
-    if (redirectUrl) return await redirectToPath(redirectUrl)
+    return await redirectToPath(redirectUrl)
   }
 }
 
