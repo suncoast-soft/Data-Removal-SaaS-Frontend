@@ -3,13 +3,11 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React from 'react'
 
-interface VerifyOTPPageProps {
-  searchParams: {
-    success?: boolean
-  }
-}
+export default async function VerifyOTPPage(props: {
+  searchParams: Promise<{ success: string }>
+}) {
+  const searchParams = await props.searchParams
 
-export default function VerifyOTPPage({ searchParams }: VerifyOTPPageProps) {
   const isPhoneVerified = searchParams.success
 
   return (

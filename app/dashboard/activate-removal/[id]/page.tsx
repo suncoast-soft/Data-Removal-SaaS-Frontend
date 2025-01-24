@@ -8,11 +8,11 @@ import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
-export default async function ActivateRemoval({
-  params
-}: {
-  params: { id: string }
+export default async function ActivateRemoval(props: {
+  params: Promise<{ id: string }>
 }) {
+  const params = await props.params
+
   const supabase = await createClient()
   const [user, profile] = await Promise.all([
     getUser(supabase),

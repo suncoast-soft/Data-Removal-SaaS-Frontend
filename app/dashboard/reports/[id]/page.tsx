@@ -16,7 +16,11 @@ import { Info } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function Report({ params }: { params: { id: string } }) {
+export default async function Report(props: {
+  params: Promise<{ id: string }>
+}) {
+  const params = await props.params
+
   const supabase = await createClient()
 
   const [profile, searches, pricing] = await Promise.all([

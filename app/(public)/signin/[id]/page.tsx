@@ -14,7 +14,11 @@ import Image from 'next/image'
 import { getUser } from '@/utils/supabase/queries'
 import Separator from '@/components/modules/Separator'
 
-export default async function SignIn({ params }: { params: { id: string } }) {
+export default async function SignIn(props: {
+  params: Promise<{ id: string }>
+}) {
+  const params = await props.params
+
   const { allowOauth } = getAuthTypes()
   const viewTypes = getViewTypes()
   const redirectMethod = getRedirectMethod()
@@ -27,7 +31,7 @@ export default async function SignIn({ params }: { params: { id: string } }) {
     viewProp = params.id
   } else {
     const preferredSignInView =
-      cookies().get('preferredSignInView')?.value || null
+      (await cookies()).get('preferredSignInView')?.value || null
     viewProp = getDefaultSignInView(preferredSignInView)
     return redirect(`/signin/${viewProp}`)
   }
