@@ -339,21 +339,18 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          type: Database["public"]["Enums"]["pricing_type"] | null
           updated_at: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
-          type?: Database["public"]["Enums"]["pricing_type"] | null
           updated_at?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: number
-          type?: Database["public"]["Enums"]["pricing_type"] | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -377,14 +374,15 @@ export type Database = {
           created_at: string
           email: string | null
           first_name: string | null
-          gender: string | null
+          gender: Database["public"]["Enums"]["gender"] | null
           id: number
-          isPrimary: boolean | null
+          is_primary: boolean | null
           last_name: string | null
           phone: string | null
-          social_security_number: string | null
+          ssn: string | null
           state: string | null
           user_id: string | null
+          zip: string | null
         }
         Insert: {
           address?: string | null
@@ -395,14 +393,15 @@ export type Database = {
           created_at?: string
           email?: string | null
           first_name?: string | null
-          gender?: string | null
+          gender?: Database["public"]["Enums"]["gender"] | null
           id?: number
-          isPrimary?: boolean | null
+          is_primary?: boolean | null
           last_name?: string | null
           phone?: string | null
-          social_security_number?: string | null
+          ssn?: string | null
           state?: string | null
           user_id?: string | null
+          zip?: string | null
         }
         Update: {
           address?: string | null
@@ -413,14 +412,15 @@ export type Database = {
           created_at?: string
           email?: string | null
           first_name?: string | null
-          gender?: string | null
+          gender?: Database["public"]["Enums"]["gender"] | null
           id?: number
-          isPrimary?: boolean | null
+          is_primary?: boolean | null
           last_name?: string | null
           phone?: string | null
-          social_security_number?: string | null
+          ssn?: string | null
           state?: string | null
           user_id?: string | null
+          zip?: string | null
         }
         Relationships: [
           {
@@ -486,58 +486,38 @@ export type Database = {
           },
         ]
       }
-      settings: {
-        Row: {
-          allow_multi_device_login: boolean | null
-          created_at: string
-          deleted: boolean | null
-          id: number
-          receive_marketing_emails: boolean | null
-          receive_status_updates: string | null
-          require_multi_factor_verification: boolean | null
-          user_id: string | null
-        }
-        Insert: {
-          allow_multi_device_login?: boolean | null
-          created_at?: string
-          deleted?: boolean | null
-          id?: number
-          receive_marketing_emails?: boolean | null
-          receive_status_updates?: string | null
-          require_multi_factor_verification?: boolean | null
-          user_id?: string | null
-        }
-        Update: {
-          allow_multi_device_login?: boolean | null
-          created_at?: string
-          deleted?: boolean | null
-          id?: number
-          receive_marketing_emails?: boolean | null
-          receive_status_updates?: string | null
-          require_multi_factor_verification?: boolean | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "settings_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       users: {
         Row: {
+          allow_multi_device_login: boolean | null
+          delete: boolean | null
+          enable_mfa: boolean | null
           id: string
+          receive_marketing_emails: boolean | null
+          status_update_method:
+            | Database["public"]["Enums"]["status_update_method"]
+            | null
           stripe_customer_id: string | null
         }
         Insert: {
+          allow_multi_device_login?: boolean | null
+          delete?: boolean | null
+          enable_mfa?: boolean | null
           id: string
+          receive_marketing_emails?: boolean | null
+          status_update_method?:
+            | Database["public"]["Enums"]["status_update_method"]
+            | null
           stripe_customer_id?: string | null
         }
         Update: {
+          allow_multi_device_login?: boolean | null
+          delete?: boolean | null
+          enable_mfa?: boolean | null
           id?: string
+          receive_marketing_emails?: boolean | null
+          status_update_method?:
+            | Database["public"]["Enums"]["status_update_method"]
+            | null
           stripe_customer_id?: string | null
         }
         Relationships: []
@@ -551,6 +531,7 @@ export type Database = {
     }
     Enums: {
       broker_type: "broker_site" | "google" | "bing" | "yahoo" | "duckduckgo"
+      gender: "male" | "female"
       pricing_type: "one_year" | "two_year" | "annual_recurring"
       removal_status:
         | "queued"
@@ -559,6 +540,7 @@ export type Database = {
         | "completed"
         | "failed"
       search_status: "queued" | "in_progress" | "completed" | "failed"
+      status_update_method: "email" | "sms"
     }
     CompositeTypes: {
       [_ in never]: never
