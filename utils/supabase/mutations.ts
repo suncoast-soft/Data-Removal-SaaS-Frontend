@@ -24,9 +24,9 @@ export const createProfile = cache(
       )
     }
 
-    const firstName = String(formData['first_name']).trim()
-    const lastName = String(formData['last_name']).trim()
-    const birthDate = String(formData['birth_date']).trim()
+    const first_name = String(formData['first_name']).trim()
+    const last_name = String(formData['last_name']).trim()
+    const birth_date = String(formData['birth_date']).trim()
     const email = String(formData['email']).trim()
     const address = String(formData['address']).trim()
     const phone = String(formData['phone']).trim()
@@ -34,13 +34,13 @@ export const createProfile = cache(
 
     const { error: insertError } = await supabase.from('profiles').insert({
       user_id: user.id,
-      first_name: firstName,
-      last_name: lastName,
-      birth_date: birthDate,
-      email: email,
-      address: address,
-      phone: phone,
-      bio: bio,
+      first_name,
+      last_name,
+      birth_date,
+      email,
+      address,
+      phone,
+      bio,
       is_primary: primary
     })
 

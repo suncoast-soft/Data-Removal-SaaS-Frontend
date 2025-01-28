@@ -253,13 +253,9 @@ export async function requestPasswordUpdate(formData: FormData) {
 
 export async function signUp(formData: FormData) {
   const email = String(formData['email']).trim()
-  const phone = String(formData['phone']).trim()
-  const password = String(formData['password']).trim()
   const first_name = String(formData['first_name']).trim()
   const last_name = String(formData['last_name']).trim()
-  const birth_date = String(formData['birth_date']).trim()
-  const address = String(formData['address']).trim()
-  const bio = String(formData['bio']).trim()
+  const phone = String(formData['phone']).trim()
 
   const callbackURL = getURL('/auth/callback')
 
@@ -273,29 +269,21 @@ export async function signUp(formData: FormData) {
     )
   }
 
-  const userMeta = {
-    email,
-    phone,
-    first_name,
-    last_name,
-    birth_date,
-    address,
-    bio
-  }
   const supabase = await createClient()
   const { error, data } = await supabase.auth.signUp({
     email,
-    password,
+    password: 'password',
     phone,
     options: {
       emailRedirectTo: callbackURL,
-      data: userMeta
+      data: {
+        full_name: `${first_name} ${last_name}`,
+        phone
+      }
     }
   })
 
   if (error) {
-    console.log(error)
-
     redirectPath = getErrorRedirect(
       '/signin/signup',
       'Sign up failed.',
