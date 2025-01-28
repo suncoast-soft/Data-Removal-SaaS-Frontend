@@ -490,8 +490,10 @@ export type Database = {
         Row: {
           allow_multi_device_login: boolean | null
           delete: boolean | null
+          email: string | null
           enable_mfa: boolean | null
           id: string
+          phone: string | null
           receive_marketing_emails: boolean | null
           status_update_method:
             | Database["public"]["Enums"]["status_update_method"]
@@ -501,8 +503,10 @@ export type Database = {
         Insert: {
           allow_multi_device_login?: boolean | null
           delete?: boolean | null
+          email?: string | null
           enable_mfa?: boolean | null
           id: string
+          phone?: string | null
           receive_marketing_emails?: boolean | null
           status_update_method?:
             | Database["public"]["Enums"]["status_update_method"]
@@ -512,8 +516,10 @@ export type Database = {
         Update: {
           allow_multi_device_login?: boolean | null
           delete?: boolean | null
+          email?: string | null
           enable_mfa?: boolean | null
           id?: string
+          phone?: string | null
           receive_marketing_emails?: boolean | null
           status_update_method?:
             | Database["public"]["Enums"]["status_update_method"]
