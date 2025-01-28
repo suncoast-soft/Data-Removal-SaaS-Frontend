@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 import { Tables } from '@/types_db'
 import { updateUserSettings } from '@/utils/supabase/mutations'
 
-type Setting = Tables<'settings'>
+type Setting = Tables<'users'>
 
 interface ContactDetail {
   email: string
@@ -38,12 +38,10 @@ export default function AccountSettings({
   const [tempValue, setTempValue] = React.useState('')
   const [_settings, setSettings] = React.useState({
     id: settings?.id,
-    receive_status_updates: settings?.receive_status_updates || '',
+    status_update_method: settings?.status_update_method || '',
     receive_marketing_emails: Boolean(settings?.receive_marketing_emails),
     allow_multi_device_login: Boolean(settings?.allow_multi_device_login),
-    require_multi_factor_verification: Boolean(
-      settings?.require_multi_factor_verification
-    )
+    enable_mfa: Boolean(settings?.enable_mfa)
   })
 
   const handleEdit = (field: 'email' | 'phone') => {
@@ -67,10 +65,10 @@ export default function AccountSettings({
     setEditingField(null)
   }
   const {
-    receive_status_updates,
+    status_update_method,
     receive_marketing_emails,
     allow_multi_device_login,
-    require_multi_factor_verification
+    enable_mfa
   } = _settings
 
   const updateSettings = async (field: string, value: string | boolean) => {
@@ -102,9 +100,9 @@ export default function AccountSettings({
                 <div className="flex items-center gap-2.5">
                   <Checkbox
                     id="status-email"
-                    checked={receive_status_updates === 'email'}
+                    checked={status_update_method === 'email'}
                     onClick={() =>
-                      updateSettings('receive_status_updates', 'email')
+                      updateSettings('status_update_method', 'email')
                     }
                   />
                   <label
@@ -117,9 +115,9 @@ export default function AccountSettings({
                 <div className="flex items-center gap-2.5">
                   <Checkbox
                     id="status-sms"
-                    checked={receive_status_updates === 'sms'}
+                    checked={status_update_method === 'sms'}
                     onClick={() =>
-                      updateSettings('receive_status_updates', 'sms')
+                      updateSettings('status_update_method', 'sms')
                     }
                   />
                   <label
@@ -216,10 +214,8 @@ export default function AccountSettings({
                 <div className="flex items-center gap-2.5">
                   <Checkbox
                     id="mfa-yes"
-                    checked={require_multi_factor_verification === true}
-                    onClick={() =>
-                      updateSettings('require_multi_factor_verification', true)
-                    }
+                    checked={enable_mfa === true}
+                    onClick={() => updateSettings('enable_mfa', true)}
                   />
                   <label
                     htmlFor="mfa-yes"
@@ -231,10 +227,8 @@ export default function AccountSettings({
                 <div className="flex items-center gap-2.5">
                   <Checkbox
                     id="mfa-no"
-                    checked={require_multi_factor_verification === false}
-                    onClick={() =>
-                      updateSettings('require_multi_factor_verification', false)
-                    }
+                    checked={enable_mfa === false}
+                    onClick={() => updateSettings('enable_mfa', false)}
                   />
                   <label
                     htmlFor="mfa-no"

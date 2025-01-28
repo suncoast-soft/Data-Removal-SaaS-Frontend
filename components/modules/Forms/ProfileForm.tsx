@@ -110,6 +110,7 @@ export default function ProfileForm({ ...props }) {
       is_primary: props.defaultValues?.is_primary
     }
   })
+
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     if (props.defaultValues) {
       const transformedData = {

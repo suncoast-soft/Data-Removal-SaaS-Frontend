@@ -212,25 +212,19 @@ export async function updateUserSettings(
   if (!user) return
 
   const id = String(formData['id']).trim()
-  const receive_status_updates = String(
-    formData['receive_status_updates']
-  ).trim()
+  const status_update_method = String(formData['status_update_method']).trim()
   const receive_marketing_emails = Boolean(formData['receive_marketing_emails'])
   const allow_multi_device_login = Boolean(formData['allow_multi_device_login'])
-  const require_multi_factor_verification = Boolean(
-    formData['require_multi_factor_verification']
-  )
+  const enable_mfa = Boolean(formData['enable_mfa'])
   const deleted = Boolean(formData['deleted'])
 
   const { error: insertError } = await supabase
     .from('settings')
     .update({
-      receive_status_updates: receive_status_updates ?? 'email',
+      status_update_method: status_update_method ?? 'email',
       receive_marketing_emails: Boolean(receive_marketing_emails),
       allow_multi_device_login: Boolean(allow_multi_device_login),
-      require_multi_factor_verification: Boolean(
-        require_multi_factor_verification
-      ),
+      enable_mfa: Boolean(enable_mfa),
       deleted: Boolean(deleted)
     })
     .eq('id', id)
@@ -273,10 +267,10 @@ export async function createUserSettings(
 
   const { error } = await supabase.from('settings').insert({
     user_id,
-    receive_status_updates: 'email',
+    status_update_method: 'email',
     receive_marketing_emails: true,
     allow_multi_device_login: true,
-    require_multi_factor_verification: false
+    enable_mfa: false
   })
 
   console.log(error, 'error')

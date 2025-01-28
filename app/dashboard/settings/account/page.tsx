@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { formatDate } from 'date-fns'
+import { format, formatDate } from 'date-fns'
 import DeleteAccountModel from '@/components/modules/DeleteAccountModel/DeleteAccountModel'
 import { Tables } from '@/types_db'
 import SignoutForm from '@/components/modules/Forms/SignoutForm'
@@ -26,7 +26,7 @@ import ProfileForm from '@/components/modules/Forms/ProfileForm'
 import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion/ProfileAccordion'
 import AccountSettings from '@/components/sections/Dashboard/AccountSettings/AccountSettings'
 
-type Setting = Tables<'settings'>
+type Settings = Tables<'users'>
 
 const SectionHeader = ({
   title,
@@ -37,7 +37,7 @@ const SectionHeader = ({
   title: string
   addProfile?: boolean
   deleteAccount?: boolean
-  settings?: Setting
+  settings?: Settings
 }) => {
   return (
     <div className="flex gap-6 flex-col lg:flex-row lg:justify-between mb-6">
@@ -83,35 +83,58 @@ export default async function Account() {
   const profiles = await getProfiles(supabase)
   const settings = await getSettings(supabase)
   const primaryProfile = await getPrimaryProfile(supabase)
+
   return (
-    <div>
-      <SectionHeader title="Account" addProfile />
+    <div className="relative">
+      <div className="flex gap-6 justify-between items-center mt-8 mb-4">
+        <h1 className="text-3xl lg:text-4xl font-bold text-dark">Account</h1>
+
+        <Button
+          variant="outline"
+          size="small"
+          type="button"
+          className="border-primary hover:bg-primary"
+        >
+          Add another profile
+        </Button>
+      </div>
+
       <div className="bg-dark rounded-[20px] p-4 lg:p-8">
-        <div className="flex justify-between flex-wrap items-center mb-4">
-          <div className="flex flex-col gap-2">
-            <h3 className="font-bold text-xl lg:text-2xl text-white">
-              Primary Account Holder: Joe Smith
-            </h3>
-            <p className="font-normal text-base leading-[22px] text-white">
-              Profile created: 11/12/24
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="">
+            <p className="font-semibold text-lg lg:text-xl text-white mb-2">
+              <span>Primary Account Holder:</span>
+              <span className="text-xl lg:text-2xl ml-2">
+                {user?.identities?.[0]?.identity_data?.full_name}
+              </span>
+            </p>
+
+            <p className="text-sm font-light text-white">
+              <span>Profile created:</span>
+              <span className="ml-2">
+                {format(user?.created_at ?? '', 'MM/dd/yyyy')}
+              </span>
             </p>
           </div>
-          <ProfileForm defaultValues={null}>
+
+          <ProfileForm defaultValues={null} defaultOpen={!primaryProfile}>
             <Button
               variant="outline"
               type="submit"
               className="w-full lg:w-[282px] h-[56px] text-sm font-semibold text-white border-2 my-4 lg:my-0 border-secondary hover:bg-secondary/90 pl-0 items-center [&>svg]:text-secondary"
             >
-              <Pencil className="mr-2 pl-2" /> Edit your profile to run a new
-              scan
+              <Pencil className="mr-2 pl-2" />
+              <span>Edit your profile to run a new scan</span>
             </Button>
           </ProfileForm>
         </div>
+
         <div className="flex lg:flex-wrap flex-col lg:flex-row gap-4 lg:gap-8">
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
             <span className="text-primary font-normal mr-2">Name:</span>{' '}
             {`${primaryProfile?.first_name} ${primaryProfile?.last_name}`}
           </h3>
+
           <h3 className="font-semibold text-xl lg:text-2xl text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
             <span className="text-primary font-normal mr-2">
               Social Security Number:
