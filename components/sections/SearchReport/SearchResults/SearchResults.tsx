@@ -1,3 +1,5 @@
+'use client'
+
 import BrokerSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Broker'
 import GoogleSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Google'
 import Loading from '@/components/modules/Loading'
@@ -36,7 +38,7 @@ export default function SearchResults({ searches }: SectionProps) {
   ]
 
   const brokerSearches = searches?.filter(
-    (search) => search.broker_type === 'broker_site'
+    (search) => search.broker_type === 'broker'
   )
   const googleSearches = searches?.filter(
     (search) => search.broker_type === 'google'
@@ -74,8 +76,11 @@ export default function SearchResults({ searches }: SectionProps) {
         </TabsContent>
 
         <TabsContent value="broker">
-          {Array.isArray(brokerSearches) && brokerSearches.length > 0 ? (
-            <BrokerSearchResults searches={brokerSearches as any} />
+          {Array.isArray(brokerSearches[0].search_result) &&
+          brokerSearches[0].search_result.length > 0 ? (
+            <BrokerSearchResults
+              searches={brokerSearches[0].search_result as any}
+            />
           ) : (
             <div className="py-8">
               <Loading />

@@ -44,7 +44,8 @@ export default async function Billing() {
     getPricingPlan(supabase) as Promise<PricingPlan | null>
   ])
 
-  const isPaidUser = pricing ? isRemovalActive(pricing) : false
+  // const isPaidUser = pricing ? isRemovalActive(pricing) : false
+  const isPaidUser = false
 
   return (
     <div className="container mx-auto pt-0 px-0">

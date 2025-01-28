@@ -1,14 +1,12 @@
 import { Button } from '@/components/ui/button'
-import { getUser } from '@/utils/supabase/queries'
-import { createClient } from '@/utils/supabase/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { Tables } from '../../../types_db'
 
-export default async function UpgradeSection() {
-  const supabase = await createClient()
-  const user = await getUser(supabase)
+type User = Tables<'users'>
 
+export default async function UpgradeSection({ user }: { user?: User }) {
   return (
     <div className="flex flex-col gap-6 lg:gap-8 items-center my-12">
       <h2 className="text-2xl lg:text-[32px] lg:leading-[38px] font-bold text-left text-dark">

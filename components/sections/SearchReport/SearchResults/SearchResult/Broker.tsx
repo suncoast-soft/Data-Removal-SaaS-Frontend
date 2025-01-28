@@ -1,76 +1,81 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
-import { Tables } from '@/types_db'
-import { formatDate } from 'date-fns'
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 
-interface Search extends Tables<'searches'> {
-  brokers: Tables<'brokers'> | null
-}
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-const renderValue = (value: unknown) => {
+const renderValue = (value: any): string | React.ReactNode => {
   if (typeof value === 'object' && value !== null) {
+    if (Array.isArray(value)) {
+      // Render arrays as a comma-separated list
+      return value.map(renderValue).join(', ')
+    }
+    // Render nested objects as key-value pairs
     return (
       <ul className="pl-4 list-none">
-        {Object.entries(value).map(([nestedKey, nestedValue]) => (
-          <li key={nestedKey}>
-            <strong>{nestedKey}:</strong> {renderValue(nestedValue)}
-          </li>
-        ))}
+        {Object.entries(value)
+          .filter(([, nestedValue]) => nestedValue !== null) // Skip null values
+          .map(([nestedKey, nestedValue]) => (
+            <li key={nestedKey}>
+              <strong>{nestedKey}:</strong> {renderValue(nestedValue)}
+            </li>
+          ))}
       </ul>
     )
   }
+  // Render primitives
   return String(value)
 }
 
-export default function BrokerSearchResults({
-  searches
-}: {
-  searches: Array<Search>
-}) {
+export default function BrokerSearchResults({ searches }: { searches: any[] }) {
   return (
-    <Table className="mt-8">
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Broker</TableHead>
-          <TableHead className="text-right"></TableHead>
-          <TableHead>Last Updated</TableHead>
-        </TableRow>
-      </TableHeader>
-
-      <TableBody>
-        {searches
-          .filter((search) => search.search_status === 'completed')
-          .map((search: Search) => (
-            <TableRow key={search.id}>
-              <TableCell className="font-medium text-primary">
-                {search.brokers?.name ?? ''}
-              </TableCell>
-              <TableCell>
-                <ul>
-                  {Object.entries(search.search_result ?? {})
-                    .filter(([, value]) => value)
-                    .map(([key, value]) => (
-                      <li key={key} className="list-none">
-                        <strong>{key}:</strong> {renderValue(value)}
-                      </li>
-                    ))}
-                </ul>
-              </TableCell>
-              <TableCell>
-                {formatDate(
-                  search.updated_at || search.created_at,
-                  'MM/dd/yyy p'
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
+    <div className="space-y-6">
+      {searches.map((search, index) => (
+        <Card key={index} className="border border-gray-200">
+          <CardHeader>
+            <CardTitle>{search.broker?.name ?? 'Unknown Broker'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table className="w-full">
+              <TableBody>
+                {Object.entries(flattenData(search.result ?? {}))
+                  .filter(([, value]) => value !== null) // Skip null values
+                  .map(([key, value]) => (
+                    <TableRow key={key}>
+                      <TableCell className="font-medium">{key}</TableCell>
+                      <TableCell>{renderValue(value)}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   )
+}
+
+// Helper to flatten nested objects and skip first-level names
+function flattenData(data: object): Record<string, unknown> {
+  const result: Record<string, unknown> = {}
+
+  for (const [key, value] of Object.entries(data)) {
+    if (value === null) continue // Skip null values
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      // Flatten nested objects but ignore the top-level key
+      Object.assign(result, flattenData(value))
+    } else if (Array.isArray(value)) {
+      // For arrays, include directly
+      value.forEach((item) => {
+        if (typeof item === 'object') {
+          Object.assign(result, flattenData(item))
+        } else {
+          result[key] = value
+        }
+      })
+    } else {
+      // Add primitive values directly
+      result[key] = value
+    }
+  }
+
+  return result
 }
