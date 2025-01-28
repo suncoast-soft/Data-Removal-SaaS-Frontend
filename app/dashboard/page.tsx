@@ -33,7 +33,7 @@ export default async function Dashboard() {
   ])
 
   if (profiles?.length === 0) {
-    redirect('/dashboard/settings/profiles/new')
+    redirect('/dashboard/settings/profiles')
   }
 
   const isPaidUser = pricing && isRemovalActive(pricing)

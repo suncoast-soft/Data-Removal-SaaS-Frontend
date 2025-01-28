@@ -12,7 +12,6 @@ import {
 } from 'utils/helpers'
 import { getAuthTypes } from 'utils/auth-helpers/settings'
 import { redirect } from 'next/navigation'
-import { createProfile } from '../supabase/mutations'
 
 interface FormData {
   [key: string]: string | number | boolean
@@ -259,7 +258,6 @@ export async function signUp(formData: FormData) {
   const first_name = String(formData['first_name']).trim()
   const last_name = String(formData['last_name']).trim()
   const birth_date = String(formData['birth_date']).trim()
-  const gender = String(formData['gender']).trim()
   const address = String(formData['address']).trim()
   const bio = String(formData['bio']).trim()
 
@@ -275,6 +273,15 @@ export async function signUp(formData: FormData) {
     )
   }
 
+  const userMeta = {
+    email,
+    phone,
+    first_name,
+    last_name,
+    birth_date,
+    address,
+    bio
+  }
   const supabase = await createClient()
   const { error, data } = await supabase.auth.signUp({
     email,
@@ -282,20 +289,13 @@ export async function signUp(formData: FormData) {
     phone,
     options: {
       emailRedirectTo: callbackURL,
-      data: {
-        email,
-        phone,
-        first_name,
-        last_name,
-        birth_date,
-        gender,
-        address,
-        bio
-      }
+      data: userMeta
     }
   })
 
   if (error) {
+    console.log(error)
+
     redirectPath = getErrorRedirect(
       '/signin/signup',
       'Sign up failed.',

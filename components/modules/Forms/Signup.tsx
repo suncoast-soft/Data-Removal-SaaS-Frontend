@@ -71,7 +71,7 @@ export default function SignUp({ redirectMethod }: SignUpProps) {
     try {
       const transformedData = {
         ...data,
-        birth_date: data.birth_date.toISOString()
+        birth_date: format(data.birth_date, 'yyyy-MM-dd')
       }
       await handleRequest(transformedData, signUp, router)
       setIsSubmitting(false)
