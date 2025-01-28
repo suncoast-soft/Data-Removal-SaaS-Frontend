@@ -33,7 +33,7 @@ export default function ScanResults() {
       let zip = ''
 
       try {
-        const ipResponse = await fetch('http://ip-api.com/json')
+        const ipResponse = await fetch('https://ip-api.com/json')
         const ipData = await ipResponse.json()
 
         if (ipData.status === 'success') {
