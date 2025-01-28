@@ -80,7 +80,7 @@ const FormSchema = z.object({
   email: z.string().optional(),
   address: z.string().optional(),
   bio: z.string().optional(),
-  isPrimary: z.boolean().optional()
+  is_primary: z.boolean().optional()
 })
 
 export default function ProfileForm({ ...props }) {
@@ -107,7 +107,7 @@ export default function ProfileForm({ ...props }) {
       alternativeNames: props.defaultValues?.alternative_names,
       social_security_number: props.defaultValues?.social_security_number,
       email: props.defaultValues?.email,
-      isPrimary: props.defaultValues?.isPrimary
+      is_primary: props.defaultValues?.is_primary
     }
   })
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
@@ -130,7 +130,7 @@ export default function ProfileForm({ ...props }) {
   }
 
   const handleChangePrimary = async (checked: boolean) => {
-    if (checked) form.setValue('isPrimary', checked)
+    if (checked) form.setValue('is_primary', checked)
   }
 
   return (
@@ -154,12 +154,12 @@ export default function ProfileForm({ ...props }) {
               <div className="flex gap-2">
                 <Switch
                   className="ml-10 lg:ml-12"
-                  defaultChecked={form.getValues().isPrimary}
+                  defaultChecked={form.getValues().is_primary}
                   onCheckedChange={(checked) => handleChangePrimary(checked)}
-                  disabled={form.getValues().isPrimary}
+                  disabled={form.getValues().is_primary}
                 />
                 <label className="text-xs lg:text-sm font-normal opacity-70">
-                  {props?.defaultValues?.isPrimary
+                  {props?.defaultValues?.is_primary
                     ? 'Before change this you need to make other primary profile.'
                     : 'Make it primary?'}
                 </label>

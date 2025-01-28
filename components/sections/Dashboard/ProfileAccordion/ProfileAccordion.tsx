@@ -24,7 +24,7 @@ export default function ProfileAccordion({ profile }: { profile: Profile }) {
             <span className="font-bold ml-2">
               {profile.first_name} {profile.last_name}
             </span>
-            {profile.isPrimary ? (
+            {profile.is_primary ? (
               <span className="py-1 px-2 text-xs rounded-full bg-secondary ml-4 font-medium text-white">
                 primary
               </span>

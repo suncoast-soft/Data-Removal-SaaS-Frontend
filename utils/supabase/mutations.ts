@@ -41,7 +41,7 @@ export const createProfile = cache(
       address: address,
       phone: phone,
       bio: bio,
-      isPrimary: primary
+      is_primary: primary
     })
 
     if (insertError) {
@@ -76,7 +76,7 @@ export async function updateUser(formData: FormData): Promise<string | void> {
   ).trim()
   const phone = String(formData['phone']).trim()
   const email = String(formData['email']).trim()
-  const isPrimary = Boolean(formData['isPrimary'])
+  const is_primary = Boolean(formData['is_primary'])
 
   const { data: profiles } = await supabase
     .from('profiles')
@@ -101,7 +101,7 @@ export async function updateUser(formData: FormData): Promise<string | void> {
       social_security_number: social_security_number ?? undefined,
       phone: phone ?? undefined,
       email: email ?? undefined,
-      isPrimary: isFistProfile ? true : (Boolean(isPrimary) ?? undefined)
+      is_primary: isFistProfile ? true : (Boolean(is_primary) ?? undefined)
     })
     .select('id')
     .maybeSingle()
@@ -109,7 +109,7 @@ export async function updateUser(formData: FormData): Promise<string | void> {
   if (!isFistProfile) {
     await supabase
       .from('profiles')
-      .update({ isPrimary: false })
+      .update({ is_primary: false })
       .neq('id', data?.id)
       .select()
   }
@@ -152,7 +152,7 @@ export async function updateProfile(
   ).trim()
   const phone = String(formData['phone']).trim()
   const email = String(formData['email']).trim()
-  const isPrimary = String(formData['isPrimary']).trim()
+  const is_primary = String(formData['is_primary']).trim()
 
   const { data: profiles } = await supabase
     .from('profiles')
@@ -176,14 +176,14 @@ export async function updateProfile(
       social_security_number: social_security_number ?? undefined,
       phone: phone ?? undefined,
       email: email ?? undefined,
-      isPrimary: isFistProfile ? true : (Boolean(isPrimary) ?? undefined)
+      is_primary: isFistProfile ? true : (Boolean(is_primary) ?? undefined)
     })
     .eq('id', id)
 
   if (!isFistProfile) {
     await supabase
       .from('profiles')
-      .update({ isPrimary: false })
+      .update({ is_primary: false })
       .neq('id', id)
       .select()
   }

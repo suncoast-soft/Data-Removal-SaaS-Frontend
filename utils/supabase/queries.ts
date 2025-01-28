@@ -42,7 +42,7 @@ export const getPrimaryProfile = cache(async (supabase: SupabaseClient) => {
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
-    .match({ user_id: user.id, isPrimary: true })
+    .match({ user_id: user.id, is_primary: true })
     .single()
   return profile
 })
