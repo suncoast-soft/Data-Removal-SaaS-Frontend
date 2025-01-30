@@ -1,19 +1,21 @@
-type TitleProps = {
+interface ModuleProps {
   title: string
-  subtitle: string
+  subtitle?: string
+  description: string
 }
 
-export default function Title({ title, subtitle }: TitleProps) {
+export default function Title({ title, subtitle, description }: ModuleProps) {
   return (
-    <div className="max-w-6xl px-4 py-8 mx-auto sm:px-6 lg:px-8">
-      <div className="sm:align-center sm:flex sm:flex-col">
-        <h1 className="text-2xl font-extrabold text-primary sm:text-center sm:text-5xl">
-          {title}
-        </h1>
-        <p className="max-w-2xl m-auto mt-5 text-lg text-black sm:text-center sm:text-xl">
+    <div className="text-center max-w-3xl mx-auto mb-12">
+      {subtitle && (
+        <h6 className="text-secondary text-lg font-extrabold tracking-widest uppercase mb-2">
           {subtitle}
-        </p>
-      </div>
+        </h6>
+      )}
+
+      <h2 className="text-4xl font-bold text-center text-dark">{title}</h2>
+
+      <p className="lg:text-lg mt-4 text-dark/60 text-center">{description}</p>
     </div>
   )
 }

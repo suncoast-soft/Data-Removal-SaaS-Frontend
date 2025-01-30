@@ -1,4 +1,4 @@
-import SectionHeader from '@/components/modules/SectionHeader'
+import Title from '@/components/modules/Title'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
 
@@ -23,11 +23,7 @@ export default function FeaturedColumns({
 }: SectionProps) {
   return (
     <>
-      <SectionHeader
-        title={title}
-        subtitle={subtitle}
-        description={description}
-      />
+      <Title title={title} subtitle={subtitle} description={description} />
 
       <div className="mt-6 lg:mt-10 gap-10 flex items-center flex-col lg:flex-row">
         {columns.map((column, index) => (

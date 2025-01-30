@@ -1,25 +1,20 @@
+import { ReactNode } from 'react'
+
 interface ModuleProps {
   title: string
-  subtitle?: string
-  description: string
+  cta1?: ReactNode
+  cta2?: ReactNode
 }
 
-export default function SectionHeader({
-  title,
-  subtitle,
-  description
-}: ModuleProps) {
+export default function SectionHeader({ title, cta1, cta2 }: ModuleProps) {
   return (
-    <div className="text-center max-w-3xl mx-auto mb-12">
-      {subtitle && (
-        <h6 className="text-secondary text-lg font-extrabold tracking-widest uppercase mb-2">
-          {subtitle}
-        </h6>
-      )}
+    <div className="flex gap-6 flex-col lg:flex-row lg:justify-between mb-6">
+      <h1 className="text-2xl lg:text-3xl font-bold text-dark">{title}</h1>
 
-      <h2 className="text-4xl font-bold text-center text-dark">{title}</h2>
-
-      <p className="lg:text-lg mt-4 text-dark/60 text-center">{description}</p>
+      <div className="flex gap-3">
+        {cta1 && cta1}
+        {cta2 && cta2}
+      </div>
     </div>
   )
 }

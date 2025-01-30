@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import ArrowRight from '@/components/icons/ArrowRight'
 import GreenCircleCheck from '@/components/icons/GreenCircleCheck'
 import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
-import SectionHeader from '@/components/modules/SectionHeader'
 import Link from 'next/link'
+import Title from '@/components/modules/Title'
 
 const basicPlanFeatures = [
   'All analytics features',
@@ -28,7 +28,7 @@ const proPlanFeatures = [
 export default function PricingTable() {
   return (
     <>
-      <SectionHeader
+      <Title
         title="Affordable pricing plans"
         subtitle="Pricing"
         description="Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu egestas morbi sem vulputate etiam facilisis pellentesque ut quis."

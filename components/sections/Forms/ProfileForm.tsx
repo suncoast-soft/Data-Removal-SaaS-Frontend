@@ -10,149 +10,138 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
-import { Building2, Mail, MapPin, PhoneCall, User } from 'lucide-react'
+import {
+  Building2Icon,
+  MailIcon,
+  MapPinIcon,
+  PhoneCallIcon,
+  UserIcon
+} from 'lucide-react'
 import { useState } from 'react'
-import { Switch } from '@/components/ui/switch'
-import { updateProfile, updateUser } from '@/utils/supabase/mutations'
+import { createProfile, updateProfile } from '@/utils/supabase/mutations'
 import FormInput from '@/components/modules/FormInput'
 import FormDate from '@/components/modules/FormDate'
 import FormToggle from '@/components/modules/FormToggle'
 import FormTextarea from '@/components/modules/FormTextarea'
+import { Tables } from '@/types_db'
+import { User } from '@supabase/supabase-js'
+import { splitName } from '@/utils/helpers'
 
 const FormSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, {
-      message: 'Name must be at least 2 characters.'
-    })
-    .max(32, {
-      message: 'Name can not be longer than 300 characters.'
-    }),
-  lastName: z
-    .string()
-    .min(2, {
-      message: 'Name must be at least 2 characters.'
-    })
-    .max(32, {
-      message: 'Name can not be longer than 300 characters.'
-    }),
-  gender: z.string({ required_error: 'Gender is required.' }),
-  birthDate: z.date({
-    required_error: 'A date of birth is required.'
-  }),
-  city: z.string({ required_error: 'City is required.' }).optional(),
-  state: z.string({ required_error: 'State is required.' }).optional(),
-  alternativeNames: z
-    .string({ required_error: 'Alternative Names is required.' })
-    .optional(),
-  social_security_number: z
-    .string({ required_error: 'Social Security Number is required.' })
-    .optional(),
-  phone: z.string().optional(),
-  email: z.string().optional(),
+  email: z.string(),
+  phone: z.string(),
+  ssn: z.string().optional(),
+  first_name: z.string(),
+  last_name: z.string(),
+  alternative_names: z.string().optional(),
+  birth_date: z.date(),
+  gender: z.string().optional(),
   address: z.string().optional(),
-  bio: z.string().optional(),
-  is_primary: z.boolean().optional()
+  city: z.string(),
+  state: z.string(),
+  zip: z.string().optional(),
+  bio: z.string().optional()
 })
 
-export default function ProfileForm({ ...props }) {
+interface SectionProps {
+  user: User
+  profile?: Tables<'profiles'>
+  isPrimary?: boolean
+  children: React.ReactNode
+}
+
+export default function ProfileForm({
+  user,
+  profile,
+  isPrimary = false,
+  children
+}: SectionProps) {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [open, setOpen] = useState(
-    props.defaultOpen || searchParams.get('new') === 'true'
-  )
+  const [open, setOpen] = useState(isPrimary)
+
+  const defaultValues = profile
+    ? {
+        email: profile.email ?? '',
+        phone: profile.phone ?? '',
+        ssn: profile.ssn ?? '',
+        first_name: profile.first_name ?? '',
+        last_name: profile.last_name ?? '',
+        alternative_names: profile.alternative_names ?? '',
+        birth_date: new Date(profile.birth_date ?? '1990-01-11'),
+        gender: profile.gender ?? 'male',
+        address: profile.address ?? '',
+        city: profile.city ?? '',
+        state: profile.state ?? '',
+        zip: profile.zip ?? '',
+        bio: profile.bio ?? ''
+      }
+    : {
+        email: user.email ?? '',
+        phone: user.user_metadata.phone ?? '',
+        ssn: '',
+        first_name: splitName(user.user_metadata.full_name).firstName ?? '',
+        last_name: splitName(user.user_metadata.full_name).lastName ?? '',
+        alternative_names: '',
+        birth_date: undefined,
+        gender: 'male',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        bio: ''
+      }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      firstName: props.defaultValues?.first_name,
-      lastName: props.defaultValues?.last_name,
-      birthDate: props.defaultValues?.birth_date
-        ? new Date(props.defaultValues?.birth_date)
-        : new Date('1990-01-01'),
-      gender: props.defaultValues?.gender,
-      city: props.defaultValues?.city,
-      state: props.defaultValues?.state,
-      address: props.defaultValues?.address,
-      phone: props.defaultValues?.phone,
-      bio: props.defaultValues?.bio,
-      alternativeNames: props.defaultValues?.alternative_names,
-      social_security_number: props.defaultValues?.social_security_number,
-      email: props.defaultValues?.email,
-      is_primary: props.defaultValues?.is_primary
-    }
+    defaultValues: defaultValues
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    if (props.defaultValues) {
+    if (profile) {
       const transformedData = {
         ...data,
-        id: props.defaultValues?.id,
-        birthDate: data.birthDate.toISOString()
+        birth_date: data.birth_date.toISOString(),
+        id: profile.id
       }
       await handleRequest(transformedData, updateProfile, router)
     } else {
       const transformedData = {
         ...data,
-        birthDate: data.birthDate.toISOString()
+        birth_date: data.birth_date.toISOString(),
+        is_primary: isPrimary
       }
-      await handleRequest(transformedData, updateUser, router)
+      await handleRequest(transformedData, createProfile, router)
     }
 
     setOpen(false)
-  }
-
-  const handleChangePrimary = async (checked: boolean) => {
-    if (checked) form.setValue('is_primary', checked)
   }
 
   return (
     <div className="flex justify-end w-full">
       <Dialog
         open={open}
-        onOpenChange={(state) => setOpen(props.defaultOpen ? true : state)}
+        onOpenChange={(state) => setOpen(isPrimary ? true : state)}
       >
-        {!props.defaultOpen ? (
-          <DialogTrigger asChild>
-            {props.children || (
-              <Button variant="default">Submit New Profile</Button>
-            )}
-          </DialogTrigger>
-        ) : null}
+        <DialogTrigger asChild>{children}</DialogTrigger>
 
         <DialogContent className="bg-dark text-white border-none max-w-5xl max-h-[95vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl lg:text-3xl text-white leading-[55px] flex items-center">
-              {props.defaultValues ? 'Edit Profile' : 'Submit Profile'}
-              <div className="flex gap-2">
-                <Switch
-                  className="ml-10 lg:ml-12"
-                  defaultChecked={form.getValues().is_primary}
-                  onCheckedChange={(checked) => handleChangePrimary(checked)}
-                  disabled={form.getValues().is_primary}
-                />
-                <label className="text-xs lg:text-sm font-normal opacity-70">
-                  {props?.defaultValues?.is_primary
-                    ? 'Before change this you need to make other primary profile.'
-                    : 'Make it primary?'}
-                </label>
-              </div>
+              {profile ? 'Edit Profile' : 'Create New Profile'}
             </DialogTitle>
+
             <DialogDescription className="text-white/50">
-              {props.defaultValues
-                ? 'Profile edits are only available 3 times per day'
-                : 'Profile can not be changed once created. You can create up to 3 free profiles.'}
+              Profile edits are only available 3 times per month
             </DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
             <form
-              id="profileForm"
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 py-6"
             >
@@ -163,7 +152,7 @@ export default function ProfileForm({ ...props }) {
                   name="email"
                   label="Email Address"
                   placeholder="example@gmail.com"
-                  icon={<Mail className="w-5 text-primary" />}
+                  icon={<MailIcon className="w-5 text-primary" />}
                   required={true}
                 />
 
@@ -172,7 +161,7 @@ export default function ProfileForm({ ...props }) {
                   name="phone"
                   label="Phone Number"
                   placeholder="(123) 456 7890"
-                  icon={<PhoneCall className="w-5 text-primary" />}
+                  icon={<PhoneCallIcon className="w-5 text-primary" />}
                   required={true}
                 />
 
@@ -181,7 +170,7 @@ export default function ProfileForm({ ...props }) {
                   name="ssn"
                   label="Social Security Number"
                   placeholder="***-**-***"
-                  icon={<Building2 className="w-5 text-primary" />}
+                  icon={<Building2Icon className="w-5 text-primary" />}
                 />
               </div>
 
@@ -191,7 +180,7 @@ export default function ProfileForm({ ...props }) {
                   name="first_name"
                   label="First Name"
                   placeholder="Joe"
-                  icon={<User className="w-5 text-primary" />}
+                  icon={<UserIcon className="w-5 text-primary" />}
                   required={true}
                 />
 
@@ -200,7 +189,7 @@ export default function ProfileForm({ ...props }) {
                   name="last_name"
                   label="Last Name"
                   placeholder="Smith"
-                  icon={<User className="w-5 text-primary" />}
+                  icon={<UserIcon className="w-5 text-primary" />}
                   required={true}
                 />
 
@@ -209,7 +198,7 @@ export default function ProfileForm({ ...props }) {
                   name="alternative_names"
                   label="Alternative Names"
                   placeholder="Joseph Smith, Joseph Andrew Smith"
-                  icon={<Building2 className="w-5 text-primary" />}
+                  icon={<Building2Icon className="w-5 text-primary" />}
                   className="col-span-2"
                 />
               </div>
@@ -220,7 +209,7 @@ export default function ProfileForm({ ...props }) {
                   name="address"
                   label="Address"
                   placeholder="123 ABC street"
-                  icon={<MapPin className="w-5 text-primary" />}
+                  icon={<MapPinIcon className="w-5 text-primary" />}
                   className="col-span-2"
                 />
 
@@ -229,7 +218,7 @@ export default function ProfileForm({ ...props }) {
                   name="city"
                   label="City"
                   placeholder="Chicago"
-                  icon={<MapPin className="w-5 text-primary" />}
+                  icon={<MapPinIcon className="w-5 text-primary" />}
                   required={true}
                 />
 
@@ -238,7 +227,7 @@ export default function ProfileForm({ ...props }) {
                   name="state"
                   label="State"
                   placeholder="IL"
-                  icon={<MapPin className="w-5 text-primary" />}
+                  icon={<MapPinIcon className="w-5 text-primary" />}
                   required={true}
                 />
 
@@ -247,7 +236,7 @@ export default function ProfileForm({ ...props }) {
                   name="zip"
                   label="Zip"
                   placeholder="12345"
-                  icon={<MapPin className="w-5 text-primary" />}
+                  icon={<MapPinIcon className="w-5 text-primary" />}
                 />
               </div>
 
@@ -279,7 +268,7 @@ export default function ProfileForm({ ...props }) {
               </div>
 
               <Button variant="default" type="submit">
-                {props.defaultValues ? 'Update Profile' : 'Submit Profile'}
+                {profile ? 'Update Profile' : 'Submit Profile'}
               </Button>
             </form>
           </Form>

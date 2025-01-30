@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import Link from 'next/link'
 import { Accordion } from '@/components/ui/accordion'
-import { cn } from '@/utils/cn'
 import {
   Table,
   TableBody,
@@ -20,62 +19,12 @@ import {
 } from '@/components/ui/table'
 import { format, formatDate } from 'date-fns'
 import DeleteAccountModel from '@/components/modules/DeleteAccountModel/DeleteAccountModel'
-import { Tables } from '@/types_db'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
 import ProfileForm from '@/components/sections/Forms/ProfileForm'
 import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion/ProfileAccordion'
 import AccountSettings from '@/components/sections/Dashboard/AccountSettings/AccountSettings'
-
-type Settings = Tables<'users'>
-
-const SectionHeader = ({
-  title,
-  addProfile,
-  deleteAccount,
-  settings
-}: {
-  title: string
-  addProfile?: boolean
-  deleteAccount?: boolean
-  settings?: Settings
-}) => {
-  return (
-    <div className="flex gap-6 flex-col lg:flex-row lg:justify-between mb-6">
-      <h1 className="text-[34px] leading-3 lg:text-[50px] lg:leading-[55px] font-bold text-dark">
-        {title}
-      </h1>
-
-      {addProfile ? (
-        <ProfileForm>
-          <Button
-            variant="outline"
-            type="button"
-            className={cn(
-              'w-full lg:w-[178px] h-11 text-sm font-bold text-dark border-[1.4px]'
-            )}
-          >
-            Add another profile
-          </Button>
-        </ProfileForm>
-      ) : deleteAccount ? (
-        <div className="flex gap-2">
-          <SignoutForm />
-
-          <DeleteAccountModel settings={settings}>
-            <Button
-              variant="outline"
-              type="button"
-              size="small"
-              className="border-secondary hover:bg-secondary/90"
-            >
-              Delete My Account
-            </Button>
-          </DeleteAccountModel>
-        </div>
-      ) : null}
-    </div>
-  )
-}
+import { redirect } from 'next/navigation'
+import SectionHeader from '@/components/modules/SectionHeader'
 
 export default async function Account() {
   const supabase = await createClient()
@@ -84,19 +33,25 @@ export default async function Account() {
   const settings = await getSettings(supabase)
   const primaryProfile = await getPrimaryProfile(supabase)
 
+  if (!user) {
+    return redirect('/signin')
+  }
+
   return (
     <div className="relative">
       <div className="flex gap-6 justify-between items-center mt-8 mb-4">
         <h1 className="text-3xl lg:text-4xl font-bold text-dark">Account</h1>
 
-        <Button
-          variant="outline"
-          size="small"
-          type="button"
-          className="border-primary hover:bg-primary"
-        >
-          Add another profile
-        </Button>
+        <ProfileForm user={user} isPrimary={profiles?.length === 0}>
+          <Button
+            variant="outline"
+            size="small"
+            type="button"
+            className="border-primary hover:bg-primary"
+          >
+            Add another profile
+          </Button>
+        </ProfileForm>
       </div>
 
       <div className="bg-dark rounded-[20px] p-4 lg:p-8">
@@ -117,7 +72,7 @@ export default async function Account() {
             </p>
           </div>
 
-          <ProfileForm defaultValues={null} defaultOpen={!primaryProfile}>
+          <ProfileForm user={user}>
             <Button
               variant="outline"
               type="submit"
@@ -189,22 +144,37 @@ export default async function Account() {
       <div className="my-6 flex flex-col gap-4">
         <Accordion type="single" collapsible className="w-full">
           {profiles?.map((profile) => (
-            <ProfileAccordion key={profile.id} profile={profile} />
+            <ProfileAccordion key={profile.id} user={user} profile={profile} />
           ))}
         </Accordion>
       </div>
+
       <div className="mt-[60px]">
         <SectionHeader
           title="Account Settings"
-          deleteAccount
-          settings={settings}
+          cta1={<SignoutForm />}
+          cta2={
+            <DeleteAccountModel settings={settings}>
+              <Button
+                variant="outline"
+                type="button"
+                size="small"
+                className="border-secondary hover:bg-secondary/90"
+              >
+                Delete My Account
+              </Button>
+            </DeleteAccountModel>
+          }
         />
+
         <div className="mt-6 mb-[60px] rounded-2xl p-6 lg:p-8 border border-dark/20 bg-[#342E3705]">
           <AccountSettings user={user} settings={settings} />
         </div>
       </div>
+
       <div className="mt-[60px]">
         <SectionHeader title="Log In History" />
+
         <div className="mt-6 mb-[60px] rounded-2xl border border-dark/20 bg-[#342E3705]">
           <Table className="">
             <TableHeader>

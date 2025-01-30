@@ -8,10 +8,17 @@ import React from 'react'
 import ProfileForm from '../../Forms/ProfileForm'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
+import { User } from '@supabase/supabase-js'
 
 type Profile = Tables<'profiles'>
 
-export default function ProfileAccordion({ profile }: { profile: Profile }) {
+export default function ProfileAccordion({
+  user,
+  profile
+}: {
+  user: User
+  profile: Profile
+}) {
   return (
     <AccordionItem
       value={String(profile.id)}
@@ -76,7 +83,7 @@ export default function ProfileAccordion({ profile }: { profile: Profile }) {
             {profile.address || '---'}
           </h3>
         </div>
-        <ProfileForm defaultValues={profile}>
+        <ProfileForm user={user} profile={profile}>
           <Button
             variant="outline"
             type="submit"
