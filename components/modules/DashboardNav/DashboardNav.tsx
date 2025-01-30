@@ -17,7 +17,7 @@ import { usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import MenuIcon from '@/components/icons/MenuIcon'
 import { User } from '@supabase/supabase-js'
-import ProfileForm from '../Forms/ProfileForm'
+import ProfileForm from '../../sections/Forms/ProfileForm'
 
 type NavItem = {
   icon: ReactElement<any>

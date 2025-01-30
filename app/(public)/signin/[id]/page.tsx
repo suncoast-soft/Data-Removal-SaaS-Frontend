@@ -7,9 +7,9 @@ import {
   getDefaultSignInView,
   getRedirectMethod
 } from '@/utils/auth-helpers/settings'
-import EmailSignIn from '@/components/modules/Forms/EmailSignIn'
-import OauthSignIn from '@/components/modules/Forms/OauthSignIn'
-import SignUp from '@/components/modules/Forms/Signup'
+import EmailSignIn from '@/components/sections/Forms/EmailSignIn'
+import OauthSignIn from '@/components/sections/Forms/OauthSignIn'
+import SignUp from '@/components/sections/Forms/Signup'
 import Image from 'next/image'
 import { getUser } from '@/utils/supabase/queries'
 import Separator from '@/components/modules/Separator'

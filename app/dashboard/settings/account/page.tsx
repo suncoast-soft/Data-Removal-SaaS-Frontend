@@ -21,8 +21,8 @@ import {
 import { format, formatDate } from 'date-fns'
 import DeleteAccountModel from '@/components/modules/DeleteAccountModel/DeleteAccountModel'
 import { Tables } from '@/types_db'
-import SignoutForm from '@/components/modules/Forms/SignoutForm'
-import ProfileForm from '@/components/modules/Forms/ProfileForm'
+import SignoutForm from '@/components/sections/Forms/SignoutForm'
+import ProfileForm from '@/components/sections/Forms/ProfileForm'
 import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion/ProfileAccordion'
 import AccountSettings from '@/components/sections/Dashboard/AccountSettings/AccountSettings'
 

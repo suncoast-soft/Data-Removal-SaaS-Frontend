@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/utils/supabase/queries'
 // import CustomerPortalForm from '@/components/modules/AccountForms/CustomerPortalForm'
-import ProfileForm from '@/components/modules/Forms/ProfileForm'
+import ProfileForm from '@/components/sections/Forms/ProfileForm'
 
 export default async function Settings() {
   const supabase = await createClient()

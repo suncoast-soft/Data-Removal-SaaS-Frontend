@@ -1,4 +1,4 @@
-import CustomerPortalForm from '@/components/modules/Forms/CustomerPortalForm'
+import CustomerPortalForm from '@/components/sections/Forms/CustomerPortalForm'
 import { Tables } from '@/types_db'
 import { isRemovalActive } from '@/utils/helpers'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'

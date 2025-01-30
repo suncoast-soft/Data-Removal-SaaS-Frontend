@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { getProfiles } from '@/utils/supabase/queries'
-import ProfileForm from '@/components/modules/Forms/ProfileForm'
+import ProfileForm from '@/components/sections/Forms/ProfileForm'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
