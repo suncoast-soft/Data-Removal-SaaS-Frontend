@@ -5,47 +5,24 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Calendar } from '@/components/ui/calendar'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover'
-import {
-  Building2,
-  CalendarRange,
-  Mail,
-  MapPin,
-  Pencil,
-  PhoneCall,
-  User
-} from 'lucide-react'
-import { cn } from '@/utils/cn'
-import { format } from 'date-fns'
+import { Form } from '@/components/ui/form'
+import { Building2, Mail, MapPin, PhoneCall, User } from 'lucide-react'
 import { useState } from 'react'
-import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { updateProfile, updateUser } from '@/utils/supabase/mutations'
+import FormInput from '@/components/modules/FormInput'
+import FormDate from '@/components/modules/FormDate'
+import FormToggle from '@/components/modules/FormToggle'
+import FormTextarea from '@/components/modules/FormTextarea'
 
 const FormSchema = z.object({
   firstName: z
@@ -148,7 +125,7 @@ export default function ProfileForm({ ...props }) {
           </DialogTrigger>
         ) : null}
 
-        <DialogContent className="bg-dark text-white border-none max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-dark text-white border-none max-w-5xl max-h-[95vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl lg:text-3xl text-white leading-[55px] flex items-center">
               {props.defaultValues ? 'Edit Profile' : 'Submit Profile'}
@@ -179,375 +156,133 @@ export default function ProfileForm({ ...props }) {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 py-6"
             >
-              <div className="flex flex-wrap items-center justify-between gap-4 text-white mb-4">
-                <FormField
+              <div className="grid grid-cols-3 gap-4">
+                <FormInput
                   control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        First Name <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <User className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="First Name"
-                            {...field}
-                            {...form.register('firstName')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Last Name <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <User className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="Last Name"
-                            {...field}
-                            {...form.register('lastName')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  type="email"
+                  name="email"
+                  label="Email Address"
+                  placeholder="example@gmail.com"
+                  icon={<Mail className="w-5 text-primary" />}
+                  required={true}
                 />
 
-                <FormField
+                <FormInput
                   control={form.control}
                   name="phone"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Phone <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <PhoneCall className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="tel"
-                            placeholder="(123) 456 - 789"
-                            {...field}
-                            {...form.register('phone')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Email <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Mail className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="email"
-                            placeholder="example@email.com"
-                            {...field}
-                            {...form.register('email')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Phone Number"
+                  placeholder="(123) 456 7890"
+                  icon={<PhoneCall className="w-5 text-primary" />}
+                  required={true}
                 />
 
-                <FormField
+                <FormInput
                   control={form.control}
-                  name="alternativeNames"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[48%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Alternative Names
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="Joseph Smith, Joseph Andrew Smith"
-                            {...field}
-                            {...form.register('alternativeNames')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="social_security_number"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Social Security Number
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="123-XX-XXXX"
-                            {...field}
-                            {...form.register('social_security_number')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="birthDate"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Birth Year <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <div className="relative w-full">
-                              <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                                <CalendarRange className="w-5 text-primary" />
-                              </div>
-                              <Button
-                                type="button"
-                                variant={'outline'}
-                                className={cn(
-                                  'w-full pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 hover:bg-transparent font-normal text-white justify-start',
-                                  !field.value && 'text-muted-foreground'
-                                )}
-                                {...form.register('birthDate')}
-                              >
-                                {field.value ? (
-                                  format(field.value, 'PPP')
-                                ) : (
-                                  <span className="opacity-60">
-                                    Pick a date
-                                  </span>
-                                )}
-                              </Button>
-                            </div>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              defaultMonth={new Date('1990-01-01')}
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date('1900-01-01')
-                              }
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        City
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="City"
-                            {...field}
-                            {...form.register('city')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        State
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative w-full">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <Building2 className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="State"
-                            {...field}
-                            {...form.register('state')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Address <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-                            <MapPin className="w-5 text-primary" />
-                          </div>
-                          <Input
-                            type="text"
-                            placeholder="Abc, Street, 123"
-                            {...field}
-                            {...form.register('address')}
-                            className="pl-[52px] py-2 h-[46px] bg-transparent border-2 border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="gender"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Gender <sup className="text-secondary pt-1">*</sup>
-                      </FormLabel>
-                      <FormControl>
-                        <ToggleGroup
-                          type="single"
-                          className="justify-start gap-4"
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <ToggleGroupItem
-                            value="male"
-                            {...form.register('gender')}
-                            aria-label="Toggle Male"
-                            className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-dark"
-                          >
-                            <span className="font-bold text-xl">M</span>
-                          </ToggleGroupItem>
-                          <ToggleGroupItem
-                            value="female"
-                            {...form.register('gender')}
-                            aria-label="Toggle Female"
-                            className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-dark"
-                          >
-                            <span className="font-bold text-xl">F</span>
-                          </ToggleGroupItem>
-                        </ToggleGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="bio"
-                  render={({ field }) => (
-                    <FormItem className="w-full min-w-[28%] lg:flex-1">
-                      <FormLabel className="text-white font-bold text-lg">
-                        Bio
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <div className="absolute left-6 top-3.5">
-                            <Pencil className="w-5 text-primary" />
-                          </div>
-                          <Textarea
-                            placeholder="Tell us a little bit about your request"
-                            {...field}
-                            className="pl-[52px] py-2 h-[46px] resize-none bg-transparent border-2 border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  name="ssn"
+                  label="Social Security Number"
+                  placeholder="***-**-***"
+                  icon={<Building2 className="w-5 text-primary" />}
                 />
               </div>
 
-              <Button
-                variant="default"
-                type="submit"
-                form="profileForm"
-                className="w-full lg:w-[200px]"
-              >
-                {props.defaultValues ? 'Update' : 'Submit'}
+              <div className="grid grid-cols-4 gap-4">
+                <FormInput
+                  control={form.control}
+                  name="first_name"
+                  label="First Name"
+                  placeholder="Joe"
+                  icon={<User className="w-5 text-primary" />}
+                  required={true}
+                />
+
+                <FormInput
+                  control={form.control}
+                  name="last_name"
+                  label="Last Name"
+                  placeholder="Smith"
+                  icon={<User className="w-5 text-primary" />}
+                  required={true}
+                />
+
+                <FormInput
+                  control={form.control}
+                  name="alternative_names"
+                  label="Alternative Names"
+                  placeholder="Joseph Smith, Joseph Andrew Smith"
+                  icon={<Building2 className="w-5 text-primary" />}
+                  className="col-span-2"
+                />
+              </div>
+
+              <div className="grid grid-cols-5 gap-4">
+                <FormInput
+                  control={form.control}
+                  name="address"
+                  label="Address"
+                  placeholder="123 ABC street"
+                  icon={<MapPin className="w-5 text-primary" />}
+                  className="col-span-2"
+                />
+
+                <FormInput
+                  control={form.control}
+                  name="city"
+                  label="City"
+                  placeholder="Chicago"
+                  icon={<MapPin className="w-5 text-primary" />}
+                  required={true}
+                />
+
+                <FormInput
+                  control={form.control}
+                  name="state"
+                  label="State"
+                  placeholder="IL"
+                  icon={<MapPin className="w-5 text-primary" />}
+                  required={true}
+                />
+
+                <FormInput
+                  control={form.control}
+                  name="zip"
+                  label="Zip"
+                  placeholder="12345"
+                  icon={<MapPin className="w-5 text-primary" />}
+                />
+              </div>
+
+              <div className="grid grid-cols-4 gap-4">
+                <FormDate
+                  control={form.control}
+                  name="birth_date"
+                  label="Birth Date"
+                  required={true}
+                />
+
+                <FormToggle
+                  control={form.control}
+                  name="gender"
+                  label="Gender"
+                  options={[
+                    { label: 'M', value: 'male' },
+                    { label: 'F', value: 'female' }
+                  ]}
+                />
+
+                <FormTextarea
+                  control={form.control}
+                  name="bio"
+                  label="Bio"
+                  placeholder="Tell us a little bit about yourself"
+                  className="col-span-2"
+                />
+              </div>
+
+              <Button variant="default" type="submit">
+                {props.defaultValues ? 'Update Profile' : 'Submit Profile'}
               </Button>
             </form>
           </Form>
-          <DialogFooter>
-            <p className="text-sm text-white/40">All fields are required</p>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
