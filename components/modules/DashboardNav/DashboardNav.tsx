@@ -32,7 +32,7 @@ interface NavProps {
   isPaidUser?: boolean
 }
 
-function DashboardNavDesktop({ navs, isPaidUser }: NavProps) {
+function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
   const currentPath = usePathname()
   const [search, setSearch] = useState('')
 
@@ -92,13 +92,13 @@ function DashboardNavDesktop({ navs, isPaidUser }: NavProps) {
           </div>
         </div>
 
-        <FooterOptions isPaidUser={isPaidUser} />
+        <FooterOptions user={user} isPaidUser={isPaidUser} />
       </nav>
     </aside>
   )
 }
 
-function DashboardNavMobile({ navs, isPaidUser }: NavProps) {
+function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
   const currentPath = usePathname()
 
   return (
@@ -153,14 +153,20 @@ function DashboardNavMobile({ navs, isPaidUser }: NavProps) {
             ))}
           </div>
 
-          <FooterOptions isPaidUser={isPaidUser} />
+          <FooterOptions user={user} isPaidUser={isPaidUser} />
         </nav>
       </SheetContent>
     </Sheet>
   )
 }
 
-const FooterOptions = ({ isPaidUser }: { isPaidUser?: boolean }) => {
+const FooterOptions = ({
+  user,
+  isPaidUser
+}: {
+  user: User
+  isPaidUser?: boolean
+}) => {
   return (
     isPaidUser && (
       <div className="py-4 space-y-2">
@@ -184,7 +190,7 @@ const FooterOptions = ({ isPaidUser }: { isPaidUser?: boolean }) => {
           Refer a Friend
         </Button>
 
-        <ProfileForm>
+        <ProfileForm user={user}>
           <Button
             variant="outline"
             size="small"

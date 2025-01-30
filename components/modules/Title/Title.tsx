@@ -1,7 +1,7 @@
 interface ModuleProps {
   title: string
   subtitle?: string
-  description: string
+  description?: string
 }
 
 export default function Title({ title, subtitle, description }: ModuleProps) {
