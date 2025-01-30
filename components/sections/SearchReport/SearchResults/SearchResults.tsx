@@ -76,7 +76,7 @@ export default function SearchResults({ searches }: SectionProps) {
         </TabsContent>
 
         <TabsContent value="broker">
-          {Array.isArray(brokerSearches[0].search_result) &&
+          {Array.isArray(brokerSearches[0]?.search_result) &&
           brokerSearches[0].search_result.length > 0 ? (
             <BrokerSearchResults
               searches={brokerSearches[0].search_result as any}

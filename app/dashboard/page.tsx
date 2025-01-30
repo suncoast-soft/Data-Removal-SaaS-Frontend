@@ -18,6 +18,7 @@ import SearchReport from '@/components/sections/SearchReport'
 import RemovalReport from '@/components/sections/RemovalReport'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import Link from 'next/link'
+import SectionHeader from '@/components/modules/SectionHeader'
 
 type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
@@ -51,20 +52,21 @@ export default async function Dashboard() {
 
   return (
     <div className="relative">
-      <div className="flex gap-6 justify-between items-center mt-8 mb-4">
-        <h1 className="text-3xl lg:text-4xl font-bold text-dark">Dashboard</h1>
-
-        <Button variant="link" type="button" className={'no-underline p-0'}>
-          <div className="relative text-dark">
-            {notifications > 0 && (
-              <div className="absolute -right-1 -top-1 min-w-[18px] rounded-full min-h-[18px] text-white bg-secondary text-xs font-normal">
-                {notifications}
-              </div>
-            )}
-            <BellIcon className="h-6 w-6 " />
-          </div>
-        </Button>
-      </div>
+      <SectionHeader
+        title="Dashboard"
+        cta1={
+          <Button variant="link" type="button" className={'no-underline p-0'}>
+            <div className="relative text-dark">
+              {notifications > 0 && (
+                <div className="absolute -right-1 -top-1 min-w-[18px] rounded-full min-h-[18px] text-white bg-secondary text-xs font-normal">
+                  {notifications}
+                </div>
+              )}
+              <BellIcon className="h-6 w-6 " />
+            </div>
+          </Button>
+        }
+      />
 
       {isPaidUser ? (
         <>

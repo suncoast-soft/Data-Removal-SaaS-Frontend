@@ -32,7 +32,7 @@ export default function ProfileDropdown({
   const { profile } = selectedSearch
 
   return (
-    <div className="p-1">
+    <div className="mb-5">
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger className="w-full border rounded-xl px-4 py-2">
           <div className="flex flex-row justify-between items-center">
