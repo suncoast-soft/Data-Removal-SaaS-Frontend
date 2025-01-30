@@ -9,6 +9,8 @@ import ProfileForm from '../../Forms/ProfileForm'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
+import { format } from 'date-fns'
+import Link from 'next/link'
 
 type Profile = Tables<'profiles'>
 
@@ -31,67 +33,108 @@ export default function ProfileAccordion({
             <span className="font-bold ml-2">
               {profile.first_name} {profile.last_name}
             </span>
-            {profile.is_primary ? (
+            {profile.is_primary && (
               <span className="py-1 px-2 text-xs rounded-full bg-secondary ml-4 font-medium text-white">
                 primary
               </span>
-            ) : null}
+            )}
           </h3>
-          <h4 className="font-bold text-sm">View or edit profile </h4>
+
+          <h4 className="font-bold text-sm">View or edit profile</h4>
         </div>
-        <div className="h-8 w-8 items-center flex justify-center  shrink-0 transition-transform duration-200 [&[data-state=open]>div]:rotate-45">
+
+        <div className="h-8 w-8 items-center flex justify-center shrink-0 transition-transform duration-200 [&[data-state=open]>div]:rotate-45">
           <ChevronDown className="h-5 w-5" />
         </div>
       </AccordionTrigger>
-      <AccordionContent className="p-0  mt-2 text-base  leading-[22px] lg:text-[22px] lg:leading-[26px]">
-        <hr className="my-4 border-white/20 border-[1.4px]" />
-        <div className="flex lg:flex-wrap flex-col lg:flex-row gap-4 lg:gap-8">
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">First Name:</span>{' '}
-            {profile.first_name}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">Last Name:</span>{' '}
-            {profile.last_name}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">Gender:</span>
-            {profile.gender || '---'}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">Birthdate:</span>
-            {profile.birth_date || '---'}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">City:</span>
-            {profile.city || '---'}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">State:</span>
-            {profile.state || '---'}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%] border-b border-white/20 py-2.5">
-            <span className="text-primary font-normal mr-2">Phone Number:</span>
-            {profile.phone || '---'}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%]">
-            <span className="text-primary font-normal mr-2">Bio:</span>
-            {profile.bio || '---'}
-          </h3>
-          <h3 className="font-semibold text-base lg:text-lg text-white min-w-[45%] lg:max-w-[45%]">
-            <span className="text-primary font-normal mr-2">Address:</span>
-            {profile.address || '---'}
-          </h3>
+
+      <AccordionContent className="py-4 mt-4 border-t border-white/20">
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="">
+            <p className="font-semibold text-lg lg:text-xl text-white mb-2">
+              <span>Primary Account Holder:</span>
+              <span className="text-xl lg:text-2xl ml-2">
+                {user?.identities?.[0]?.identity_data?.full_name}
+              </span>
+            </p>
+
+            <p className="text-sm font-light text-white">
+              <span>Profile created:</span>
+              <span className="ml-2">
+                {format(user?.created_at ?? '', 'MM/dd/yyyy')}
+              </span>
+            </p>
+          </div>
+
+          <ProfileForm user={user}>
+            <Button
+              variant="outline"
+              type="submit"
+              size="small"
+              className="border-secondary text-white"
+            >
+              <Pencil className="mr-2 pl-2" />
+              <span>Edit your profile</span>
+            </Button>
+          </ProfileForm>
         </div>
-        <ProfileForm user={user} profile={profile}>
-          <Button
-            variant="outline"
-            type="submit"
-            className="w-full lg:w-[282px] h-[56px] text-sm font-semibold text-white border-2 my-4 lg:my-0 border-secondary hover:bg-secondary/90 pl-0 items-center [&>svg]:text-secondary"
-          >
-            <Pencil className="mr-2 pl-2" /> Edit your profile to run a new scan
-          </Button>
-        </ProfileForm>
+
+        <div className="grid lg:grid-cols-2 lg:w-11/12 gap-x-8 gap-y-5">
+          {[
+            {
+              label: 'Name',
+              value: `${profile.first_name} ${profile.last_name}`
+            },
+            {
+              label: 'Social Security Number',
+              value: `${profile.ssn}`
+            },
+            {
+              label: 'Alternative Names',
+              value: `${profile.alternative_names}`
+            },
+            {
+              label: 'Phone Number',
+              value: `${profile.phone}`
+            },
+            {
+              label: 'Birthdate',
+              value: `${profile.birth_date}`
+            },
+            {
+              label: 'Email',
+              value: `${profile.email}`
+            },
+            {
+              label: 'Gender',
+              value: `${profile.gender}`
+            },
+            {
+              label: 'Address',
+              value: `${profile.address} ${profile.city} ${profile.state} ${profile.zip}`
+            }
+          ].map(({ label, value }, index) => (
+            <p key={index} className="border-b border-white/20 py-2">
+              <span className="text-primary text-lg">{label}: </span>
+              <span className="text-white text-xl font-semibold">{value}</span>
+            </p>
+          ))}
+        </div>
+
+        <div className="relative float-end mt-2">
+          <div className="p-2.5 bg-white/20 lg:max-w-[282px] rounded-[10px] h-fit">
+            <p className="text-sm font-normal text-white">
+              Note: Profile edits are only available 3 times per day Why?
+            </p>
+
+            <Link
+              href={'?why-profile-edit=true'}
+              className="text-sm font-bold transition ease-in-out duration-75 cursor-pointer text-secondary hover:text-secondary/90 border-b border-secondary"
+            >
+              Why
+            </Link>
+          </div>
+        </div>
       </AccordionContent>
     </AccordionItem>
   )

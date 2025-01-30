@@ -8,7 +8,7 @@ interface ModuleProps {
 
 export default function SectionHeader({ title, cta1, cta2 }: ModuleProps) {
   return (
-    <div className="flex gap-6 flex-col lg:flex-row lg:justify-between mb-6">
+    <div className="flex gap-6 flex-col lg:flex-row lg:justify-between lg:items-center mt-8 mb-6">
       <h1 className="text-2xl lg:text-3xl font-bold text-dark">{title}</h1>
 
       <div className="flex gap-3">
