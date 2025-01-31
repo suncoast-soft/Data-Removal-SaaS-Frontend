@@ -69,12 +69,13 @@ export default async function SignIn(props: {
               <SignUp redirectMethod={redirectMethod} />
             )}
 
-            {viewProp === 'email_signin' && allowOauth && (
-              <div className="w-full mt-4">
-                <Separator text="Third-party sign-in" />
-                <OauthSignIn />
-              </div>
-            )}
+            {(viewProp === 'signup' || viewProp === 'email_signin') &&
+              allowOauth && (
+                <div className="w-full mt-4">
+                  <Separator text="Third-party sign-in" />
+                  <OauthSignIn />
+                </div>
+              )}
           </div>
 
           <div>

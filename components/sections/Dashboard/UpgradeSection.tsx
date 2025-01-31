@@ -6,7 +6,7 @@ import { Tables } from '../../../types_db'
 
 type User = Tables<'users'>
 
-export default async function UpgradeSection({ user }: { user?: User }) {
+export default function UpgradeSection({ user }: { user?: User }) {
   return (
     <div className="flex flex-col gap-6 lg:gap-8 items-center my-12">
       <h2 className="text-2xl lg:text-[32px] lg:leading-[38px] font-bold text-left text-dark">

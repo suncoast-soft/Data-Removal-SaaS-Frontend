@@ -15,7 +15,6 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { Tables } from '@/types_db'
 
-type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Tables<'brokers'>
 }
@@ -27,7 +26,7 @@ export default function ScanResults() {
   const name = searchParams.get('name')
   const { firstName, lastName } = splitName(name ?? '')
 
-  const [googleSearches, setGoogleSearches] = useState<GoogleSearch[]>([])
+  const [googleSearches, setGoogleSearches] = useState<any[]>([])
   const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>([])
 
   useEffect(() => {
@@ -37,14 +36,14 @@ export default function ScanResults() {
       let zip = ''
 
       try {
-        const ipResponse = await fetch('https://ip-api.com/json')
+        const ipResponse = await fetch(
+          `https://ipinfo.io?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`
+        )
         const ipData = await ipResponse.json()
 
-        if (ipData.status === 'success') {
-          city = ipData.city
-          state = ipData.regionName
-          zip = ipData.zip
-        }
+        city = ipData.city
+        state = ipData.region
+        zip = ipData.postal
       } catch (error) {
         console.log(error)
       }
@@ -54,7 +53,7 @@ export default function ScanResults() {
           `https://api.puperase.com/api/check?type=google&first_name=${firstName}&last_name=${lastName}&city=${city}&state=${state}&zip=${zip}`
         )
         const googleData = await googleResponse.json()
-        setGoogleSearches(googleData)
+        setGoogleSearches([{ search_result: googleData }])
 
         const brokerResponse = await fetch(
           `https://api.puperase.com/api/check?type=broker&first_name=${firstName}&last_name=${lastName}&city=${city}&state=${state}&zip=${zip}`

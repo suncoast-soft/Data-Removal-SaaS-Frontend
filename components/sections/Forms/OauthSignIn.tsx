@@ -16,7 +16,7 @@ export default function OauthSignIn() {
   const oAuthProviders: OAuthProviders[] = [
     {
       name: 'google',
-      displayName: 'Google',
+      displayName: 'Continue with Google',
       icon: (
         <Image src="/icons/google.svg" width={20} height={20} alt="Google" />
       )
