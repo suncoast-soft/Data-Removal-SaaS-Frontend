@@ -1,3 +1,5 @@
+'use client'
+
 import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
 import { Tables } from '@/types_db'
 import { isValidUrl } from '@/utils/helpers'

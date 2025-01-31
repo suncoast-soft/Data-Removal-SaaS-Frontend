@@ -14,29 +14,37 @@ import {
 } from '@/utils/const'
 import Image from 'next/image'
 
-type Broker = Tables<'brokers'>
-type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
-
-interface SectionProps {
-  brokers: Broker[]
-  search: {
-    profile: Profile
-    searches: Search[]
-  }
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
 }
 
-export default function RemovalSummary({ brokers, search }: SectionProps) {
+interface SectionProps {
+  googleSearches: GoogleSearch[]
+  brokerSearches: BrokerSearch[]
+}
+
+export default function RemovalSummary({
+  googleSearches,
+  brokerSearches
+}: SectionProps) {
+  const successfulSearches =
+    (Array.isArray(googleSearches[0].search_result)
+      ? googleSearches[0].search_result.length
+      : 0) +
+    brokerSearches.filter((search) => search.search_status === 'completed')
+      .length
+
   const reportMetrics = [
     {
       icon: <CleaningIcon />,
-      count: `${search.searches.length}/200`,
+      count: `0/${successfulSearches}`,
       text: 'search results removed',
       color: 'bg-dark/5 text-dark'
     },
     {
       icon: <CleaningIcon />,
-      count: `0/${brokers.length}`,
+      count: `0/${successfulSearches}`,
       text: 'broker reports removed',
       color: 'bg-dark/5 text-dark'
     }

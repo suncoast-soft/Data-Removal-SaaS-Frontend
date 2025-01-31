@@ -4,17 +4,20 @@ import Loading from '@/components/modules/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Tables } from '@/types_db'
 
-type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
-
-interface SectionProps {
-  search: {
-    profile: Profile
-    searches: Search[]
-  }
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
 }
 
-export default function RemovalResults({ search }: SectionProps) {
+interface SectionProps {
+  googleSearches: GoogleSearch[]
+  brokerSearches: BrokerSearch[]
+}
+
+export default function RemovalResults({
+  googleSearches,
+  brokerSearches
+}: SectionProps) {
   const tabs = [
     {
       value: 'queue',
@@ -38,20 +41,13 @@ export default function RemovalResults({ search }: SectionProps) {
     }
   ]
 
-  const brokerSearches = search.searches?.filter(
-    (search) => search.broker_type === 'broker_site'
-  )
-  const googleSearches = search.searches?.filter(
-    (search) => search.broker_type === 'google'
-  )[0]
-
   return (
     <div className="my-20">
       <h2 className="text-2xl lg:text-4xl font-bold text-center mb-8">
         Stay up to date on your removals
       </h2>
 
-      <Tabs defaultValue="google" className="w-full">
+      <Tabs defaultValue="broker" className="w-full">
         <TabsList className="h-12 bg-transparent rounded-none !justify-start py-0 w-fit">
           {tabs.map((tab, index) => (
             <TabsTrigger
@@ -64,11 +60,9 @@ export default function RemovalResults({ search }: SectionProps) {
           ))}
         </TabsList>
 
-        <TabsContent value="google">
-          {googleSearches?.search_result ? (
-            <GoogleSearchResults
-              results={googleSearches.search_result as any}
-            />
+        <TabsContent value="broker">
+          {Array.isArray(brokerSearches) && brokerSearches.length > 0 ? (
+            <BrokerSearchResults searches={brokerSearches as any} />
           ) : (
             <div className="py-8">
               <Loading />
@@ -76,9 +70,11 @@ export default function RemovalResults({ search }: SectionProps) {
           )}
         </TabsContent>
 
-        <TabsContent value="broker">
-          {Array.isArray(brokerSearches) && brokerSearches.length > 0 ? (
-            <BrokerSearchResults searches={brokerSearches as any} />
+        <TabsContent value="google">
+          {googleSearches[0].search_result ? (
+            <GoogleSearchResults
+              results={googleSearches[0].search_result as any[]}
+            />
           ) : (
             <div className="py-8">
               <Loading />

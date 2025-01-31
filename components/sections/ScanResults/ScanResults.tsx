@@ -1,19 +1,24 @@
 'use client'
 
-// import { Button } from '@/components/ui/button'
-// import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
-// import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
-// import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
-// import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
+import { Button } from '@/components/ui/button'
+import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
+import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
+import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
+import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
 import { splitName } from '@/utils/helpers'
-// import PrivateFAQs from '@/components/sections/PrivateFAQs'
+import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import SearchSummary from '@/components/sections/SearchReport/SearchSummary'
 import SearchResults from '@/components/sections/SearchReport/SearchResults'
-// import Link from 'next/link'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
-import { Json } from '@/types_db'
+import { Tables } from '@/types_db'
+
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
+}
 
 export default function ScanResults() {
   const [loading, setLoading] = useState(true)
@@ -22,9 +27,8 @@ export default function ScanResults() {
   const name = searchParams.get('name')
   const { firstName, lastName } = splitName(name ?? '')
 
-  const [searches, setSearches] = useState<
-    { broker_type: string; search_result: Json }[]
-  >([])
+  const [googleSearches, setGoogleSearches] = useState<GoogleSearch[]>([])
+  const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>([])
 
   useEffect(() => {
     async function fetchIPAPI() {
@@ -50,22 +54,13 @@ export default function ScanResults() {
           `https://api.puperase.com/api/check?type=google&first_name=${firstName}&last_name=${lastName}&city=${city}&state=${state}&zip=${zip}`
         )
         const googleData = await googleResponse.json()
+        setGoogleSearches(googleData)
 
         const brokerResponse = await fetch(
           `https://api.puperase.com/api/check?type=broker&first_name=${firstName}&last_name=${lastName}&city=${city}&state=${state}&zip=${zip}`
         )
         const brokerData = await brokerResponse.json()
-
-        setSearches([
-          {
-            broker_type: 'google',
-            search_result: googleData.slice(0, 20)
-          },
-          {
-            broker_type: 'broker',
-            search_result: brokerData.slice(0, 20)
-          }
-        ])
+        setBrokerSearches(brokerData)
       } catch (error) {
         console.log(error)
       }
@@ -120,11 +115,17 @@ export default function ScanResults() {
           Don’t worry, we’re here to get them offline for you{' '}
         </p>
 
-        <SearchSummary searches={searches} />
+        <SearchSummary
+          googleSearches={googleSearches}
+          brokerSearches={brokerSearches}
+        />
 
-        <SearchResults searches={searches} />
+        <SearchResults
+          googleSearches={googleSearches}
+          brokerSearches={brokerSearches}
+        />
 
-        {/* <HelpBanner />
+        <HelpBanner />
 
         <UpgradeSection />
 
@@ -140,7 +141,7 @@ export default function ScanResults() {
               Register and protect yourself today
             </Link>
           </Button>
-        </div> */}
+        </div>
       </div>
     </>
   )

@@ -6,13 +6,13 @@ import RemovalSummary from './RemovalSummary'
 import RemovalResults from './RemovalResults'
 import ProfileDropdown from '@/components/modules/ProfileDropdown'
 
-type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
 type GoogleSearch = Tables<'google_searches'>
-type BrokerSearch = Tables<'broker_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
+}
 
 interface SectionProps {
-  brokers: Broker[]
   searches: {
     profile: Profile
     googleSearches: GoogleSearch[]
@@ -20,7 +20,7 @@ interface SectionProps {
   }[]
 }
 
-export default function RemovalReport({ brokers, searches }: SectionProps) {
+export default function RemovalReport({ searches }: SectionProps) {
   const [selectedSearch, setSelectedSearch] = useState(searches[0])
 
   return (
@@ -31,9 +31,15 @@ export default function RemovalReport({ brokers, searches }: SectionProps) {
         setSelectedSearch={setSelectedSearch}
       />
 
-      <RemovalSummary brokers={brokers} search={selectedSearch} />
+      <RemovalSummary
+        googleSearches={selectedSearch.googleSearches}
+        brokerSearches={selectedSearch.brokerSearches}
+      />
 
-      <RemovalResults search={selectedSearch} />
+      <RemovalResults
+        googleSearches={selectedSearch.googleSearches}
+        brokerSearches={selectedSearch.brokerSearches}
+      />
     </>
   )
 }

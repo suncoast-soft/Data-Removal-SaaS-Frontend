@@ -1,5 +1,4 @@
 import {
-  getBrokers,
   getBrokerSearches,
   getGoogleSearches,
   getPricingPlan,
@@ -21,7 +20,6 @@ import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import Link from 'next/link'
 import SectionHeader from '@/components/modules/SectionHeader'
 
-type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
 type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'> & {
@@ -31,8 +29,7 @@ type BrokerSearch = Tables<'broker_searches'> & {
 export default async function Dashboard() {
   const supabase = await createClient()
 
-  const [brokers, profiles, pricing] = await Promise.all([
-    getBrokers(supabase),
+  const [profiles, pricing] = await Promise.all([
     getProfiles(supabase),
     getPricingPlan(supabase)
   ])
@@ -81,7 +78,7 @@ export default async function Dashboard() {
 
       {isPaidUser ? (
         <>
-          <RemovalReport brokers={brokers as Broker[]} searches={searches} />
+          <RemovalReport searches={searches} />
 
           <HelpBanner />
         </>
