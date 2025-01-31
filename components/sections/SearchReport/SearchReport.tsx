@@ -8,12 +8,14 @@ import ProfileDropdown from '@/components/modules/ProfileDropdown'
 import Image from 'next/image'
 
 type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'>
 
 interface SectionProps {
   searches: {
     profile: Profile
-    searches: Search[]
+    googleSearches: GoogleSearch[]
+    brokerSearches: BrokerSearch[]
   }[]
 }
 
@@ -44,9 +46,15 @@ export default function SearchReport({ searches }: SectionProps) {
         Don’t worry, we’re here to erase them for you
       </p>
 
-      <SearchSummary searches={selectedSearch.searches as any} />
+      <SearchSummary
+        googleSearches={selectedSearch.googleSearches}
+        brokerSearches={selectedSearch.brokerSearches}
+      />
 
-      <SearchResults searches={selectedSearch.searches as any} />
+      <SearchResults
+        googleSearches={selectedSearch.googleSearches}
+        brokerSearches={selectedSearch.brokerSearches}
+      />
     </>
   )
 }

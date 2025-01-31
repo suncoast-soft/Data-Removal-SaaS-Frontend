@@ -59,13 +59,23 @@ export const getSettings = cache(async (supabase: SupabaseClient) => {
   return setting
 })
 
-export const getSearches = cache(
+export const getGoogleSearches = cache(
   async (supabase: SupabaseClient, id: string) => {
-    const { data: searches } = await supabase
-      .from('searches')
+    const { data: google_searches } = await supabase
+      .from('google_searches')
       .select('*')
       .eq('profile_id', id)
-    return searches
+    return google_searches
+  }
+)
+
+export const getBrokerSearches = cache(
+  async (supabase: SupabaseClient, id: string) => {
+    const { data: broker_searches } = await supabase
+      .from('broker_searches')
+      .select('*')
+      .eq('profile_id', id)
+    return broker_searches
   }
 )
 

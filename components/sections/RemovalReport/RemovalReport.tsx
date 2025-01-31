@@ -8,13 +8,15 @@ import ProfileDropdown from '@/components/modules/ProfileDropdown'
 
 type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'>
 
 interface SectionProps {
   brokers: Broker[]
   searches: {
     profile: Profile
-    searches: Search[]
+    googleSearches: GoogleSearch[]
+    brokerSearches: BrokerSearch[]
   }[]
 }
 

@@ -5,7 +5,7 @@ import WebSearchIcon from '@/components/icons/WebSearchIcon'
 import MetricsCard from '@/components/modules/MetricsCard'
 import MetricsChart from '@/components/modules/MetricsChart'
 import { Badge } from '@/components/ui/badge'
-import { Json } from '@/types_db'
+import { Tables } from '@/types_db'
 import {
   digitalFootprintData,
   digitalFootprintLegend,
@@ -16,25 +16,36 @@ import {
   tags
 } from '@/utils/const'
 
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'>
+
 interface SectionProps {
-  searches: {
-    broker_type: string
-    search_result: Json
-  }[]
+  googleSearches: GoogleSearch[]
+  brokerSearches: BrokerSearch[]
 }
 
-export default function SearchSummary({ searches }: SectionProps) {
+export default function SearchSummary({
+  googleSearches,
+  brokerSearches
+}: SectionProps) {
+  const totalSearches = 4 + brokerSearches.length
+
+  const successfulSearches =
+    Array(googleSearches[0].search_result).length +
+    brokerSearches.filter((search) => search.search_status === 'completed')
+      .length
+
   const reportMetrics = [
     {
       icon: <WebSearchIcon />,
-      count: `300`,
+      count: `${totalSearches}`,
       text: 'sites searched',
       color: 'bg-dark text-white'
     },
     {
       icon: <WebSearchIcon />,
-      count: `${searches.length}`,
-      text: 'sites found',
+      count: `${successfulSearches}`,
+      text: 'results found',
       color: 'bg-dark text-white'
     },
     {

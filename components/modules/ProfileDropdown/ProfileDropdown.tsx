@@ -11,11 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'>
 
 interface SearchItem {
   profile: Profile
-  searches: Search[]
+  googleSearches: GoogleSearch[]
+  brokerSearches: BrokerSearch[]
 }
 
 interface ModuleProps {

@@ -4,16 +4,20 @@ import BrokerSearchResults from '@/components/sections/SearchReport/SearchResult
 import GoogleSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Google'
 import Loading from '@/components/modules/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Json } from '@/types_db'
+import { Tables } from '@/types_db'
+
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'>
 
 interface SectionProps {
-  searches: {
-    broker_type: string
-    search_result: Json
-  }[]
+  googleSearches: GoogleSearch[]
+  brokerSearches: BrokerSearch[]
 }
 
-export default function SearchResults({ searches }: SectionProps) {
+export default function SearchResults({
+  googleSearches,
+  brokerSearches
+}: SectionProps) {
   const tabs = [
     {
       value: 'google',
@@ -37,13 +41,6 @@ export default function SearchResults({ searches }: SectionProps) {
     }
   ]
 
-  const brokerSearches = searches?.filter(
-    (search) => search.broker_type === 'broker'
-  )
-  const googleSearches = searches?.filter(
-    (search) => search.broker_type === 'google'
-  )[0]
-
   return (
     <div className="my-20">
       <h2 className="text-2xl lg:text-4xl font-bold text-center mb-8">
@@ -64,9 +61,9 @@ export default function SearchResults({ searches }: SectionProps) {
         </TabsList>
 
         <TabsContent value="google">
-          {googleSearches?.search_result ? (
+          {googleSearches[0]?.search_result ? (
             <GoogleSearchResults
-              results={googleSearches.search_result as any}
+              results={googleSearches[0].search_result as any}
             />
           ) : (
             <div className="py-8">

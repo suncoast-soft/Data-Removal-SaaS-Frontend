@@ -1,8 +1,9 @@
 import {
   getBrokers,
+  getBrokerSearches,
+  getGoogleSearches,
   getPricingPlan,
-  getProfiles,
-  getSearches
+  getProfiles
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
@@ -22,7 +23,8 @@ import SectionHeader from '@/components/modules/SectionHeader'
 
 type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
-type Search = Tables<'searches'>
+type GoogleSearch = Tables<'google_searches'>
+type BrokerSearch = Tables<'broker_searches'>
 
 export default async function Dashboard() {
   const supabase = await createClient()
@@ -43,7 +45,14 @@ export default async function Dashboard() {
     (profiles ?? []).map(async (profile) => {
       return {
         profile: profile as Profile,
-        searches: (await getSearches(supabase, profile.id)) as Search[]
+        googleSearches: (await getGoogleSearches(
+          supabase,
+          profile.id
+        )) as GoogleSearch[],
+        brokerSearches: (await getBrokerSearches(
+          supabase,
+          profile.id
+        )) as BrokerSearch[]
       }
     })
   )
