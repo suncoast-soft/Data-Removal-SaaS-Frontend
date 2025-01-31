@@ -4,32 +4,51 @@ import { NextRequest } from 'next/server'
 import { getErrorRedirect, getStatusRedirect } from '@/utils/helpers'
 
 export async function GET(request: NextRequest) {
-  // The `/auth/callback` route is required for the server-side auth flow implemented
-  // by the `@supabase/ssr` package. It exchanges an auth code for the user's session.
-  const requestUrl = new URL(request.url)
-  const code = requestUrl.searchParams.get('code')
+  const { searchParams, origin } = new URL(request.url)
+  const code = searchParams.get('code')
+  const next = searchParams.get('next') ?? '/'
 
   if (code) {
     const supabase = await createClient()
-
     const { error } = await supabase.auth.exchangeCodeForSession(code)
 
-    if (error) {
-      return NextResponse.redirect(
-        getErrorRedirect(
-          `${requestUrl.origin}/signin`,
-          error.name,
-          "Sorry, we weren't able to log you in. Please try again."
-        )
-      )
-    }
-  }
+    if (!error) {
+      const forwardedHost = request.headers.get('x-forwarded-host')
+      const isLocalEnv = process.env.NODE_ENV === 'development'
 
-  // URL to redirect to after sign in process completes
-  const redirectPath = getStatusRedirect(
-    `${requestUrl.origin}/dashboard`,
-    'Success!',
-    'You are now signed in.'
-  )
-  return NextResponse.redirect(redirectPath)
+      if (isLocalEnv) {
+        return NextResponse.redirect(
+          getStatusRedirect(
+            `${origin}${next}`,
+            'Success!',
+            'You are now signed in.'
+          )
+        )
+      } else if (forwardedHost) {
+        return NextResponse.redirect(
+          getStatusRedirect(
+            `https://${forwardedHost}${next}`,
+            'Success!',
+            'You are now signed in.'
+          )
+        )
+      } else {
+        return NextResponse.redirect(
+          getStatusRedirect(
+            `${origin}${next}`,
+            'Success!',
+            'You are now signed in.'
+          )
+        )
+      }
+    }
+
+    return NextResponse.redirect(
+      getErrorRedirect(
+        `${origin}/signin`,
+        error.name,
+        "Sorry, we weren't able to log you in. Please try again."
+      )
+    )
+  }
 }
