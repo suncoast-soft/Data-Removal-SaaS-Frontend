@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(
       getErrorRedirect(
-        `${origin}/signin`,
+        `${origin}/auth/auth-code-error`,
         error.name,
         "Sorry, we weren't able to log you in. Please try again."
       )
