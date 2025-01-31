@@ -73,7 +73,7 @@ export const getBrokerSearches = cache(
   async (supabase: SupabaseClient, id: string) => {
     const { data: broker_searches } = await supabase
       .from('broker_searches')
-      .select('*')
+      .select('*, broker:brokers(*)')
       .eq('profile_id', id)
     return broker_searches
   }

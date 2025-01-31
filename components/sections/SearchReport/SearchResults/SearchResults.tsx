@@ -1,5 +1,3 @@
-'use client'
-
 import BrokerSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Broker'
 import GoogleSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Google'
 import Loading from '@/components/modules/Loading'
@@ -7,7 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Tables } from '@/types_db'
 
 type GoogleSearch = Tables<'google_searches'>
-type BrokerSearch = Tables<'broker_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
+}
 
 interface SectionProps {
   googleSearches: GoogleSearch[]
@@ -19,6 +19,10 @@ export default function SearchResults({
   brokerSearches
 }: SectionProps) {
   const tabs = [
+    {
+      value: 'broker',
+      text: 'Data Brokers'
+    },
     {
       value: 'google',
       text: 'Google'
@@ -34,10 +38,6 @@ export default function SearchResults({
     {
       value: 'yahoo',
       text: 'Yahoo!'
-    },
-    {
-      value: 'broker',
-      text: 'Data Brokers'
     }
   ]
 
@@ -47,7 +47,7 @@ export default function SearchResults({
         Search Results
       </h2>
 
-      <Tabs defaultValue="google" className="w-full">
+      <Tabs defaultValue="broker" className="w-full">
         <TabsList className="h-12 bg-transparent rounded-none !justify-start py-0 w-fit">
           {tabs.map((tab, index) => (
             <TabsTrigger
@@ -60,11 +60,9 @@ export default function SearchResults({
           ))}
         </TabsList>
 
-        <TabsContent value="google">
-          {googleSearches[0]?.search_result ? (
-            <GoogleSearchResults
-              results={googleSearches[0].search_result as any}
-            />
+        <TabsContent value="broker">
+          {brokerSearches.length > 0 ? (
+            <BrokerSearchResults searches={brokerSearches} />
           ) : (
             <div className="py-8">
               <Loading />
@@ -72,11 +70,10 @@ export default function SearchResults({
           )}
         </TabsContent>
 
-        <TabsContent value="broker">
-          {Array.isArray(brokerSearches[0]?.search_result) &&
-          brokerSearches[0].search_result.length > 0 ? (
-            <BrokerSearchResults
-              searches={brokerSearches[0].search_result as any}
+        <TabsContent value="google">
+          {googleSearches[0]?.search_result ? (
+            <GoogleSearchResults
+              results={googleSearches[0].search_result as any[]}
             />
           ) : (
             <div className="py-8">

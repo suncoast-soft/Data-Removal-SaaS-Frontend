@@ -1,18 +1,25 @@
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
+import { Tables } from '@/types_db'
+import { isValidUrl } from '@/utils/helpers'
+import { createClient } from '@/utils/supabase/client'
+import { User } from '@supabase/supabase-js'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
+}
 
 const renderValue = (value: any): string | React.ReactNode => {
   if (typeof value === 'object' && value !== null) {
     if (Array.isArray(value)) {
-      // Render arrays as a comma-separated list
       return value.map(renderValue).join(', ')
     }
-    // Render nested objects as key-value pairs
     return (
       <ul className="pl-4 list-none">
         {Object.entries(value)
-          .filter(([, nestedValue]) => nestedValue !== null) // Skip null values
+          .filter(([, nestedValue]) => nestedValue !== null)
           .map(([nestedKey, nestedValue]) => (
             <li key={nestedKey}>
               <strong>{nestedKey}:</strong> {renderValue(nestedValue)}
@@ -21,49 +28,106 @@ const renderValue = (value: any): string | React.ReactNode => {
       </ul>
     )
   }
-  // Render primitives
+
+  if (isValidUrl(value)) {
+    return (
+      <Link href={value} target="_blank">
+        {value}
+      </Link>
+    )
+  }
+
   return String(value)
 }
 
-export default function BrokerSearchResults({ searches }: { searches: any[] }) {
+export default function BrokerSearchResults({
+  searches
+}: {
+  searches: BrokerSearch[]
+}) {
+  const supabase = createClient()
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+        error
+      } = await supabase.auth.getUser()
+      if (error) console.error('Error fetching user:', error)
+      setUser(user)
+    }
+
+    getUser()
+  }, [supabase.auth])
+
   return (
-    <div className="space-y-6">
-      {searches.map((search, index) => (
-        <Card key={index} className="border border-gray-200">
-          <CardHeader>
-            <CardTitle>{search.broker?.name ?? 'Unknown Broker'}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table className="w-full">
-              <TableBody>
-                {Object.entries(flattenData(search.result ?? {}))
-                  .filter(([, value]) => value !== null) // Skip null values
-                  .map(([key, value]) => (
-                    <TableRow key={key}>
-                      <TableCell className="font-medium">{key}</TableCell>
-                      <TableCell>{renderValue(value)}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="border border-gray/20 rounded-lg grid lg:grid-cols-2">
+      <div className="overflow-clip">
+        {searches
+          .filter((search) => search.search_status === 'completed')
+          .map((search, index) => (
+            <div key={index} className="px-8 py-6 border-b border-b-gray/20">
+              <h3 className="font-semibold text-primary">
+                <Link href={search.broker.site_url ?? ''} target="_blank">
+                  {search.broker?.name ?? 'Unknown Broker'}
+                </Link>
+              </h3>
+              <div>
+                <ul>
+                  {Object.entries(
+                    flattenData(Object(search.search_result) ?? {})
+                  )
+                    .filter(([, value]) => value !== null)
+                    .map(([key, value]) => (
+                      <li key={key}>
+                        <span className="font-semibold">{key}: </span>
+                        <span>{renderValue(value)}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      <div className="relative px-4 py-12">
+        {user ? (
+          <div className="mx-auto sticky top-12 text-center max-w-xs">
+            <HelpBanner />
+          </div>
+        ) : (
+          <div className="mx-auto sticky top-12 text-center max-w-xs">
+            <h4 className="text-2xl font-bold mb-2">
+              Start removing your digital footprint with pup premium
+            </h4>
+            <p className="text-lg text-gray/60 mb-4">
+              Create an account to access your full report (free to view,
+              forever)
+            </p>
+            <Image
+              src="/pup-premium-upsell.png"
+              width={191}
+              height={155}
+              alt="Pup Premium Upsell"
+              className="mx-auto"
+            />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
-// Helper to flatten nested objects and skip first-level names
 function flattenData(data: object): Record<string, unknown> {
   const result: Record<string, unknown> = {}
 
   for (const [key, value] of Object.entries(data)) {
-    if (value === null) continue // Skip null values
+    if (value === null) continue
+
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      // Flatten nested objects but ignore the top-level key
       Object.assign(result, flattenData(value))
     } else if (Array.isArray(value)) {
-      // For arrays, include directly
       value.forEach((item) => {
         if (typeof item === 'object') {
           Object.assign(result, flattenData(item))
@@ -72,7 +136,6 @@ function flattenData(data: object): Record<string, unknown> {
         }
       })
     } else {
-      // Add primitive values directly
       result[key] = value
     }
   }

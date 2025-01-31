@@ -12,7 +12,9 @@ import {
 
 type Profile = Tables<'profiles'>
 type GoogleSearch = Tables<'google_searches'>
-type BrokerSearch = Tables<'broker_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
+}
 
 interface SearchItem {
   profile: Profile

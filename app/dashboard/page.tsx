@@ -24,7 +24,9 @@ import SectionHeader from '@/components/modules/SectionHeader'
 type Broker = Tables<'brokers'>
 type Profile = Tables<'profiles'>
 type GoogleSearch = Tables<'google_searches'>
-type BrokerSearch = Tables<'broker_searches'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Tables<'brokers'>
+}
 
 export default async function Dashboard() {
   const supabase = await createClient()
@@ -86,8 +88,6 @@ export default async function Dashboard() {
       ) : (
         <>
           <SearchReport searches={searches} />
-
-          <HelpBanner />
 
           <UpgradeSection />
 

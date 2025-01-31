@@ -15,6 +15,7 @@ import {
   resultTypesLegend,
   tags
 } from '@/utils/const'
+import Image from 'next/image'
 
 type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'>
@@ -28,10 +29,15 @@ export default function SearchSummary({
   googleSearches,
   brokerSearches
 }: SectionProps) {
-  const totalSearches = 4 + brokerSearches.length
+  const totalSearches =
+    (Array.isArray(googleSearches[0].search_result)
+      ? googleSearches[0].search_result.length
+      : 0) + brokerSearches.length
 
   const successfulSearches =
-    Array(googleSearches[0].search_result).length +
+    (Array.isArray(googleSearches[0].search_result)
+      ? googleSearches[0].search_result.length
+      : 0) +
     brokerSearches.filter((search) => search.search_status === 'completed')
       .length
 
@@ -50,13 +56,13 @@ export default function SearchSummary({
     },
     {
       icon: <CleaningIcon />,
-      count: '0/100',
+      count: `0/${successfulSearches}`,
       text: 'search results removed',
       color: 'bg-dark/5 text-dark'
     },
     {
       icon: <CleaningIcon />,
-      count: '0/100',
+      count: `0/${successfulSearches}`,
       text: 'broker reports removed',
       color: 'bg-dark/5 text-dark'
     }
@@ -82,6 +88,22 @@ export default function SearchSummary({
 
   return (
     <div className="my-8">
+      <Image
+        width={233}
+        height={185}
+        src={'/free-dashboard-image.png'}
+        className="mx-auto mb-4"
+        alt="Vector"
+      />
+
+      <h1 className="text-2xl lg:text-4xl font-bold text-center mb-2">
+        We found your personal data on {successfulSearches}
+      </h1>
+
+      <p className="text-lg lg:text-xl text-dark/70 text-center mb-8">
+        Don’t worry, we’re here to erase them for you
+      </p>
+
       <div className="grid grid-cols-4 gap-2 mb-5">
         {reportMetrics.map((card, index) => (
           <MetricsCard key={index} card={card} />
