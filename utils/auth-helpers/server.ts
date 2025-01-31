@@ -372,7 +372,7 @@ export async function updateUserField(formData: FormData) {
   // Check that the email is valid
   if (formData.field === 'email' && !isValidEmail(value)) {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Your email could not be updated.',
       'Invalid email address.'
     )
@@ -382,7 +382,7 @@ export async function updateUserField(formData: FormData) {
 
   const callbackUrl = getURL(
     getStatusRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Success!',
       `Your ${field} has been updated.`
     )
@@ -399,19 +399,19 @@ export async function updateUserField(formData: FormData) {
 
   if (error) {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       `Your ${field} could not be updated.`,
       error.message
     )
   } else {
     if (field === 'email')
       return getStatusRedirect(
-        '/dashboard/settings/account',
+        '/dashboard/account',
         'Confirmation emails sent.',
         `You will need to confirm the update by clicking the links sent to both the old and new email addresses.`
       )
     return getStatusRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Success!',
       `Your ${field} has been updated.`
     )
@@ -429,19 +429,19 @@ export async function updateName(formData: FormData) {
 
   if (error) {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Your name could not be updated.',
       error.message
     )
   } else if (data.user) {
     return getStatusRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Success!',
       'Your name has been updated.'
     )
   } else {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Hmm... Something went wrong.',
       'Your name could not be updated.'
     )

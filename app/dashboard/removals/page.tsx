@@ -32,7 +32,7 @@ export default async function Dashboard() {
   }
 
   if (profiles?.length === 0) {
-    return redirect('/dashboard/settings/account?new=true')
+    return redirect('/dashboard/account')
   }
 
   const ProfileCard = async ({ profile }: { profile: Profile }) => {

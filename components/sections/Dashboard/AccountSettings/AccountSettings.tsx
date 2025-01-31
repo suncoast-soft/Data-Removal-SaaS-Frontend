@@ -357,10 +357,7 @@ export default function AccountSettings({
                 className="bg-dark w-full lg:w-[200px] hover:bg-dark/90 text-white text-lg"
                 asChild
               >
-                <Link
-                  href="/dashboard/settings/billing"
-                  className="no-underline"
-                >
+                <Link href="/dashboard/billing" className="no-underline">
                   Go to Billing
                 </Link>
               </Button>

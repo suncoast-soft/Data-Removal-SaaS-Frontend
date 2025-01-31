@@ -38,7 +38,7 @@ export default async function DashboardLayout({
     {
       icon: <AccountIcon />,
       name: 'Account',
-      link: '/dashboard/settings/account'
+      link: '/dashboard/account'
     },
     {
       icon: <Mail />,
@@ -49,7 +49,7 @@ export default async function DashboardLayout({
     {
       icon: <BillingIcon />,
       name: 'Billing',
-      link: '/dashboard/settings/billing'
+      link: '/dashboard/billing'
     },
     {
       icon: <ScanHistoryIcon />,

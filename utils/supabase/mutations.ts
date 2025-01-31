@@ -53,14 +53,14 @@ export async function createProfile(
 
   if (insertError) {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Your profile could not be submitted. Please try again.',
       insertError.message
     )
   }
 
   return getStatusRedirect(
-    '/dashboard/settings/account',
+    '/dashboard/account',
     'Success!',
     'Your profile has been created.'
   )
@@ -112,14 +112,14 @@ export async function updateProfile(
 
   if (updateError) {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Your profile could not be updated. Please try again.',
       updateError.message
     )
   }
 
   return getStatusRedirect(
-    '/dashboard/settings/account',
+    '/dashboard/account',
     'Success!',
     'Your profile has been updated.'
   )
@@ -154,7 +154,7 @@ export async function updateUserSettings(
 
   if (insertError) {
     return getErrorRedirect(
-      '/dashboard/settings/account',
+      '/dashboard/account',
       'Your settings could not be updated. Please try again.',
       insertError.message
     )
@@ -166,7 +166,7 @@ export async function updateUserSettings(
   }
 
   return getStatusRedirect(
-    '/dashboard/settings/account',
+    '/dashboard/account',
     'Success!',
     'User settings updated successfully'
   )
