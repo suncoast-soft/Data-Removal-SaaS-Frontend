@@ -194,6 +194,60 @@ export type Database = {
           },
         ]
       }
+      broker_searches: {
+        Row: {
+          broker_id: number | null
+          created_at: string
+          id: number
+          profile_id: number | null
+          removal_note: string | null
+          removal_status: Database["public"]["Enums"]["removal_status"] | null
+          search_result: Json | null
+          search_status: Database["public"]["Enums"]["search_status"] | null
+          updated_at: string | null
+          version: string | null
+        }
+        Insert: {
+          broker_id?: number | null
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          removal_note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Update: {
+          broker_id?: number | null
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          removal_note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "broker_searches_broker_id_fkey"
+            columns: ["broker_id"]
+            isOneToOne: false
+            referencedRelation: "brokers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "broker_searches_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       brokers: {
         Row: {
           enable_scraping: boolean | null
@@ -335,6 +389,50 @@ export type Database = {
         }
         Relationships: []
       }
+      google_searches: {
+        Row: {
+          created_at: string
+          id: number
+          profile_id: number | null
+          removal_note: string | null
+          removal_status: Database["public"]["Enums"]["removal_status"] | null
+          search_result: Json | null
+          search_status: Database["public"]["Enums"]["search_status"] | null
+          updated_at: string | null
+          version: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          removal_note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          profile_id?: number | null
+          removal_note?: string | null
+          removal_status?: Database["public"]["Enums"]["removal_status"] | null
+          search_result?: Json | null
+          search_status?: Database["public"]["Enums"]["search_status"] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "google_scans_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pricing_plans: {
         Row: {
           created_at: string
@@ -432,64 +530,10 @@ export type Database = {
           },
         ]
       }
-      searches: {
-        Row: {
-          broker_id: number | null
-          broker_type: Database["public"]["Enums"]["broker_type"] | null
-          created_at: string
-          id: number
-          profile_id: number | null
-          removal_note: string | null
-          removal_status: Database["public"]["Enums"]["removal_status"] | null
-          search_result: Json | null
-          search_status: Database["public"]["Enums"]["search_status"] | null
-          updated_at: string | null
-        }
-        Insert: {
-          broker_id?: number | null
-          broker_type?: Database["public"]["Enums"]["broker_type"] | null
-          created_at?: string
-          id?: number
-          profile_id?: number | null
-          removal_note?: string | null
-          removal_status?: Database["public"]["Enums"]["removal_status"] | null
-          search_result?: Json | null
-          search_status?: Database["public"]["Enums"]["search_status"] | null
-          updated_at?: string | null
-        }
-        Update: {
-          broker_id?: number | null
-          broker_type?: Database["public"]["Enums"]["broker_type"] | null
-          created_at?: string
-          id?: number
-          profile_id?: number | null
-          removal_note?: string | null
-          removal_status?: Database["public"]["Enums"]["removal_status"] | null
-          search_result?: Json | null
-          search_status?: Database["public"]["Enums"]["search_status"] | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "broker_searches_broker_id_fkey"
-            columns: ["broker_id"]
-            isOneToOne: false
-            referencedRelation: "brokers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "broker_searches_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       users: {
         Row: {
           allow_multi_device_login: boolean | null
-          delete: boolean | null
+          deleted: boolean | null
           email: string | null
           enable_mfa: boolean | null
           id: string
@@ -502,7 +546,7 @@ export type Database = {
         }
         Insert: {
           allow_multi_device_login?: boolean | null
-          delete?: boolean | null
+          deleted?: boolean | null
           email?: string | null
           enable_mfa?: boolean | null
           id: string
@@ -515,7 +559,7 @@ export type Database = {
         }
         Update: {
           allow_multi_device_login?: boolean | null
-          delete?: boolean | null
+          deleted?: boolean | null
           email?: string | null
           enable_mfa?: boolean | null
           id?: string
