@@ -1,13 +1,13 @@
 'use client'
 
-import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
+// import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
 import { Tables } from '@/types_db'
 import { isValidUrl } from '@/utils/helpers'
-import { createClient } from '@/utils/supabase/client'
-import { User } from '@supabase/supabase-js'
+// import { createClient } from '@/utils/supabase/client'
+// import { User } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Tables<'brokers'>
@@ -47,25 +47,25 @@ export default function BrokerSearchResults({
 }: {
   searches: BrokerSearch[]
 }) {
-  const supabase = createClient()
-  const [user, setUser] = useState<User | null>(null)
+  // const supabase = createClient()
+  // const [user, setUser] = useState<User | null>(null)
 
-  useEffect(() => {
-    const getUser = async () => {
-      if (supabase.auth) {
-        const {
-          data: { user },
-          error
-        } = await supabase.auth.getUser()
-        if (error) {
-          console.log('Error fetching user:', error)
-        }
-        setUser(user)
-      }
-    }
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     if (supabase.auth) {
+  //       const {
+  //         data: { user },
+  //         error
+  //       } = await supabase.auth.getUser()
+  //       if (error) {
+  //         console.log('Error fetching user:', error)
+  //       }
+  //       setUser(user)
+  //     }
+  //   }
 
-    getUser()
-  }, [supabase.auth])
+  //   getUser()
+  // }, [supabase.auth])
 
   return (
     <div className="border border-gray/20 rounded-lg grid lg:grid-cols-2">
@@ -98,28 +98,27 @@ export default function BrokerSearchResults({
       </div>
 
       <div className="relative px-4 py-12">
-        {user ? (
+        {/* {user ? (
           <div className="mx-auto sticky top-12 text-center max-w-xs">
             <HelpBanner />
           </div>
-        ) : (
-          <div className="mx-auto sticky top-12 text-center max-w-xs">
-            <h4 className="text-2xl font-bold mb-2">
-              Start removing your digital footprint with pup premium
-            </h4>
-            <p className="text-lg text-gray/60 mb-4">
-              Create an account to access your full report (free to view,
-              forever)
-            </p>
-            <Image
-              src="/pup-premium-upsell.png"
-              width={191}
-              height={155}
-              alt="Pup Premium Upsell"
-              className="mx-auto"
-            />
-          </div>
-        )}
+        ) : ( */}
+        <div className="mx-auto sticky top-12 text-center max-w-xs">
+          <h4 className="text-2xl font-bold mb-2">
+            Start removing your digital footprint with pup premium
+          </h4>
+          <p className="text-lg text-gray/60 mb-4">
+            Create an account to access your full report (free to view, forever)
+          </p>
+          <Image
+            src="/pup-premium-upsell.png"
+            width={191}
+            height={155}
+            alt="Pup Premium Upsell"
+            className="mx-auto"
+          />
+        </div>
+        {/* )} */}
       </div>
     </div>
   )
