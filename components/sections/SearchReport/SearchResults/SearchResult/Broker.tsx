@@ -52,12 +52,14 @@ export default function BrokerSearchResults({
 
   useEffect(() => {
     const getUser = async () => {
-      const {
-        data: { user },
-        error
-      } = await supabase.auth.getUser()
-      if (error) console.error('Error fetching user:', error)
-      setUser(user)
+      if (supabase.auth) {
+        const {
+          data: { user },
+          error
+        } = await supabase.auth.getUser()
+        if (error) console.error('Error fetching user:', error)
+        setUser(user)
+      }
     }
 
     getUser()
