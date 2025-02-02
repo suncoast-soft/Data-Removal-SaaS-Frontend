@@ -57,7 +57,9 @@ export default function BrokerSearchResults({
           data: { user },
           error
         } = await supabase.auth.getUser()
-        if (error) console.error('Error fetching user:', error)
+        if (error) {
+          console.log('Error fetching user:', error)
+        }
         setUser(user)
       }
     }
