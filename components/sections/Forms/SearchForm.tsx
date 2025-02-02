@@ -34,7 +34,7 @@ export default function SearchForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    router.push(`/result?name=${data.name}`)
+    router.push(`/scan/address?name=${data.name}`)
   }
 
   return (
