@@ -6,11 +6,27 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
-import { cn } from '@/utils/cn'
 import BillingHistoryTable from '../../modules/Billing/BillingHistoryTable'
-import Link from 'next/link'
 import { format } from 'date-fns'
 import { Mail } from 'lucide-react'
+
+interface StripePricingTableProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLElement>,
+    HTMLElement
+  > {
+  'buy-button-id': string
+  'publishable-key': string
+}
+
+declare module 'react' {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    interface IntrinsicElements {
+      'stripe-buy-button': StripePricingTableProps
+    }
+  }
+}
 
 interface PaymentMethod {
   card: {
@@ -85,55 +101,53 @@ export default function CustomerPortalForm({
   }))
 
   return (
-    <div>
-      {/* Plan Details Section */}
+    <>
       <div className="mt-6 lg:mt-10 flex flex-col lg:flex-row gap-6">
         <Card className="bg-white p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
           <CardHeader>
-            <CardTitle>
-              <div className="flex flex-col lg:flex-row items-center gap-6">
-                <div>
-                  <span className="text-lg font-medium">Current Plan:</span>
-                  <h3 className="text-2xl lg:text-4xl font-bold">
-                    {isPaidUser ? 'Pup Premium' : 'Free'}
-                  </h3>
-                  {!isPaidUser && (
-                    <>
-                      <p className="mt-2 text-base">
-                        It will always be free to review your reports.
-                      </p>
-                      <div className="mt-4">
-                        <p className="font-medium text-base">
-                          Upgrade to start removing your reports
-                        </p>
-                        <h4 className="font-bold text-2xl">Pup Premium</h4>
-                      </div>
-                    </>
-                  )}
-                  <h4 className="font-bold text-base my-4">
-                    Billed Annually, NO Auto-renew
-                  </h4>
-                  {isPaidUser && (
-                    <p className="text-base">
-                      <span className="font-bold">Next Billing Begins:</span>{' '}
-                      <span className="font-normal">11 December 2025</span>
+            <div className="flex flex-col lg:flex-row items-center gap-6">
+              <div>
+                <span className="text-lg font-medium">Current Plan:</span>
+                <CardTitle className="text-2xl lg:text-4xl font-bold">
+                  {isPaidUser ? 'Pup Premium' : 'Free'}
+                </CardTitle>
+                {!isPaidUser && (
+                  <>
+                    <p className="mt-2 text-base">
+                      It will always be free to review your reports.
                     </p>
-                  )}
-                </div>
-                <Image
-                  src={
-                    isPaidUser
-                      ? '/billing-pro-card-image.png'
-                      : '/billing-free-card-image.png'
-                  }
-                  width={203}
-                  height={170}
-                  alt={`Pro Plan`}
-                  className="min-w-[153px]"
-                />
+                    <div className="mt-4">
+                      <p className="font-medium text-base">
+                        Upgrade to start removing your reports
+                      </p>
+                      <h4 className="font-bold text-2xl">Pup Premium</h4>
+                    </div>
+                  </>
+                )}
+                <h4 className="font-bold text-base my-4">
+                  Billed Annually, NO Auto-renew
+                </h4>
+                {isPaidUser && (
+                  <p className="text-base">
+                    <span className="font-bold">Next Billing Begins:</span>{' '}
+                    <span className="font-normal">11 December 2025</span>
+                  </p>
+                )}
               </div>
-            </CardTitle>
+              <Image
+                src={
+                  isPaidUser
+                    ? '/billing-pro-card-image.png'
+                    : '/billing-free-card-image.png'
+                }
+                width={203}
+                height={170}
+                alt={`Pro Plan`}
+                className="min-w-[153px]"
+              />
+            </div>
           </CardHeader>
+
           <CardContent>
             <h4 className="font-bold text-base">Premium Benefits:</h4>
             <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -144,23 +158,36 @@ export default function CustomerPortalForm({
                 </div>
               ))}
             </div>
-            <Button
-              variant="default"
-              className={cn(
-                'w-full lg:w-72 mt-6 font-bold text-sm capitalize',
-                isPaidUser
-                  ? 'bg-dark text-white hover:bg-dark/90'
-                  : 'bg-white text-dark border-secondary hover:bg-gray-100'
-              )}
-            >
-              <Link href="/checkout" className="no-underline">
-                {isPaidUser ? 'Cancel membership' : 'Upgrade'}
-              </Link>
-            </Button>
+
+            {isPaidUser ? (
+              <Button
+                variant="secondary"
+                onClick={handleStripePortalRequest}
+                size="small"
+                className="font-semibold px-12"
+              >
+                Cancel membership
+              </Button>
+            ) : (
+              <div className="mt-12">
+                <script
+                  async
+                  src="https://js.stripe.com/v3/buy-button.js"
+                ></script>
+
+                <stripe-buy-button
+                  buy-button-id={
+                    process.env.NEXT_PUBLIC_STRIPE_BUY_BUTTON_ID || ''
+                  }
+                  publishable-key={
+                    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
+                  }
+                ></stripe-buy-button>
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Payment Methods Section */}
         <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
           <CardHeader>
             <CardTitle>
@@ -169,6 +196,7 @@ export default function CustomerPortalForm({
               </h3>
             </CardTitle>
           </CardHeader>
+
           <CardContent className="mt-6">
             {paymentMethodsData.length > 0 ? (
               paymentMethodsData.map((method, index) => (
@@ -205,15 +233,22 @@ export default function CustomerPortalForm({
               ))
             ) : (
               <>
-                <Button variant="default" onClick={handleStripePortalRequest}>
+                <Button
+                  variant="secondary"
+                  onClick={handleStripePortalRequest}
+                  size="small"
+                  className="font-semibold px-12"
+                >
                   Open Billing Manager Portal
                 </Button>
+
                 <p className="text-sm text-white/80 mt-2">
                   You will be redirected to your billing dashboard.
                 </p>
               </>
             )}
-            <p className="text-sm text-center mt-6 text-white">
+
+            <p className="text-sm text-right text-white mt-12">
               Powered by{' '}
               <a
                 href="https://stripe.com/"
@@ -226,13 +261,12 @@ export default function CustomerPortalForm({
         </Card>
       </div>
 
-      {/* Billing History */}
       <div className="mt-16">
         <h3 className="text-2xl lg:text-4xl font-bold text-dark">
           Billing History
         </h3>
         <BillingHistoryTable data={billings} />
       </div>
-    </div>
+    </>
   )
 }

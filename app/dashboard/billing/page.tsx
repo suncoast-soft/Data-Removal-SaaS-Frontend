@@ -1,3 +1,4 @@
+import SectionHeader from '@/components/modules/SectionHeader'
 import CustomerPortalForm from '@/components/sections/Forms/CustomerPortalForm'
 import { Tables } from '@/types_db'
 import { isRemovalActive } from '@/utils/helpers'
@@ -44,14 +45,12 @@ export default async function Billing() {
     getPricingPlan(supabase) as Promise<PricingPlan | null>
   ])
 
-  // const isPaidUser = pricing ? isRemovalActive(pricing) : false
-  const isPaidUser = false
+  const isPaidUser = pricing ? isRemovalActive(pricing) : false
 
   return (
     <div className="container mx-auto pt-0 px-0">
-      <h1 className="my-6 text-2xl lg:text-4xl font-bold text-dark text-center lg:text-left">
-        Billing Information
-      </h1>
+      <SectionHeader title="Billing Information" />
+
       <CustomerPortalForm
         invoicesData={invoices?.data ?? []}
         paymentMethodsData={paymentMethods?.data ?? []}

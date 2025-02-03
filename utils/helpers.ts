@@ -174,28 +174,12 @@ export const getAgeFromBirth = (birthDate: string): number => {
   return age
 }
 
-export const isRemovalActive = (pricing: {
-  created_at: string
-  type: 'one_year' | 'two_year' | 'annual_recurring' | null
-}) => {
+export const isRemovalActive = (pricing: { created_at: string }) => {
   const now = new Date()
   const createdAt = new Date(pricing.created_at)
-  let expirationDate
 
-  switch (pricing.type) {
-    case 'one_year':
-      expirationDate = new Date(createdAt)
-      expirationDate.setFullYear(expirationDate.getFullYear() + 1)
-      break
-    case 'two_year':
-      expirationDate = new Date(createdAt)
-      expirationDate.setFullYear(expirationDate.getFullYear() + 2)
-      break
-    case 'annual_recurring':
-      return true
-    default:
-      throw new Error(`Unknown membership type: ${pricing.type}`)
-  }
+  const expirationDate = new Date(createdAt)
+  expirationDate.setFullYear(expirationDate.getFullYear() + 1)
 
   return now < expirationDate
 }
