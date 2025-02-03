@@ -73,7 +73,7 @@ export default function ScanResults({
                 Generating your report
               </h1>
               <p className="mt-4 text-lg lg:text-xl opacity-60">
-                This will only take a second
+                This will only take a few second
               </p>
               <p className="mt-4 text-lg lg:text-xl font-semibold">
                 Searching: ...{name}...
