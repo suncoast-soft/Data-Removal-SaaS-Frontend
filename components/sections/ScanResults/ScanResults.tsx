@@ -88,19 +88,6 @@ export default function ScanResults({
   return (
     <>
       <div className="container max-w-6xl">
-        <h1 className="text-2xl lg:text-4xl font-bold text-center mt-20 mb-4">
-          Your Scan Results
-        </h1>
-
-        <h3 className="text-lg lg:text-xl text-center mb-3">
-          <span>We found your personal data on 137 sites</span>{' '}
-          <span className="text-primary">just through your name.</span>
-        </h3>
-
-        <p className="text-dark/70 text-center mb-8">
-          Don’t worry, we’re here to get them offline for you{' '}
-        </p>
-
         <SearchSummary
           googleSearches={googleSearches as any[]}
           brokerSearches={brokerSearches}
