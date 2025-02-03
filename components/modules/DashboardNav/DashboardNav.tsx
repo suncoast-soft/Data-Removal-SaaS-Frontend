@@ -82,11 +82,11 @@ function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
                   <span className="w-6 h-6 text-primary">{nav.icon}</span>
                   <span>{nav.name}</span>
                 </div>
-                {nav.isInbox ? (
+                {/* {nav.isInbox ? (
                   <span className="w-[25px] h-[25px] text-white text-xs flex items-center justify-center bg-secondary rounded-full">
                     2
                   </span>
-                ) : null}
+                ) : null} */}
               </Link>
             ))}
           </div>

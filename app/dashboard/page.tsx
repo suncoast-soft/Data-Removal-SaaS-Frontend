@@ -25,7 +25,7 @@ export default async function Dashboard() {
   }
 
   const isPaidUser = pricing && isRemovalActive(pricing)
-  const notifications = 2
+  const notifications = 0
 
   return (
     <div className="relative">

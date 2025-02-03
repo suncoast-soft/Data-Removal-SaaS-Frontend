@@ -11,7 +11,7 @@ import AccountIcon from '@/components/icons/AccountIcon'
 import BillingIcon from '@/components/icons/BillingIcon'
 import FAQsIcon from '@/components/icons/FAQsIcon'
 import BlogIcon from '@/components/icons/BlogIcon'
-import ScanHistoryIcon from '@/components/icons/ScanHistoryIcon'
+// import ScanHistoryIcon from '@/components/icons/ScanHistoryIcon'
 import { isRemovalActive } from '@/utils/helpers'
 
 export default async function DashboardLayout({
@@ -51,11 +51,11 @@ export default async function DashboardLayout({
       name: 'Billing',
       link: '/dashboard/billing'
     },
-    {
-      icon: <ScanHistoryIcon />,
-      name: 'Scan History',
-      link: '/dashboard/scan-history'
-    },
+    // {
+    //   icon: <ScanHistoryIcon />,
+    //   name: 'Scan History',
+    //   link: '/dashboard/scan-history'
+    // },
     {
       icon: <FAQsIcon />,
       name: 'FAQs',

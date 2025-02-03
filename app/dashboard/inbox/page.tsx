@@ -1,9 +1,13 @@
-import React from 'react'
+import SectionHeader from '@/components/modules/SectionHeader'
 
 export default function Inbox() {
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <h1 className="text-dark">Comming soon...</h1>
+    <div className="container mx-auto pt-0 px-0">
+      <SectionHeader title="Inbox" />
+
+      <div className="min-h-40 flex items-center justify-center">
+        <h4 className="text-dark text-xl">Your Inbox is empty</h4>
+      </div>
     </div>
   )
 }

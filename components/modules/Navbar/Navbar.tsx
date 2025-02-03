@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import Menu from './Menu'
 import { User } from '@supabase/supabase-js'
 
-export default async function Navbar({ user }: { user: User | null }) {
+export default async function Navbar({ user }: { user?: User | null }) {
   const navLinks = [
     {
       link: '/',
