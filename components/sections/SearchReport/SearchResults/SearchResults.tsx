@@ -3,6 +3,12 @@ import GoogleSearchResults from '@/components/sections/SearchReport/SearchResult
 import Loading from '@/components/modules/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Tables } from '@/types_db'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { MoreHorizontalIcon } from 'lucide-react'
 
 type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'> & {
@@ -48,17 +54,50 @@ export default function SearchResults({
       </h2>
 
       <Tabs defaultValue="broker" className="w-full">
-        <TabsList className="h-12 bg-transparent rounded-none !justify-start py-0 w-fit">
-          {tabs.map((tab, index) => (
-            <TabsTrigger
-              key={index}
-              value={tab.value}
-              className="text-lg border-b-2 border-white data-[state=active]:border-primary data-[state=active]:font-bold"
-            >
-              {tab.text}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <div className="hidden lg:block">
+          <TabsList className="h-12 bg-transparent rounded-none !justify-start py-0 w-fit">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="text-lg border-b-2 border-white data-[state=active]:border-primary data-[state=active]:font-bold"
+              >
+                {tab.text}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
+
+        <div className="lg:hidden">
+          <TabsList className="h-12 bg-transparent rounded-none !justify-start py-0 w-fit">
+            {tabs.slice(0, 3).map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="text-lg border-b-2 border-white data-[state=active]:border-primary data-[state=active]:font-bold"
+              >
+                {tab.text}
+              </TabsTrigger>
+            ))}
+
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger className="p-2">
+                <MoreHorizontalIcon />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {tabs.slice(3).map((tab) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    className="text-lg border-b-2 border-white data-[state=active]:border-primary data-[state=active]:font-bold"
+                  >
+                    {tab.text}
+                  </TabsTrigger>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TabsList>
+        </div>
 
         <TabsContent value="broker">
           {brokerSearches.length > 0 ? (

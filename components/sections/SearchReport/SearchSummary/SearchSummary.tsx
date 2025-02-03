@@ -104,13 +104,13 @@ export default function SearchSummary({
         Don’t worry, we’re here to erase them for you
       </p>
 
-      <div className="grid grid-cols-4 gap-2 mb-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-5">
         {reportMetrics.map((card, index) => (
           <MetricsCard key={index} card={card} />
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-5">
+      <div className="grid lg:grid-cols-3 gap-2 mb-5">
         {reportCharts.map((chart, index) => (
           <MetricsChart
             key={index}

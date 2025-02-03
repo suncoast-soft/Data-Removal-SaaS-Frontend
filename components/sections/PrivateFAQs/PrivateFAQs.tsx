@@ -57,7 +57,7 @@ export default function PrivateFAQs() {
 
       <Accordion
         type="multiple"
-        className="w-full grid grid-cols-2 gap-2 lg:gap-4"
+        className="w-full grid lg:grid-cols-2 gap-2 lg:gap-4"
       >
         {faqs.map(({ id, question, answer }) => (
           <AccordionItem
