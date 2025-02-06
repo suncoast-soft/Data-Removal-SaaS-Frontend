@@ -102,6 +102,8 @@ export default function SearchSummary({
     }
   ]
 
+  console.log(Array(googleSearches[0].search_result))
+
   const sourceTypeData = [
     {
       name: 'Broker',
@@ -110,7 +112,7 @@ export default function SearchSummary({
     },
     {
       name: 'Google',
-      value: googleSearches.length,
+      value: Array(googleSearches[0].search_result).length,
       color: COLORS.BLUE
     },
     {
