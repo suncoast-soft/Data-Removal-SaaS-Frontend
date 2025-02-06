@@ -80,7 +80,7 @@ export default function SearchReport({ profile }: { profile: string }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (Date.now() - lastUpdateRef.current > 10000) {
+      if (Date.now() - lastUpdateRef.current > 15000) {
         setScanning(false)
       }
     }, 1000)
