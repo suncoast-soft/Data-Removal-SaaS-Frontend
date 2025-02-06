@@ -32,7 +32,7 @@ export default function UpgradeSection({ user }: { user?: User }) {
                   Upgrade
                 </Link>
               ) : (
-                <Link href={'/signin/signup'} className="no-underline">
+                <Link href={'/signin'} className="no-underline">
                   Get Started
                 </Link>
               )}

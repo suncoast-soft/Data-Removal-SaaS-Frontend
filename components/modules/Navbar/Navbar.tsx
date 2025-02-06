@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import LogoWhite from '@/components/icons/LogoWhite'
 import { Button } from '@/components/ui/button'
-import Menu from './Menu'
+import NavbarMobile from './NavbarMobile'
 import { User } from '@supabase/supabase-js'
 
 export default async function Navbar({ user }: { user?: User | null }) {
@@ -9,6 +9,10 @@ export default async function Navbar({ user }: { user?: User | null }) {
     {
       link: '/',
       name: 'Home'
+    },
+    {
+      link: '/blog',
+      name: 'Blog'
     },
     {
       link: '/about',
@@ -33,7 +37,7 @@ export default async function Navbar({ user }: { user?: User | null }) {
               <LogoWhite />
             </Link>
 
-            <Menu navLinks={navLinks} />
+            <NavbarMobile user={user} navLinks={navLinks} />
 
             <div className="items-center justify-between gap-6 hidden lg:flex">
               <nav className="mx-6 flex gap-7">

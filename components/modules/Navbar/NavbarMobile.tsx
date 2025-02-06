@@ -2,6 +2,7 @@
 
 import MenuIcon from '@/components/icons/MenuIcon'
 import { Button } from '@/components/ui/button'
+import { User } from '@supabase/supabase-js'
 import { X } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -11,7 +12,13 @@ interface NavLink {
   link: string
 }
 
-export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
+export default function NavbarMobile({
+  user,
+  navLinks
+}: {
+  user?: User | null
+  navLinks: NavLink[]
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -50,26 +57,27 @@ export default function Menu({ navLinks }: { navLinks: NavLink[] }) {
             ))}
           </nav>
 
-          <div className="px-6 space-y-4">
-            <Button variant="secondary" className="h-12 px-6" asChild>
-              <Link
-                href="/signin/signup"
-                className="no-underline font-semibold w-full"
+          {user && !user.is_anonymous ? (
+            <>
+              <Button variant="secondary" className="h-12 px-6" asChild>
+                <Link href="/dashboard" className="no-underline font-semibold">
+                  Dashboard
+                </Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"
+                asChild
               >
-                Get started
-              </Link>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary w-full"
-              asChild
-            >
-              <Link href="/signin" className="no-underline font-semibold">
-                Login
-              </Link>
-            </Button>
-          </div>
+                <Link href="/signin" className="no-underline font-semibold">
+                  Login
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
       )}
     </>

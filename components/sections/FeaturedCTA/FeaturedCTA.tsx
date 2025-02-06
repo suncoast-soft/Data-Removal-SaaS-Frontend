@@ -26,7 +26,7 @@ export default function FeaturedCTA() {
             className="px-6 py-3 text-base lg:px-8 lg:py-5 lg:text-lg !leading-none"
             asChild
           >
-            <Link href="/signin/signup" className="no-underline">
+            <Link href="/signin" className="no-underline">
               <span className="mr-2">GET STARTED</span>
               <ArrowRight />
             </Link>

@@ -29,7 +29,7 @@ export default async function ScanResultPage({
 
       <div className="text-center my-12">
         <Button variant="secondary" asChild>
-          <Link href="/signin/signup" className="no-underline">
+          <Link href="/signin" className="no-underline">
             Register and protect yourself today
           </Link>
         </Button>

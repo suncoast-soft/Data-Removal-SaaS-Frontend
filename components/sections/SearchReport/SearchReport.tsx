@@ -53,7 +53,7 @@ export default function SearchReport({ profile }: { profile: string }) {
 
   useEffect(() => {
     const channel = supabase
-      .channel(`schema-db-changes=${profile}`)
+      .channel(`schema-db-changes-${profile}`)
       .on(
         'postgres_changes',
         {

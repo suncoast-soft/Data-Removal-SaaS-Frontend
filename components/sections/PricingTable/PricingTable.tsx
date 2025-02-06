@@ -76,7 +76,7 @@ export default function PricingTable() {
 
               <Button variant="outline" asChild>
                 <Link
-                  href="/signin/signup"
+                  href="/signin"
                   className="no-underline inline-block w-fit"
                 >
                   <span className="mr-2">START FOR FREE</span>
@@ -128,7 +128,7 @@ export default function PricingTable() {
 
               <Button asChild>
                 <Link
-                  href="/signin/signup"
+                  href="/signin"
                   className="no-underline inline-block w-fit"
                 >
                   <span className="mr-2">GET STARTED</span>
