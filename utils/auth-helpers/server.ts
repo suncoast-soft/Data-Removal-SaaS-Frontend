@@ -33,7 +33,6 @@ export async function SignOut(formData: FormData) {
 
 export async function signInWithOtp(formData: FormData) {
   const email = String(formData['email']).trim()
-  const origin = String(formData['origin']).trim()
 
   const supabase = await createClient()
   const user = await getUser(supabase)
@@ -44,15 +43,11 @@ export async function signInWithOtp(formData: FormData) {
     })
 
     if (error)
-      return getErrorRedirect(
-        origin || '/signin',
-        'Sign up failed.',
-        error.message
-      )
+      return getErrorRedirect('/signin', 'Sign up failed.', error.message)
 
     return data.user
       ? getStatusRedirect(
-          origin || '/signin',
+          '/signin',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
