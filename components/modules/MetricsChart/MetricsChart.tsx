@@ -1,3 +1,5 @@
+'use client'
+
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 
 interface DataItem {
@@ -9,23 +11,15 @@ interface DataItem {
 interface ModuleProps {
   title: string
   data: DataItem[]
-  legendItems: Array<{
-    name: string
-    color: string
-  }>
 }
 
-export default function MetricsChart({
-  title,
-  data,
-  legendItems
-}: ModuleProps) {
+export default function MetricsChart({ title, data }: ModuleProps) {
   return (
     <div className="w-full h-96 p-6 rounded-2xl border border-dark/10">
       <div className="h-full">
         <h4 className="text-lg font-bold text-dark mb-4">{title}</h4>
         <div className="flex flex-wrap gap-4 mb-4">
-          {legendItems.map((item, index) => (
+          {data.map((item, index) => (
             <div key={index} className="flex items-center gap-1 min-w-[40%]">
               <div
                 className="h-3 w-3 rounded-full"

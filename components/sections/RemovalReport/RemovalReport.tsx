@@ -1,44 +1,24 @@
-'use client'
-
-import { Tables } from '@/types_db'
-import { useState } from 'react'
 import RemovalSummary from './RemovalSummary'
 import RemovalResults from './RemovalResults'
-import ProfileDropdown from '@/components/modules/ProfileDropdown'
+import { getBrokerSearches, getGoogleSearches } from '@/utils/supabase/queries'
+import { createClient } from '@/utils/supabase/server'
 
-type Profile = Tables<'profiles'>
-type GoogleSearch = Tables<'google_searches'>
-type BrokerSearch = Tables<'broker_searches'> & {
-  broker: Tables<'brokers'>
-}
+export default async function RemovalReport({ profile }: { profile: string }) {
+  const supabase = await createClient()
 
-interface SectionProps {
-  searches: {
-    profile: Profile
-    googleSearches: GoogleSearch[]
-    brokerSearches: BrokerSearch[]
-  }[]
-}
-
-export default function RemovalReport({ searches }: SectionProps) {
-  const [selectedSearch, setSelectedSearch] = useState(searches[0])
+  const brokerSearches = (await getBrokerSearches(supabase, profile)) ?? []
+  const googleSearches = (await getGoogleSearches(supabase, profile)) ?? []
 
   return (
     <>
-      <ProfileDropdown
-        searches={searches}
-        selectedSearch={selectedSearch}
-        setSelectedSearch={setSelectedSearch}
-      />
-
       <RemovalSummary
-        googleSearches={selectedSearch.googleSearches}
-        brokerSearches={selectedSearch.brokerSearches}
+        googleSearches={googleSearches}
+        brokerSearches={brokerSearches}
       />
 
       <RemovalResults
-        googleSearches={selectedSearch.googleSearches}
-        brokerSearches={selectedSearch.brokerSearches}
+        googleSearches={googleSearches}
+        brokerSearches={brokerSearches}
       />
     </>
   )

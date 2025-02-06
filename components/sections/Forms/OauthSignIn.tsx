@@ -42,7 +42,7 @@ export default function OauthSignIn() {
           <Button
             variant="default"
             type="submit"
-            className="w-full"
+            className="w-full bg-white hover:bg-white/90"
             disabled={isSubmitting}
           >
             <span className="mr-2">{provider.icon}</span>

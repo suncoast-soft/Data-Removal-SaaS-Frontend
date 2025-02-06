@@ -6,15 +6,8 @@ import MetricsCard from '@/components/modules/MetricsCard'
 import MetricsChart from '@/components/modules/MetricsChart'
 import { Badge } from '@/components/ui/badge'
 import { Tables } from '@/types_db'
-import {
-  digitalFootprintData,
-  digitalFootprintLegend,
-  resultsRemovedData,
-  resultsRemovedLegend,
-  resultTypesData,
-  resultTypesLegend,
-  tags
-} from '@/utils/const'
+import { tags } from '@/utils/const'
+import { hasKeyInData } from '@/utils/helpers'
 import Image from 'next/image'
 
 type GoogleSearch = Tables<'google_searches'>
@@ -23,6 +16,13 @@ type BrokerSearch = Tables<'broker_searches'>
 interface SectionProps {
   googleSearches: GoogleSearch[]
   brokerSearches: BrokerSearch[]
+}
+
+const COLORS: Record<string, string> = {
+  GREEN: '#97D700',
+  BLUE: '#3B82F6',
+  CORAL: '#FF7F66',
+  BLACK: '#1F2937'
 }
 
 export default function SearchSummary({
@@ -68,21 +68,106 @@ export default function SearchSummary({
     }
   ]
 
+  const removalStatusData = [
+    {
+      name: 'Achieved',
+      value: brokerSearches.filter(
+        (search) => search.removal_status === 'completed'
+      ).length,
+      color: COLORS.GREEN
+    },
+    {
+      name: 'In Progress',
+      value: brokerSearches.filter((search) =>
+        ['in_progress', 'need_customer_action'].includes(
+          search.removal_status ?? 'queued'
+        )
+      ).length,
+      color: COLORS.BLUE
+    },
+    {
+      name: 'Failed',
+      value: brokerSearches.filter(
+        (search) => search.removal_status === 'failed'
+      ).length,
+      color: COLORS.CORAL
+    },
+    {
+      name: 'Remaining',
+      value: brokerSearches.filter(
+        (search) =>
+          search.removal_status === 'queued' || search.removal_status === null
+      ).length,
+      color: COLORS.BLACK
+    }
+  ]
+
+  const sourceTypeData = [
+    {
+      name: 'Broker',
+      value: brokerSearches.length,
+      color: COLORS.GREEN
+    },
+    {
+      name: 'Google',
+      value: googleSearches.length,
+      color: COLORS.BLUE
+    },
+    {
+      name: 'Bing',
+      value: 0,
+      color: COLORS.CORAL
+    },
+    {
+      name: 'Other',
+      value: 0,
+      color: COLORS.BLACK
+    }
+  ]
+
+  const resultTypeData = [
+    {
+      name: 'Address',
+      value: brokerSearches.filter((search) =>
+        hasKeyInData(search.search_result, ['address'])
+      ).length,
+      color: COLORS.GREEN
+    },
+    {
+      name: 'Email',
+      value: brokerSearches.filter((search) =>
+        hasKeyInData(search.search_result, ['email'])
+      ).length,
+      color: COLORS.BLUE
+    },
+    {
+      name: 'Phone',
+      value: brokerSearches.filter((search) =>
+        hasKeyInData(search.search_result, ['phone'])
+      ).length,
+      color: COLORS.CORAL
+    },
+    {
+      name: 'Other',
+      value: brokerSearches.filter((search) =>
+        hasKeyInData(search.search_result, [], true)
+      ).length,
+      color: COLORS.BLACK
+    }
+  ]
+
   const reportCharts = [
     {
       title: 'Results Removed',
-      data: resultsRemovedData,
-      legend: resultsRemovedLegend
+      data: removalStatusData
+    },
+    {
+      title: 'Data source Types',
+      data: sourceTypeData
     },
     {
       title: 'Result Types',
-      data: resultTypesData,
-      legend: resultTypesLegend
-    },
-    {
-      title: 'Digital Footprint',
-      data: digitalFootprintData,
-      legend: digitalFootprintLegend
+      data: resultTypeData
     }
   ]
 
@@ -112,12 +197,7 @@ export default function SearchSummary({
 
       <div className="grid lg:grid-cols-3 gap-2 mb-5">
         {reportCharts.map((chart, index) => (
-          <MetricsChart
-            key={index}
-            title={chart.title}
-            data={chart.data}
-            legendItems={chart.legend}
-          />
+          <MetricsChart key={index} title={chart.title} data={chart.data} />
         ))}
       </div>
 

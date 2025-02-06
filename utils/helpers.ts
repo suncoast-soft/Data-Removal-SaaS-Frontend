@@ -284,3 +284,28 @@ export const getStateCode = (stateName: string): string => {
     stateMapping[stateName as keyof typeof stateMapping] || 'Invalid state name'
   )
 }
+
+export const hasKeyInData = (
+  data: any,
+  keysToCheck: string[],
+  other: boolean = false
+): boolean => {
+  if (data === null || data === undefined) return false
+
+  if (typeof data === 'object') {
+    if (Array.isArray(data)) {
+      return data.some((item) => hasKeyInData(item, keysToCheck))
+    }
+
+    return Object.entries(data).some(([key, value]) =>
+      !other
+        ? keysToCheck.includes(key.toLowerCase()) ||
+          hasKeyInData(value, keysToCheck)
+        : !['email', 'address', 'phone', 'first_name', 'last_name'].includes(
+            key.toLowerCase()
+          )
+    )
+  }
+
+  return false
+}

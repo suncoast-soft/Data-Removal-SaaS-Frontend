@@ -62,8 +62,8 @@ export default function FormInput({
                 className={cn(
                   'bg-transparent py-3',
                   theme === 'white'
-                    ? '[&::placeholder]:text-white/60'
-                    : '[&::placeholder]:text-dark/60 border-dark/60 bg-white'
+                    ? 'text-white [&::placeholder]:text-white/60'
+                    : 'text-dark [&::placeholder]:text-dark/60 border-dark/60 bg-white'
                 )}
               />
             </div>

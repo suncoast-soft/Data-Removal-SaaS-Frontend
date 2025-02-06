@@ -97,11 +97,7 @@ export async function anonymousSignin(formData: FormData) {
   }
 
   // Create profile for the user
-  const {
-    data: profile,
-    error: profileError,
-    is_new
-  } = await createProfile(supabase, {
+  const { data: profile, error: profileError } = await createProfile(supabase, {
     first_name,
     last_name,
     city,
@@ -121,6 +117,6 @@ export async function anonymousSignin(formData: FormData) {
     'Success!',
     'Your scan has been initiated.',
     false,
-    `profile=${profile.id}&is_new=${is_new}`
+    `profile=${profile.id}`
   )
 }

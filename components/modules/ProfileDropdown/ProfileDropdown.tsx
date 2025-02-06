@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from 'react'
+'use client'
+
 import { Tables } from '@/types_db'
 import { ChevronDown } from 'lucide-react'
 import {
@@ -9,31 +10,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem
 } from '@/components/ui/dropdown-menu'
+import { useRouter } from 'next/navigation'
 
 type Profile = Tables<'profiles'>
-type GoogleSearch = Tables<'google_searches'>
-type BrokerSearch = Tables<'broker_searches'> & {
-  broker: Tables<'brokers'>
-}
-
-interface SearchItem {
-  profile: Profile
-  googleSearches: GoogleSearch[]
-  brokerSearches: BrokerSearch[]
-}
 
 interface ModuleProps {
-  searches: SearchItem[]
-  selectedSearch: SearchItem
-  setSelectedSearch: Dispatch<SetStateAction<SearchItem>>
+  profiles: Profile[]
+  selectedProfileId: string
 }
 
 export default function ProfileDropdown({
-  searches,
-  selectedSearch,
-  setSelectedSearch
+  profiles,
+  selectedProfileId
 }: ModuleProps) {
-  const { profile } = selectedSearch
+  const router = useRouter()
+
+  const profile = profiles.find(
+    (profile) => String(profile.id) === selectedProfileId
+  )
 
   return (
     <div className="mb-5">
@@ -43,7 +37,7 @@ export default function ProfileDropdown({
             <div>
               Profile:{' '}
               <strong>
-                {profile.first_name} {profile.last_name}
+                {profile?.first_name ?? 'Unknown'} {profile?.last_name ?? ''}
               </strong>
             </div>
             <ChevronDown />
@@ -54,16 +48,16 @@ export default function ProfileDropdown({
           <DropdownMenuLabel>Select Profile</DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          {searches.map((search, index) => (
+          {profiles.map((profile) => (
             <DropdownMenuItem
-              key={index}
-              onClick={
-                search !== selectedSearch
-                  ? () => setSelectedSearch(search)
-                  : undefined
-              }
+              key={profile.id}
+              onClick={() => {
+                if (String(profile.id) !== selectedProfileId) {
+                  router.push(`/dashboard?profile=${profile.id}`)
+                }
+              }}
             >
-              {search.profile.first_name} {search.profile.last_name}
+              {profile.first_name} {profile.last_name}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

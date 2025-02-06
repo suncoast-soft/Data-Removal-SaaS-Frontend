@@ -60,3 +60,12 @@ a:not(.no-underline):hover::after {
   @apply duration-1000;
   animation-fill-mode: both;
 }
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

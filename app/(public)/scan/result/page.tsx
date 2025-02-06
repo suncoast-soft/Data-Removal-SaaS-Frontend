@@ -1,14 +1,39 @@
-import ScanResults from '@/components/sections/ScanResults'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import SearchReport from '@/components/sections/SearchReport'
+import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
+import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
+import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
+import PrivateFAQs from '@/components/sections/PrivateFAQs'
 
 export default async function ScanResultPage({
   searchParams
 }: {
   searchParams: Promise<{
     profile: string
-    is_new: string
   }>
 }) {
-  const { profile, is_new } = await searchParams
+  const { profile } = await searchParams
 
-  return <ScanResults profile={profile} is_new={is_new} />
+  return (
+    <div className="container max-w-6xl">
+      <SearchReport profile={profile} />
+
+      <UpgradeSection />
+
+      <PrivateFAQs />
+
+      <HowToProtectSection />
+
+      <ArticlesSection />
+
+      <div className="text-center my-12">
+        <Button variant="secondary" asChild>
+          <Link href="/signin/signup" className="no-underline">
+            Register and protect yourself today
+          </Link>
+        </Button>
+      </div>
+    </div>
+  )
 }

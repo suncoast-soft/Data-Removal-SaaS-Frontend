@@ -51,4 +51,13 @@ export async function GET(request: NextRequest) {
       )
     )
   }
+
+  return NextResponse.redirect(
+    getErrorRedirect(
+      `${origin}/signin`,
+      'Auth Error',
+      searchParams.get('error_description') ??
+        "Sorry, we weren't able to log you in. Please try again."
+    )
+  )
 }

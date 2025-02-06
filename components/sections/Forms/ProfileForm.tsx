@@ -22,7 +22,6 @@ import {
   PhoneCallIcon,
   UserIcon
 } from 'lucide-react'
-import { useState } from 'react'
 import FormInput from '@/components/modules/FormInput'
 import FormDate from '@/components/modules/FormDate'
 import FormToggle from '@/components/modules/FormToggle'
@@ -34,6 +33,12 @@ import {
   createProfileAction,
   updateProfileAction
 } from '@/utils/supabase/server'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@/components/ui/accordion'
 
 const FormSchema = z.object({
   email: z.string(),
@@ -54,18 +59,11 @@ const FormSchema = z.object({
 interface SectionProps {
   user: User
   profile?: Tables<'profiles'>
-  isPrimary?: boolean
   children: React.ReactNode
 }
 
-export default function ProfileForm({
-  user,
-  profile,
-  isPrimary = false,
-  children
-}: SectionProps) {
+export default function ProfileForm({ user, profile, children }: SectionProps) {
   const router = useRouter()
-  const [open, setOpen] = useState(isPrimary)
 
   const { email, user_metadata } = user ?? {}
   const { phone, full_name } = user_metadata ?? {}
@@ -102,24 +100,18 @@ export default function ProfileForm({
     } else {
       const transformedData = {
         ...data,
-        birth_date: data.birth_date.toISOString(),
-        is_primary: isPrimary
+        birth_date: data.birth_date.toISOString()
       }
       await handleRequest(transformedData, createProfileAction, router)
     }
-
-    setOpen(false)
   }
 
   return (
     <div className="flex justify-end w-full">
-      <Dialog
-        open={open}
-        onOpenChange={(state) => setOpen(isPrimary ? true : state)}
-      >
+      <Dialog>
         <DialogTrigger asChild>{children}</DialogTrigger>
 
-        <DialogContent className="bg-dark text-white border-none max-w-5xl max-h-[95vh] overflow-y-auto">
+        <DialogContent className="bg-dark text-white border-none max-w-2xl max-h-[95vh] overflow-y-auto scrollbar-hidden">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl lg:text-3xl text-white leading-[55px] flex items-center">
               {profile ? 'Edit Profile' : 'Create New Profile'}
@@ -135,36 +127,7 @@ export default function ProfileForm({
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 py-6"
             >
-              <div className="grid grid-cols-3 gap-4">
-                <FormInput
-                  control={form.control}
-                  type="email"
-                  name="email"
-                  label="Email Address"
-                  placeholder="example@gmail.com"
-                  icon={<MailIcon className="w-5 text-primary" />}
-                  required={true}
-                />
-
-                <FormInput
-                  control={form.control}
-                  name="phone"
-                  label="Phone Number"
-                  placeholder="(123) 456 7890"
-                  icon={<PhoneCallIcon className="w-5 text-primary" />}
-                  required={true}
-                />
-
-                <FormInput
-                  control={form.control}
-                  name="ssn"
-                  label="Social Security Number"
-                  placeholder="***-**-***"
-                  icon={<Building2Icon className="w-5 text-primary" />}
-                />
-              </div>
-
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <FormInput
                   control={form.control}
                   name="first_name"
@@ -182,27 +145,9 @@ export default function ProfileForm({
                   icon={<UserIcon className="w-5 text-primary" />}
                   required={true}
                 />
-
-                <FormInput
-                  control={form.control}
-                  name="alternative_names"
-                  label="Alternative Names"
-                  placeholder="Joseph Smith, Joseph Andrew Smith"
-                  icon={<Building2Icon className="w-5 text-primary" />}
-                  className="col-span-2"
-                />
               </div>
 
-              <div className="grid grid-cols-5 gap-4">
-                <FormInput
-                  control={form.control}
-                  name="address"
-                  label="Address"
-                  placeholder="123 ABC street"
-                  icon={<MapPinIcon className="w-5 text-primary" />}
-                  className="col-span-2"
-                />
-
+              <div className="grid grid-cols-2 gap-4">
                 <FormInput
                   control={form.control}
                   name="city"
@@ -220,42 +165,99 @@ export default function ProfileForm({
                   icon={<MapPinIcon className="w-5 text-primary" />}
                   required={true}
                 />
-
-                <FormInput
-                  control={form.control}
-                  name="zip"
-                  label="Zip"
-                  placeholder="12345"
-                  icon={<MapPinIcon className="w-5 text-primary" />}
-                />
               </div>
 
-              <div className="grid grid-cols-4 gap-4">
-                <FormDate
-                  control={form.control}
-                  name="birth_date"
-                  label="Birth Date"
-                  required={true}
-                />
+              <Accordion type="multiple" className="w-full">
+                <AccordionItem
+                  value="more"
+                  className="border-none mb-4 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white shrink-0 transition duration-200"
+                >
+                  <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg no-underline hover:no-underline">
+                    Add More Information
+                  </AccordionTrigger>
 
-                <FormToggle
-                  control={form.control}
-                  name="gender"
-                  label="Gender"
-                  options={[
-                    { label: 'M', value: 'male' },
-                    { label: 'F', value: 'female' }
-                  ]}
-                />
+                  <AccordionContent className="p-0 mt-2 text-white/60 text-lg lg:text-xl">
+                    <hr className="mb-5 border-t border-white/20" />
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormDate
+                        control={form.control}
+                        name="birth_date"
+                        label="Birth Date"
+                        required={false}
+                      />
 
-                <FormTextarea
-                  control={form.control}
-                  name="bio"
-                  label="Bio"
-                  placeholder="Tell us a little bit about yourself"
-                  className="col-span-2"
-                />
-              </div>
+                      <FormToggle
+                        control={form.control}
+                        name="gender"
+                        label="Gender"
+                        options={[
+                          { label: 'Male', value: 'male' },
+                          { label: 'Female', value: 'female' }
+                        ]}
+                      />
+
+                      <FormInput
+                        control={form.control}
+                        type="email"
+                        name="email"
+                        label="Email Address"
+                        placeholder="example@gmail.com"
+                        icon={<MailIcon className="w-5 text-primary" />}
+                        required={false}
+                      />
+
+                      <FormInput
+                        control={form.control}
+                        name="phone"
+                        label="Phone Number"
+                        placeholder="(123) 456 7890"
+                        icon={<PhoneCallIcon className="w-5 text-primary" />}
+                        required={false}
+                      />
+
+                      <FormInput
+                        control={form.control}
+                        name="ssn"
+                        label="Social Security Number"
+                        placeholder="***-**-***"
+                        icon={<Building2Icon className="w-5 text-primary" />}
+                      />
+
+                      <FormInput
+                        control={form.control}
+                        name="alternative_names"
+                        label="Alternative Names"
+                        placeholder="Joseph Smith, Joseph Andrew Smith"
+                        icon={<Building2Icon className="w-5 text-primary" />}
+                      />
+
+                      <FormInput
+                        control={form.control}
+                        name="address"
+                        label="Address"
+                        placeholder="123 ABC street"
+                        icon={<MapPinIcon className="w-5 text-primary" />}
+                      />
+
+                      <FormInput
+                        control={form.control}
+                        name="zip"
+                        label="Zip"
+                        placeholder="12345"
+                        icon={<MapPinIcon className="w-5 text-primary" />}
+                      />
+
+                      <FormTextarea
+                        control={form.control}
+                        name="bio"
+                        label="Bio"
+                        placeholder="Tell us a little bit about yourself"
+                        className="col-span-2"
+                      />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
 
               <Button variant="default" type="submit">
                 {profile ? 'Update Profile' : 'Submit Profile'}

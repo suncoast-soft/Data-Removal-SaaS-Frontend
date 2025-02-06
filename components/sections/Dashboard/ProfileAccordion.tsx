@@ -87,31 +87,31 @@ export default function ProfileAccordion({
             },
             {
               label: 'Social Security Number',
-              value: `${profile.ssn}`
+              value: `${profile.ssn ?? ''}`
             },
             {
               label: 'Alternative Names',
-              value: `${profile.alternative_names}`
+              value: `${profile.alternative_names ?? ''}`
             },
             {
               label: 'Phone Number',
-              value: `${profile.phone}`
+              value: `${profile.phone ?? ''}`
             },
             {
               label: 'Birthdate',
-              value: `${profile.birth_date}`
+              value: `${profile.birth_date ?? ''}`
             },
             {
               label: 'Email',
-              value: `${profile.email}`
+              value: `${profile.email ?? ''}`
             },
             {
               label: 'Gender',
-              value: `${profile.gender}`
+              value: `${profile.gender ?? ''}`
             },
             {
               label: 'Address',
-              value: `${profile.address} ${profile.city} ${profile.state} ${profile.zip}`
+              value: `${profile.address ?? ''} ${profile.city ?? ''} ${profile.state ?? ''} ${profile.zip ?? ''}`
             }
           ].map(({ label, value }, index) => (
             <p key={index} className="border-b border-white/20 py-2">

@@ -14,8 +14,7 @@ export const createProfile = cache(
     if (!user) {
       return {
         data: null,
-        error: { message: 'Authentication failed' } as PostgrestError,
-        is_new: false
+        error: { message: 'Authentication failed' } as PostgrestError
       }
     }
 
@@ -25,7 +24,7 @@ export const createProfile = cache(
       .select()
       .eq('user_id', user.id)
 
-    if (profileError) return { data: null, error: profileError, is_new: false }
+    if (profileError) return { data: null, error: profileError }
 
     const is_primary = profiles.length === 0
 
@@ -38,7 +37,7 @@ export const createProfile = cache(
     )
 
     if (existingProfile) {
-      return { data: existingProfile, error: null, is_new: false }
+      return { data: existingProfile, error: null }
     }
 
     // Insert new profile
@@ -48,7 +47,7 @@ export const createProfile = cache(
       .select()
       .single()
 
-    return { data: profile, error, is_new: true }
+    return { data: profile, error }
   }
 )
 

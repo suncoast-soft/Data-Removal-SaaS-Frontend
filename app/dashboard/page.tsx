@@ -4,19 +4,29 @@ import { Button } from '@/components/ui/button'
 import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
 import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
 import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
-import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
 import { getErrorRedirect, isRemovalActive } from '@/utils/helpers'
 import { redirect } from 'next/navigation'
 import { BellIcon } from 'lucide-react'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import Link from 'next/link'
 import SectionHeader from '@/components/modules/SectionHeader'
-import SearchFetcher from '@/components/sections/SearchReport/SearchFetcher'
+import SearchReport from '@/components/sections/SearchReport'
+import ProfileDropdown from '@/components/modules/ProfileDropdown'
+import { Tables } from '@/types_db'
+import RemovalReport from '@/components/sections/RemovalReport'
 
-export default async function Dashboard() {
+type Profile = Tables<'profiles'>
+
+export default async function Dashboard({
+  searchParams
+}: {
+  searchParams: Promise<{ profile: string }>
+}) {
+  const selectedProfileId = (await searchParams).profile
+
   const supabase = await createClient()
   const [profiles, pricing] = await Promise.all([
-    getProfiles(supabase),
+    getProfiles(supabase) as Promise<Profile[]>,
     getPricingPlan(supabase)
   ])
 
@@ -28,6 +38,10 @@ export default async function Dashboard() {
         'Add a new profile to start scan'
       )
     )
+  }
+
+  if (selectedProfileId === undefined) {
+    redirect(`/dashboard?profile=${profiles[0].id}`)
   }
 
   const isPaidUser = pricing && isRemovalActive(pricing)
@@ -51,25 +65,32 @@ export default async function Dashboard() {
         }
       />
 
-      <SearchFetcher isPaidUser={isPaidUser} />
+      <ProfileDropdown
+        profiles={profiles}
+        selectedProfileId={selectedProfileId}
+      />
 
       {isPaidUser ? (
-        <HelpBanner />
+        <RemovalReport profile={selectedProfileId} />
       ) : (
-        <>
-          <UpgradeSection />
-          <PrivateFAQs />
-          <HowToProtectSection />
-          <ArticlesSection />
-          <div className="text-center my-12">
-            <Button variant="secondary" asChild>
-              <Link href="/checkout" className="no-underline">
-                Upgrade and protect yourself today
-              </Link>
-            </Button>
-          </div>
-        </>
+        <SearchReport profile={selectedProfileId} />
       )}
+
+      <UpgradeSection />
+
+      <PrivateFAQs />
+
+      <HowToProtectSection />
+
+      <ArticlesSection />
+
+      <div className="text-center my-12">
+        <Button variant="secondary" asChild>
+          <Link href="/checkout" className="no-underline">
+            Upgrade and protect yourself today
+          </Link>
+        </Button>
+      </div>
     </div>
   )
 }
