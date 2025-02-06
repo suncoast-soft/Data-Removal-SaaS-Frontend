@@ -48,17 +48,19 @@ export default async function Navbar({ user }: { user?: User | null }) {
                 ))}
               </nav>
 
-              {!user ? (
+              {user && !user.is_anonymous ? (
                 <>
                   <Button variant="secondary" className="h-12 px-6" asChild>
                     <Link
-                      href="/signin/signup"
+                      href="/dashboard"
                       className="no-underline font-semibold"
                     >
-                      Get started
+                      Dashboard
                     </Link>
                   </Button>
-
+                </>
+              ) : (
+                <>
                   <Button
                     variant="outline"
                     className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"
@@ -69,8 +71,6 @@ export default async function Navbar({ user }: { user?: User | null }) {
                     </Link>
                   </Button>
                 </>
-              ) : (
-                <></>
               )}
             </div>
           </div>

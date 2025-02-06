@@ -5,7 +5,6 @@ import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
 import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
 import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
 import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
-import { splitName } from '@/utils/helpers'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import SearchSummary from '@/components/sections/SearchReport/SearchSummary'
 import SearchResults from '@/components/sections/SearchReport/SearchResults'
@@ -13,90 +12,154 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Tables } from '@/types_db'
+import { createClient } from '@/utils/supabase/client'
+import {
+  getBroker,
+  getBrokerSearches,
+  getGoogleSearches
+} from '@/utils/supabase/queries'
+import { redirect } from 'next/navigation'
 
+type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Tables<'brokers'>
 }
 
 export default function ScanResults({
-  name,
-  city,
-  state
+  profile,
+  is_new
 }: {
-  name: string
-  city: string
-  state: string
+  profile: string
+  is_new: string
 }) {
-  const { firstName, lastName } = splitName(name ?? '')
+  const [scanning, setScanning] = useState(true)
+  const [completions, setCompletions] = useState<any[]>([])
 
-  const [loading, setLoading] = useState(true)
-  const [googleSearches, setGoogleSearches] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [googleSearches, setGoogleSearches] = useState<GoogleSearch[]>([])
   const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>([])
 
-  useEffect(() => {
-    async function fetchIPAPI() {
-      try {
-        const googleResponse = await fetch(
-          `https://api.puperase.com/api/check?type=google&first_name=${firstName}&last_name=${lastName}&city=${city}&state=${state}`
-        )
-        const googleData = await googleResponse.json()
-        setGoogleSearches([{ search_result: googleData }])
+  const supabase = createClient()
 
-        const brokerResponse = await fetch(
-          `https://api.puperase.com/api/check?type=broker&first_name=${firstName}&last_name=${lastName}&city=${city}&state=${state}`
+  useEffect(() => {
+    if (is_new) {
+      setScanning(true)
+
+      const channel = supabase
+        .channel(`schema-db-changes=${profile}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public'
+          },
+          async (payload) => {
+            if (parseInt(profile) === parseInt(payload.new.profile_id)) {
+              if (
+                payload.new.search_status === 'failed' ||
+                payload.new.search_status === 'completed'
+              ) {
+                const broker = await getBroker(supabase, payload.new.broker_id)
+                if (broker) {
+                  setCompletions((brokers) => [...brokers, broker])
+                }
+              }
+            }
+          }
         )
-        const brokerData = await brokerResponse.json()
-        setBrokerSearches(brokerData)
-      } catch (error) {
-        console.log(error)
+        .subscribe()
+
+      return () => {
+        channel.unsubscribe()
       }
+    } else {
+      setScanning(false)
+    }
+  }, [supabase, profile, is_new])
+
+  useEffect(() => {
+    if (completions.length > 25) {
+      setScanning(false)
+    }
+  }, [completions])
+
+  useEffect(() => {
+    if (is_new) {
+      const timeoutId = setTimeout(() => {
+        setCompletions((prevCompletions) => {
+          if (prevCompletions.length === 0) {
+            const channel = supabase.channel('schema-db-changes')
+            channel.unsubscribe()
+            redirect(`/scan/result?profile=${profile}`)
+          }
+          return prevCompletions
+        })
+      }, 10000)
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [supabase, completions, profile, is_new])
+
+  useEffect(() => {
+    async function fetch() {
+      setLoading(true)
+
+      const brokerSearches = await getBrokerSearches(supabase, profile)
+      setBrokerSearches(brokerSearches as BrokerSearch[])
+
+      const googleSearches = await getGoogleSearches(supabase, profile)
+      setGoogleSearches(googleSearches as GoogleSearch[])
 
       setLoading(false)
     }
-    fetchIPAPI()
-  }, [firstName, lastName, city, state])
 
-  if (loading) {
-    return (
-      <div className="bg-lp-hero-section-bg bg-cover bg-bottom fixed inset-0 z-[9999] text-dark h-screen">
-        <div className="container mx-auto px-4 lg:px-28 h-full flex items-center justify-center">
-          <div className="text-center max-w-lg flex flex-col items-center gap-6">
-            <Image
-              src="/loaders/hero-image.png"
-              width={309}
-              height={358}
-              alt="Report Loader"
-              className="order-2 lg:order-1"
-            />
-            <div className="order-1 lg:order-2">
-              <h1 className="text-2xl lg:text-5xl font-bold">
-                Generating your report
-              </h1>
-              <p className="mt-4 text-lg lg:text-xl opacity-60">
-                This will only take a few second
-              </p>
-              <p className="mt-4 text-lg lg:text-xl font-semibold">
-                Searching: ...{name}...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+    if (!scanning) {
+      fetch()
+    }
+  }, [supabase, profile, scanning])
 
   return (
     <>
-      <div className="container max-w-6xl">
-        <SearchSummary
-          googleSearches={googleSearches as any[]}
-          brokerSearches={brokerSearches}
-        />
+      <div className="container max-w-6xl py-12">
+        {scanning || loading ? (
+          <div className="bg-lp-hero-section-bg bg-cover bg-bottom p-8 mb-12">
+            <div className="grid lg:grid-cols-2 items-center gap-4">
+              <div className="overflow-hidden h-96 flex flex-col justify-end px-8">
+                {completions.map((completion) => (
+                  <p key={completion.id}>... Searching {completion.name} ...</p>
+                ))}
+              </div>
 
-        <SearchResults
-          googleSearches={googleSearches as any[]}
-          brokerSearches={brokerSearches}
-        />
+              <div className="text-center">
+                <Image
+                  src="/loaders/hero-image.png"
+                  width={309}
+                  height={358}
+                  alt="Report Loader"
+                  className="w-40 mx-auto mb-8"
+                />
+                <h1 className="text-2xl lg:text-4xl font-bold">
+                  Generating your report
+                </h1>
+                <p className="mt-4 text-lg lg:text-xl text-dark/60">
+                  This will only take a few second
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <SearchSummary
+              googleSearches={googleSearches as any[]}
+              brokerSearches={brokerSearches}
+            />
+
+            <SearchResults
+              googleSearches={googleSearches as any[]}
+              brokerSearches={brokerSearches}
+            />
+          </>
+        )}
 
         <HelpBanner />
 

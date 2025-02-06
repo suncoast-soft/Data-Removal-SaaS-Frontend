@@ -13,6 +13,8 @@ import FAQsIcon from '@/components/icons/FAQsIcon'
 import BlogIcon from '@/components/icons/BlogIcon'
 // import ScanHistoryIcon from '@/components/icons/ScanHistoryIcon'
 import { isRemovalActive } from '@/utils/helpers'
+import { Suspense } from 'react'
+import { Toaster } from '@/components/ui/toaster'
 
 export default async function DashboardLayout({
   children
@@ -22,7 +24,7 @@ export default async function DashboardLayout({
   const supabase = await createClient()
   const user = await getUser(supabase)
 
-  if (!user) {
+  if (!user || user.is_anonymous) {
     return redirect('/signin')
   }
 
@@ -87,6 +89,10 @@ export default async function DashboardLayout({
 
         <main className="container max-w-6xl">{children}</main>
       </div>
+
+      <Suspense>
+        <Toaster />
+      </Suspense>
     </main>
   )
 }

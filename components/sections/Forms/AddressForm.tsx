@@ -20,6 +20,8 @@ import { cn } from '@/utils/cn'
 import { getStateCode, splitName } from '@/utils/helpers'
 import { Button } from '@/components/ui/button'
 import ArrowRight from '@/components/icons/ArrowRight'
+import { handleRequest } from '@/utils/auth-helpers/client'
+import { anonymousSignin } from '@/utils/auth-helpers/server'
 
 interface Address {
   city: string
@@ -33,13 +35,12 @@ const FormSchema = z.object({
 })
 
 export default function AddressForm({ name }: { name: string }) {
-  const { firstName } = splitName(name ?? '')
+  const { firstName, lastName } = splitName(name ?? '')
 
   const [loading, setLoading] = useState(true)
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
 
-  const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -71,8 +72,24 @@ export default function AddressForm({ name }: { name: string }) {
     fetchIPAPI()
   }, [form])
 
-  function onSubmit() {
-    router.push(`/scan/result?name=${name}&city=${city}&state=${state}`)
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  async function onSubmit() {
+    setIsSubmitting(true)
+    try {
+      const transformedData = {
+        first_name: firstName,
+        last_name: lastName,
+        city: city,
+        state: state
+      }
+      await handleRequest(transformedData, anonymousSignin, router)
+      setIsSubmitting(false)
+    } catch (error) {
+      console.error('Sign-up failed:', error)
+      setIsSubmitting(false)
+    }
   }
 
   function onAddressSelect({ city, state }: Address) {
@@ -153,6 +170,7 @@ export default function AddressForm({ name }: { name: string }) {
             variant="default"
             type="submit"
             className="z-10 w-full lg:w-auto"
+            disabled={isSubmitting}
           >
             <span className="mr-2">SEARCH</span>
             <ArrowRight />

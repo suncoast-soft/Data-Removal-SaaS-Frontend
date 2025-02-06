@@ -30,12 +30,12 @@ export default function SearchSummary({
   brokerSearches
 }: SectionProps) {
   const totalSearches =
-    (Array.isArray(googleSearches[0].search_result)
+    (Array.isArray(googleSearches[0]?.search_result)
       ? googleSearches[0].search_result.length
       : 0) + brokerSearches.length
 
   const successfulSearches =
-    (Array.isArray(googleSearches[0].search_result)
+    (Array.isArray(googleSearches[0]?.search_result)
       ? googleSearches[0].search_result.length
       : 0) +
     brokerSearches.filter((search) => search.search_status === 'completed')

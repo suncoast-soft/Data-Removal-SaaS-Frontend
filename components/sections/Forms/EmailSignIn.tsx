@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { signInWithEmail } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -17,6 +16,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
+import { signInWithOtp } from '@/utils/auth-helpers/server'
 
 interface EmailSignInProps {
   redirectMethod: string
@@ -40,7 +40,7 @@ export default function EmailSignIn({ redirectMethod }: EmailSignInProps) {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     setIsSubmitting(true)
-    await handleRequest(data, signInWithEmail, router)
+    await handleRequest(data, signInWithOtp, router)
     setIsSubmitting(false)
   }
 

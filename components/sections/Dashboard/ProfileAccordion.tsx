@@ -5,12 +5,12 @@ import {
 } from '@/components/ui/accordion'
 import { ChevronDown, Pencil } from 'lucide-react'
 import React from 'react'
-import ProfileForm from '../../Forms/ProfileForm'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
 import { format } from 'date-fns'
 import Link from 'next/link'
+import ProfileForm from '../Forms/ProfileForm'
 
 type Profile = Tables<'profiles'>
 

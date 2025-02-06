@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { getProfiles, getSettings, getUser } from '@/utils/supabase/queries'
+import { getProfiles, getUser, getUserSettings } from '@/utils/supabase/queries'
 import { Button } from '@/components/ui/button'
 import { Accordion } from '@/components/ui/accordion'
 import {
@@ -11,44 +11,40 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { formatDate } from 'date-fns'
-import DeleteAccountModel from '@/components/modules/DeleteAccountModel/DeleteAccountModel'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
 import ProfileForm from '@/components/sections/Forms/ProfileForm'
-import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion/ProfileAccordion'
-import AccountSettings from '@/components/sections/Dashboard/AccountSettings/AccountSettings'
-import { redirect } from 'next/navigation'
+import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion'
 import SectionHeader from '@/components/modules/SectionHeader'
+import { User } from '@supabase/supabase-js'
+import SettingsForm from '@/components/sections/Forms/SettingsForm'
+import DeleteAccountForm from '@/components/sections/Forms/DeleteAccountForm'
 
 export default async function Account() {
   const supabase = await createClient()
   const user = await getUser(supabase)
   const profiles = (await getProfiles(supabase)) ?? []
-  const settings = await getSettings(supabase)
-
-  if (!user) {
-    return redirect('/signin')
-  }
+  const settings = await getUserSettings(supabase)
 
   return (
     <div className="relative">
       <SectionHeader
         title="Account"
         cta1={
-          <ProfileForm user={user} isPrimary={profiles?.length === 0}>
+          <ProfileForm user={user as User}>
             <Button
               variant="outline"
               size="small"
               type="button"
               className="border-primary hover:bg-primary"
             >
-              Add another profile
+              Add a new profile
             </Button>
           </ProfileForm>
         }
       />
 
-      {profiles.length > 0 && (
-        <div className="my-6 flex flex-col gap-4">
+      {profiles.length > 0 ? (
+        <div className="my-6 space-y-4">
           <Accordion
             type="single"
             collapsible
@@ -58,34 +54,25 @@ export default async function Account() {
             {profiles?.map((profile) => (
               <ProfileAccordion
                 key={profile.id}
-                user={user}
+                user={user as User}
                 profile={profile}
               />
             ))}
           </Accordion>
         </div>
+      ) : (
+        <p className="text-secondary">
+          You don&apos;t have any profiles yet. Add a new profile to start scan
+        </p>
       )}
 
       <SectionHeader
         title="Account Settings"
         cta1={<SignoutForm />}
-        cta2={
-          <DeleteAccountModel settings={settings}>
-            <Button
-              variant="outline"
-              type="button"
-              size="small"
-              className="border-secondary hover:bg-secondary/90"
-            >
-              Delete My Account
-            </Button>
-          </DeleteAccountModel>
-        }
+        cta2={<DeleteAccountForm settings={settings} />}
       />
 
-      <div className="mt-6 mb-[60px] rounded-2xl p-6 lg:p-8 border border-dark/20 bg-[#342E3705]">
-        <AccountSettings user={user} settings={settings} />
-      </div>
+      <SettingsForm settings={settings} />
 
       <SectionHeader title="Log In History" />
 

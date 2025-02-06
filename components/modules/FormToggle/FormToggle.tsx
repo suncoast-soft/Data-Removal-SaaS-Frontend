@@ -5,7 +5,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { cn } from '@/utils/cn'
 
 interface OptionProps {
@@ -20,6 +21,7 @@ interface ModuleProps {
   options: OptionProps[]
   required?: boolean
   className?: string
+  theme?: 'dark' | 'white'
 }
 
 export default function FormToggle({
@@ -28,7 +30,8 @@ export default function FormToggle({
   label,
   options,
   required,
-  className
+  className,
+  theme = 'white'
 }: ModuleProps) {
   return (
     <FormField
@@ -36,29 +39,34 @@ export default function FormToggle({
       name={name}
       render={({ field }) => (
         <FormItem className={cn('w-full', className)}>
-          <FormLabel className="text-white font-semibold text-lg">
+          <FormLabel
+            className={cn(
+              'font-semibold text-lg',
+              theme === 'white' ? 'text-white' : 'text-dark'
+            )}
+          >
             <span>{label}</span>
             {required && <span className="text-secondary p-1">*</span>}
           </FormLabel>
 
           <FormControl>
-            <ToggleGroup
-              type="single"
-              className="justify-start gap-4"
+            <RadioGroup
               value={field.value}
               onValueChange={field.onChange}
+              className="flex flex-row flex-wrap gap-8"
             >
               {options.map((option) => (
-                <ToggleGroupItem
+                <div
                   key={option.value}
-                  value={option.value}
-                  aria-label={option.label}
-                  className="border-2 h-[46px] w-[46px] border-white data-[state=on]:bg-white data-[state=on]:text-dark"
+                  className="flex items-center space-x-2 min-w-16"
                 >
-                  <span className="font-bold text-xl">{option.label}</span>
-                </ToggleGroupItem>
+                  <RadioGroupItem value={option.value} id={option.value} />
+                  <Label htmlFor={option.value} className="text-lg">
+                    {option.label}
+                  </Label>
+                </div>
               ))}
-            </ToggleGroup>
+            </RadioGroup>
           </FormControl>
 
           <FormMessage />

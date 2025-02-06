@@ -5,7 +5,7 @@ import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
 import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
 import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
 import HelpBanner from '@/components/sections/Dashboard/HelpBanner'
-import { isRemovalActive } from '@/utils/helpers'
+import { getErrorRedirect, isRemovalActive } from '@/utils/helpers'
 import { redirect } from 'next/navigation'
 import { BellIcon } from 'lucide-react'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
@@ -21,7 +21,13 @@ export default async function Dashboard() {
   ])
 
   if (profiles?.length === 0) {
-    redirect('/dashboard/account')
+    redirect(
+      getErrorRedirect(
+        '/dashboard/account',
+        'Profile',
+        'Add a new profile to start scan'
+      )
+    )
   }
 
   const isPaidUser = pricing && isRemovalActive(pricing)

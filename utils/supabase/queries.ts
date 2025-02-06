@@ -13,6 +13,15 @@ export const getBrokers = cache(async (supabase: SupabaseClient) => {
   return brokers
 })
 
+export const getBroker = cache(async (supabase: SupabaseClient, id: string) => {
+  const { data: broker } = await supabase
+    .from('brokers')
+    .select('*')
+    .eq('id', id)
+    .single()
+  return broker
+})
+
 export const getProfiles = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)
   if (!user) return null
@@ -47,16 +56,16 @@ export const getPrimaryProfile = cache(async (supabase: SupabaseClient) => {
   return profile
 })
 
-export const getSettings = cache(async (supabase: SupabaseClient) => {
+export const getUserSettings = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)
   if (!user) return null
 
-  const { data: setting } = await supabase
-    .from('settings')
+  const { data: settings } = await supabase
+    .from('users')
     .select('*')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .single()
-  return setting
+  return settings
 })
 
 export const getGoogleSearches = cache(

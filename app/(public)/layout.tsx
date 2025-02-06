@@ -4,10 +4,10 @@ import Navbar from '@/components/modules/Navbar'
 import { Toaster } from '@/components/ui/toaster'
 import { PropsWithChildren, Suspense } from 'react'
 import { getURL } from '@/utils/helpers'
-import { createClient } from '@/utils/supabase/server'
-import { getUser } from '@/utils/supabase/queries'
+// import { createClient } from '@/utils/supabase/server'
+// import { getUser } from '@/utils/supabase/queries'
+// import { redirect } from 'next/navigation'
 import 'styles/main.css'
-import { redirect } from 'next/navigation'
 
 const title = 'Pup Erase'
 const description = 'Removal of unwanted data from the internet'
@@ -23,20 +23,20 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: PropsWithChildren) {
-  const supabase = await createClient()
-  const user = await getUser(supabase)
+  // const supabase = await createClient()
+  // const user = await getUser(supabase)
 
-  if (user) {
-    return redirect('/dashboard')
-  }
+  // if (user && !user.is_anonymous) {
+  //   return redirect('/dashboard')
+  // }
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar />
 
       <main id="skip">{children}</main>
 
-      {!user && <Footer />}
+      <Footer />
 
       <Suspense>
         <Toaster />

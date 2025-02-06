@@ -4,19 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import { toast } from '@/hooks/use-toast'
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
-import Image from 'next/image'
 import { MailIcon, UserIcon } from 'lucide-react'
+import FormInput from '@/components/modules/FormInput'
+import FormTextarea from '@/components/modules/FormTextarea'
 
 const FormSchema = z.object({
   name: z.string(),
@@ -38,43 +30,6 @@ export default function ContactForm() {
     })
   }
 
-  const renderInputField = (
-    name: keyof z.infer<typeof FormSchema>,
-    label: string,
-    placeholder: string,
-    icon: React.ReactNode,
-    type: 'text' | 'email',
-    isRequired = false
-  ) => (
-    <FormField
-      control={form.control}
-      name={name}
-      render={({ field }) => (
-        <FormItem className="w-full min-w-[48%] lg:flex-1">
-          <FormLabel className="text-white font-semibold text-lg">
-            {label}
-            {isRequired && <sup className="text-secondary pt-1"> *</sup>}
-          </FormLabel>
-          <FormControl>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                {icon}
-              </div>
-              <Input
-                type={type}
-                placeholder={placeholder}
-                {...field}
-                value={field.value}
-                className="bg-white text-dark [&::placeholder]:text-dark/60 py-3"
-              />
-            </div>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-
   return (
     <Form {...form}>
       <form
@@ -82,51 +37,32 @@ export default function ContactForm() {
         className="flex flex-col gap-4 lg:gap-6"
       >
         <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-4 text-white">
-          {renderInputField(
-            'name',
-            'Name',
-            'Your Name',
-            <UserIcon className="w-5 text-primary" />,
-            'text',
-            true
-          )}
+          <FormInput
+            control={form.control}
+            name="name"
+            label="Name"
+            placeholder="Your Name"
+            icon={<UserIcon className="w-5 text-primary" />}
+            required={true}
+          />
 
-          {renderInputField(
-            'email',
-            'Email',
-            'example@email.com',
-            <MailIcon className="w-5 text-primary" />,
-            'email',
-            true
-          )}
+          <FormInput
+            control={form.control}
+            type="email"
+            name="email"
+            label="Email"
+            placeholder="example@email.com"
+            icon={<MailIcon className="w-5 text-primary" />}
+            required={true}
+          />
         </div>
 
-        <FormField
+        <FormTextarea
           control={form.control}
           name="message"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className="text-white font-semibold text-lg">
-                Leave us a message
-              </FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Image
-                    src="/green-pen.png"
-                    width={20}
-                    height={20}
-                    alt="Message"
-                    className="absolute left-2 top-5 w-5 h-4 object-contain"
-                  />
-                  <Textarea
-                    placeholder="Tell us a little bit about yourself"
-                    {...field}
-                    className="px-4 py-4 pl-8 resize-none bg-transparent border border-white text-white [&::placeholder]:text-white [&::placeholder]:opacity-60 ring-offset-white focus-visible:outline-none focus-visible:ring-offset-0 focus-visible:ring-white"
-                  />
-                </div>
-              </FormControl>
-            </FormItem>
-          )}
+          label="Leave us a message"
+          placeholder="Tell us a little bit about yourself"
+          className="col-span-2"
         />
 
         <Button type="submit" variant="secondary" className="w-full lg:w-52">

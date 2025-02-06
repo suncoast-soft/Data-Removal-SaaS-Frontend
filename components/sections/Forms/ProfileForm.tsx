@@ -23,7 +23,6 @@ import {
   UserIcon
 } from 'lucide-react'
 import { useState } from 'react'
-import { createProfile, updateProfile } from '@/utils/supabase/mutations'
 import FormInput from '@/components/modules/FormInput'
 import FormDate from '@/components/modules/FormDate'
 import FormToggle from '@/components/modules/FormToggle'
@@ -31,6 +30,10 @@ import FormTextarea from '@/components/modules/FormTextarea'
 import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
 import { splitName } from '@/utils/helpers'
+import {
+  createProfileAction,
+  updateProfileAction
+} from '@/utils/supabase/server'
 
 const FormSchema = z.object({
   email: z.string(),
@@ -64,37 +67,24 @@ export default function ProfileForm({
   const router = useRouter()
   const [open, setOpen] = useState(isPrimary)
 
-  const defaultValues = profile
-    ? {
-        email: profile.email ?? '',
-        phone: profile.phone ?? '',
-        ssn: profile.ssn ?? '',
-        first_name: profile.first_name ?? '',
-        last_name: profile.last_name ?? '',
-        alternative_names: profile.alternative_names ?? '',
-        birth_date: new Date(profile.birth_date ?? '1990-01-11'),
-        gender: profile.gender ?? 'male',
-        address: profile.address ?? '',
-        city: profile.city ?? '',
-        state: profile.state ?? '',
-        zip: profile.zip ?? '',
-        bio: profile.bio ?? ''
-      }
-    : {
-        email: user.email ?? '',
-        phone: user.user_metadata.phone ?? '',
-        ssn: '',
-        first_name: splitName(user.user_metadata.full_name).firstName ?? '',
-        last_name: splitName(user.user_metadata.full_name).lastName ?? '',
-        alternative_names: '',
-        birth_date: undefined,
-        gender: 'male',
-        address: '',
-        city: '',
-        state: '',
-        zip: '',
-        bio: ''
-      }
+  const { email, user_metadata } = user ?? {}
+  const { phone, full_name } = user_metadata ?? {}
+
+  const defaultValues = {
+    email: profile?.email ?? email ?? '',
+    phone: profile?.phone ?? phone ?? '',
+    ssn: profile?.ssn ?? '',
+    first_name: profile?.first_name ?? splitName(full_name)?.firstName ?? '',
+    last_name: profile?.last_name ?? splitName(full_name)?.lastName ?? '',
+    alternative_names: profile?.alternative_names ?? '',
+    birth_date: profile?.birth_date ? new Date(profile.birth_date) : undefined,
+    gender: profile?.gender ?? 'male',
+    address: profile?.address ?? '',
+    city: profile?.city ?? '',
+    state: profile?.state ?? '',
+    zip: profile?.zip ?? '',
+    bio: profile?.bio ?? ''
+  }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -108,14 +98,14 @@ export default function ProfileForm({
         birth_date: data.birth_date.toISOString(),
         id: profile.id
       }
-      await handleRequest(transformedData, updateProfile, router)
+      await handleRequest(transformedData, updateProfileAction, router)
     } else {
       const transformedData = {
         ...data,
         birth_date: data.birth_date.toISOString(),
         is_primary: isPrimary
       }
-      await handleRequest(transformedData, createProfile, router)
+      await handleRequest(transformedData, createProfileAction, router)
     }
 
     setOpen(false)

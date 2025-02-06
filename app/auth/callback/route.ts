@@ -6,7 +6,7 @@ import { getErrorRedirect, getStatusRedirect } from '@/utils/helpers'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
+  const next = searchParams.get('next') ?? '/dashboard'
 
   if (code) {
     const supabase = await createClient()
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(
       getErrorRedirect(
-        `${origin}/auth/auth-code-error`,
+        `${origin}/signin`,
         error.name,
         "Sorry, we weren't able to log you in. Please try again."
       )

@@ -1,17 +1,10 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
-
-import {
-  getURL,
-  getErrorRedirect,
-  getStatusRedirect,
-  isValidEmail,
-  isValidPhone
-} from 'utils/helpers'
-import { getAuthTypes } from 'utils/auth-helpers/settings'
+import { getErrorRedirect, getStatusRedirect } from 'utils/helpers'
 import { redirect } from 'next/navigation'
+import { createProfile } from '../supabase/mutations'
+import { getUser } from '../supabase/queries'
 
 interface FormData {
   [key: string]: string | number | boolean
@@ -38,412 +31,96 @@ export async function SignOut(formData: FormData) {
   return '/signin'
 }
 
-export async function signInWithEmail(formData: FormData) {
-  const cookieStore = await cookies()
-  const callbackURL = getURL('/auth/callback')
-
+export async function signInWithOtp(formData: FormData) {
   const email = String(formData['email']).trim()
-  let redirectPath: string
-
-  if (!isValidEmail(email)) {
-    redirectPath = getErrorRedirect(
-      '/signin/email_signin',
-      'Invalid email address.',
-      'Please try again.'
-    )
-  }
+  const origin = String(formData['origin']).trim()
 
   const supabase = await createClient()
-  const options = {
-    emailRedirectTo: callbackURL,
-    shouldCreateUser: true
-  }
+  const user = await getUser(supabase)
 
-  // If allowPassword is false, do not create a new user
-  const { allowPassword } = getAuthTypes()
-  if (allowPassword) options.shouldCreateUser = false
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email,
-    options: options
-  })
+  if (user) {
+    const { data, error } = await supabase.auth.updateUser({
+      email: email
+    })
 
-  if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/email_signin',
-      'You could not be signed in.',
-      error.message
-    )
-  } else if (data) {
-    cookieStore.set('preferredSignInView', 'email_signin', { path: '/' })
-    redirectPath = getStatusRedirect(
-      '/signin/email_signin',
-      'Success!',
-      'Please check your email for a magic link. You may now close this tab.',
-      true
-    )
+    if (error)
+      return getErrorRedirect(
+        origin || '/signin',
+        'Sign up failed.',
+        error.message
+      )
+
+    return data.user
+      ? getStatusRedirect(
+          origin || '/signin',
+          'Success!',
+          'Please check your email for a confirmation link. You may now close this tab.'
+        )
+      : getStatusRedirect('/dashboard', 'Success!', 'You are now signed in.')
   } else {
-    redirectPath = getErrorRedirect(
-      '/signin/email_signin',
-      'Hmm... Something went wrong.',
-      'You could not be signed in.'
-    )
-  }
+    const { error, data } = await supabase.auth.signInWithOtp({
+      email: email
+    })
 
-  return redirectPath
+    if (error) {
+      return getErrorRedirect('/signin', 'Sign ip failed.', error.message)
+    }
+
+    return data.user
+      ? getStatusRedirect(
+          '/signin',
+          'Success!',
+          'Please check your email for a confirmation link. You may now close this tab.'
+        )
+      : getStatusRedirect('/dashboard', 'Success!', 'You are now signed in.')
+  }
 }
 
-export async function signInWithPhone(formData: FormData) {
-  const cookieStore = await cookies()
-  const callbackURL = getURL('/auth/callback')
-
-  const phone = String(formData['phone']).trim()
-  let redirectPath: string
-
-  if (!isValidPhone(phone)) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Invalid phone number.',
-      'Please try again.'
-    )
-  }
-
-  const supabase = await createClient()
-  const options = {
-    emailRedirectTo: callbackURL,
-    shouldCreateUser: true
-  }
-
-  // If allowPassword is false, do not create a new user
-  const { allowPassword } = getAuthTypes()
-  if (allowPassword) options.shouldCreateUser = false
-  const { data, error } = await supabase.auth.signInWithOtp({
-    phone,
-    options: options
-  })
-
-  if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'You could not be signed in.',
-      error.message
-    )
-  } else if (data) {
-    cookieStore.set('preferredSignInView', 'verify/otp', { path: '/' })
-    redirectPath = getStatusRedirect(
-      '/verify/otp',
-      'Success!',
-      'Please check your phone for an OTP code.',
-      true
-    )
-  } else {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Hmm... Something went wrong.',
-      'You could not be signed in.'
-    )
-  }
-
-  return redirectPath
-}
-
-export async function verifyOTP(formData: FormData) {
-  const phone = String(formData['phone']).trim()
-  const otp = String(formData['otp']).trim()
-  let redirectPath: string
-
-  if (!isValidPhone(phone)) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Invalid phone number.',
-      'Please try again.'
-    )
-  }
-
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.verifyOtp({
-    phone,
-    token: otp,
-    type: 'sms'
-  })
-
-  if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Sign up failed.',
-      error.message
-    )
-  } else if (data.session) {
-    redirectPath = getStatusRedirect(
-      '/',
-      'Success!',
-      'Verified! You are now signed in.'
-    )
-  } else if (
-    data.user &&
-    data.user.identities &&
-    data.user.identities.length == 0
-  ) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Sign up failed.',
-      'There is already an account associated with this email address. Try resetting your password.'
-    )
-  } else if (data.user) {
-    redirectPath = getStatusRedirect(
-      '/',
-      'Success!',
-      'Please check your email for a confirmation link. You may now close this tab.'
-    )
-  } else {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Hmm... Something went wrong.',
-      'You could not be signed up.'
-    )
-  }
-
-  return redirectPath
-}
-
-export async function requestPasswordUpdate(formData: FormData) {
-  const callbackURL = getURL('/auth/reset_password')
-
-  // Get form data
-  const email = String(formData['email']).trim()
-  let redirectPath: string
-
-  if (!isValidEmail(email)) {
-    redirectPath = getErrorRedirect(
-      '/signin/forgot_password',
-      'Invalid email address.',
-      'Please try again.'
-    )
-  }
-
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: callbackURL
-  })
-
-  if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/forgot_password',
-      error.message,
-      'Please try again.'
-    )
-  } else if (data) {
-    redirectPath = getStatusRedirect(
-      '/signin/forgot_password',
-      'Success!',
-      'Please check your email for a password reset link. You may now close this tab.',
-      true
-    )
-  } else {
-    redirectPath = getErrorRedirect(
-      '/signin/forgot_password',
-      'Hmm... Something went wrong.',
-      'Password reset email could not be sent.'
-    )
-  }
-
-  return redirectPath
-}
-
-export async function signUp(formData: FormData) {
-  const email = String(formData['email']).trim()
+export async function anonymousSignin(formData: FormData) {
   const first_name = String(formData['first_name']).trim()
   const last_name = String(formData['last_name']).trim()
-  const phone = String(formData['phone']).trim()
-
-  const callbackURL = getURL('/auth/callback')
-
-  let redirectPath: string
-
-  if (!isValidEmail(email)) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Invalid email address.',
-      'Please try again.'
-    )
-  }
+  const city = String(formData['city']).trim()
+  const state = String(formData['state']).trim()
 
   const supabase = await createClient()
-  const { error, data } = await supabase.auth.signUp({
-    email,
-    password: 'password',
-    phone,
-    options: {
-      emailRedirectTo: callbackURL,
-      data: {
-        full_name: `${first_name} ${last_name}`,
-        phone
-      }
+  const user = await getUser(supabase)
+
+  // Only create a new account when the user is not signed in
+  if (!user) {
+    const { error } = await supabase.auth.signInAnonymously({
+      options: { data: { full_name: `${first_name} ${last_name}` } }
+    })
+
+    if (error) {
+      return getErrorRedirect('/scan/address', 'Error', error.message)
     }
+  }
+
+  // Create profile for the user
+  const {
+    data: profile,
+    error: profileError,
+    is_new
+  } = await createProfile(supabase, {
+    first_name,
+    last_name,
+    city,
+    state
   })
 
-  if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Sign up failed.',
-      error.message
-    )
-  } else if (data.session) {
-    redirectPath = getStatusRedirect(
-      `/dashboard`,
-      'Success!',
-      'You are now signed in.'
-    )
-  } else if (
-    data.user &&
-    data.user.identities &&
-    data.user.identities.length == 0
-  ) {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Sign up failed.',
-      'There is already an account associated with this email address. Try resetting your password.'
-    )
-  } else if (data.user) {
-    redirectPath = getStatusRedirect(
-      '/',
-      'Success!',
-      'Please check your email for a confirmation link. You may now close this tab.'
-    )
-  } else {
-    redirectPath = getErrorRedirect(
-      '/signin/signup',
-      'Hmm... Something went wrong.',
-      'You could not be signed up.'
-    )
-  }
-
-  return redirectPath
-}
-
-export async function updatePassword(formData: FormData) {
-  const password = String(formData['password']).trim()
-  const passwordConfirm = String(formData['passwordConfirm']).trim()
-  let redirectPath: string
-
-  // Check that the password and confirmation match
-  if (password !== passwordConfirm) {
-    redirectPath = getErrorRedirect(
-      '/signin/update_password',
-      'Your password could not be updated.',
-      'Passwords do not match.'
-    )
-  }
-
-  const supabase = await createClient()
-  const { error, data } = await supabase.auth.updateUser({
-    password
-  })
-
-  if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/update_password',
-      'Your password could not be updated.',
-      error.message
-    )
-  } else if (data.user) {
-    redirectPath = getStatusRedirect(
-      '/',
-      'Success!',
-      'Your password has been updated.'
-    )
-  } else {
-    redirectPath = getErrorRedirect(
-      '/signin/update_password',
-      'Hmm... Something went wrong.',
-      'Your password could not be updated.'
-    )
-  }
-
-  return redirectPath
-}
-
-export async function updateUserField(formData: FormData) {
-  // Get form data
-  const value = String(formData['value']).trim()
-  const field = String(formData['field']).trim()
-
-  // Check that the email is valid
-  if (formData.field === 'email' && !isValidEmail(value)) {
+  if (profileError) {
     return getErrorRedirect(
-      '/dashboard/account',
-      'Your email could not be updated.',
-      'Invalid email address.'
+      '/scan/address',
+      'Internal server error. Please try again later.',
+      profileError.message
     )
   }
 
-  const supabase = await createClient()
-
-  const callbackUrl = getURL(
-    getStatusRedirect(
-      '/dashboard/account',
-      'Success!',
-      `Your ${field} has been updated.`
-    )
+  return getStatusRedirect(
+    '/scan/result',
+    'Success!',
+    'Your scan has been initiated.',
+    false,
+    `profile=${profile.id}&is_new=${is_new}`
   )
-
-  const { error } = await supabase.auth.updateUser(
-    { [field]: value },
-    field === 'email'
-      ? {
-          emailRedirectTo: callbackUrl
-        }
-      : {}
-  )
-
-  if (error) {
-    return getErrorRedirect(
-      '/dashboard/account',
-      `Your ${field} could not be updated.`,
-      error.message
-    )
-  } else {
-    if (field === 'email')
-      return getStatusRedirect(
-        '/dashboard/account',
-        'Confirmation emails sent.',
-        `You will need to confirm the update by clicking the links sent to both the old and new email addresses.`
-      )
-    return getStatusRedirect(
-      '/dashboard/account',
-      'Success!',
-      `Your ${field} has been updated.`
-    )
-  }
-}
-
-export async function updateName(formData: FormData) {
-  // Get form data
-  const fullName = String(formData['fullName']).trim()
-
-  const supabase = await createClient()
-  const { error, data } = await supabase.auth.updateUser({
-    data: { full_name: fullName }
-  })
-
-  if (error) {
-    return getErrorRedirect(
-      '/dashboard/account',
-      'Your name could not be updated.',
-      error.message
-    )
-  } else if (data.user) {
-    return getStatusRedirect(
-      '/dashboard/account',
-      'Success!',
-      'Your name has been updated.'
-    )
-  } else {
-    return getErrorRedirect(
-      '/dashboard/account',
-      'Hmm... Something went wrong.',
-      'Your name could not be updated.'
-    )
-  }
 }
