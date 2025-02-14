@@ -13,6 +13,7 @@ import { updateUserSettingsAction } from '@/utils/supabase/server'
 import FormToggle from '@/components/modules/FormToggle'
 import FormInput from '@/components/modules/FormInput'
 import { MailIcon, PhoneCallIcon } from 'lucide-react'
+import { User } from '@supabase/supabase-js'
 
 type Setting = Tables<'users'>
 
@@ -26,17 +27,23 @@ const FormSchema = z.object({
 })
 
 interface SectionProps {
+  user: User
+  profile?: Tables<'profiles'>
   settings: Setting
 }
 
-export default function SettingsForm({ settings }: SectionProps) {
+export default function SettingsForm({
+  user,
+  profile,
+  settings
+}: SectionProps) {
   const router = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: settings.email ?? '',
-      phone: settings.phone ?? '',
+      email: settings.email ?? profile?.email ?? user.email ?? '',
+      phone: settings.phone ?? profile?.phone ?? user.phone ?? '',
       status_update_method: settings.status_update_method ?? 'email',
       receive_marketing_emails: settings.receive_marketing_emails
         ? 'yes'

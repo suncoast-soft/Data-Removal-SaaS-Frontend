@@ -8,9 +8,11 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
-import { format } from 'date-fns'
+import { format, formatDate } from 'date-fns'
 import Link from 'next/link'
 import ProfileForm from '../Forms/ProfileForm'
+import SSNDisplay from '@/utils/helpers'
+import { cn } from '@/utils/cn'
 
 type Profile = Tables<'profiles'>
 
@@ -66,7 +68,7 @@ export default function ProfileAccordion({
             </p>
           </div>
 
-          <ProfileForm user={user}>
+          <ProfileForm user={user} profile={profile}>
             <Button
               variant="outline"
               type="submit"
@@ -87,7 +89,7 @@ export default function ProfileAccordion({
             },
             {
               label: 'Social Security Number',
-              value: `${profile.ssn ?? ''}`
+              value: `${SSNDisplay(profile.ssn) ?? ''}`
             },
             {
               label: 'Alternative Names',
@@ -99,14 +101,14 @@ export default function ProfileAccordion({
             },
             {
               label: 'Birthdate',
-              value: `${profile.birth_date ?? ''}`
+              value: `${formatDate(profile.birth_date ?? '', 'MM/dd/yyyy') ?? ''}`
             },
             {
               label: 'Email',
               value: `${profile.email ?? ''}`
             },
             {
-              label: 'Gender',
+              label: 'Sex',
               value: `${profile.gender ?? ''}`
             },
             {
@@ -116,7 +118,14 @@ export default function ProfileAccordion({
           ].map(({ label, value }, index) => (
             <p key={index} className="border-b border-white/20 py-2">
               <span className="text-primary text-lg">{label}: </span>
-              <span className="text-white text-xl font-semibold">{value}</span>
+              <span
+                className={cn(
+                  'text-white text-xl font-semibold',
+                  label === 'Sex' && 'capitalize'
+                )}
+              >
+                {value}
+              </span>
             </p>
           ))}
         </div>

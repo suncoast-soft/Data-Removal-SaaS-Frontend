@@ -213,6 +213,22 @@ export function splitName(fullName?: string): {
   }
 }
 
+export function splitAddress(address?: string): {
+  city: string
+  state: string
+} {
+  if (!address) {
+    return { city: '', state: '' }
+  }
+
+  const [city, state] = address.split(',').map((part) => part.trim())
+
+  return {
+    city: city || '',
+    state: state || ''
+  }
+}
+
 export const isValidEmail = (email: string) => {
   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
   return regex.test(email)
@@ -308,4 +324,10 @@ export const hasKeyInData = (
   }
 
   return false
+}
+
+export default function SSNDisplay(ssn: string | null) {
+  const maskedSSN = ssn ? `•••-••-${ssn.slice(-4)}` : ''
+
+  return maskedSSN
 }

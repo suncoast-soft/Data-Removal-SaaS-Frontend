@@ -72,7 +72,11 @@ export default async function Account() {
         cta2={<DeleteAccountForm settings={settings} />}
       />
 
-      <SettingsForm settings={settings} />
+      <SettingsForm
+        user={user as User}
+        profile={profiles[0]}
+        settings={settings}
+      />
 
       <SectionHeader title="Log In History" />
 

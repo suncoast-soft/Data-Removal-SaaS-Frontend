@@ -47,7 +47,7 @@ const FormSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
   alternative_names: z.string().optional(),
-  birth_date: z.date(),
+  birth_date: z.date().optional(),
   gender: z.string().optional(),
   address: z.string().optional(),
   city: z.string(),
@@ -93,14 +93,14 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
     if (profile) {
       const transformedData = {
         ...data,
-        birth_date: data.birth_date.toISOString(),
+        birth_date: data.birth_date?.toISOString() ?? '',
         id: profile.id
       }
       await handleRequest(transformedData, updateProfileAction, router)
     } else {
       const transformedData = {
         ...data,
-        birth_date: data.birth_date.toISOString()
+        birth_date: data.birth_date?.toISOString() ?? ''
       }
       await handleRequest(transformedData, createProfileAction, router)
     }
@@ -182,14 +182,14 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
                       <FormDate
                         control={form.control}
                         name="birth_date"
-                        label="Birth Date"
+                        label="Date of birth"
                         required={false}
                       />
 
                       <FormToggle
                         control={form.control}
                         name="gender"
-                        label="Gender"
+                        label="Sex"
                         options={[
                           { label: 'Male', value: 'male' },
                           { label: 'Female', value: 'female' }

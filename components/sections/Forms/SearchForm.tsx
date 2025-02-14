@@ -13,8 +13,8 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Info } from 'lucide-react'
-import Link from 'next/link'
+// import { Info } from 'lucide-react'
+// import Link from 'next/link'
 import ArrowRight from '@/components/icons/ArrowRight'
 import { useRouter } from 'next/navigation'
 
@@ -63,7 +63,7 @@ export default function SearchForm() {
             )}
           />
 
-          <div className="flex items-center gap-2 mt-4 lg:mt-3 z-10">
+          {/* <div className="flex items-center gap-2 mt-4 lg:mt-3 z-10">
             <Info className="w-[18px] h-[18px]" />
             <Link
               href={'/'}
@@ -71,7 +71,7 @@ export default function SearchForm() {
             >
               How we use your information?
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <Button

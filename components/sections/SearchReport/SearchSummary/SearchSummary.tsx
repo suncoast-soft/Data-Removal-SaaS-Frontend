@@ -29,17 +29,11 @@ export default function SearchSummary({
   googleSearches,
   brokerSearches
 }: SectionProps) {
-  const totalSearches =
-    (Array.isArray(googleSearches[0]?.search_result)
-      ? googleSearches[0].search_result.length
-      : 0) + brokerSearches.length
+  const totalSearches = brokerSearches.length
 
-  const successfulSearches =
-    (Array.isArray(googleSearches[0]?.search_result)
-      ? googleSearches[0].search_result.length
-      : 0) +
-    brokerSearches.filter((search) => search.search_status === 'completed')
-      .length
+  const successfulSearches = brokerSearches.filter(
+    (search) => search.search_status === 'completed'
+  ).length
 
   const reportMetrics = [
     {
@@ -184,7 +178,7 @@ export default function SearchSummary({
       />
 
       <h1 className="text-2xl lg:text-4xl font-bold text-center mb-2">
-        We found your personal data on {successfulSearches}
+        We found your personal data on {successfulSearches} sites
       </h1>
 
       <p className="text-lg lg:text-xl text-dark/70 text-center mb-8">

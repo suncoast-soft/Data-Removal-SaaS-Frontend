@@ -60,7 +60,7 @@ export default function FormDate({
                     {field.value ? (
                       format(field.value, 'PPP')
                     ) : (
-                      <span className="opacity-60">Pick a date</span>
+                      <span className="opacity-60">Select a date</span>
                     )}
                   </Button>
                 </div>

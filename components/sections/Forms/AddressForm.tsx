@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation'
 import { usePlacesWidget } from 'react-google-autocomplete'
 import { useEffect, useState } from 'react'
 import { cn } from '@/utils/cn'
-import { getStateCode, splitName } from '@/utils/helpers'
+import { getStateCode, splitAddress, splitName } from '@/utils/helpers'
 import { Button } from '@/components/ui/button'
 import ArrowRight from '@/components/icons/ArrowRight'
 import { handleRequest } from '@/utils/auth-helpers/client'
@@ -92,6 +92,19 @@ export default function AddressForm({ name }: { name: string }) {
     }
   }
 
+  function onChange(address: string) {
+    if (address.includes(', ')) {
+      const { city, state } = splitAddress(address)
+      setCity(city)
+      setState(state)
+      form.setValue('address', `${city}, ${state}`, { shouldValidate: true })
+    } else {
+      const city = address
+      setCity(city)
+      form.setValue('address', `${city}`, { shouldValidate: true })
+    }
+  }
+
   function onAddressSelect({ city, state }: Address) {
     setCity(city)
     setState(state)
@@ -129,8 +142,8 @@ export default function AddressForm({ name }: { name: string }) {
         <p>Validating Your Address...</p>
       ) : (
         <div className="relative text-3xl lg:text-5xl leading-wide font-bold">
-          <h1>
-            <p className="px-2 mb-2">{firstName}, are you from</p>
+          <h1 className="leading-snug">
+            <span className="px-2 mb-2">{firstName}, are you currently in</span>
             <span className="bg-dark leading-[55px] text-white px-2 relative">
               {city}, {state}
             </span>
@@ -157,6 +170,7 @@ export default function AddressForm({ name }: { name: string }) {
                       placeholder="Enter your Location"
                       className={cn('lg:w-80 placeholder:text-dark/60')}
                       ref={ref}
+                      onChange={(e) => onChange(e.target.value)}
                     />
                   </FormControl>
 
@@ -179,8 +193,8 @@ export default function AddressForm({ name }: { name: string }) {
       </Form>
 
       <p className="mt-2">
-        Please confirm your location. We will use this data to scan 37 data
-        broker sites to find those that expose your personal information.
+        Please confirm your current location. We will use this data to scan 30
+        data broker sites to find those that expose your personal information.
       </p>
     </>
   )
