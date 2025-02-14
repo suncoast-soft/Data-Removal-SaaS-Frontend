@@ -5,10 +5,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/hooks/use-toast'
 import { MailIcon, UserIcon } from 'lucide-react'
 import FormInput from '@/components/modules/FormInput'
 import FormTextarea from '@/components/modules/FormTextarea'
+import { handleRequest } from '@/utils/auth-helpers/client'
+import { createMessageAction } from '@/utils/supabase/server'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const FormSchema = z.object({
   name: z.string(),
@@ -21,13 +24,26 @@ const FormSchema = z.object({
 
 export default function ContactForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      message: ''
+    }
   })
 
-  function onSubmit() {
-    toast({
-      title: 'Your request has been received successfully!'
-    })
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsSubmitting(true)
+    try {
+      await handleRequest(data, createMessageAction, router)
+      setIsSubmitting(false)
+    } catch (error) {
+      console.error('messaging failed:', error)
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -65,7 +81,12 @@ export default function ContactForm() {
           className="col-span-2"
         />
 
-        <Button type="submit" variant="secondary" className="w-full lg:w-52">
+        <Button
+          type="submit"
+          variant="secondary"
+          className="w-full lg:w-52"
+          disabled={isSubmitting}
+        >
           Send Message
         </Button>
       </form>

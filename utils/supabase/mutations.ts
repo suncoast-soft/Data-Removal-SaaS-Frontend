@@ -92,3 +92,19 @@ export const updateUserSettings = cache(
     return { data, error }
   }
 )
+
+export const createMessage = cache(
+  async (supabase: SupabaseClient, row: RowData) => {
+    const user = await getUser(supabase)
+
+    const { data, error } = await supabase
+      .from('messages')
+      .insert({
+        ...row,
+        user_id: user?.id
+      })
+      .select()
+
+    return { data, error }
+  }
+)

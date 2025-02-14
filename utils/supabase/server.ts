@@ -2,7 +2,12 @@
 
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { createProfile, updateProfile, updateUserSettings } from './mutations'
+import {
+  createMessage,
+  createProfile,
+  updateProfile,
+  updateUserSettings
+} from './mutations'
 import { getErrorRedirect, getStatusRedirect } from '../helpers'
 
 interface FormData {
@@ -100,5 +105,27 @@ export async function updateUserSettingsAction(
     '/dashboard/account',
     'Success!',
     'User settings updated successfully'
+  )
+}
+
+export async function createMessageAction(
+  formData: FormData
+): Promise<string | void> {
+  const supabase = await createClient()
+
+  const { error } = await createMessage(supabase, formData)
+
+  if (error) {
+    return getErrorRedirect(
+      '/contact',
+      'Your message could not be sent. Please try again.',
+      error.message
+    )
+  }
+
+  return getStatusRedirect(
+    '/contact',
+    'Success!',
+    'We got your request! Someone from our team will reach out to you soon.'
   )
 }
