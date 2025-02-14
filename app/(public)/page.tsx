@@ -60,7 +60,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="features" className="bg-[#F9FCFF] mt-16 lg:mt-24">
+      <section id="features" className="bg-[#F9FCFF]">
         <div className="container mx-auto px-4 lg:px-28 py-10 lg:py-16">
           <FeaturedColumns
             title="Prying eyes are eager to access your information"
