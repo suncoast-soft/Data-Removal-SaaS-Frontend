@@ -2,15 +2,6 @@ import { createClient } from '@/utils/supabase/server'
 import { getProfiles, getUser, getUserSettings } from '@/utils/supabase/queries'
 import { Button } from '@/components/ui/button'
 import { Accordion } from '@/components/ui/accordion'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
-import { formatDate } from 'date-fns'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
 import ProfileForm from '@/components/sections/Forms/ProfileForm'
 import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion'
@@ -77,42 +68,6 @@ export default async function Account() {
         profile={profiles[0]}
         settings={settings}
       />
-
-      <SectionHeader title="Log In History" />
-
-      <div className="mt-6 mb-[60px] rounded-2xl border border-dark/20 bg-[#342E3705]">
-        <Table className="">
-          <TableHeader>
-            <TableRow className="bg-dark hover:bg-transparent h-[60px]">
-              <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white rounded-tl-2xl">
-                Date
-              </TableHead>
-              <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white">
-                Time
-              </TableHead>
-              <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white">
-                Device
-              </TableHead>
-              <TableHead className="bg-dark hover:bg-dark h-[60px] font-bold text-sm lg:text-lg text-white rounded-tr-2xl">
-                Location
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">
-                {formatDate(Date.now(), 'MM/dd/yyy')}
-              </TableCell>
-              <TableCell className="font-medium">
-                {formatDate(Date.now(), 'HH:MM:SS')}
-              </TableCell>
-              <TableCell className="font-medium ">Test Device</TableCell>
-              <TableCell className="font-medium ">GB, Test</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
     </div>
   )
 }

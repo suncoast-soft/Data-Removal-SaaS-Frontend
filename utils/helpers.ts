@@ -1,59 +1,33 @@
-export const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
-)
+import { format, parseISO } from 'date-fns'
+
+export const isValidEmail = (email: string) => {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+  return regex.test(email)
+}
+
+export const isValidPhone = (phone: string) => {
+  const regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  return regex.test(phone)
+}
+
+export const isValidUrl = (str: string) =>
+  /^(https?:\/\/[^\s/$.?#].[^\s]*)$/i.test(str)
 
 export const getURL = (path: string = '') => {
-  // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL &&
     process.env.NEXT_PUBLIC_SITE_URL.trim() !== ''
       ? process.env.NEXT_PUBLIC_SITE_URL
-      : // If not set, check for NEXT_PUBLIC_VERCEL_URL, which is automatically set by Vercel.
-        process?.env?.NEXT_PUBLIC_VERCEL_URL &&
+      : process?.env?.NEXT_PUBLIC_VERCEL_URL &&
           process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ''
         ? process.env.NEXT_PUBLIC_VERCEL_URL
-        : // If neither is set, default to localhost for local development.
-          'http://localhost:3000/'
+        : 'http://localhost:3000/'
 
-  // Trim the URL and remove trailing slash if exists.
   url = url.replace(/\/+$/, '')
-  // Make sure to include `https://` when not localhost.
   url = url.includes('http') ? url : `https://${url}`
-  // Ensure path starts without a slash to avoid double slashes in the final URL.
   path = path.replace(/^\/+/, '')
 
-  // Concatenate the URL and the path.
   return path ? `${url}/${path}` : url
-}
-
-export const toDateTime = (secs: number) => {
-  const t = new Date(+0) // Unix epoch start.
-  t.setSeconds(secs)
-  return t
-}
-
-export const calculateTrialEndUnixTimestamp = (
-  trialPeriodDays: number | null | undefined
-) => {
-  // Check if trialPeriodDays is null, undefined, or less than 2 days
-  if (
-    trialPeriodDays === null ||
-    trialPeriodDays === undefined ||
-    trialPeriodDays < 2
-  ) {
-    return undefined
-  }
-
-  const currentDate = new Date() // Current date and time
-  const trialEnd = new Date(
-    currentDate.getTime() + (trialPeriodDays + 1) * 24 * 60 * 60 * 1000
-  ) // Add trial days
-  return Math.floor(trialEnd.getTime() / 1000) // Convert to Unix timestamp in seconds
-}
-
-const toastKeyMap: { [key: string]: string[] } = {
-  status: ['status', 'status_description'],
-  error: ['error', 'error_description']
 }
 
 const getToastRedirect = (
@@ -64,6 +38,11 @@ const getToastRedirect = (
   disableButton: boolean = false,
   arbitraryParams: string = ''
 ): string => {
+  const toastKeyMap: { [key: string]: string[] } = {
+    status: ['status', 'status_description'],
+    error: ['error', 'error_description']
+  }
+
   const [nameKey, descriptionKey] = toastKeyMap[toastType]
 
   let redirectPath = `${path}?${nameKey}=${encodeURIComponent(toastName)}`
@@ -134,29 +113,6 @@ export async function streamToString(
   return result
 }
 
-export const slugToTitle = (slug: string): string => {
-  return slug
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-}
-
-export const getInitials = (nameOrEmail: string): string => {
-  if (!nameOrEmail) return ''
-
-  const nameParts = nameOrEmail.split(' ')
-
-  if (nameParts.length === 1) {
-    const emailName = nameParts[0].split('@')[0]
-    return emailName.charAt(0).toUpperCase()
-  }
-
-  const initials = nameParts
-    .map((part) => part.charAt(0).toUpperCase())
-    .join('')
-  return initials
-}
-
 export const getAgeFromBirth = (birthDate: string): number => {
   const today = new Date()
   const birth = new Date(birthDate)
@@ -174,7 +130,7 @@ export const getAgeFromBirth = (birthDate: string): number => {
   return age
 }
 
-export const isRemovalActive = (pricing: { created_at: string }) => {
+export const isPremiumUser = (pricing: { created_at: string }) => {
   const now = new Date()
   const createdAt = new Date(pricing.created_at)
 
@@ -184,63 +140,24 @@ export const isRemovalActive = (pricing: { created_at: string }) => {
   return now < expirationDate
 }
 
-export function splitName(fullName?: string): {
+export function splitName(fullName: string = ''): {
   firstName: string
   lastName: string
 } {
-  if (!fullName) {
-    return {
-      firstName: '',
-      lastName: ''
-    }
-  }
+  const [firstName = '', ...rest] = fullName.trim().split(/\s+/)
+  const lastName = rest.join(' ')
 
-  const nameParts = fullName.trim().split(/\s+/)
-
-  if (nameParts.length === 1) {
-    return {
-      firstName: nameParts[0],
-      lastName: ''
-    }
-  }
-
-  const firstName = nameParts[0]
-  const lastName = nameParts.slice(1).join(' ')
-
-  return {
-    firstName,
-    lastName
-  }
+  return { firstName, lastName }
 }
 
-export function splitAddress(address?: string): {
+export function splitAddress(address: string = ''): {
   city: string
   state: string
 } {
-  if (!address) {
-    return { city: '', state: '' }
-  }
+  const [city = '', state = ''] = address.split(',').map((part) => part.trim())
 
-  const [city, state] = address.split(',').map((part) => part.trim())
-
-  return {
-    city: city || '',
-    state: state || ''
-  }
+  return { city, state }
 }
-
-export const isValidEmail = (email: string) => {
-  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-  return regex.test(email)
-}
-
-export const isValidPhone = (phone: string) => {
-  const regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
-  return regex.test(phone)
-}
-
-export const isValidUrl = (str: string) =>
-  /^(https?:\/\/[^\s/$.?#].[^\s]*)$/i.test(str)
 
 export const getStateCode = (stateName: string): string => {
   const stateMapping = {
@@ -296,38 +213,50 @@ export const getStateCode = (stateName: string): string => {
     Wyoming: 'WY'
   }
 
-  return (
-    stateMapping[stateName as keyof typeof stateMapping] || 'Invalid state name'
-  )
+  return stateMapping[stateName as keyof typeof stateMapping] || ''
 }
 
 export const hasKeyInData = (
   data: any,
-  keysToCheck: string[],
-  other: boolean = false
+  keysToCheck: string | null,
+  exclude: string[]
 ): boolean => {
-  if (data === null || data === undefined) return false
+  if (!data || typeof data !== 'object') return false
 
-  if (typeof data === 'object') {
-    if (Array.isArray(data)) {
-      return data.some((item) => hasKeyInData(item, keysToCheck))
-    }
-
-    return Object.entries(data).some(([key, value]) =>
-      !other
-        ? keysToCheck.includes(key.toLowerCase()) ||
-          hasKeyInData(value, keysToCheck)
-        : !['email', 'address', 'phone', 'first_name', 'last_name'].includes(
-            key.toLowerCase()
-          )
-    )
+  if (Array.isArray(data)) {
+    return data.some((item) => hasKeyInData(item, keysToCheck, exclude))
   }
 
-  return false
+  const lowerCaseKeysToCheck = keysToCheck?.toLowerCase()
+  const lowerCaseExclude = new Set(exclude.map((key) => key.toLowerCase()))
+
+  return Object.keys(data).some((key) => {
+    const lowerCaseKey = key.toLowerCase()
+    return (
+      lowerCaseKeysToCheck === lowerCaseKey ||
+      (lowerCaseKeysToCheck === null && !lowerCaseExclude.has(lowerCaseKey))
+    )
+  })
 }
 
 export default function SSNDisplay(ssn: string | null) {
   const maskedSSN = ssn ? `•••-••-${ssn.slice(-4)}` : ''
 
   return maskedSSN
+}
+
+export const assembleAddress = (profile: Record<string, any>): string => {
+  const { address, city, state, zip, country } = profile
+  return [address, city, state, zip, country].filter((part) => part).join(', ')
+}
+
+export const displayDate = (dateValue: string | Date | null): string => {
+  if (!dateValue) return ''
+
+  try {
+    const date = typeof dateValue === 'string' ? parseISO(dateValue) : dateValue
+    return format(date, 'MM/dd/yyyy')
+  } catch {
+    return ''
+  }
 }

@@ -84,9 +84,9 @@ export const updateUserSettings = cache(
 
     // Create profile
     const { data, error } = await supabase
-      .from('settings')
+      .from('users')
       .update(row)
-      .eq('id', row.id)
+      .eq('id', user.id)
       .select()
 
     return { data, error }

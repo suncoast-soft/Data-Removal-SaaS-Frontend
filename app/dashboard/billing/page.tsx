@@ -1,7 +1,7 @@
 import SectionHeader from '@/components/modules/SectionHeader'
 import CustomerPortalForm from '@/components/sections/Forms/CustomerPortalForm'
 import { Tables } from '@/types_db'
-import { isRemovalActive } from '@/utils/helpers'
+import { isPremiumUser } from '@/utils/helpers'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
 import { getPricingPlan, getUser } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
@@ -45,7 +45,7 @@ export default async function Billing() {
     getPricingPlan(supabase) as Promise<PricingPlan | null>
   ])
 
-  const isPaidUser = pricing ? isRemovalActive(pricing) : false
+  const isPaidUser = pricing ? isPremiumUser(pricing) : false
 
   return (
     <div className="container mx-auto pt-0 px-0">

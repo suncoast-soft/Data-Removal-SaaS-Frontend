@@ -111,28 +111,34 @@ export default function RemovalSummary({
     {
       name: 'Address',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, ['address'])
+        hasKeyInData(search.search_result, 'address', [])
       ).length,
       color: COLORS.GREEN
     },
     {
       name: 'Email',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, ['email'])
+        hasKeyInData(search.search_result, 'email', [])
       ).length,
       color: COLORS.BLUE
     },
     {
       name: 'Phone',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, ['phone'])
+        hasKeyInData(search.search_result, 'phone', [])
       ).length,
       color: COLORS.CORAL
     },
     {
       name: 'Other',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, [], true)
+        hasKeyInData(search.search_result, null, [
+          'email',
+          'address',
+          'phone',
+          'first_name',
+          'last_name'
+        ])
       ).length,
       color: COLORS.BLACK
     }

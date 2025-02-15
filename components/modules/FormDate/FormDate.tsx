@@ -13,7 +13,7 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 import { cn } from '@/utils/cn'
-import { format } from 'date-fns'
+import { displayDate } from '@/utils/helpers'
 import { CalendarRange } from 'lucide-react'
 
 interface ModuleProps {
@@ -58,7 +58,7 @@ export default function FormDate({
                     )}
                   >
                     {field.value ? (
-                      format(field.value, 'PPP')
+                      displayDate(field.value)
                     ) : (
                       <span className="opacity-60">Select a date</span>
                     )}

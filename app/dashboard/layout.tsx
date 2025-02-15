@@ -12,7 +12,7 @@ import BillingIcon from '@/components/icons/BillingIcon'
 import FAQsIcon from '@/components/icons/FAQsIcon'
 import BlogIcon from '@/components/icons/BlogIcon'
 // import ScanHistoryIcon from '@/components/icons/ScanHistoryIcon'
-import { isRemovalActive } from '@/utils/helpers'
+import { isPremiumUser } from '@/utils/helpers'
 import { Suspense } from 'react'
 import { Toaster } from '@/components/ui/toaster'
 
@@ -29,7 +29,7 @@ export default async function DashboardLayout({
   }
 
   const pricingPlan = await getPricingPlan(supabase)
-  const removalActivated = pricingPlan && isRemovalActive(pricingPlan)
+  const removalActivated = pricingPlan && isPremiumUser(pricingPlan)
 
   const navs = [
     {

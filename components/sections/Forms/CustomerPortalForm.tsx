@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
 import BillingHistoryTable from '../../modules/Billing/BillingHistoryTable'
-import { format } from 'date-fns'
 import { Mail } from 'lucide-react'
+import { displayDate } from '@/utils/helpers'
 
 interface StripePricingTableProps
   extends React.DetailedHTMLProps<
@@ -49,7 +49,7 @@ interface Invoice {
     }[]
   }
   number: string
-  created: number
+  created: string
   status: string
   invoice_pdf: string
 }
@@ -89,11 +89,8 @@ export default function CustomerPortalForm({
     amount: `${invoice.lines.data[0].currency.toUpperCase()} ${
       invoice.lines.data[0].currency === 'usd' ? '$' : ''
     }${invoice.lines.data[0].amount}`,
-    name: `Invoice-${invoice.number}-${format(
-      new Date(invoice.created),
-      'dd, yyyy'
-    )}`,
-    date: format(new Date(invoice.created), 'MM/dd/yyyy'),
+    name: `Invoice-${invoice.number}-${displayDate(invoice.created)}`,
+    date: displayDate(invoice.created),
     status: invoice.status,
     plan: invoice.lines.data[0].description,
     invoice_pdf: invoice.invoice_pdf,

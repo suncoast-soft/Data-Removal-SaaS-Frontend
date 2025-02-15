@@ -8,10 +8,9 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
-import { format, formatDate } from 'date-fns'
 import Link from 'next/link'
 import ProfileForm from '../Forms/ProfileForm'
-import SSNDisplay from '@/utils/helpers'
+import SSNDisplay, { assembleAddress, displayDate } from '@/utils/helpers'
 import { cn } from '@/utils/cn'
 
 type Profile = Tables<'profiles'>
@@ -62,9 +61,7 @@ export default function ProfileAccordion({
 
             <p className="text-sm font-light text-white">
               <span>Profile created:</span>
-              <span className="ml-2">
-                {format(user?.created_at ?? '', 'MM/dd/yyyy')}
-              </span>
+              <span className="ml-2">{displayDate(user.created_at)}</span>
             </p>
           </div>
 
@@ -89,31 +86,31 @@ export default function ProfileAccordion({
             },
             {
               label: 'Social Security Number',
-              value: `${SSNDisplay(profile.ssn) ?? ''}`
+              value: SSNDisplay(profile.ssn) ?? ''
             },
             {
               label: 'Alternative Names',
-              value: `${profile.alternative_names ?? ''}`
+              value: profile.alternative_names ?? ''
             },
             {
               label: 'Phone Number',
-              value: `${profile.phone ?? ''}`
+              value: profile.phone ?? ''
             },
             {
               label: 'Birthdate',
-              value: `${formatDate(profile.birth_date ?? '', 'MM/dd/yyyy') ?? ''}`
+              value: displayDate(profile.birth_date)
             },
             {
               label: 'Email',
-              value: `${profile.email ?? ''}`
+              value: profile.email ?? ''
             },
             {
               label: 'Sex',
-              value: `${profile.gender ?? ''}`
+              value: profile.gender ?? ''
             },
             {
               label: 'Address',
-              value: `${profile.address ?? ''} ${profile.city ?? ''} ${profile.state ?? ''} ${profile.zip ?? ''}`
+              value: assembleAddress(profile)
             }
           ].map(({ label, value }, index) => (
             <p key={index} className="border-b border-white/20 py-2">

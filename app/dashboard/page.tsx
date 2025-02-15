@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
 import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
 import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
-import { getErrorRedirect, isRemovalActive } from '@/utils/helpers'
+import { getErrorRedirect, isPremiumUser } from '@/utils/helpers'
 import { redirect } from 'next/navigation'
 import { BellIcon } from 'lucide-react'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
@@ -44,7 +44,7 @@ export default async function Dashboard({
     redirect(`/dashboard?profile=${profiles[0].id}`)
   }
 
-  const isPaidUser = pricing && isRemovalActive(pricing)
+  const isPaidUser = pricing && isPremiumUser(pricing)
   const notifications = 0
 
   return (
