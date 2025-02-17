@@ -59,8 +59,8 @@ export default function SettingsForm({
     const transformedData = {
       ...data,
       receive_marketing_emails: data.receive_marketing_emails === 'yes',
-      allow_multi_device_login: data.receive_marketing_emails === 'yes',
-      enable_mfa: data.receive_marketing_emails === 'yes'
+      allow_multi_device_login: data.allow_multi_device_login === 'yes',
+      enable_mfa: data.enable_mfa === 'yes'
     }
     await handleRequest(transformedData, updateUserSettingsAction, router)
   }

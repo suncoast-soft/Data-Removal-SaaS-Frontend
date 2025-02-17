@@ -127,7 +127,14 @@ export default async function HomePage() {
 
       <section id="create-your-account" className="bg-white my-16 lg:my-24">
         <div className="container mx-auto px-2 lg:px-28">
-          <FeaturedCTA />
+          <FeaturedCTA
+            image="/lp-create-account-image.png"
+            title="Create your account today and get started for free!"
+            buttons={[
+              { name: 'GET STARTED', link: '/signin' },
+              { name: 'TALK TO SALES', link: '/contact' }
+            ]}
+          />
         </div>
       </section>
     </>

@@ -82,6 +82,8 @@ export const updateUserSettings = cache(
       }
     }
 
+    console.log(row)
+
     // Create profile
     const { data, error } = await supabase
       .from('users')

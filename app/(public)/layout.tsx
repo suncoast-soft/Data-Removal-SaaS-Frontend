@@ -7,6 +7,7 @@ import { getURL } from '@/utils/helpers'
 import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/utils/supabase/queries'
 import 'styles/main.css'
+import { redirect } from 'next/navigation'
 
 const title = 'Pup Erase'
 const description = 'Removal of unwanted data from the internet'
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = await createClient()
   const user = await getUser(supabase)
+
+  if (user && !user.is_anonymous) {
+    return redirect('/dashboard/account')
+  }
 
   return (
     <>

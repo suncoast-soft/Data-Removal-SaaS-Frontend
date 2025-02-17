@@ -61,12 +61,12 @@ export default async function DashboardLayout({
     {
       icon: <FAQsIcon />,
       name: 'FAQs',
-      link: '/faq'
+      link: '/dashboard/faq'
     },
     {
       icon: <BlogIcon />,
       name: 'Blog',
-      link: '/blog'
+      link: '/dashboard/blog'
     }
   ]
 

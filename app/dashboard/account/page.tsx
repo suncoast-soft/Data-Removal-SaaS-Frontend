@@ -57,17 +57,19 @@ export default async function Account() {
         </p>
       )}
 
-      <SectionHeader
-        title="Account Settings"
-        cta1={<SignoutForm />}
-        cta2={<DeleteAccountForm settings={settings} />}
-      />
+      <div className="mt-16 mb-20">
+        <SectionHeader
+          title="Account Settings"
+          cta1={<SignoutForm />}
+          cta2={<DeleteAccountForm settings={settings} />}
+        />
 
-      <SettingsForm
-        user={user as User}
-        profile={profiles[0]}
-        settings={settings}
-      />
+        <SettingsForm
+          user={user as User}
+          profile={profiles[0]}
+          settings={settings}
+        />
+      </div>
     </div>
   )
 }
