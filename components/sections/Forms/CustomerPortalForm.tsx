@@ -9,6 +9,7 @@ import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
 import BillingHistoryTable from '../../modules/Billing/BillingHistoryTable'
 import { Mail } from 'lucide-react'
 import { displayDate } from '@/utils/helpers'
+import Stripe from 'stripe'
 
 interface StripePricingTableProps
   extends React.DetailedHTMLProps<
@@ -28,35 +29,9 @@ declare module 'react' {
   }
 }
 
-interface PaymentMethod {
-  card: {
-    brand: string
-    last4: string
-    exp_month: number
-    exp_year: number
-  }
-  billing_details: {
-    email?: string
-  }
-}
-
-interface Invoice {
-  lines: {
-    data: {
-      currency: string
-      amount: number
-      description: string
-    }[]
-  }
-  number: string
-  created: string
-  status: string
-  invoice_pdf: string
-}
-
 interface CustomerPortalFormProps {
-  paymentMethodsData: PaymentMethod[]
-  invoicesData: Invoice[]
+  paymentMethodsData: Stripe.PaymentMethod[]
+  invoicesData: Stripe.Invoice[]
   isPaidUser?: boolean
 }
 
@@ -207,10 +182,10 @@ export default function CustomerPortalForm({
                   />
                   <div className="flex-1">
                     <h4 className="font-bold">
-                      {method.card.brand} ending in {method.card.last4}
+                      {method.card?.brand} ending in {method.card?.last4}
                     </h4>
                     <p className="text-sm">
-                      Expiry {method.card.exp_month}/{method.card.exp_year}
+                      Expiry {method.card?.exp_month}/{method.card?.exp_year}
                     </p>
                     {method.billing_details.email && (
                       <p className="text-sm flex items-center gap-2">

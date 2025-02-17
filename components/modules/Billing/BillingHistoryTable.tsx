@@ -15,11 +15,11 @@ import { cn } from '@/utils/cn'
 interface BillingHistoryTableProps {
   data: {
     name: string
-    status: string
+    status: string | null
     date: string
     amount: string
     user: number
-    invoice_pdf: string
+    invoice_pdf: string | null | undefined
   }[]
 }
 
@@ -101,7 +101,7 @@ export default function BillingHistoryTable({
 
               {/* Download Link */}
               <TableCell>
-                <a href={item.invoice_pdf} className="no-underline">
+                <a href={item.invoice_pdf ?? '/'} className="no-underline">
                   <span className="px-2 py-1 text-xs lg:text-sm font-semibold bg-dark text-white rounded-full flex items-center gap-1 cursor-pointer hover:bg-dark/90">
                     <Download className="w-4 h-4" /> Download
                   </span>

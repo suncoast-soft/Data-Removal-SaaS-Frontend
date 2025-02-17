@@ -250,11 +250,21 @@ export const assembleAddress = (profile: Record<string, any>): string => {
   return [address, city, state, zip, country].filter((part) => part).join(', ')
 }
 
-export const displayDate = (dateValue: string | Date | null): string => {
+export const displayDate = (
+  dateValue: string | Date | number | null
+): string => {
   if (!dateValue) return ''
 
   try {
-    const date = typeof dateValue === 'string' ? parseISO(dateValue) : dateValue
+    let date: Date
+    if (typeof dateValue === 'string') {
+      date = parseISO(dateValue)
+    } else if (typeof dateValue === 'number') {
+      date = new Date(dateValue)
+    } else {
+      date = dateValue
+    }
+
     return format(date, 'MM/dd/yyyy')
   } catch {
     return ''

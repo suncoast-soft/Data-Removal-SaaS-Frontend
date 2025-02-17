@@ -4,6 +4,9 @@ import { stripe } from '@/utils/stripe/config'
 import { createClient } from '@/utils/supabase/server'
 import { createOrRetrieveCustomer } from '@/utils/supabase/admin'
 import { getURL, getErrorRedirect } from '@/utils/helpers'
+import { getUser } from '../supabase/queries'
+import { cache } from 'react'
+import { SupabaseClient } from '@supabase/supabase-js'
 
 export async function createStripePortal(currentPath: string) {
   try {
@@ -66,16 +69,18 @@ export async function createStripePortal(currentPath: string) {
   }
 }
 
-export async function listInvoices(user_id: string) {
-  const supabase = await createClient()
+export const listInvoices = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
   const { data } = await supabase
     .from('users')
     .select('*')
-    .eq('id', user_id)
+    .eq('id', user.id)
     .single()
 
   if (!data?.stripe_customer_id) {
-    return
+    return null
   }
 
   const invoices = await stripe.invoices.list({
@@ -84,14 +89,16 @@ export async function listInvoices(user_id: string) {
   })
 
   return invoices
-}
+})
 
-export async function listPaymentMethods(user_id: string) {
-  const supabase = await createClient()
+export const listPaymentMethods = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
   const { data } = await supabase
     .from('users')
     .select('*')
-    .eq('id', user_id)
+    .eq('id', user.id)
     .single()
 
   if (!data?.stripe_customer_id) {
@@ -106,4 +113,4 @@ export async function listPaymentMethods(user_id: string) {
   )
 
   return paymentMethods
-}
+})
