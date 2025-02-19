@@ -1,29 +1,27 @@
 import Link from 'next/link'
-import LogoWhite from '@/components/icons/LogoWhite'
 import { Button } from '@/components/ui/button'
 import NavbarMobile from './NavbarMobile'
 import { User } from '@supabase/supabase-js'
+import Image from 'next/image'
 
-export default async function Navbar({ user }: { user?: User | null }) {
-  const navLinks = [
-    {
-      link: '/',
-      name: 'Home'
-    },
-    {
-      link: '/blog',
-      name: 'Blog'
-    },
-    {
-      link: '/about',
-      name: 'About Us'
-    },
-    {
-      link: '/contact',
-      name: 'Contact'
-    }
-  ]
+interface NavbarProps {
+  name: string | undefined
+  logo: string | undefined
+  navLinks:
+    | {
+        name?: string | undefined
+        link?: string | undefined
+      }[]
+    | undefined
+  user?: User | null
+}
 
+export default async function Navbar({
+  name,
+  logo,
+  navLinks,
+  user
+}: NavbarProps) {
   return (
     <nav className="sticky top-0 bg-dark z-40 transition-all duration-150 h-16 md:h-20 shadow-sm shadow-white/60">
       <a href="#skip" className="sr-only focus:not-sr-only">
@@ -34,17 +32,26 @@ export default async function Navbar({ user }: { user?: User | null }) {
         <div className="relative flex flex-row justify-between align-center h-full">
           <div className="flex items-center flex-1 justify-between">
             <Link href="/" className="no-underline" aria-label="Logo">
-              <LogoWhite />
+              {logo ? (
+                <Image
+                  src={logo}
+                  width={200}
+                  height={54}
+                  alt={name || 'Pup Erase'}
+                />
+              ) : (
+                <h1 className="">{name || 'Pup Erase'}</h1>
+              )}
             </Link>
 
             <NavbarMobile user={user} navLinks={navLinks} />
 
             <div className="items-center justify-between gap-6 hidden lg:flex">
               <nav className="mx-6 flex gap-7">
-                {navLinks.map((nav, index) => (
+                {navLinks?.map((nav, index) => (
                   <Link
                     key={index}
-                    href={nav.link}
+                    href={nav.link ?? ''}
                     className="no-underline text-white hover:text-white/80"
                   >
                     {nav.name}

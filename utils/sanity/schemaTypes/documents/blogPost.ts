@@ -46,8 +46,8 @@ export const blogPostType = defineType({
       title: 'Blog Content',
       type: 'array',
       of: [
-        defineArrayMember({ type: 'heroSection' }),
         defineArrayMember({ type: 'richTextSection' }),
+        defineArrayMember({ type: 'heroSection' }),
         defineArrayMember({ type: 'imageCTASection' }),
         defineArrayMember({ type: 'twoColumnCTASection' })
       ]
