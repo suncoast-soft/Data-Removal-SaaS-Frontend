@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { getProfiles, getUser, getUserSettings } from '@/utils/supabase/queries'
+import { getProfiles, getUser, getUserSettings, getLoginHistory } from '@/utils/supabase/queries'
 import { Button } from '@/components/ui/button'
 import { Accordion } from '@/components/ui/accordion'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
@@ -9,12 +9,14 @@ import SectionHeader from '@/components/modules/SectionHeader'
 import { User } from '@supabase/supabase-js'
 import SettingsForm from '@/components/sections/Forms/SettingsForm'
 import DeleteAccountForm from '@/components/sections/Forms/DeleteAccountForm'
+import LoginHistory from '@/components/modules/LoginHistory/LoginHistory'
 
 export default async function Account() {
   const supabase = await createClient()
   const user = await getUser(supabase)
   const profiles = (await getProfiles(supabase)) ?? []
   const settings = await getUserSettings(supabase)
+  const loginHistory = await getLoginHistory(supabase) ?? []
 
   return (
     <div className="relative">
@@ -70,6 +72,8 @@ export default async function Account() {
           settings={settings}
         />
       </div>
+
+      <LoginHistory loginHistory={loginHistory} />
     </div>
   )
 }
