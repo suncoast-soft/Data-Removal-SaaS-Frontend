@@ -24,7 +24,7 @@
     "supabase:generate-seed": "npx supabase db dump --data-only -f supabase/seed.sql",
     "supabase:push": "npx supabase db push",
     "supabase:pull": "npx supabase db pull",
-    "typegen": "sanity schema extract --path=utils/sanity/extract.json && sanity typegen generate --config-path=utils/sanity/extract.json"
+    "typegen": "sanity schema extract && sanity typegen generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
