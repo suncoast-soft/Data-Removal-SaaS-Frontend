@@ -12,8 +12,10 @@ import { structureTool } from 'sanity/structure'
 import { apiVersion, dataset, projectId } from './utils/sanity/env'
 import { schema } from './utils/sanity/schemaTypes'
 import { structure } from './utils/sanity/structure'
+import LogoIcon from './components/icons/LogoIcon'
 
 export default defineConfig({
+  title: 'Pup Erase Content Admin',
   basePath: '/studio',
   projectId,
   dataset,
@@ -24,5 +26,6 @@ export default defineConfig({
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion })
-  ]
+  ],
+  icon: LogoIcon
 })
