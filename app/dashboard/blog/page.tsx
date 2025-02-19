@@ -1,6 +1,6 @@
 import React from 'react'
 import CardGroup from '@/components/sections/CardGroup'
-import FeaturedCTA from '@/components/sections/FeaturedCTA'
+import FeaturedCTA from '@/components/sections/ImageCTA'
 
 const categories = ['Category', 'Category', 'Category', 'Category']
 

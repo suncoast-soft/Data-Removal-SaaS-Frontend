@@ -90,6 +90,7 @@ export default function Footer({
                     {section.title}
                   </p>
                 </li>
+
                 {section.links?.map((link, linkIndex) => (
                   <li key={linkIndex} className="pb-2 lg:pb-[18px]">
                     <Link href={link.href ?? ''} className="underline">
@@ -117,7 +118,7 @@ export default function Footer({
                   className="no-underline"
                 >
                   <Image
-                    src={`/footer-social-icons/${socialLink.icon}`}
+                    src={urlFor(socialLink.icon).width(64).url()}
                     width={64}
                     height={64}
                     alt={socialLink.icon}

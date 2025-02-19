@@ -19,7 +19,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   }
 
   const settings = await sanityClient.fetch(`*[_type == "settings"][0]`)
-  console.log(settings)
 
   const {
     name,
