@@ -8,8 +8,8 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 
 interface NavLink {
-  name: string
-  link: string
+  name?: string | undefined
+  link?: string | undefined
 }
 
 export default function NavbarMobile({
@@ -17,7 +17,7 @@ export default function NavbarMobile({
   navLinks
 }: {
   user?: User | null
-  navLinks: NavLink[]
+  navLinks: NavLink[] | undefined
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -45,10 +45,10 @@ export default function NavbarMobile({
 
           {/* Navigation Links */}
           <nav className="ml-6 flex flex-col gap-7">
-            {navLinks.map((nav, index) => (
+            {navLinks?.map((nav, index) => (
               <Link
                 key={index}
-                href={nav.link}
+                href={nav.link ?? '/'}
                 className="text-lg font-medium leading-[18px] text-white transition hover:text-dark/60 rounded-md p-1"
                 onClick={() => setIsMenuOpen(false)} // Close menu on link click
               >

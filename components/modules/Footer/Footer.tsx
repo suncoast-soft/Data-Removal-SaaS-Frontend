@@ -1,92 +1,61 @@
-import LogoDark from '@/components/icons/LogoDark'
 import { Button } from '@/components/ui/button'
+import { urlFor } from '@/utils/sanity/lib/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const socialLinks = [
-  {
-    icon: 'Facebook.svg',
-    link: 'https://www.facebook.com'
-  },
-  {
-    icon: 'Twitter.svg',
-    link: 'https://www.twitter.com'
-  },
-  {
-    icon: 'Instagram.svg',
-    link: 'https://www.instagram.com'
-  },
-  {
-    icon: 'LinkedIn.svg',
-    link: 'https://www.linkedin.com'
-  },
-  {
-    icon: 'YouTube.svg',
-    link: 'https://www.youtube.com'
-  }
-]
+interface FooterProps {
+  name: string | undefined
+  description: string | undefined
+  logo: string | undefined
+  footerLinks:
+    | {
+        title?: string
+        links?: Array<{
+          label?: string
+          href?: string
+        }>
+      }[]
+    | undefined
+  socialLinks:
+    | {
+        icon?: any
+        link?: string
+      }[]
+    | undefined
+}
 
-const footerLinks = [
-  {
-    title: 'Product',
-    links: [
-      { label: 'Features', href: '/' },
-      { label: 'Pricing', href: '/' },
-      { label: 'Case studies', href: '/' },
-      { label: 'Reviews', href: '/' },
-      { label: 'Updates', href: '/' }
-    ]
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About', href: '/about' },
-      { label: 'Contact us', href: '/contact' },
-      { label: 'Careers', href: '/' },
-      { label: 'Culture', href: '/' },
-      { label: 'Blog', href: '/' }
-    ]
-  },
-  {
-    title: 'Support',
-    links: [
-      { label: 'Getting started', href: '/' },
-      { label: 'Help center', href: '/' },
-      { label: 'Server status', href: '/' },
-      { label: 'Report a bug', href: '/' },
-      { label: 'Chat support', href: '/' }
-    ]
-  },
-  {
-    title: 'Downloads',
-    links: [
-      { label: 'iOS', href: '/' },
-      { label: 'Android', href: '/' },
-      { label: 'Mac', href: '/' },
-      { label: 'Windows', href: '/' },
-      { label: 'Chrome', href: '/' }
-    ]
-  }
-]
-
-export default function Footer() {
+export default function Footer({
+  name,
+  description,
+  logo,
+  footerLinks,
+  socialLinks
+}: FooterProps) {
   return (
     <footer className="bg-lp-footer-bg text-dark py-10 lg:pt-[89px] lg:pb-[80px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
-        {/* Top Section */}
         <div className="flex flex-wrap items-start justify-center gap-6 pb-8 lg:pb-[60px] border-b border-dashed border-gray-300">
-          {/* Logo and Social Links */}
           <div className="w-[340px] flex flex-col gap-4 items-center lg:items-start">
             <Link href="/" className="flex items-center font-bold no-underline">
-              <LogoDark />
+              {logo ? (
+                <Image
+                  src={logo}
+                  width={200}
+                  height={54}
+                  alt={name || 'Pup Erase'}
+                />
+              ) : (
+                <h1 className="">{name || 'Pup Erase'}</h1>
+              )}
             </Link>
-            <p className="text-base lg:text-lg opacity-50 text-center lg:text-left">
-              Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam
-              mauris sed ma.
+
+            <p className="text-sm lg:text-base opacity-50 text-center lg:text-left">
+              {description}
             </p>
+
             <div className="hidden lg:flex gap-2">
-              {socialLinks.map((socialLink, index) => (
+              {socialLinks?.map((socialLink, index) => (
                 <Button
                   key={index}
                   variant="destructive"
@@ -95,12 +64,12 @@ export default function Footer() {
                   asChild
                 >
                   <Link
-                    href={socialLink.link}
+                    href={socialLink.link ?? ''}
                     target="_blank"
                     className="no-underline"
                   >
                     <Image
-                      src={`/footer-social-icons/${socialLink.icon}`}
+                      src={urlFor(socialLink.icon).width(64).url()}
                       width={64}
                       height={64}
                       alt={socialLink.icon}
@@ -113,7 +82,7 @@ export default function Footer() {
           </div>
 
           {/* Footer Links */}
-          {footerLinks.map((section, index) => (
+          {footerLinks?.map((section, index) => (
             <div key={index} className="lg:flex-1 px-5 lg:px-0">
               <ul className="flex flex-col">
                 <li className="pb-4 lg:pb-6">
@@ -121,9 +90,10 @@ export default function Footer() {
                     {section.title}
                   </p>
                 </li>
-                {section.links.map((link, linkIndex) => (
+
+                {section.links?.map((link, linkIndex) => (
                   <li key={linkIndex} className="pb-2 lg:pb-[18px]">
-                    <Link href={link.href} className="underline">
+                    <Link href={link.href ?? ''} className="underline">
                       {link.label}
                     </Link>
                   </li>
@@ -134,7 +104,7 @@ export default function Footer() {
 
           {/* Social Links for Small Screens */}
           <div className="flex gap-2 lg:hidden mt-2">
-            {socialLinks.map((socialLink, index) => (
+            {socialLinks?.map((socialLink, index) => (
               <Button
                 key={index}
                 variant="destructive"
@@ -143,12 +113,12 @@ export default function Footer() {
                 asChild
               >
                 <Link
-                  href={socialLink.link}
+                  href={socialLink.link ?? ''}
                   target="_blank"
                   className="no-underline"
                 >
                   <Image
-                    src={`/footer-social-icons/${socialLink.icon}`}
+                    src={urlFor(socialLink.icon).width(64).url()}
                     width={64}
                     height={64}
                     alt={socialLink.icon}

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Contact } from 'lucide-react'
 
-import type { JSX } from "react";
+import type { JSX } from 'react'
 
 interface Testimonial {
   image: JSX.Element

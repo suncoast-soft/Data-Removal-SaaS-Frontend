@@ -1,21 +1,9 @@
-import { Metadata } from 'next'
+import Head from 'next/head'
 import { PropsWithChildren } from 'react'
-import { getURL } from '@/utils/helpers'
 import { Figtree } from 'next/font/google'
 import 'styles/main.css'
-
-const title = 'Pup Erase'
-const description = 'Removal of unwanted data from the internet'
-
-export const metadata: Metadata = {
-  metadataBase: new URL(getURL()),
-  title: title,
-  description: description,
-  openGraph: {
-    title: title,
-    description: description
-  }
-}
+import { Settings } from '@/sanity.types'
+import { sanityClient } from '@/utils/sanity/lib/client'
 
 const figtree = Figtree({
   subsets: ['latin'],
@@ -24,8 +12,18 @@ const figtree = Figtree({
 })
 
 export default async function RootLayout({ children }: PropsWithChildren) {
+  const settings = await sanityClient.fetch(`*[_type == "settings"][0]`)
+  const { name, description } = settings as Settings
+
   return (
     <html lang="en" className={`${figtree.variable}`}>
+      <Head>
+        <title>{name}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={name} />
+        <meta property="og:description" content={description} />
+      </Head>
+
       <body className="bg-white">{children}</body>
     </html>
   )
