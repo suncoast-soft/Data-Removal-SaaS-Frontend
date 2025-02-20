@@ -1,25 +1,33 @@
-import Image, { ImageLoaderProps } from 'next/image'
+import { urlFor } from '@/utils/sanity/lib/image'
+import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import Image from 'next/image'
 
-const sanityLoader = ({ src, width, quality }: ImageLoaderProps) => {
-  const prj = 'zp7mbokg'
-  const dataset = 'production'
-  const url = new URL(`https://cdn.sanity.io/images/${prj}/${dataset}${src}`)
-  url.searchParams.set('auto', 'format')
-  url.searchParams.set('fit', 'max')
-  url.searchParams.set('w', width.toString())
-  if (quality) {
-    url.searchParams.set('q', quality.toString())
-  }
-  return url.href
+interface ModuleProps {
+  src: SanityImageSource | undefined
+  width: number
+  height: number
+  alt?: string | undefined
+  className?: string | undefined
 }
 
-export default function SanityImage() {
+export default function SanityImage({
+  src,
+  width,
+  height,
+  alt,
+  className
+}: ModuleProps) {
+  if (!src) {
+    return <></>
+  }
+
   return (
     <Image
-      loader={sanityLoader}
-      src="me.png"
-      width={500}
-      alt="Picture of the author"
+      src={urlFor(src).width(width).url()}
+      width={width}
+      height={height}
+      className={className}
+      alt={alt ?? 'Image'}
     />
   )
 }

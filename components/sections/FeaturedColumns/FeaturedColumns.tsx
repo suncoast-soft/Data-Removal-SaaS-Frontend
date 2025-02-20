@@ -1,8 +1,7 @@
+import SanityImage from '@/components/modules/SanityImage'
 import Title from '@/components/modules/Title'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FeaturedColumnsSection } from '@/sanity.types'
-import { urlFor } from '@/utils/sanity/lib/image'
-import Image from 'next/image'
 
 export default function FeaturedColumns({
   data
@@ -12,8 +11,8 @@ export default function FeaturedColumns({
   const { title, subtitle, description, columns } = data
 
   return (
-    <section className="bg-white my-16 lg:my-24">
-      <div className="container mx-auto px-4 lg:px-28">
+    <section className="py-12 lg:py-20">
+      <div className="container max-w-7xl">
         <Title title={title} subtitle={subtitle} description={description} />
 
         <div className="mt-6 lg:mt-10 gap-10 flex items-center flex-col lg:flex-row">
@@ -25,14 +24,12 @@ export default function FeaturedColumns({
               <CardHeader className="p-0">
                 <CardTitle>
                   <div className="flex flex-col items-center">
-                    {column.image && (
-                      <Image
-                        src={urlFor(column.image).width(200).url()}
-                        width={200}
-                        height={200}
-                        alt={title ?? 'Image'}
-                      />
-                    )}
+                    <SanityImage
+                      src={column.image}
+                      width={200}
+                      height={200}
+                      alt={title}
+                    />
                   </div>
                 </CardTitle>
               </CardHeader>

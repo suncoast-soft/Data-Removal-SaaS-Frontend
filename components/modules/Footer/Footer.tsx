@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button'
-import { urlFor } from '@/utils/sanity/lib/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import SanityImage from '../SanityImage'
 
 interface FooterProps {
   name: string | undefined
@@ -68,8 +68,8 @@ export default function Footer({
                     target="_blank"
                     className="no-underline"
                   >
-                    <Image
-                      src={urlFor(socialLink.icon).width(64).url()}
+                    <SanityImage
+                      src={socialLink.icon}
                       width={64}
                       height={64}
                       alt={socialLink.icon}
@@ -117,8 +117,8 @@ export default function Footer({
                   target="_blank"
                   className="no-underline"
                 >
-                  <Image
-                    src={urlFor(socialLink.icon).width(64).url()}
+                  <SanityImage
+                    src={socialLink.icon}
                     width={64}
                     height={64}
                     alt={socialLink.icon}

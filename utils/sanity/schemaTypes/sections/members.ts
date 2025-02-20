@@ -9,8 +9,7 @@ export const membersSection = defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'array',
-      of: [{ type: 'block' }]
+      type: 'blockContent'
     }),
     defineField({
       name: 'background_image',

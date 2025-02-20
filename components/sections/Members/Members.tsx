@@ -1,6 +1,7 @@
-import { MembersSection } from '@/sanity.types'
-import { urlFor } from '@/utils/sanity/lib/image'
-import { PortableText } from 'next-sanity'
+import SanityImage from '@/components/modules/SanityImage'
+import SanityRichText from '@/components/modules/SanityRichText'
+import { BlockContent, MembersSection } from '@/sanity.types'
+import { cn } from '@/utils/cn'
 import Image from 'next/image'
 
 const ProfileCard = ({
@@ -17,7 +18,9 @@ const ProfileCard = ({
       <h4 className="font-bold text-lg text-dark">{name}</h4>
 
       <h6 className="font-bold uppercase text-primary text-xs">{role}</h6>
-      <p className="text-center text-xs text-dark/60">{description}</p>
+      <p className="text-center text-xs text-dark/60 line-clamp-2">
+        {description}
+      </p>
     </div>
   )
 }
@@ -34,64 +37,55 @@ export default function Members({ data }: { data: MembersSection }) {
               {title}
             </h1>
 
-            {description && <PortableText value={description} />}
+            <SanityRichText value={description as BlockContent} />
           </div>
 
           <div className="max-w-6xl relative">
-            {background_image && (
-              <Image
-                src={urlFor(background_image).width(1220).url()}
-                width={1200}
-                height={560}
-                alt={title ?? 'Image'}
-                className="object-contain"
-              />
-            )}
+            <SanityImage
+              src={background_image}
+              width={1200}
+              height={560}
+              alt={title}
+            />
 
             {[
               {
-                bottom: '16%',
-                left: '1%',
+                wrapperClass: 'bottom-[16%] left-[1%]',
                 imageSrc: '/icons/dot-arrow-2.svg',
                 imgWidth: 113,
                 imgHeight: 283,
                 imgClass: 'w-1/2 h-auto absolute bottom-[20px] right-[24px]'
               },
               {
-                bottom: '32%',
-                left: '19%',
+                wrapperClass: 'bottom-[32%] left-[19%]',
                 imageSrc: '/icons/dot-arrow-3.svg',
                 imgWidth: 71,
                 imgHeight: 89,
                 imgClass: 'w-1/3 h-auto absolute bottom-[100px] right-[24px]'
               },
               {
-                bottom: '3%',
-                left: '32%',
+                wrapperClass: 'bottom-[3%] left-[32%]',
                 imageSrc: '/icons/dot-arrow-4.svg',
                 imgWidth: 75,
                 imgHeight: 191,
                 imgClass: 'w-1/3 h-auto absolute bottom-[120px] right-[24px]'
               },
               {
-                bottom: '24%',
-                left: '50%',
+                wrapperClass: 'bottom-[24%] left-[50%]',
                 imageSrc: '/icons/dot-arrow-5.svg',
                 imgWidth: 75,
                 imgHeight: 191,
                 imgClass: 'w-1/2 h-auto absolute bottom-[120px] left-[40px]'
               },
               {
-                bottom: '2%',
-                left: '70%',
+                wrapperClass: 'bottom-[2%] left-[70%]',
                 imageSrc: '/icons/dot-arrow-6.svg',
                 imgWidth: 75,
                 imgHeight: 191,
                 imgClass: 'w-1/2 h-auto absolute bottom-[100px] left-[20px]'
               },
               {
-                bottom: '29%',
-                left: '82%',
+                wrapperClass: 'bottom-[29%] left-[82%]',
                 imageSrc: '/icons/dot-arrow-7.svg',
                 imgWidth: 75,
                 imgHeight: 191,
@@ -100,7 +94,10 @@ export default function Members({ data }: { data: MembersSection }) {
             ].map((pos, index) => (
               <div
                 key={index}
-                className={`hidden lg:block absolute bottom-[${pos.bottom}] left-[${pos.left}] w-[17%]`}
+                className={cn(
+                  'hidden lg:block absolute w-[17%]',
+                  pos.wrapperClass
+                )}
               >
                 {members?.[index] && (
                   <>
