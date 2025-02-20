@@ -1,21 +1,20 @@
 import ArrowRight from '@/components/icons/ArrowRight'
 import GreenCircleCheck from '@/components/icons/GreenCircleCheck'
 import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
+import SanityImage from '@/components/modules/SanityImage'
 import Title from '@/components/modules/Title'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TwoColumnCTASection } from '@/sanity.types'
 import { cn } from '@/utils/cn'
-import { urlFor } from '@/utils/sanity/lib/image'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
   const { title, subtitle, description, columns } = data
 
   return (
-    <section className="bg-white my-16 lg:my-24">
-      <div className="container mx-auto px-4 lg:px-24">
+    <section className="py-12 lg:py-20">
+      <div className="container max-w-7xl">
         <Title title={title} subtitle={subtitle} description={description} />
 
         <div className="grid grid-cols-12 gap-3">
@@ -48,15 +47,13 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                   </p>
 
                   <div className="flex flex-col lg:flex-row lg:gap-12 items-center">
-                    {column.image && (
-                      <Image
-                        src={urlFor(column.image).width(150).url()}
-                        width={160}
-                        height={160}
-                        className="w-auto h-32"
-                        alt={title ?? 'Image'}
-                      />
-                    )}
+                    <SanityImage
+                      src={column.image}
+                      width={160}
+                      height={160}
+                      alt={title}
+                      className="w-auth h-32"
+                    />
 
                     <div>
                       <CardTitle

@@ -1,11 +1,20 @@
-import { RichTextSection } from '@/sanity.types'
-import { PortableText } from '@portabletext/react'
+import SanityRichText from '@/components/modules/SanityRichText'
+import { BlockContent, RichTextSection } from '@/sanity.types'
 
 export default function RichText({ data }: { data: RichTextSection }) {
+  if (!data.content) {
+    return <></>
+  }
+
   return (
-    <section className="py-6 lg:py-28">
-      <h2>{data.title}</h2>
-      <PortableText value={data.content ?? []} />
+    <section className="py-12 lg:py-20">
+      <div className="container max-w-7xl">
+        {data.title && (
+          <h2 className="text-2xl lg:text-4xl font-bold mb-8">{data.title}</h2>
+        )}
+
+        <SanityRichText value={data.content as BlockContent} />
+      </div>
     </section>
   )
 }

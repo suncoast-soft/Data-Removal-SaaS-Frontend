@@ -3,7 +3,7 @@ import SearchForm from '../Forms/SearchForm'
 import { HeroSection } from '@/sanity.types'
 import ContactForm from '../Forms/ContactForm'
 import OauthSignIn from '../Forms/OauthSignIn'
-import { urlFor } from '@/utils/sanity/lib/image'
+import SanityImage from '@/components/modules/SanityImage'
 
 export default function Hero({
   slug,
@@ -53,14 +53,7 @@ export default function Hero({
             </div>
 
             <div className="relative">
-              {image && (
-                <Image
-                  src={urlFor(image).width(634).url()}
-                  width={634}
-                  height={530}
-                  alt={title ?? 'Image'}
-                />
-              )}
+              <SanityImage src={image} width={600} height={500} alt={title} />
 
               <Image
                 src={'/icons/dot-arrow-1.svg'}
@@ -99,14 +92,7 @@ export default function Hero({
               )}
             </div>
 
-            {image && (
-              <Image
-                src={urlFor(image).width(600).url()}
-                width={600}
-                height={500}
-                alt={title ?? 'Image'}
-              />
-            )}
+            <SanityImage src={image} width={600} height={500} alt={title} />
           </div>
         </div>
       </div>

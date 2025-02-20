@@ -1,37 +1,31 @@
+import SanityImage from '@/components/modules/SanityImage'
+import SanityRichText from '@/components/modules/SanityRichText'
 import { Button } from '@/components/ui/button'
-import { ImageCTASection } from '@/sanity.types'
-import { urlFor } from '@/utils/sanity/lib/image'
+import { BlockContent, ImageCTASection } from '@/sanity.types'
 import { ArrowRightIcon } from 'lucide-react'
-import { PortableText } from 'next-sanity'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export default function ImageCTA({ data }: { data: ImageCTASection }) {
   const { image, title, description, buttons } = data
 
   return (
-    <section id="create-your-account" className="bg-white my-16 lg:my-24">
-      <div className="container mx-auto px-2 lg:px-28">
-        <div className="text-center flex items-center flex-col lg:flex-row gap-8">
-          <div className="order-2 lg:order-1 w-full lg:w-5/12 flex-shrink-0">
-            {image && (
-              <Image
-                src={urlFor(image).width(500).url()}
-                width={500}
-                height={500}
-                alt={title ?? 'Image'}
-              />
-            )}
+    <section className="py-12 lg:py-20">
+      <div className="container max-w-6xl">
+        {title && (
+          <h2 className="text-3xl lg:text-5xl font-bold text-dark text-center mb-12">
+            {title}
+          </h2>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-5">
+            <SanityImage src={image} width={500} height={500} alt={title} />
           </div>
 
-          <div className="order-1 lg:order-2 px-2">
-            <h2 className="text-3xl lg:text-5xl font-bold lg:text-left text-dark text-center">
-              {title}
-            </h2>
+          <div className="lg:col-span-7 lg:px-8 self-center">
+            <SanityRichText value={description as BlockContent} />
 
-            {description && <PortableText value={description} />}
-
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-2 lg:gap-6 mt-4 lg:mt-10">
+            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-5">
               {buttons?.map((button, index) => (
                 <Button
                   key={index}
