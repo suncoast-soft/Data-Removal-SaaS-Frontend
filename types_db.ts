@@ -433,6 +433,36 @@ export type Database = {
           },
         ]
       }
+      login_history: {
+        Row: {
+          created_at: string
+          device_type: string | null
+          id: number
+          location: Json | null
+          success: boolean
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_type?: string | null
+          id?: number
+          location?: Json | null
+          success?: boolean
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_type?: string | null
+          id?: number
+          location?: Json | null
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           created_at: string

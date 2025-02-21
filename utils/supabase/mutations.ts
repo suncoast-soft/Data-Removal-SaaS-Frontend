@@ -3,6 +3,7 @@
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js'
 import { cache } from 'react'
 import { getUser } from './queries'
+import { supabaseAdmin } from './admin'
 
 interface RowData {
   [key: string]: string | number | boolean
@@ -110,3 +111,43 @@ export const createMessage = cache(
     return { data, error }
   }
 )
+
+export const createLoginHistory = cache(
+  async (supabase: SupabaseClient, user_id: string, request: Request) => {
+    try {
+      // Get location from ipinfo.io
+      const ipResponse = await fetch(
+        `https://ipinfo.io?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`
+      );
+      const ipData = await ipResponse.json();
+      
+      // Get user agent from request
+      const userAgent = request.headers.get('user-agent');
+      
+      // Determine device type from user agent
+      const deviceType = userAgent?.toLowerCase().includes('mobile') 
+        ? 'mobile' 
+        : 'desktop';
+
+      const { data, error } = await supabaseAdmin
+        .from('login_history')
+        .insert({
+          user_id,
+          device_type: deviceType,
+          user_agent: userAgent,
+          location: ipData,
+          success: true
+        })
+        .select()
+        .single();
+
+      return { data, error };
+    } catch (error) {
+      console.error('Error creating login history:', error);
+      return { 
+        data: null, 
+        error: { message: 'Failed to create login history' } as PostgrestError 
+      };
+    }
+  }
+);

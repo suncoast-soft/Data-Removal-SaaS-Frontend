@@ -99,3 +99,22 @@ export const getPricingPlan = cache(async (supabase: SupabaseClient) => {
     .single()
   return pricing
 })
+
+export const getLoginHistory = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return null
+
+  const { data: loginHistory, error } = await supabase
+    .from('login_history')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(50)
+
+  if (error) {
+    console.error('Error fetching login history:', error)
+    return null
+  }
+
+  return loginHistory
+})
