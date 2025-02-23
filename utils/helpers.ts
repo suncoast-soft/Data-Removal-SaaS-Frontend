@@ -239,12 +239,6 @@ export const hasKeyInData = (
   })
 }
 
-export default function SSNDisplay(ssn: string | null) {
-  const maskedSSN = ssn ? `•••-••-${ssn.slice(-4)}` : ''
-
-  return maskedSSN
-}
-
 export const assembleAddress = (profile: Record<string, any>): string => {
   const { address, city, state, zip, country } = profile
   return [address, city, state, zip, country].filter((part) => part).join(', ')
