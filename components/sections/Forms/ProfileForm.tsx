@@ -33,17 +33,10 @@ import {
   createProfileAction,
   updateProfileAction
 } from '@/utils/supabase/server'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from '@/components/ui/accordion'
 
 const FormSchema = z.object({
   email: z.string(),
   phone: z.string(),
-  ssn: z.string().optional(),
   first_name: z.string(),
   last_name: z.string(),
   alternative_names: z.string().optional(),
@@ -52,8 +45,7 @@ const FormSchema = z.object({
   address: z.string().optional(),
   city: z.string(),
   state: z.string(),
-  zip: z.string().optional(),
-  bio: z.string().optional()
+  zip: z.string().optional()
 })
 
 interface SectionProps {
@@ -71,7 +63,6 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
   const defaultValues = {
     email: profile?.email ?? email ?? '',
     phone: profile?.phone ?? phone ?? '',
-    ssn: profile?.ssn ?? '',
     first_name: profile?.first_name ?? splitName(full_name)?.firstName ?? '',
     last_name: profile?.last_name ?? splitName(full_name)?.lastName ?? '',
     alternative_names: profile?.alternative_names ?? '',
@@ -80,8 +71,7 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
     address: profile?.address ?? '',
     city: profile?.city ?? '',
     state: profile?.state ?? '',
-    zip: profile?.zip ?? '',
-    bio: profile?.bio ?? ''
+    zip: profile?.zip ?? ''
   }
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -167,97 +157,67 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
                 />
               </div>
 
-              <Accordion type="multiple" className="w-full">
-                <AccordionItem
-                  value="more"
-                  className="border-none mb-4 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white shrink-0 transition duration-200"
-                >
-                  <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg no-underline hover:no-underline">
-                    Add More Information
-                  </AccordionTrigger>
+              <div className="grid grid-cols-2 gap-4">
+                <FormDate
+                  control={form.control}
+                  name="birth_date"
+                  label="Date of birth"
+                  required={false}
+                />
 
-                  <AccordionContent className="p-0 mt-2 text-white/60 text-lg lg:text-xl">
-                    <hr className="mb-5 border-t border-white/20" />
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormDate
-                        control={form.control}
-                        name="birth_date"
-                        label="Date of birth"
-                        required={false}
-                      />
+                <FormToggle
+                  control={form.control}
+                  name="gender"
+                  label="Sex"
+                  options={[
+                    { label: 'Male', value: 'male' },
+                    { label: 'Female', value: 'female' }
+                  ]}
+                />
 
-                      <FormToggle
-                        control={form.control}
-                        name="gender"
-                        label="Sex"
-                        options={[
-                          { label: 'Male', value: 'male' },
-                          { label: 'Female', value: 'female' }
-                        ]}
-                      />
+                <FormInput
+                  control={form.control}
+                  type="email"
+                  name="email"
+                  label="Email Address"
+                  placeholder="example@gmail.com"
+                  icon={<MailIcon className="w-5 text-primary" />}
+                  required={false}
+                />
 
-                      <FormInput
-                        control={form.control}
-                        type="email"
-                        name="email"
-                        label="Email Address"
-                        placeholder="example@gmail.com"
-                        icon={<MailIcon className="w-5 text-primary" />}
-                        required={false}
-                      />
+                <FormInput
+                  control={form.control}
+                  name="phone"
+                  label="Phone Number"
+                  placeholder="(123) 456 7890"
+                  icon={<PhoneCallIcon className="w-5 text-primary" />}
+                  required={false}
+                />
 
-                      <FormInput
-                        control={form.control}
-                        name="phone"
-                        label="Phone Number"
-                        placeholder="(123) 456 7890"
-                        icon={<PhoneCallIcon className="w-5 text-primary" />}
-                        required={false}
-                      />
+                <FormInput
+                  control={form.control}
+                  name="alternative_names"
+                  label="Alternative Names"
+                  placeholder="Joseph Smith, Joseph Andrew Smith"
+                  icon={<Building2Icon className="w-5 text-primary" />}
+                />
 
-                      <FormInput
-                        control={form.control}
-                        name="ssn"
-                        label="Social Security Number"
-                        placeholder="***-**-***"
-                        icon={<Building2Icon className="w-5 text-primary" />}
-                      />
+                <FormInput
+                  control={form.control}
+                  name="address"
+                  label="Address"
+                  placeholder="123 ABC street"
+                  icon={<MapPinIcon className="w-5 text-primary" />}
+                />
 
-                      <FormInput
-                        control={form.control}
-                        name="alternative_names"
-                        label="Alternative Names"
-                        placeholder="Joseph Smith, Joseph Andrew Smith"
-                        icon={<Building2Icon className="w-5 text-primary" />}
-                      />
-
-                      <FormInput
-                        control={form.control}
-                        name="address"
-                        label="Address"
-                        placeholder="123 ABC street"
-                        icon={<MapPinIcon className="w-5 text-primary" />}
-                      />
-
-                      <FormInput
-                        control={form.control}
-                        name="zip"
-                        label="Zip"
-                        placeholder="12345"
-                        icon={<MapPinIcon className="w-5 text-primary" />}
-                      />
-
-                      <FormTextarea
-                        control={form.control}
-                        name="bio"
-                        label="Bio"
-                        placeholder="Tell us a little bit about yourself"
-                        className="col-span-2"
-                      />
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+                <FormInput
+                  control={form.control}
+                  name="zip"
+                  label="Zip"
+                  placeholder="12345"
+                  icon={<MapPinIcon className="w-5 text-primary" />}
+                />
+              </div>
 
               <Button variant="default" type="submit">
                 {profile ? 'Update Profile' : 'Submit Profile'}

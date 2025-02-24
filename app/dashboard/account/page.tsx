@@ -20,21 +20,7 @@ export default async function Account() {
 
   return (
     <div className="relative">
-      <SectionHeader
-        title="Account"
-        cta1={
-          <ProfileForm user={user as User}>
-            <Button
-              variant="outline"
-              size="small"
-              type="button"
-              className="border-primary hover:bg-primary"
-            >
-              Add a new profile
-            </Button>
-          </ProfileForm>
-        }
-      />
+      <SectionHeader title="Account" />
 
       {profiles.length > 0 ? (
         <div className="my-6 space-y-4">
@@ -54,9 +40,18 @@ export default async function Account() {
           </Accordion>
         </div>
       ) : (
-        <p className="text-secondary">
-          You don&apos;t have any profiles yet. Add a new profile to start scan
-        </p>
+        <div className="my-6">
+          <ProfileForm user={user as User}>
+            <Button
+              variant="outline"
+              size="small"
+              type="button"
+              className="border-primary hover:bg-primary"
+            >
+              Add Profile
+            </Button>
+          </ProfileForm>
+        </div>
       )}
 
       <div className="mt-16 mb-20">

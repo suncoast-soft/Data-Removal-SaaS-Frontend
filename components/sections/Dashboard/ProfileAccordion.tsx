@@ -10,7 +10,7 @@ import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import ProfileForm from '../Forms/ProfileForm'
-import SSNDisplay, { assembleAddress, displayDate } from '@/utils/helpers'
+import { assembleAddress, displayDate } from '@/utils/helpers'
 import { cn } from '@/utils/cn'
 
 type Profile = Tables<'profiles'>
@@ -83,10 +83,6 @@ export default function ProfileAccordion({
             {
               label: 'Name',
               value: `${profile.first_name} ${profile.last_name}`
-            },
-            {
-              label: 'Social Security Number',
-              value: SSNDisplay(profile.ssn) ?? ''
             },
             {
               label: 'Alternative Names',
