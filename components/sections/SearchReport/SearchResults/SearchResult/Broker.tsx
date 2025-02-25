@@ -95,7 +95,7 @@ export default function BrokerSearchResults({
                     ) : (
                       <>
                         <Button variant="link" className="w-full p-1" asChild>
-                          <Link href="/singin" className="mr-1 underline">
+                          <Link href="/signin" className="mr-1 underline">
                             Create a free account
                           </Link>
                         </Button>
