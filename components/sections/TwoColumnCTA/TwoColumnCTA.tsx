@@ -118,7 +118,7 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                   >
                     <Link
                       href={column.buttonLink ?? ''}
-                      className="no-underline inline-block w-fit"
+                      className="inline-block w-fit"
                     >
                       <span className="mr-2">{column.buttonText}</span>
                       <ArrowRight />

@@ -32,7 +32,7 @@ export default function ImageCTA({ data }: { data: ImageCTASection }) {
                   variant={index === 0 ? 'secondary' : 'outline'}
                   asChild
                 >
-                  <Link href={button.link ?? ''} className="no-underline">
+                  <Link href={button.link ?? ''}>
                     <span>{button.name}</span>
                     {index === 0 && <ArrowRightIcon className="ml-2" />}
                   </Link>

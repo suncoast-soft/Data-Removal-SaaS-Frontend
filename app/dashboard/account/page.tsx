@@ -1,5 +1,10 @@
 import { createClient } from '@/utils/supabase/server'
-import { getProfiles, getUser, getUserSettings, getLoginHistory } from '@/utils/supabase/queries'
+import {
+  getProfiles,
+  getUser,
+  getUserSettings,
+  getLoginHistory
+} from '@/utils/supabase/queries'
 import { Button } from '@/components/ui/button'
 import { Accordion } from '@/components/ui/accordion'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
@@ -16,7 +21,7 @@ export default async function Account() {
   const user = await getUser(supabase)
   const profiles = (await getProfiles(supabase)) ?? []
   const settings = await getUserSettings(supabase)
-  const loginHistory = await getLoginHistory(supabase) ?? []
+  const loginHistory = (await getLoginHistory(supabase)) ?? []
 
   return (
     <div className="relative">

@@ -33,11 +33,11 @@ export default function Footer({
   socialLinks
 }: FooterProps) {
   return (
-    <footer className="bg-lp-footer-bg text-dark py-10 lg:pt-[89px] lg:pb-[80px]">
-      <div className="container mx-auto px-4 lg:px-[110px]">
-        <div className="flex flex-wrap items-start justify-center gap-6 pb-8 lg:pb-[60px] border-b border-dashed border-gray-300">
-          <div className="w-[340px] flex flex-col gap-4 items-center lg:items-start">
-            <Link href="/" className="flex items-center font-bold no-underline">
+    <footer className="bg-lp-footer-bg text-dark py-10 lg:pt-20">
+      <div className="container mx-auto px-4 lg:px-28">
+        <div className="flex flex-wrap items-start justify-center gap-12 pb-8 lg:pb-20 border-b border-dashed border-gray-300">
+          <div className="w-96 flex flex-col gap-4 items-start">
+            <Link href="/" className="flex font-bold">
               {logo ? (
                 <Image
                   src={logo}
@@ -50,11 +50,9 @@ export default function Footer({
               )}
             </Link>
 
-            <p className="text-sm lg:text-base opacity-50 text-center lg:text-left">
-              {description}
-            </p>
+            <p className="text-sm lg:text-base opacity-50">{description}</p>
 
-            <div className="hidden lg:flex gap-2">
+            <div className="flex gap-2">
               {socialLinks?.map((socialLink, index) => (
                 <Button
                   key={index}
@@ -63,11 +61,7 @@ export default function Footer({
                   className="rounded-full"
                   asChild
                 >
-                  <Link
-                    href={socialLink.link ?? ''}
-                    target="_blank"
-                    className="no-underline"
-                  >
+                  <Link href={socialLink.link ?? ''} target="_blank">
                     <SanityImage
                       src={socialLink.icon}
                       width={64}
@@ -82,9 +76,9 @@ export default function Footer({
           </div>
 
           {/* Footer Links */}
-          {footerLinks?.map((section, index) => (
-            <div key={index} className="lg:flex-1 px-5 lg:px-0">
-              <ul className="flex flex-col">
+          <div className="flex-grow grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {footerLinks?.map((section, index) => (
+              <ul key={index} className="flex flex-col">
                 <li className="pb-4 lg:pb-6">
                   <p className="font-bold text-xl transition hover:text-dark">
                     {section.title}
@@ -99,33 +93,6 @@ export default function Footer({
                   </li>
                 ))}
               </ul>
-            </div>
-          ))}
-
-          {/* Social Links for Small Screens */}
-          <div className="flex gap-2 lg:hidden mt-2">
-            {socialLinks?.map((socialLink, index) => (
-              <Button
-                key={index}
-                variant="destructive"
-                size="icon"
-                className="rounded-full"
-                asChild
-              >
-                <Link
-                  href={socialLink.link ?? ''}
-                  target="_blank"
-                  className="no-underline"
-                >
-                  <SanityImage
-                    src={socialLink.icon}
-                    width={64}
-                    height={64}
-                    alt={socialLink.icon}
-                    className="w-full h-full object-contain"
-                  />
-                </Link>
-              </Button>
             ))}
           </div>
         </div>

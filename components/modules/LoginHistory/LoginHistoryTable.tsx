@@ -35,7 +35,7 @@ export default function LoginHistoryTable({ loginHistory }: LoginHistoryProps) {
         </TableHeader>
 
         <TableBody>
-          {loginHistory.map((login, index) => (
+          {loginHistory.map((login) => (
             <TableRow key={login.id} className="h-16">
               <TableCell className="font-medium">
                 <p className="text-xs lg:text-lg font-semibold">
@@ -72,4 +72,4 @@ export default function LoginHistoryTable({ loginHistory }: LoginHistoryProps) {
       </Table>
     </div>
   )
-} 
+}

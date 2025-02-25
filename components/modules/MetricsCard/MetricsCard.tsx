@@ -22,7 +22,7 @@ export default function MetricsCard({ card }: ModuleProps) {
     >
       {card.icon}
       <div className="text-left">
-        <strong className="text-2xl">{card.count}</strong>
+        <strong className="text-3xl">{card.count}</strong>
         <span className="ml-1 font-light">{card.text}</span>
       </div>
     </div>

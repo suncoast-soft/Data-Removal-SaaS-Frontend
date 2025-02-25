@@ -44,7 +44,7 @@ export default function CardGroup({ title, cards, link }: SectionProps) {
 
         <Link
           href={link}
-          className="flex items-center gap-1 text-sm font-medium no-underline group"
+          className="flex items-center gap-1 text-sm font-medium group"
         >
           <span className="group-hover:border-b">View all</span>
           <ChevronRightIcon className="h-5" />

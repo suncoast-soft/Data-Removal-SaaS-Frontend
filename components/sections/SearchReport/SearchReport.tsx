@@ -6,23 +6,27 @@ import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import { Tables } from '@/types_db'
 import { createClient } from '@/utils/supabase/client'
-import {
-  getBroker,
-  getBrokerSearches,
-  getGoogleSearches
-} from '@/utils/supabase/queries'
+import { getBroker, getBrokerSearches } from '@/utils/supabase/queries'
 
 type Broker = Tables<'brokers'>
-type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Broker
 }
 
-export default function SearchReport({ profile }: { profile: string }) {
+interface SectionProps {
+  profileId: string
+  hasAccount?: boolean
+  isPremium?: boolean
+}
+
+export default function SearchReport({
+  profileId,
+  hasAccount = false,
+  isPremium = false
+}: SectionProps) {
   const [scanning, setScanning] = useState(true)
   const [completions, setCompletions] = useState<Broker[]>([])
   const [loading, setLoading] = useState(true)
-  const [googleSearches, setGoogleSearches] = useState<GoogleSearch[]>([])
   const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>([])
   const supabase = createClient()
   const lastUpdateRef = useRef(Date.now())
@@ -31,11 +35,10 @@ export default function SearchReport({ profile }: { profile: string }) {
     const fetchSearches = async () => {
       setLoading(true)
 
-      const brokerSearches = (await getBrokerSearches(supabase, profile)) ?? []
-      const googleSearches = (await getGoogleSearches(supabase, profile)) ?? []
+      const brokerSearches =
+        (await getBrokerSearches(supabase, profileId)) ?? []
 
       setBrokerSearches(brokerSearches as BrokerSearch[])
-      setGoogleSearches(googleSearches as GoogleSearch[])
 
       const completedSearches = await Promise.all(
         brokerSearches
@@ -49,11 +52,11 @@ export default function SearchReport({ profile }: { profile: string }) {
     }
 
     fetchSearches()
-  }, [supabase, profile])
+  }, [supabase, profileId])
 
   useEffect(() => {
     const channel = supabase
-      .channel(`schema-db-changes-${profile}`)
+      .channel(`schema-db-changes-${profileId}`)
       .on(
         'postgres_changes',
         {
@@ -62,7 +65,7 @@ export default function SearchReport({ profile }: { profile: string }) {
           table: 'broker_searches'
         },
         async (payload) => {
-          if (parseInt(profile) === parseInt(payload.new.profile_id)) {
+          if (parseInt(profileId) === parseInt(payload.new.profile_id)) {
             if (['failed', 'completed'].includes(payload.new.search_status)) {
               const broker = await getBroker(supabase, payload.new.broker_id)
               setCompletions((prev) => [...prev, broker])
@@ -76,7 +79,7 @@ export default function SearchReport({ profile }: { profile: string }) {
     return () => {
       channel.unsubscribe()
     }
-  }, [supabase, profile])
+  }, [supabase, profileId])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -99,17 +102,15 @@ export default function SearchReport({ profile }: { profile: string }) {
 
   useEffect(() => {
     const fetchSearches = async () => {
-      const brokerSearches = (await getBrokerSearches(supabase, profile)) ?? []
-      const googleSearches = (await getGoogleSearches(supabase, profile)) ?? []
-
+      const brokerSearches =
+        (await getBrokerSearches(supabase, profileId)) ?? []
       setBrokerSearches(brokerSearches as BrokerSearch[])
-      setGoogleSearches(googleSearches as GoogleSearch[])
     }
 
     if (!scanning) {
       fetchSearches()
     }
-  }, [supabase, profile, scanning])
+  }, [supabase, profileId, scanning])
 
   return (
     <div className="container max-w-6xl py-12">
@@ -142,12 +143,14 @@ export default function SearchReport({ profile }: { profile: string }) {
         ) : (
           <>
             <SearchSummary
-              googleSearches={googleSearches as any[]}
               brokerSearches={brokerSearches}
+              hasAccount={hasAccount}
+              isPremium={isPremium}
             />
             <SearchResults
-              googleSearches={googleSearches as any[]}
               brokerSearches={brokerSearches}
+              hasAccount={hasAccount}
+              isPremium={isPremium}
             />
           </>
         ))}

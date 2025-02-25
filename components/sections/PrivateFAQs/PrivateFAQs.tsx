@@ -67,7 +67,7 @@ export default function PrivateFAQs() {
               'p-4 lg:p-6 rounded-xl border mb-4 bg-white border-none transition duration-200'
             }
           >
-            <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg no-underline hover:no-underline [&[data-state=open]>div]:rotate-45">
+            <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg [&[data-state=open]>div]:rotate-45">
               {question}
             </AccordionTrigger>
 

@@ -151,9 +151,7 @@ export default function SettingsForm({
                 className="bg-dark hover:bg-gray text-white font-bold"
                 asChild
               >
-                <Link href="/dashboard/billing" className="no-underline">
-                  Go to billing
-                </Link>
+                <Link href="/dashboard/billing">Go to billing</Link>
               </Button>
             </div>
           </div>

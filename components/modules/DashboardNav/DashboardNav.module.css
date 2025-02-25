@@ -3,7 +3,7 @@
 }
 
 .logo {
-  @apply cursor-pointer duration-100 ease-in-out no-underline mb-10;
+  @apply cursor-pointer duration-100 ease-in-out mb-10;
 }
 
 .link {

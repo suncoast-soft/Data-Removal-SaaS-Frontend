@@ -9,6 +9,8 @@ import {
   ToastViewport
 } from '@/components/ui/toast'
 import { useToast } from '@/hooks/use-toast'
+import { getURL } from '@/utils/helpers'
+import { createClient } from '@/utils/supabase/client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -23,27 +25,42 @@ export function Toaster() {
     const status_description = searchParams.get('status_description')
     const error = searchParams.get('error')
     const error_description = searchParams.get('error_description')
+
     if (error || status) {
-      toast({
-        title: error
-          ? (error ?? 'Hmm... Something went wrong.')
-          : (status ?? 'Alright!'),
-        description: error ? error_description : status_description,
-        variant: error ? 'destructive' : undefined
-      })
-      // Clear any 'error', 'status', 'status_description', and 'error_description' search params
-      // so that the toast doesn't show up again on refresh, but leave any other search params
-      // intact.
-      const newSearchParams = new URLSearchParams(searchParams.toString())
-      const paramsToRemove = [
-        'error',
-        'status',
-        'status_description',
-        'error_description'
-      ]
-      paramsToRemove.forEach((param) => newSearchParams.delete(param))
-      const redirectPath = `${pathname}?${newSearchParams.toString()}`
-      router.replace(redirectPath, { scroll: false })
+      if (
+        error === 'Auth Error' &&
+        error_description === 'Identity is already linked to another user'
+      ) {
+        const supabase = createClient()
+
+        supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: getURL('/auth/callback')
+          }
+        })
+      } else {
+        toast({
+          title: error
+            ? (error ?? 'Hmm... Something went wrong.')
+            : (status ?? 'Alright!'),
+          description: error ? error_description : status_description,
+          variant: error ? 'destructive' : undefined
+        })
+        // Clear any 'error', 'status', 'status_description', and 'error_description' search params
+        // so that the toast doesn't show up again on refresh, but leave any other search params
+        // intact.
+        const newSearchParams = new URLSearchParams(searchParams.toString())
+        const paramsToRemove = [
+          'error',
+          'status',
+          'status_description',
+          'error_description'
+        ]
+        paramsToRemove.forEach((param) => newSearchParams.delete(param))
+        const redirectPath = `${pathname}?${newSearchParams.toString()}`
+        router.replace(redirectPath, { scroll: false })
+      }
     }
   }, [pathname, router, searchParams, toast])
 

@@ -11,9 +11,7 @@ export default function HowToProtectSection() {
         </h2>
 
         <Button variant="outline" asChild>
-          <Link href={'/blog'} className="no-underline">
-            Check out our blog for more tips
-          </Link>
+          <Link href={'/blog'}>Check out our blog for more tips</Link>
         </Button>
       </div>
 

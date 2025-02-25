@@ -10,24 +10,9 @@ import BillingHistoryTable from '../../modules/Billing/BillingHistoryTable'
 import { Mail } from 'lucide-react'
 import { displayDate } from '@/utils/helpers'
 import Stripe from 'stripe'
-
-interface StripePricingTableProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLElement>,
-    HTMLElement
-  > {
-  'buy-button-id': string
-  'publishable-key': string
-}
-
-declare module 'react' {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace JSX {
-    interface IntrinsicElements {
-      'stripe-buy-button': StripePricingTableProps
-    }
-  }
-}
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { getBuyLink } from '@/utils/stripe/client'
 
 interface CustomerPortalFormProps {
   paymentMethodsData: Stripe.PaymentMethod[]
@@ -42,6 +27,15 @@ export default function CustomerPortalForm({
 }: CustomerPortalFormProps) {
   const router = useRouter()
   const currentPath = usePathname()
+
+  const [buyLink, setBuyLink] = useState('')
+  useEffect(() => {
+    async function handle() {
+      const link = await getBuyLink()
+      setBuyLink(link)
+    }
+    handle()
+  }, [])
 
   const handleStripePortalRequest = async () => {
     const redirectUrl = await createStripePortal(currentPath)
@@ -142,19 +136,9 @@ export default function CustomerPortalForm({
               </Button>
             ) : (
               <div className="mt-12">
-                <script
-                  async
-                  src="https://js.stripe.com/v3/buy-button.js"
-                ></script>
-
-                <stripe-buy-button
-                  buy-button-id={
-                    process.env.NEXT_PUBLIC_STRIPE_BUY_BUTTON_ID || ''
-                  }
-                  publishable-key={
-                    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-                  }
-                ></stripe-buy-button>
+                <Button variant="default" asChild>
+                  <Link href={buyLink}>Upgrade to PUP Premium</Link>
+                </Button>
               </div>
             )}
           </CardContent>

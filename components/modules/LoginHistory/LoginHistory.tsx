@@ -12,4 +12,4 @@ export default function LoginHistory({ loginHistory }: LoginHistoryProps) {
       <LoginHistoryTable loginHistory={loginHistory} />
     </div>
   )
-} 
+}

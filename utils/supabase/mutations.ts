@@ -83,8 +83,6 @@ export const updateUserSettings = cache(
       }
     }
 
-    console.log(row)
-
     // Create profile
     const { data, error } = await supabase
       .from('users')
@@ -118,16 +116,16 @@ export const createLoginHistory = cache(
       // Get location from ipinfo.io
       const ipResponse = await fetch(
         `https://ipinfo.io?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`
-      );
-      const ipData = await ipResponse.json();
-      
+      )
+      const ipData = await ipResponse.json()
+
       // Get user agent from request
-      const userAgent = request.headers.get('user-agent');
-      
+      const userAgent = request.headers.get('user-agent')
+
       // Determine device type from user agent
-      const deviceType = userAgent?.toLowerCase().includes('mobile') 
-        ? 'mobile' 
-        : 'desktop';
+      const deviceType = userAgent?.toLowerCase().includes('mobile')
+        ? 'mobile'
+        : 'desktop'
 
       const { data, error } = await supabaseAdmin
         .from('login_history')
@@ -139,15 +137,15 @@ export const createLoginHistory = cache(
           success: true
         })
         .select()
-        .single();
+        .single()
 
-      return { data, error };
+      return { data, error }
     } catch (error) {
-      console.error('Error creating login history:', error);
-      return { 
-        data: null, 
-        error: { message: 'Failed to create login history' } as PostgrestError 
-      };
+      console.error('Error creating login history:', error)
+      return {
+        data: null,
+        error: { message: 'Failed to create login history' } as PostgrestError
+      }
     }
   }
-);
+)

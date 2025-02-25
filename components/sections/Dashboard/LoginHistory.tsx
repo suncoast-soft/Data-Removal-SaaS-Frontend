@@ -20,7 +20,10 @@ export default function LoginHistory({ loginHistory }: LoginHistoryProps) {
           </thead>
           <tbody>
             {loginHistory.map((login, index) => (
-              <tr key={login.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/50'}>
+              <tr
+                key={login.id}
+                className={index % 2 === 0 ? 'bg-background' : 'bg-muted/50'}
+              >
                 <td className="px-4 py-2">
                   {format(new Date(login.created_at), 'MMM d, yyyy')}
                 </td>
@@ -40,4 +43,4 @@ export default function LoginHistory({ loginHistory }: LoginHistoryProps) {
       </div>
     </div>
   )
-} 
+}

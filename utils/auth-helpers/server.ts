@@ -38,14 +38,34 @@ export async function signInWithOtp(formData: FormData) {
   const user = await getUser(supabase)
 
   if (user) {
-    const { data, error } = await supabase.auth.updateUser({
-      email: email
-    })
+    const { data: updatedData, error: updateError } =
+      await supabase.auth.updateUser({
+        email: email
+      })
 
-    if (error)
-      return getErrorRedirect('/signin', 'Sign up failed.', error.message)
+    if (updateError) {
+      console.log(
+        'This email belongs to an existing user. signing in to that account.'
+      )
 
-    return data.user
+      const { error, data } = await supabase.auth.signInWithOtp({
+        email: email
+      })
+
+      if (error) {
+        return getErrorRedirect('/signin', 'Sign ip failed.', error.message)
+      }
+
+      return data.user
+        ? getStatusRedirect(
+            '/signin',
+            'Success!',
+            'Please check your email for a confirmation link. You may now close this tab.'
+          )
+        : getStatusRedirect('/dashboard', 'Success!', 'You are now signed in.')
+    }
+
+    return updatedData.user
       ? getStatusRedirect(
           '/signin',
           'Success!',

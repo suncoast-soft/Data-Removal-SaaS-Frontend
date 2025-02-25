@@ -20,18 +20,6 @@ if (!supabaseServiceRoleKey) {
   throw new Error('MISSING SUPABASE_SERVICE_ROLE_KEY!')
 }
 
-const yearlyPriceId = process.env.STRIPE_PRICE_ID_YEARLY as string
-const oneyearPriceId = process.env.STRIPE_PRICE_ID_ONE_YEAR as string
-const twoyearPriceId = process.env.STRIPE_PRICE_ID_TWO_YEAR as string
-
-const typeFromPriceId: {
-  [key: string]: 'one_year' | 'two_year' | 'annual_recurring'
-} = {
-  [yearlyPriceId]: 'annual_recurring',
-  [oneyearPriceId]: 'one_year',
-  [twoyearPriceId]: 'two_year'
-}
-
 export async function POST(request: Request) {
   console.log('Request from: ', request.url)
   console.log('Request: ', request)
@@ -104,9 +92,10 @@ export async function POST(request: Request) {
     case 'checkout.session.completed':
       const checkoutSessionCompleted = event.data
         .object as Stripe.Checkout.Session
-      const profileId = Number(checkoutSessionCompleted.client_reference_id)
+      const userId = checkoutSessionCompleted.client_reference_id
+      const customerId = checkoutSessionCompleted.customer as string
 
-      if (!profileId) {
+      if (!userId) {
         return NextResponse.json(
           {
             message: `Missing client_reference_id`
@@ -115,46 +104,37 @@ export async function POST(request: Request) {
         )
       }
 
-      const lineItems = await stripe.checkout.sessions.listLineItems(
-        checkoutSessionCompleted.id
-      )
-      const priceId = lineItems.data[0].price!.id
-      const type = typeFromPriceId[priceId]
-
       // Get Existing profile from profile_id
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', profileId)
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', userId)
         .single()
 
-      if (!profile) {
+      if (updateError) {
         return NextResponse.json(
           {
-            message: `User Profile Not Found`
+            message: `User Not Found`
           },
           { status: 400 }
         )
       }
 
-      // Insert into Pricing
-      console.log(profileId)
-      console.log(type)
-      // const { data, error } = await supabase.from('pricing_plans').insert({
-      //   user_id: profileId
-      // })
+      const { data, error } = await supabase.from('pricing_plans').upsert({
+        user_id: userId
+      })
 
-      // if (error) {
-      //   console.log(error)
-      //   return NextResponse.json(
-      //     {
-      //       message: `Error creating credits: ${error}\n ${data}`
-      //     },
-      //     {
-      //       status: 400
-      //     }
-      //   )
-      // }
+      if (error) {
+        console.log(error)
+        return NextResponse.json(
+          {
+            message: `Error creating credits: ${error}\n ${data}`
+          },
+          {
+            status: 400
+          }
+        )
+      }
 
       return NextResponse.json(
         {

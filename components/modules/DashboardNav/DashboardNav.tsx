@@ -40,11 +40,7 @@ function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
     <aside className={s.root}>
       <nav className="flex flex-col items-start px-4 py-6 justify-between min-h-screen">
         <div className="w-full">
-          <Link
-            href="/dashboard"
-            className={cn(s.logo, 'no-underline')}
-            aria-label="Logo"
-          >
+          <Link href="/dashboard" className={cn(s.logo)} aria-label="Logo">
             <LogoWhite />
           </Link>
 
@@ -74,7 +70,7 @@ function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
                 href={nav.link}
                 className={cn(
                   s.link,
-                  'no-underline flex justify-between',
+                  'flex justify-between',
                   currentPath === nav.link && s.active
                 )}
               >
@@ -106,18 +102,14 @@ function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
       <div className="lg:hidden bg-dark w-full h-[70px] flex justify-between items-center px-4">
         <Link
           href="/dashboard"
-          className={cn(s.logo, 'no-underline w-[170px] !mb-0')}
+          className={cn(s.logo, 'w-[170px] !mb-0')}
           aria-label="Logo"
         >
           <LogoWhite />
         </Link>
 
         <SheetTrigger asChild>
-          <Button
-            size="icon"
-            className="text-white hover:no-underline p-0"
-            variant={'link'}
-          >
+          <Button size="icon" className="text-white p-0" variant={'link'}>
             <MenuIcon />
             <span className="sr-only">Toggle Menu</span>
           </Button>
@@ -128,11 +120,7 @@ function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
         <nav className="flex flex-col items-start px-4 py-6">
           <SheetTitle className="sr-only">Menu</SheetTitle>
 
-          <Link
-            href="/dashboard"
-            className={cn(s.logo, 'no-underline')}
-            aria-label="Logo"
-          >
+          <Link href="/dashboard" className={cn(s.logo)} aria-label="Logo">
             <LogoWhite />
           </Link>
 
@@ -141,11 +129,7 @@ function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
               <Link
                 key={index}
                 href={nav.link}
-                className={cn(
-                  s.link,
-                  'no-underline',
-                  currentPath === nav.link && s.active
-                )}
+                className={cn(s.link, currentPath === nav.link && s.active)}
               >
                 <span className="w-6 h-6 text-primary">{nav.icon}</span>
                 <span>{nav.name}</span>

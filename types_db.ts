@@ -252,6 +252,7 @@ export type Database = {
         Row: {
           enable_scraping: boolean | null
           id: number
+          logo_url: string | null
           name: string | null
           need_captcha: boolean | null
           need_vpn: boolean | null
@@ -263,6 +264,7 @@ export type Database = {
         Insert: {
           enable_scraping?: boolean | null
           id?: number
+          logo_url?: string | null
           name?: string | null
           need_captcha?: boolean | null
           need_vpn?: boolean | null
@@ -274,6 +276,7 @@ export type Database = {
         Update: {
           enable_scraping?: boolean | null
           id?: number
+          logo_url?: string | null
           name?: string | null
           need_captcha?: boolean | null
           need_vpn?: boolean | null
@@ -572,6 +575,7 @@ export type Database = {
         Row: {
           address: string | null
           alternative_names: string | null
+          bio: string | null
           birth_date: string | null
           city: string | null
           created_at: string
@@ -582,6 +586,7 @@ export type Database = {
           is_primary: boolean | null
           last_name: string | null
           phone: string | null
+          ssn: string | null
           state: string | null
           user_id: string | null
           zip: string | null
@@ -589,6 +594,7 @@ export type Database = {
         Insert: {
           address?: string | null
           alternative_names?: string | null
+          bio?: string | null
           birth_date?: string | null
           city?: string | null
           created_at?: string
@@ -599,6 +605,7 @@ export type Database = {
           is_primary?: boolean | null
           last_name?: string | null
           phone?: string | null
+          ssn?: string | null
           state?: string | null
           user_id?: string | null
           zip?: string | null
@@ -606,6 +613,7 @@ export type Database = {
         Update: {
           address?: string | null
           alternative_names?: string | null
+          bio?: string | null
           birth_date?: string | null
           city?: string | null
           created_at?: string
@@ -616,6 +624,7 @@ export type Database = {
           is_primary?: boolean | null
           last_name?: string | null
           phone?: string | null
+          ssn?: string | null
           state?: string | null
           user_id?: string | null
           zip?: string | null

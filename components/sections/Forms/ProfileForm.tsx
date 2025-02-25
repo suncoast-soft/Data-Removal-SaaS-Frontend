@@ -25,7 +25,6 @@ import {
 import FormInput from '@/components/modules/FormInput'
 import FormDate from '@/components/modules/FormDate'
 import FormToggle from '@/components/modules/FormToggle'
-import FormTextarea from '@/components/modules/FormTextarea'
 import { Tables } from '@/types_db'
 import { User } from '@supabase/supabase-js'
 import { splitName } from '@/utils/helpers'

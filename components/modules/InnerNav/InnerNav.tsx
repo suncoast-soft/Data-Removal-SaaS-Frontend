@@ -34,8 +34,7 @@ export default function InnerNav({ navs }: InnerNavProps) {
                   navigationMenuTriggerStyle(),
                   pathname === nav.link
                     ? 'bg-white focus:bg-white'
-                    : 'bg-transparent',
-                  'no-underline'
+                    : 'bg-transparent'
                 )}
               >
                 {nav.name}

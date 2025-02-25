@@ -141,15 +141,13 @@ export default function AddressForm({ name }: { name: string }) {
       {loading ? (
         <p>Validating Your Address...</p>
       ) : (
-        <div className="relative text-3xl lg:text-5xl leading-wide font-bold">
-          <h1 className="leading-snug">
-            <span className="px-2 mb-2">{firstName}, are you currently in</span>
-            <span className="bg-dark leading-[55px] text-white px-2 relative">
-              {city}, {state}
-            </span>
-            ?
-          </h1>
-        </div>
+        <h1 className="text-[27px] lg:text-[44px] leading-tight font-bold">
+          <span>{firstName}, are you currently in</span>
+          <span className="bg-dark leading-none text-white ml-2 relative">
+            {city}, {state}
+          </span>
+          ?
+        </h1>
       )}
 
       <Form {...form}>

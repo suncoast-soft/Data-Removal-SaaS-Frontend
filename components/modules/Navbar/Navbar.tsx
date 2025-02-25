@@ -31,7 +31,7 @@ export default async function Navbar({
       <div className="container px-4 lg:px-[110px] mx-auto h-full">
         <div className="relative flex flex-row justify-between align-center h-full">
           <div className="flex items-center flex-1 justify-between">
-            <Link href="/" className="no-underline" aria-label="Logo">
+            <Link href="/" aria-label="Logo">
               {logo ? (
                 <Image
                   src={logo}
@@ -52,7 +52,7 @@ export default async function Navbar({
                   <Link
                     key={index}
                     href={nav.link ?? ''}
-                    className="no-underline text-white hover:text-white/80"
+                    className="text-white hover:text-white/80"
                   >
                     {nav.name}
                   </Link>
@@ -62,10 +62,7 @@ export default async function Navbar({
               {user && !user.is_anonymous ? (
                 <>
                   <Button variant="secondary" className="h-12 px-6" asChild>
-                    <Link
-                      href="/dashboard"
-                      className="no-underline font-semibold"
-                    >
+                    <Link href="/dashboard" className="font-semibold">
                       Dashboard
                     </Link>
                   </Button>
@@ -77,7 +74,7 @@ export default async function Navbar({
                     className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"
                     asChild
                   >
-                    <Link href="/signin" className="no-underline font-semibold">
+                    <Link href="/signin" className="font-semibold">
                       Login
                     </Link>
                   </Button>

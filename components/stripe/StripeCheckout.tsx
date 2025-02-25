@@ -81,7 +81,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
         <div className="space-y-6">
           <Link
             href="#"
-            className="inline-flex text-dark hover:no-underline"
+            className="inline-flex text-dark"
             onClick={() => router.back()}
           >
             <MoveLeft className="w-6 h-6" />
@@ -266,7 +266,7 @@ export default function StripeCheckout({ user }: { user?: User | null }) {
             <div className="text-center">
               <a
                 href="#"
-                className="text-secondary text-sm no-underline border-b border-secondary hover:no-underline font-bold"
+                className="text-secondary text-sm border-b border-secondary font-bold"
               >
                 More Info
               </a>

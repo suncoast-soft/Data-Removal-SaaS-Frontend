@@ -26,7 +26,7 @@ export default function NavbarMobile({
       {/* Hamburger Menu Button */}
       <Button
         variant="link"
-        className="lg:hidden p-0 hover:no-underline"
+        className="lg:hidden p-0"
         onClick={() => setIsMenuOpen((prev) => !prev)}
         aria-label="Toggle Menu"
       >
@@ -60,7 +60,7 @@ export default function NavbarMobile({
           {user && !user.is_anonymous ? (
             <>
               <Button variant="secondary" className="h-12 px-6" asChild>
-                <Link href="/dashboard" className="no-underline font-semibold">
+                <Link href="/dashboard" className="font-semibold">
                   Dashboard
                 </Link>
               </Button>
@@ -72,7 +72,7 @@ export default function NavbarMobile({
                 className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"
                 asChild
               >
-                <Link href="/signin" className="no-underline font-semibold">
+                <Link href="/signin" className="font-semibold">
                   Login
                 </Link>
               </Button>

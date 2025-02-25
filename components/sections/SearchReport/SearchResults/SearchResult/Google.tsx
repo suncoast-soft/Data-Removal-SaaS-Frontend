@@ -21,7 +21,7 @@ export default function GoogleSearchResults({
           <TableRow key={index}>
             <TableCell>
               <p className="font-semibold text-dark/80">{search.displayLink}</p>
-              <Link href={search.link} className="no-underline mb-2">
+              <Link href={search.link} className="mb-2">
                 <p
                   dangerouslySetInnerHTML={{ __html: search.htmlTitle }}
                   className="text-primary font-semibold text-lg"

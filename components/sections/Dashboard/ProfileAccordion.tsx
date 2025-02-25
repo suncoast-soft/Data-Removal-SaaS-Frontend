@@ -27,7 +27,7 @@ export default function ProfileAccordion({
       value={String(profile.id)}
       className="p-4 rounded-[14px] border-[1.4px] border-dark/90 mb-4 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white [&[data-state='closed']]:text-dark shrink-0 transition duration-200"
     >
-      <AccordionTrigger className="w-full text-left p-0 no-underline hover:no-underline [&[data-state='closed']]:text-dark [&[data-state='open']]:text-white [&>.default-trigger-icon]:hidden">
+      <AccordionTrigger className="w-full text-left p-0 [&[data-state='closed']]:text-dark [&[data-state='open']]:text-white [&>.default-trigger-icon]:hidden">
         <div className="flex-1 flex justify-between items-center">
           <h3 className="font-normal text-base lg:text-lg">
             Profile:{' '}

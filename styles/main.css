@@ -36,20 +36,7 @@ body {
 
 a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  @apply relative inline-block underline underline-offset-4;
-}
-
-a::after {
-  content: '';
-  @apply absolute w-full h-[1px] bottom-0.5 left-0 transition-transform duration-200 ease-out;
-  transform: scaleX(0);
-  background-color: currentColor;
-  transform-origin: bottom right;
-}
-
-a:not(.no-underline):hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+  @apply relative inline-block;
 }
 
 .height-screen-helper {

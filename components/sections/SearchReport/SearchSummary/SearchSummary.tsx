@@ -4,18 +4,20 @@ import CleaningIcon from '@/components/icons/CleaningIcon'
 import WebSearchIcon from '@/components/icons/WebSearchIcon'
 import MetricsCard from '@/components/modules/MetricsCard'
 import MetricsChart from '@/components/modules/MetricsChart'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
-import { tags } from '@/utils/const'
 import { hasKeyInData } from '@/utils/helpers'
+import { getBuyLink } from '@/utils/stripe/client'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-type GoogleSearch = Tables<'google_searches'>
 type BrokerSearch = Tables<'broker_searches'>
 
 interface SectionProps {
-  googleSearches: GoogleSearch[]
   brokerSearches: BrokerSearch[]
+  hasAccount: boolean
+  isPremium: boolean
 }
 
 const COLORS: Record<string, string> = {
@@ -26,9 +28,19 @@ const COLORS: Record<string, string> = {
 }
 
 export default function SearchSummary({
-  googleSearches,
-  brokerSearches
+  brokerSearches,
+  hasAccount,
+  isPremium
 }: SectionProps) {
+  const [buyLink, setBuyLink] = useState('')
+  useEffect(() => {
+    async function handle() {
+      const link = await getBuyLink()
+      setBuyLink(link)
+    }
+    handle()
+  }, [])
+
   const totalSearches = brokerSearches.length
 
   const successfulSearches = brokerSearches.filter(
@@ -39,7 +51,7 @@ export default function SearchSummary({
     {
       icon: <WebSearchIcon />,
       count: `${totalSearches}`,
-      text: 'sites searched',
+      text: 'Data brokers searched',
       color: 'bg-dark text-white'
     },
     {
@@ -47,12 +59,6 @@ export default function SearchSummary({
       count: `${successfulSearches}`,
       text: 'results found',
       color: 'bg-dark text-white'
-    },
-    {
-      icon: <CleaningIcon />,
-      count: `0/${successfulSearches}`,
-      text: 'search results removed',
-      color: 'bg-dark/5 text-dark'
     },
     {
       icon: <CleaningIcon />,
@@ -96,80 +102,52 @@ export default function SearchSummary({
     }
   ]
 
-  const sourceTypeData = [
-    {
-      name: 'Broker',
-      value: brokerSearches.length,
-      color: COLORS.GREEN
-    },
-    {
-      name: 'Google',
-      value: Array.isArray(googleSearches[0].search_result)
-        ? googleSearches[0].search_result.length
-        : 0,
-      color: COLORS.BLUE
-    },
-    {
-      name: 'Bing',
-      value: 0,
-      color: COLORS.CORAL
-    },
-    {
-      name: 'Other',
-      value: 0,
-      color: COLORS.BLACK
-    }
-  ]
-
   const resultTypeData = [
     {
       name: 'Address',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, 'address', [])
+        hasKeyInData(search.search_result, 'address')
       ).length,
       color: COLORS.GREEN
     },
     {
       name: 'Email',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, 'email', [])
+        hasKeyInData(search.search_result, 'email')
       ).length,
       color: COLORS.BLUE
     },
     {
       name: 'Phone',
       value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, 'phone', [])
+        hasKeyInData(search.search_result, 'phone')
       ).length,
       color: COLORS.CORAL
     },
     {
       name: 'Other',
-      value: brokerSearches.filter((search) =>
-        hasKeyInData(search.search_result, null, [
-          'email',
-          'address',
-          'phone',
-          'first_name',
-          'last_name'
-        ])
-      ).length,
+      value:
+        brokerSearches.filter((search) =>
+          hasKeyInData(search.search_result, null, [
+            'email',
+            'address',
+            'phone',
+            'first_name',
+            'last_name'
+          ])
+        ).length / 3,
       color: COLORS.BLACK
     }
   ]
 
   const reportCharts = [
     {
-      title: 'Results Removed',
-      data: removalStatusData
-    },
-    {
-      title: 'Data source Types',
-      data: sourceTypeData
-    },
-    {
       title: 'Result Types',
       data: resultTypeData
+    },
+    {
+      title: 'Results Removed',
+      data: removalStatusData
     }
   ]
 
@@ -183,32 +161,63 @@ export default function SearchSummary({
         alt="Vector"
       />
 
-      <h1 className="text-2xl lg:text-4xl font-bold text-center mb-2">
-        We found your personal data on {successfulSearches} sites
+      <h1 className="text-2xl lg:text-4xl font-bold text-center mb-12">
+        We found your personal information on {successfulSearches} data broker
+        sites
       </h1>
 
-      <p className="text-lg lg:text-xl text-dark/70 text-center mb-8">
-        Don’t worry, we’re here to erase them for you
-      </p>
-
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-5">
+      <div className="max-w-3xl mx-auto grid lg:grid-cols-3 gap-3 mb-5">
         {reportMetrics.map((card, index) => (
           <MetricsCard key={index} card={card} />
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-2 mb-5">
+      <div className="grid lg:grid-cols-3 gap-3 mb-5">
         {reportCharts.map((chart, index) => (
           <MetricsChart key={index} title={chart.title} data={chart.data} />
         ))}
-      </div>
+        <div className="flex flex-col gap-3">
+          {!hasAccount && (
+            <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
+              <h3 className="text-2xl font-bold">
+                Create a <strong>FREE</strong> account
+              </h3>
+              <p className="text-sm mb-3">
+                to access your full report (free to view, forever)
+              </p>
+              <Button variant="secondary" asChild>
+                <Link href="/signin">START FOR FREE</Link>
+              </Button>
+            </div>
+          )}
 
-      <div className="flex flex-row flex-wrap gap-2">
-        {tags.map((tag, index) => (
-          <Badge key={index}>
-            <span className="text-xs font-light">{tag}</span>
-          </Badge>
-        ))}
+          <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
+            {isPremium ? (
+              <>
+                <Image
+                  src={'/lp-pro-pricing-image.png'}
+                  width={154}
+                  height={175}
+                  alt="Protected!"
+                  className="mb-4"
+                />
+                <p className="text-secondary font-medium">
+                  You are protected by Pup Premium!
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm">Start removing your digital footprint</p>
+                <h3 className="text-2xl font-bold mb-3">
+                  with <strong>PUP PREMIUM</strong>
+                </h3>
+                <Button variant="default" asChild>
+                  <Link href={buyLink}>Upgrade Now</Link>
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

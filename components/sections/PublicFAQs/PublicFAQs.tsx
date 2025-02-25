@@ -41,7 +41,7 @@ export default function PublicFAQs() {
           value={faq.id}
           className="p-4 lg:p-6 rounded-[20px] border border-dark/20 mb-4 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white shrink-0 transition duration-200"
         >
-          <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg lg:text-2xl no-underline hover:no-underline">
+          <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg lg:text-2xl">
             {faq.question}
           </AccordionTrigger>
 

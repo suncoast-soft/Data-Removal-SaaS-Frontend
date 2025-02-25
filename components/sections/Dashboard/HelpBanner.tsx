@@ -30,7 +30,7 @@ export default function HelpBanner() {
       <div className="flex gap-6 flex-col items-end">
         <a
           href="#"
-          className="no-underline leading-[18px] border-b border-dark text-[20px] font-bold"
+          className="leading-[18px] border-b border-dark text-[20px] font-bold"
         >
           Some of these aren’t my results
         </a>

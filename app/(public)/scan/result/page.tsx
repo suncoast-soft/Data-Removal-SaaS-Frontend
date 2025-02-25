@@ -17,7 +17,7 @@ export default async function ScanResultPage({
 
   return (
     <div className="container max-w-6xl">
-      <SearchReport profile={profile} />
+      <SearchReport profileId={profile} />
 
       <UpgradeSection />
 
@@ -29,9 +29,7 @@ export default async function ScanResultPage({
 
       <div className="text-center my-12">
         <Button variant="secondary" asChild>
-          <Link href="/signin" className="no-underline">
-            Register and protect yourself today
-          </Link>
+          <Link href="/signin">Register and protect yourself today</Link>
         </Button>
       </div>
     </div>

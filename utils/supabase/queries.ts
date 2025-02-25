@@ -93,7 +93,7 @@ export const getPricingPlan = cache(async (supabase: SupabaseClient) => {
   if (!user) return null
 
   const { data: pricing } = await supabase
-    .from('pricing')
+    .from('pricing_plans')
     .select('*')
     .eq('user_id', user.id)
     .single()

@@ -28,13 +28,9 @@ export default function UpgradeSection({ user }: { user?: User }) {
           <div className="mt-7 flex justify-start">
             <Button variant="default" className="w-48" asChild>
               {user ? (
-                <Link href={'/checkout'} className="no-underline">
-                  Upgrade
-                </Link>
+                <Link href={'/checkout'}>Upgrade</Link>
               ) : (
-                <Link href={'/signin'} className="no-underline">
-                  Get Started
-                </Link>
+                <Link href={'/signin'}>Get Started</Link>
               )}
             </Button>
           </div>

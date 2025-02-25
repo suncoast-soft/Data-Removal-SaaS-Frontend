@@ -13,7 +13,6 @@ import SectionHeader from '@/components/modules/SectionHeader'
 import SearchReport from '@/components/sections/SearchReport'
 import ProfileDropdown from '@/components/modules/ProfileDropdown'
 import { Tables } from '@/types_db'
-import RemovalReport from '@/components/sections/RemovalReport'
 
 type Profile = Tables<'profiles'>
 
@@ -44,7 +43,7 @@ export default async function Dashboard({
     redirect(`/dashboard?profile=${profiles[0].id}`)
   }
 
-  const isPaidUser = pricing && isPremiumUser(pricing)
+  const isPremium = pricing && isPremiumUser(pricing)
   const notifications = 0
 
   return (
@@ -52,7 +51,7 @@ export default async function Dashboard({
       <SectionHeader
         title="Dashboard"
         cta1={
-          <Button variant="link" type="button" className={'no-underline p-0'}>
+          <Button variant="link" type="button" className={'p-0'}>
             <div className="relative text-dark">
               {notifications > 0 && (
                 <div className="absolute -right-1 -top-1 min-w-[18px] rounded-full min-h-[18px] text-white bg-secondary text-xs font-normal">
@@ -70,11 +69,11 @@ export default async function Dashboard({
         selectedProfileId={selectedProfileId}
       />
 
-      {isPaidUser ? (
-        <RemovalReport profile={selectedProfileId} />
-      ) : (
-        <SearchReport profile={selectedProfileId} />
-      )}
+      <SearchReport
+        profileId={selectedProfileId}
+        hasAccount={true}
+        isPremium={isPremium}
+      />
 
       <UpgradeSection />
 
@@ -86,9 +85,7 @@ export default async function Dashboard({
 
       <div className="text-center my-12">
         <Button variant="secondary" asChild>
-          <Link href="/checkout" className="no-underline">
-            Upgrade and protect yourself today
-          </Link>
+          <Link href="/checkout">Upgrade and protect yourself today</Link>
         </Button>
       </div>
     </div>

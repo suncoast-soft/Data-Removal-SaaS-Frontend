@@ -219,22 +219,76 @@ export const getStateCode = (stateName: string): string => {
 export const hasKeyInData = (
   data: any,
   keysToCheck: string | null,
-  exclude: string[]
+  exclude: string[] = []
 ): boolean => {
   if (!data || typeof data !== 'object') return false
 
-  if (Array.isArray(data)) {
-    return data.some((item) => hasKeyInData(item, keysToCheck, exclude))
+  let secondLevelData
+
+  if (!Array.isArray(data.results)) {
+    secondLevelData = data
+  } else {
+    secondLevelData = data.results
   }
 
-  const lowerCaseKeysToCheck = keysToCheck?.toLowerCase()
-  const lowerCaseExclude = new Set(exclude.map((key) => key.toLowerCase()))
+  const keysToCheckFormatted = keysToCheck
+    ? keysToCheck.trim().toLowerCase()
+    : null
+  const excludeFormatted = exclude.map((ex) => ex.trim().toLowerCase())
 
-  return Object.keys(data).some((key) => {
-    const lowerCaseKey = key.toLowerCase()
+  const checkKeyExistsWithValue = (obj: any) => {
+    return Object.keys(obj).some((key) => {
+      const keyFormatted = key.trim().toLowerCase()
+      const value = obj[key]
+
+      const hasValidValue =
+        value !== null &&
+        value !== undefined &&
+        !(Array.isArray(value) && value.length === 0) &&
+        !(typeof value === 'string' && value.trim() === '')
+
+      return (
+        (keysToCheckFormatted === keyFormatted ||
+          (keysToCheckFormatted === null &&
+            !excludeFormatted.includes(keyFormatted))) &&
+        hasValidValue
+      )
+    })
+  }
+
+  if (!Array.isArray(secondLevelData)) {
+    return checkKeyExistsWithValue(secondLevelData)
+  }
+
+  return secondLevelData.some((item) => checkKeyExistsWithValue(item))
+}
+
+export const getKeysInData = (data: unknown): string[] => {
+  interface DataObject {
+    [key: string]: any
+  }
+
+  if (!data || typeof data !== 'object' || data === null) return []
+
+  let secondLevelData: DataObject
+
+  if (!Array.isArray((data as Record<string, any>).results)) {
+    secondLevelData = data as DataObject
+  } else {
+    secondLevelData = (
+      (data as Record<string, any>).results as Array<DataObject>
+    ).reduce((acc: DataObject, obj: DataObject) => {
+      return { ...acc, ...obj }
+    }, {})
+  }
+
+  return Object.keys(secondLevelData).filter((key) => {
+    const value = secondLevelData[key]
     return (
-      lowerCaseKeysToCheck === lowerCaseKey ||
-      (lowerCaseKeysToCheck === null && !lowerCaseExclude.has(lowerCaseKey))
+      value !== null &&
+      value !== undefined &&
+      !(Array.isArray(value) && value.length === 0) &&
+      !(typeof value === 'string' && value.trim() === '')
     )
   })
 }
