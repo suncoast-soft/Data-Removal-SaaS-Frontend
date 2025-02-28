@@ -16,6 +16,7 @@ interface ModuleProps {
   placeholder?: string
   required?: boolean
   className?: string
+  theme?: 'dark' | 'white'
 }
 
 export default function FormTextarea({
@@ -24,7 +25,8 @@ export default function FormTextarea({
   label,
   placeholder,
   required,
-  className
+  className,
+  theme = 'white'
 }: ModuleProps) {
   return (
     <FormField
@@ -32,7 +34,10 @@ export default function FormTextarea({
       name={name}
       render={({ field }) => (
         <FormItem className={cn('w-full', className)}>
-          <FormLabel className="text-white font-semibold text-lg">
+          <FormLabel className={cn(
+            'font-semibold text-lg',
+            theme === 'white' ? 'text-white' : 'text-dark'
+          )}>
             <span>{label}</span>
             {required && <span className="text-secondary p-1">*</span>}
           </FormLabel>
@@ -47,7 +52,10 @@ export default function FormTextarea({
                 placeholder={placeholder || label}
                 {...field}
                 className={cn(
-                  'bg-transparent text-white [&::placeholder]:text-white/60 px-10 py-3'
+                  'bg-transparent px-10 py-3',
+                  theme === 'white'
+                    ? 'text-white [&::placeholder]:text-white/60'
+                    : 'text-dark [&::placeholder]:text-dark/60 border-dark/60 bg-white'
                 )}
               />
             </div>
