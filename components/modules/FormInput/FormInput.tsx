@@ -38,12 +38,7 @@ export default function FormInput({
       name={name}
       render={({ field }) => (
         <FormItem className={cn('w-full', className)}>
-          <FormLabel
-            className={cn(
-              'font-semibold text-lg',
-              theme === 'white' ? 'text-dark' : 'text-white'
-            )}
-          >
+          <FormLabel className={cn('font-semibold text-lg')}>
             <span>{label}</span>
             {required && <span className="text-secondary p-1">*</span>}
           </FormLabel>
