@@ -7,7 +7,6 @@ import {
 } from '@/utils/supabase/queries'
 import { Button } from '@/components/ui/button'
 import { Accordion } from '@/components/ui/accordion'
-import SignoutForm from '@/components/sections/Forms/SignoutForm'
 import ProfileForm from '@/components/sections/Forms/ProfileForm'
 import ProfileAccordion from '@/components/sections/Dashboard/ProfileAccordion'
 import SectionHeader from '@/components/modules/SectionHeader'
@@ -62,8 +61,7 @@ export default async function Account() {
       <div className="mt-16 mb-20">
         <SectionHeader
           title="Account Settings"
-          cta1={<SignoutForm />}
-          cta2={<DeleteAccountForm settings={settings} />}
+          cta1={<DeleteAccountForm settings={settings} />}
         />
 
         <SettingsForm

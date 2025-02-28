@@ -13,10 +13,14 @@ import FormInput from '@/components/modules/FormInput'
 import { MailIcon } from 'lucide-react'
 
 const FormSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' })
+  email: z.string().email({ message: 'Invalid email address.' }),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional()
 })
 
-export default function EmailSignIn() {
+export default function EmailSignup() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -56,7 +60,7 @@ export default function EmailSignIn() {
           className="w-full"
           disabled={isSubmitting}
         >
-          Login
+          Register
         </Button>
       </form>
     </Form>

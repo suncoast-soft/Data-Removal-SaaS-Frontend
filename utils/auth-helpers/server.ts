@@ -78,7 +78,7 @@ export async function signInWithOtp(formData: FormData) {
     })
 
     if (error) {
-      return getErrorRedirect('/signin', 'Sign ip failed.', error.message)
+      return getErrorRedirect('/signin', 'Sign in failed.', error.message)
     }
 
     return data.user

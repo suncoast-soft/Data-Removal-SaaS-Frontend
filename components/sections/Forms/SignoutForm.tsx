@@ -3,7 +3,6 @@
 import { SignOut } from '@/utils/auth-helpers/server'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { usePathname, useRouter } from 'next/navigation'
-import { getRedirectMethod } from '@/utils/auth-helpers/settings'
 import { Input } from '@/components/ui/input'
 import { LogOutIcon } from 'lucide-react'
 import { Form } from '@/components/ui/form'
@@ -18,7 +17,7 @@ const FormSchema = z.object({
 })
 
 export default function SignoutForm() {
-  const router = getRedirectMethod() === 'client' ? useRouter() : null
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -45,11 +44,15 @@ export default function SignoutForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          variant="outline"
-          size="small"
+          variant="link"
+          className="px-2 py-4 border-none"
         >
-          <LogOutIcon size={16} />
-          <span className="ml-2">Sign out</span>
+          <div className="flex justify-start items-center gap-2">
+            <span className="w-6 h-6 text-primary">
+              <LogOutIcon />
+            </span>
+            <span>Sign out</span>
+          </div>
         </Button>
       </form>
     </Form>

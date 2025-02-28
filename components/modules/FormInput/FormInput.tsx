@@ -41,7 +41,7 @@ export default function FormInput({
           <FormLabel
             className={cn(
               'font-semibold text-lg',
-              theme === 'white' ? 'text-white' : 'text-dark'
+              theme === 'white' ? 'text-dark' : 'text-white'
             )}
           >
             <span>{label}</span>

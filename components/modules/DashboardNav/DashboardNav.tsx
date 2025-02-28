@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input'
 import MenuIcon from '@/components/icons/MenuIcon'
 import { User } from '@supabase/supabase-js'
 import ProfileForm from '../../sections/Forms/ProfileForm'
+import SignoutForm from '@/components/sections/Forms/SignoutForm'
 
 type NavItem = {
   icon: ReactElement<any>
@@ -85,6 +86,8 @@ function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
                 ) : null} */}
               </Link>
             ))}
+
+            <SignoutForm />
           </div>
         </div>
 
@@ -135,6 +138,8 @@ function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
                 <span>{nav.name}</span>
               </Link>
             ))}
+
+            <SignoutForm />
           </div>
 
           <FooterOptions user={user} isPaidUser={isPaidUser} />

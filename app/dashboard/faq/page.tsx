@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function FAQPage() {
   return (
-    <div className="bg-faqs-section-bg bg-cover bg-bottom pt-8 pb-16 text-dark">
+    <div className="w-full bg-faqs-section-bg bg-repeat bg-bottom pt-8 pb-16 text-dark">
       <div className="container max-w-5xl">
         <div className="text-center max-w-2xl mx-auto flex flex-col justify-center">
           <Image

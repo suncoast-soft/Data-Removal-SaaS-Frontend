@@ -68,17 +68,19 @@ export default async function Navbar({
                   </Button>
                 </>
               ) : (
-                <>
-                  <Button
-                    variant="outline"
-                    className="h-12 px-6 text-primary border-primary hover:text-dark hover:bg-primary"
-                    asChild
-                  >
+                <div className="flex gap-3">
+                  <Button variant="outline" className="h-12" asChild>
                     <Link href="/signin" className="font-semibold">
                       Login
                     </Link>
                   </Button>
-                </>
+
+                  <Button variant="default" className="h-12" asChild>
+                    <Link href="/signup" className="font-semibold">
+                      Register
+                    </Link>
+                  </Button>
+                </div>
               )}
             </div>
           </div>

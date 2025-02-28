@@ -1,5 +1,6 @@
 'use client'
 
+import { cn } from '@/utils/cn'
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 
 interface DataItem {
@@ -21,10 +22,7 @@ export default function MetricsChart({ title, data }: ModuleProps) {
         <div className="flex flex-wrap gap-4 mb-4">
           {data.map((item, index) => (
             <div key={index} className="flex items-center gap-1 min-w-[40%]">
-              <div
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: item.color }}
-              />
+              <div className={cn('h-3 w-3 rounded-full', item.color)} />
               <span className="text-base text-dark font-medium">
                 {item.name}
               </span>
@@ -59,8 +57,8 @@ export default function MetricsChart({ title, data }: ModuleProps) {
                 startAngle={90}
                 endAngle={-270}
               >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                {data.map((item, index) => (
+                  <Cell key={`cell-${index}`} className={item.color} />
                 ))}
               </Pie>
             </PieChart>

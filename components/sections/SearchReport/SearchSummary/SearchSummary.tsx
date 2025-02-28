@@ -20,13 +20,6 @@ interface SectionProps {
   isPremium: boolean
 }
 
-const COLORS: Record<string, string> = {
-  GREEN: '#97D700',
-  BLUE: '#3B82F6',
-  CORAL: '#FF7F66',
-  BLACK: '#1F2937'
-}
-
 export default function SearchSummary({
   brokerSearches,
   hasAccount,
@@ -74,7 +67,7 @@ export default function SearchSummary({
       value: brokerSearches.filter(
         (search) => search.removal_status === 'completed'
       ).length,
-      color: COLORS.GREEN
+      color: 'bg-primary fill-primary'
     },
     {
       name: 'In Progress',
@@ -83,14 +76,14 @@ export default function SearchSummary({
           search.removal_status ?? 'queued'
         )
       ).length,
-      color: COLORS.BLUE
+      color: 'bg-blue fill-blue'
     },
     {
       name: 'Failed',
       value: brokerSearches.filter(
         (search) => search.removal_status === 'failed'
       ).length,
-      color: COLORS.CORAL
+      color: 'bg-secondary fill-secondary'
     },
     {
       name: 'Remaining',
@@ -98,7 +91,7 @@ export default function SearchSummary({
         (search) =>
           search.removal_status === 'queued' || search.removal_status === null
       ).length,
-      color: COLORS.BLACK
+      color: 'bg-slate-900 fill-slate-900'
     }
   ]
 
@@ -108,21 +101,21 @@ export default function SearchSummary({
       value: brokerSearches.filter((search) =>
         hasKeyInData(search.search_result, 'address')
       ).length,
-      color: COLORS.GREEN
+      color: 'bg-primary fill-primary'
     },
     {
       name: 'Email',
       value: brokerSearches.filter((search) =>
         hasKeyInData(search.search_result, 'email')
       ).length,
-      color: COLORS.BLUE
+      color: 'bg-blue fill-blue'
     },
     {
       name: 'Phone',
       value: brokerSearches.filter((search) =>
         hasKeyInData(search.search_result, 'phone')
       ).length,
-      color: COLORS.CORAL
+      color: 'bg-secondary fill-secondary'
     },
     {
       name: 'Other',
@@ -136,7 +129,7 @@ export default function SearchSummary({
             'last_name'
           ])
         ).length / 3,
-      color: COLORS.BLACK
+      color: 'bg-slate-900 fill-slate-900'
     }
   ]
 
@@ -186,7 +179,7 @@ export default function SearchSummary({
                 to access your full report (free to view, forever)
               </p>
               <Button variant="secondary" asChild>
-                <Link href="/signin">START FOR FREE</Link>
+                <Link href="/signup">START FOR FREE</Link>
               </Button>
             </div>
           )}

@@ -8,13 +8,10 @@ import React, { useEffect, useState } from 'react'
 import EmailSignIn from '../Forms/EmailSignIn'
 import Separator from '@/components/modules/Separator'
 import OauthSignIn from '../Forms/OauthSignIn'
-import { getRedirectMethod } from '@/utils/auth-helpers/settings'
 
 export default function HelpBanner() {
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(null)
-
-  const redirectMethod = getRedirectMethod()
 
   useEffect(() => {
     const fetcher = async () => {
@@ -60,7 +57,7 @@ export default function HelpBanner() {
         />
 
         <div className="rounded-xl bg-dark p-4 py-6 text-left">
-          <EmailSignIn redirectMethod={redirectMethod} />
+          <EmailSignIn />
 
           <div className="w-full mt-4">
             <Separator text="Third-party sign-in" />

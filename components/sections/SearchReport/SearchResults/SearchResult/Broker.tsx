@@ -81,7 +81,20 @@ export default function BrokerSearchResults({
 
                   <div className="p-4 lg:w-1/2 flex flex-wrap items-center justify-center lg:justify-start gap-2">
                     {tags.map((tag) => (
-                      <Badge key={tag}>{tag}</Badge>
+                      <Badge
+                        key={tag}
+                        variant={
+                          tag.includes('Name')
+                            ? 'primary'
+                            : ['Address', 'Location'].includes(tag)
+                              ? 'secondary'
+                              : ['Email', 'Phone'].includes(tag)
+                                ? 'destructive'
+                                : 'default'
+                        }
+                      >
+                        {tag}
+                      </Badge>
                     ))}
                   </div>
 
