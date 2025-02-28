@@ -1,16 +1,9 @@
 import OauthSignIn from '@/components/sections/Forms/OauthSignIn'
 import Image from 'next/image'
 import Separator from '@/components/modules/Separator'
-import { createClient } from '@/utils/supabase/server'
-import { getUser } from '@/utils/supabase/queries'
 import EmailSignup from '@/components/sections/Forms/EmailSignup'
 
 export default async function SignUp() {
-  const supabase = await createClient()
-  const user = await getUser(supabase)
-
-  const hasAnonymousUser = user?.is_anonymous ?? false
-
   return (
     <div className="bg-lp-hero-section-bg bg-cover bg-bottom py-[40px] lg:py-[100px]">
       <div className="container mx-auto px-4 lg:px-[110px]">
@@ -20,7 +13,7 @@ export default async function SignUp() {
               Register
             </h1>
 
-            <EmailSignup hasAnonymousUser={hasAnonymousUser} />
+            <EmailSignup />
 
             <div className="w-full mt-4">
               <Separator text="Third-party sign-in" />
