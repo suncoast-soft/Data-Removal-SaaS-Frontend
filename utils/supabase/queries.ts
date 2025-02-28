@@ -13,7 +13,7 @@ export const getBrokers = cache(async (supabase: SupabaseClient) => {
   return brokers
 })
 
-export const getBroker = cache(async (supabase: SupabaseClient, id: string) => {
+export const getBroker = cache(async (supabase: SupabaseClient, id: number) => {
   const { data: broker } = await supabase
     .from('brokers')
     .select('*')

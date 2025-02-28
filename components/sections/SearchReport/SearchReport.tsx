@@ -15,44 +15,31 @@ type BrokerSearch = Tables<'broker_searches'> & {
 
 interface SectionProps {
   profileId: string
+  brokerSearches: BrokerSearch[]
+  completedSearches: Broker[]
   hasAccount?: boolean
   isPremium?: boolean
 }
 
 export default function SearchReport({
   profileId,
+  brokerSearches: initialBrokerSearches,
+  completedSearches,
   hasAccount = false,
   isPremium = false
 }: SectionProps) {
-  const [scanning, setScanning] = useState(true)
-  const [completions, setCompletions] = useState<Broker[]>([])
-  const [loading, setLoading] = useState(true)
-  const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>([])
+  const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>(
+    initialBrokerSearches
+  )
+  const [completions, setCompletions] = useState<Broker[]>(completedSearches)
+
+  const scanCompleted =
+    initialBrokerSearches.length > 0 &&
+    completedSearches.length >= initialBrokerSearches.length - 3
+  const [scanning, setScanning] = useState(!scanCompleted)
+
   const supabase = createClient()
   const lastUpdateRef = useRef(Date.now())
-
-  useEffect(() => {
-    const fetchSearches = async () => {
-      setLoading(true)
-
-      const brokerSearches =
-        (await getBrokerSearches(supabase, profileId)) ?? []
-
-      setBrokerSearches(brokerSearches as BrokerSearch[])
-
-      const completedSearches = await Promise.all(
-        brokerSearches
-          .filter((s) => ['failed', 'completed'].includes(s.search_status))
-          .map((s) => getBroker(supabase, s.broker_id))
-      )
-      setCompletions(completedSearches)
-
-      await new Promise((resolve) => setTimeout(resolve, 10))
-      setLoading(false)
-    }
-
-    fetchSearches()
-  }, [supabase, profileId])
 
   useEffect(() => {
     const channel = supabase
@@ -114,46 +101,50 @@ export default function SearchReport({
 
   return (
     <div className="container max-w-6xl py-12">
-      {!loading &&
-        (scanning ? (
-          <div className="bg-lp-hero-section-bg bg-cover bg-bottom p-8 mb-12">
-            <div className="grid lg:grid-cols-2 items-center gap-4">
-              <div className="overflow-hidden h-96 flex flex-col justify-end px-8">
-                {[...completions].map((borker) => (
-                  <p key={borker.id}>... Searching {borker.name} ...</p>
-                ))}
-              </div>
-              <div className="text-center">
-                <Image
-                  src="/loaders/hero-image.png"
-                  width={309}
-                  height={358}
-                  alt="Report Loader"
-                  className="w-40 mx-auto mb-8"
-                />
-                <h1 className="text-2xl lg:text-4xl font-bold">
-                  Generating your report
-                </h1>
-                <p className="mt-4 text-lg lg:text-xl text-dark/60">
-                  This will only take a few seconds
+      {scanning ? (
+        <div className="bg-lp-hero-section-bg bg-cover bg-bottom p-8 mb-12">
+          <div className="grid lg:grid-cols-2 items-center gap-4">
+            <div className="overflow-hidden h-96 flex flex-col justify-end px-8">
+              {[...completions].map((borker) => (
+                <p key={borker.id}>
+                  Scanning
+                  <span className="text-secondary font-semibold ml-1.5">
+                    {borker.name}...
+                  </span>
                 </p>
-              </div>
+              ))}
+            </div>
+            <div className="text-center">
+              <Image
+                src="/loaders/hero-image.png"
+                width={309}
+                height={358}
+                alt="Report Loader"
+                className="w-40 mx-auto mb-8"
+              />
+              <h1 className="text-2xl lg:text-4xl font-bold">
+                Generating your report
+              </h1>
+              <p className="mt-4 text-lg lg:text-xl text-dark/60">
+                This will only take a few seconds
+              </p>
             </div>
           </div>
-        ) : (
-          <>
-            <SearchSummary
-              brokerSearches={brokerSearches}
-              hasAccount={hasAccount}
-              isPremium={isPremium}
-            />
-            <SearchResults
-              brokerSearches={brokerSearches}
-              hasAccount={hasAccount}
-              isPremium={isPremium}
-            />
-          </>
-        ))}
+        </div>
+      ) : (
+        <>
+          <SearchSummary
+            brokerSearches={brokerSearches}
+            hasAccount={hasAccount}
+            isPremium={isPremium}
+          />
+          <SearchResults
+            brokerSearches={brokerSearches}
+            hasAccount={hasAccount}
+            isPremium={isPremium}
+          />
+        </>
+      )}
     </div>
   )
 }

@@ -1,4 +1,9 @@
-import { getPricingPlan, getProfiles } from '@/utils/supabase/queries'
+import {
+  getBroker,
+  getBrokerSearches,
+  getPricingPlan,
+  getProfiles
+} from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
@@ -15,6 +20,10 @@ import ProfileDropdown from '@/components/modules/ProfileDropdown'
 import { Tables } from '@/types_db'
 
 type Profile = Tables<'profiles'>
+type Broker = Tables<'brokers'>
+type BrokerSearch = Tables<'broker_searches'> & {
+  broker: Broker
+}
 
 export default async function Dashboard({
   searchParams
@@ -46,6 +55,18 @@ export default async function Dashboard({
   const isPremium = pricing && isPremiumUser(pricing)
   const notifications = 0
 
+  // Initial loading for completed searches
+  const brokerSearches = (await getBrokerSearches(
+    supabase,
+    selectedProfileId
+  )) as BrokerSearch[]
+
+  const completedSearches = (await Promise.all(
+    brokerSearches
+      .filter((s) => ['failed', 'completed'].includes(s.search_status!))
+      .map((s) => s.broker_id && getBroker(supabase, s.broker_id))
+  )) as Broker[]
+
   return (
     <div className="relative">
       <SectionHeader
@@ -71,6 +92,8 @@ export default async function Dashboard({
 
       <SearchReport
         profileId={selectedProfileId}
+        brokerSearches={brokerSearches}
+        completedSearches={completedSearches}
         hasAccount={true}
         isPremium={isPremium}
       />

@@ -108,7 +108,11 @@ export default function BrokerSearchResults({
                       </AccordionTrigger>
                     ) : (
                       <>
-                        <Button variant="link" className="w-full p-1" asChild>
+                        <Button
+                          variant="link"
+                          className="w-full p-1 text-primary"
+                          asChild
+                        >
                           <Link href="/signin" className="mr-1 underline">
                             Create a free account
                           </Link>
