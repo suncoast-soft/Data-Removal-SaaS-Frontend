@@ -4,7 +4,7 @@ import {
   DashboardNavDesktop,
   DashboardNavMobile
 } from '@/components/modules/DashboardNav'
-import { Mail } from 'lucide-react'
+import { Mail, MessageSquare } from 'lucide-react'
 import DashboardIcon from '@/components/icons/DashboardIcon'
 import { getPricingPlan, getUser } from '@/utils/supabase/queries'
 import AccountIcon from '@/components/icons/AccountIcon'
@@ -67,6 +67,11 @@ export default async function DashboardLayout({
       icon: <BlogIcon />,
       name: 'Blog',
       link: '/dashboard/blog'
+    },
+    {
+      icon: <MessageSquare />,
+      name: 'Contact',
+      link: '/dashboard/contact'
     }
   ]
 
