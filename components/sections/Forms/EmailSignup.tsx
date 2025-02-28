@@ -51,7 +51,6 @@ export default function EmailSignup() {
           placeholder="Your email address"
           icon={<MailIcon className="w-5 text-primary" />}
           required={false}
-          theme="dark"
         />
 
         <Button
