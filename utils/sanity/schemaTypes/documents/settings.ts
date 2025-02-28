@@ -55,29 +55,8 @@ export const settingsType = defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({
-              name: 'title',
-              title: 'Section Title',
-              type: 'string'
-            }),
-            defineField({
-              name: 'links',
-              title: 'Links',
-              type: 'array',
-              of: [
-                defineArrayMember({
-                  type: 'object',
-                  fields: [
-                    defineField({
-                      name: 'label',
-                      title: 'Label',
-                      type: 'string'
-                    }),
-                    defineField({ name: 'href', title: 'URL', type: 'string' })
-                  ]
-                })
-              ]
-            })
+            defineField({ name: 'name', title: 'Name', type: 'string' }),
+            defineField({ name: 'link', title: 'URL', type: 'string' })
           ]
         })
       ]

@@ -45,7 +45,8 @@ export const pageType = defineType({
         defineArrayMember({ type: 'imageCTASection' }),
         defineArrayMember({ type: 'twoColumnCTASection' }),
         defineArrayMember({ type: 'membersSection' }),
-        defineArrayMember({ type: 'richTextSection' })
+        defineArrayMember({ type: 'richTextSection' }),
+        defineArrayMember({ type: 'blogThumbnailSection' })
       ]
     })
   ],

@@ -11,11 +11,13 @@ import { pageType } from './documents/page'
 import { settingsType } from './documents/settings'
 import { blogPostType } from './documents/blogPost'
 import { blogCategoryType } from './documents/blogCategory'
+import { blogThumbnailSection } from './sections/blogThumbnail'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContentType,
     heroSection,
+    blogThumbnailSection,
     featuredColumnsSection,
     imageCTASection,
     twoColumnCTASection,

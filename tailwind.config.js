@@ -47,7 +47,8 @@ module.exports = {
         secondary: '#FA824C',
         dark: '#342E37',
         gray: '#48434B',
-        blue: '#3B82F6'
+        blue: '#3B82F6',
+        sky: '#E2F1FF'
       },
       backgroundImage: {
         'lp-hero-section-bg': "url('/hero-bg.png')",

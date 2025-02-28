@@ -104,12 +104,8 @@ export type Settings = {
     _key: string
   }>
   footerLinks?: Array<{
-    title?: string
-    links?: Array<{
-      label?: string
-      href?: string
-      _key: string
-    }>
+    name?: string
+    link?: string
     _key: string
   }>
   socialLinks?: Array<{
@@ -171,6 +167,9 @@ export type Page = {
     | ({
         _key: string
       } & RichTextSection)
+    | ({
+        _key: string
+      } & BlogThumbnailSection)
   >
 }
 
@@ -182,71 +181,6 @@ export type BlogCategory = {
   _rev: string
   title?: string
   slug?: Slug
-}
-
-export type BlogPost = {
-  _id: string
-  _type: 'blogPost'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  categories?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'blogCategory'
-  }>
-  publishedAt?: string
-  excerpt?: string
-  featuredImage?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  content?: Array<
-    | ({
-        _key: string
-      } & HeroSection)
-    | ({
-        _key: string
-      } & RichTextSection)
-    | ({
-        _key: string
-      } & ImageCTASection)
-    | ({
-        _key: string
-      } & TwoColumnCTASection)
-  >
-  seo?: {
-    metaTitle?: string
-    metaDescription?: string
-    metaImage?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
-  }
-}
-
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
 }
 
 export type RichTextSection = {
@@ -290,24 +224,39 @@ export type RichTextSection = {
 export type MembersSection = {
   _type: 'membersSection'
   title?: string
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
+  description?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+        _key: string
+      }
+  >
   background_image?: {
     asset?: {
       _ref: string
@@ -370,24 +319,39 @@ export type ImageCTASection = {
     _type: 'image'
   }
   title?: string
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
+  description?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+        _key: string
+      }
+  >
   buttons?: Array<{
     name?: string
     link?: string
@@ -416,6 +380,81 @@ export type FeaturedColumnsSection = {
     description?: string
     _key: string
   }>
+}
+
+export type BlogThumbnailSection = {
+  _type: 'blogThumbnailSection'
+  selectedBlog?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'blogPost'
+  }
+}
+
+export type BlogPost = {
+  _id: string
+  _type: 'blogPost'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  categories?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'blogCategory'
+  }>
+  publishedAt?: string
+  excerpt?: string
+  featuredImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  content?: Array<
+    | ({
+        _key: string
+      } & RichTextSection)
+    | ({
+        _key: string
+      } & HeroSection)
+    | ({
+        _key: string
+      } & ImageCTASection)
+    | ({
+        _key: string
+      } & TwoColumnCTASection)
+  >
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    metaImage?: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+  }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
 }
 
 export type HeroSection = {
@@ -536,13 +575,14 @@ export type AllSanitySchemaTypes =
   | Settings
   | Page
   | BlogCategory
-  | BlogPost
-  | Slug
   | RichTextSection
   | MembersSection
   | TwoColumnCTASection
   | ImageCTASection
   | FeaturedColumnsSection
+  | BlogThumbnailSection
+  | BlogPost
+  | Slug
   | HeroSection
   | BlockContent
   | SanityImageCrop

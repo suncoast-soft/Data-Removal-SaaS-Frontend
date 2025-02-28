@@ -5,6 +5,7 @@ import ImageCTA from '../ImageCTA'
 import TwoColumnCTA from '../TwoColumnCTA'
 import FeaturedColumns from '../FeaturedColumns'
 import Members from '../Members'
+import BlogThumbnail from '../blogThumbnail'
 
 interface SectionProps {
   slug: string | undefined
@@ -26,6 +27,8 @@ export default function RenderSanitySections({ slug, content }: SectionProps) {
         return <FeaturedColumns key={index} data={section} />
       case 'membersSection':
         return <Members key={index} data={section} />
+      case 'blogThumbnailSection':
+        return <BlogThumbnail key={index} data={section} index={index} />
       default:
         return null
     }

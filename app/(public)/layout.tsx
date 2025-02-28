@@ -48,7 +48,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         footerLinks={footerLinks}
         socialLinks={socialLinks}
       />
-
       <Suspense>
         <Toaster />
       </Suspense>

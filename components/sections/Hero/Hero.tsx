@@ -67,6 +67,28 @@ export default function Hero({
         </div>
       </section>
     )
+  } else if (slug === 'blog') {
+    return (
+      <div className="bg-lp-blog-section-bg bg-repeat bg-bottom py-16 lg:py-24">
+        <div className="container mx-auto px-4 lg:px-28">
+          <div className="flex items-center flex-col lg:flex-row justify-between gap-8 lg:gap-16">
+            <div className="rounded-3xl bg-transparent p-4 py-6 lg:pb-10 lg:p-10 lg:w-1/2 flex-shrink-0">
+              <h1 className="font-bold text-3xl lg:text-[44px] leading-tight text-white mb-4">
+                {title}
+              </h1>
+
+              <p className="font-light text-xl leading-snug tracking-wide mb-4 text-white/60">
+                {text}
+              </p>
+            </div>
+
+            {image && (
+              <SanityImage src={image} width={600} height={500} alt={title} />
+            )}
+          </div>
+        </div>
+      </div>
+    )
   } else {
     return (
       <div className="bg-lp-hero-section-bg bg-cover bg-bottom py-16 lg:py-24">
@@ -92,7 +114,9 @@ export default function Hero({
               )}
             </div>
 
-            <SanityImage src={image} width={600} height={500} alt={title} />
+            {image && (
+              <SanityImage src={image} width={600} height={500} alt={title} />
+            )}
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { getKeysInData, isValidUrl } from '@/utils/helpers'
 import { getBuyLink } from '@/utils/stripe/client'
+import { ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -134,7 +135,7 @@ export default function BrokerSearchResults({
                     </div>
 
                     <div className="p-4 lg:w-1/2">
-                      <ul>
+                      <ul className="mb-2">
                         {Object.entries(result)
                           .filter(
                             ([, value]) =>
@@ -148,6 +149,15 @@ export default function BrokerSearchResults({
                             </li>
                           ))}
                       </ul>
+
+                      <Link
+                        href={`${search.broker.site_url}`}
+                        target="_blank"
+                        className="underline flex gap-2 text-secondary font-semibold"
+                      >
+                        <span>VIEW DATA BROKER ENTRY</span>
+                        <ExternalLinkIcon size={10} />
+                      </Link>
                     </div>
 
                     <div className="p-4 lg:w-1/4">
@@ -161,10 +171,12 @@ export default function BrokerSearchResults({
                         </p>
                       ) : (
                         <>
-                          <Button variant="link" className="p-1 w-full" asChild>
-                            <Link href={buyLink} className="text-secondary">
-                              Upgrade to PUP Premium
-                            </Link>
+                          <Button
+                            variant="link"
+                            className="p-1 w-full text-secondary hover:text-secondary"
+                            asChild
+                          >
+                            <Link href={buyLink}>Upgrade to PUP Premium</Link>
                           </Button>
 
                           <p className="text-sm text-center">
