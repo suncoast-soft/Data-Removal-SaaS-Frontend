@@ -17,6 +17,8 @@ import { Input } from '@/components/ui/input'
 // import Link from 'next/link'
 import ArrowRight from '@/components/icons/ArrowRight'
 import { useRouter } from 'next/navigation'
+import { InfoIcon } from 'lucide-react'
+import Link from 'next/link'
 
 const FormSchema = z.object({
   name: z.string().min(3, {
@@ -63,15 +65,15 @@ export default function SearchForm() {
             )}
           />
 
-          {/* <div className="flex items-center gap-2 mt-4 lg:mt-3 z-10">
-            <Info className="w-[18px] h-[18px]" />
+          <div className="flex items-center gap-2 mt-4 lg:mt-3 z-10">
+            <InfoIcon className="w-[18px] h-[18px]" />
             <Link
               href={'/'}
               className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-dark hover:text-dark w-fit border-b border-dark"
             >
               How we use your information?
             </Link>
-          </div> */}
+          </div>
         </div>
 
         <Button

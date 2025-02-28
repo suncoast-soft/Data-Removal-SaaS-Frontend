@@ -22,6 +22,8 @@ import { Button } from '@/components/ui/button'
 import ArrowRight from '@/components/icons/ArrowRight'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { anonymousSignin } from '@/utils/auth-helpers/server'
+import { InfoIcon } from 'lucide-react'
+import Link from 'next/link'
 
 interface Address {
   city: string
@@ -190,10 +192,15 @@ export default function AddressForm({ name }: { name: string }) {
         </form>
       </Form>
 
-      <p className="mt-2">
-        Please confirm your current location. We will use this data to scan 30
-        data broker sites to find those that expose your personal information.
-      </p>
+      <div className="flex items-center gap-2 mt-4 lg:mt-3 z-10">
+        <InfoIcon className="w-[18px] h-[18px]" />
+        <Link
+          href={'/'}
+          className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-dark hover:text-dark w-fit border-b border-dark"
+        >
+          How we use your information?
+        </Link>
+      </div>
     </>
   )
 }
