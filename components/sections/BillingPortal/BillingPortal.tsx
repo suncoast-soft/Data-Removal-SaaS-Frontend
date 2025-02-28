@@ -1,0 +1,215 @@
+'use client'
+
+import { useRouter, usePathname } from 'next/navigation'
+import { createStripePortal } from '@/utils/stripe/server'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
+import { Mail } from 'lucide-react'
+import Stripe from 'stripe'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { getBuyLink } from '@/utils/stripe/client'
+import { Tables } from '@/types_db'
+import { isPremiumUser } from '@/utils/helpers'
+import { addYears, format } from 'date-fns'
+
+type Pricing = Tables<'pricing_plans'>
+
+interface BillingPortalProps {
+  paymentMethods: Stripe.PaymentMethod[]
+  pricing: Pricing
+}
+
+export default function BillingPortal({
+  paymentMethods,
+  pricing
+}: BillingPortalProps) {
+  const router = useRouter()
+  const currentPath = usePathname()
+
+  const isPaidUser = pricing ? isPremiumUser(pricing) : false
+
+  const [buyLink, setBuyLink] = useState('')
+  useEffect(() => {
+    async function handle() {
+      const link = await getBuyLink()
+      setBuyLink(link)
+    }
+    handle()
+  }, [])
+
+  const handleStripePortalRequest = async () => {
+    const redirectUrl = await createStripePortal(currentPath)
+    router.push(redirectUrl)
+  }
+
+  const proPlanFeatures = [
+    'Everything on Growth plan',
+    'Up to 50 team members',
+    'Up to 5,000,000 tracked visits',
+    'Unlimited updates',
+    'Dedicated support',
+    'Collaboration tools',
+    'Mobile app',
+    'All integrations included'
+  ]
+
+  return (
+    <>
+      <div className="mt-6 lg:mt-10 flex flex-col lg:flex-row gap-6 mb-20">
+        <Card className="bg-white p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
+          <CardHeader>
+            <div className="flex flex-col lg:flex-row items-center gap-6">
+              <div>
+                <span className="text-lg font-medium">Current Plan:</span>
+
+                <CardTitle className="text-2xl lg:text-4xl font-bold">
+                  {isPaidUser ? 'Pup Premium' : 'Free'}
+                </CardTitle>
+
+                {!isPaidUser && (
+                  <>
+                    <p className="mt-2 text-base">
+                      It will always be free to review your reports.
+                    </p>
+                    <div className="mt-4">
+                      <p className="font-medium text-base">
+                        Upgrade to start removing your reports
+                      </p>
+                      <h4 className="font-bold text-2xl">Pup Premium</h4>
+                    </div>
+                  </>
+                )}
+
+                <h4 className="font-bold text-base my-4">
+                  Billed Annually, NO Auto-renew
+                </h4>
+
+                {isPaidUser && (
+                  <p className="text-base">
+                    <span className="font-bold">Next Billing Begins:</span>{' '}
+                    <span className="font-normal">
+                      {format(
+                        addYears(
+                          new Date(pricing.updated_at ?? pricing.created_at),
+                          1
+                        ),
+                        'PPP'
+                      )}
+                    </span>
+                  </p>
+                )}
+              </div>
+
+              <Image
+                src={
+                  isPaidUser
+                    ? '/billing-pro-card-image.png'
+                    : '/billing-free-card-image.png'
+                }
+                width={203}
+                height={170}
+                alt={`Pro Plan`}
+                className="min-w-[153px]"
+              />
+            </div>
+          </CardHeader>
+
+          <CardContent>
+            <h4 className="font-bold text-base">Premium Benefits:</h4>
+
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+              {proPlanFeatures.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <OrangeCircleCheck />
+                  <p className="font-bold text-sm">{feature}</p>
+                </div>
+              ))}
+            </div>
+
+            {isPaidUser ? (
+              <Button variant="secondary" onClick={handleStripePortalRequest}>
+                Cancel membership
+              </Button>
+            ) : (
+              <Button variant="default" asChild>
+                <Link href={buyLink}>Upgrade to Pup Premium</Link>
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
+          <CardHeader>
+            <CardTitle className="text-2xl lg:text-4xl font-bold text-white">
+              Payment Method
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent className="mt-6">
+            <div className="flex flex-col lg:flex-row justify-between gap-8">
+              <div>
+                {paymentMethods.length > 0 ? (
+                  <>
+                    {paymentMethods.map((method, index) => (
+                      <div
+                        key={index}
+                        className="flex gap-4 items-center text-white mb-5"
+                      >
+                        <Image
+                          src={'/cards/visa-card-image.png'}
+                          width={75}
+                          height={48}
+                          alt="Card Image"
+                          className="h-fit"
+                        />
+
+                        <div className="flex-1">
+                          <h4 className="font-bold capitalize">
+                            {method.card?.brand} ending in {method.card?.last4}
+                          </h4>
+                          <p className="text-sm">
+                            Expiry {method.card?.exp_month}/
+                            {method.card?.exp_year}
+                          </p>
+                          {method.billing_details.email && (
+                            <p className="text-sm flex items-center gap-2">
+                              <Mail className="w-5 h-5 text-primary" />
+                              {method.billing_details.email}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <p className="text-xl font-bold text-white">
+                    No Payment Methods
+                  </p>
+                )}
+              </div>
+
+              <div className="text-right">
+                <Button variant="ghost" onClick={handleStripePortalRequest}>
+                  {paymentMethods.length > 0 ? 'Edit' : 'Add'}
+                </Button>
+
+                <p className="text-sm text-right text-white mt-4">
+                  Powered by{' '}
+                  <a
+                    href="https://stripe.com/"
+                    className="text-primary font-bold border-b border-primary"
+                  >
+                    Stripe
+                  </a>
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  )
+}

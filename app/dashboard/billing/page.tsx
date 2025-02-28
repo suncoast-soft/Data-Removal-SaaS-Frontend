@@ -1,9 +1,11 @@
 import SectionHeader from '@/components/modules/SectionHeader'
-import CustomerPortalForm from '@/components/sections/Forms/CustomerPortalForm'
-import { isPremiumUser } from '@/utils/helpers'
+import BillingHistory from '@/components/sections/BillingHistory'
+import BillingPortal from '@/components/sections/BillingPortal'
+import { displayDate, formatPrice } from '@/utils/helpers'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
 import { getPricingPlan } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
+import Stripe from 'stripe'
 
 export default async function Billing() {
   const supabase = await createClient()
@@ -14,17 +16,28 @@ export default async function Billing() {
     getPricingPlan(supabase)
   ])
 
-  const isPaidUser = pricing ? isPremiumUser(pricing) : false
+  const billings =
+    invoices?.data.map((invoice: Stripe.Invoice) => ({
+      name: `${invoice.number}`,
+      date: displayDate(invoice.created * 1000),
+      amount: `${formatPrice(invoice.lines.data[0].amount / 100)} ${invoice.lines.data[0].currency.toUpperCase()}`,
+      status: invoice.status?.toUpperCase(),
+      plan: invoice.lines.data[0].description,
+      invoice_pdf: invoice.invoice_pdf
+    })) ?? []
 
   return (
     <div className="container mx-auto pt-0 px-0">
       <SectionHeader title="Billing Information" />
 
-      <CustomerPortalForm
-        invoicesData={invoices?.data ?? []}
-        paymentMethodsData={paymentMethods?.data ?? []}
-        isPaidUser={isPaidUser}
+      <BillingPortal
+        paymentMethods={paymentMethods?.data ?? []}
+        pricing={pricing}
       />
+
+      <SectionHeader title="Payment History" />
+
+      <BillingHistory billings={billings} />
     </div>
   )
 }

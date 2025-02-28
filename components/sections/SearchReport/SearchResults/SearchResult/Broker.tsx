@@ -180,7 +180,7 @@ export default function BrokerSearchResults({
                             className="p-1 w-full text-secondary hover:text-secondary"
                             asChild
                           >
-                            <Link href={buyLink}>Upgrade to PUP Premium</Link>
+                            <Link href={buyLink}>Upgrade to Pup Premium</Link>
                           </Button>
 
                           <p className="text-sm text-center">

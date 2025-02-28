@@ -128,7 +128,7 @@ export async function POST(request: Request) {
         console.log(error)
         return NextResponse.json(
           {
-            message: `Error creating credits: ${error}\n ${data}`
+            message: `Error updating database: ${error}\n ${data}`
           },
           {
             status: 400

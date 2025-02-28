@@ -202,7 +202,7 @@ export default function SearchSummary({
               <>
                 <p className="text-sm">Start removing your digital footprint</p>
                 <h3 className="text-2xl font-bold mb-3">
-                  with <strong>PUP PREMIUM</strong>
+                  with <strong>Pup Premium</strong>
                 </h3>
                 <Button variant="default" asChild>
                   <Link href={buyLink}>Upgrade Now</Link>
