@@ -24,11 +24,14 @@ const FormSchema = z.object({
 })
 
 interface ContactFormProps {
-  user?: User | null;
-  theme?: 'dark' | 'white';
+  user?: User | null
+  theme?: 'dark' | 'white'
 }
 
-export default function ContactForm({ user, theme = 'white' }: ContactFormProps) {
+export default function ContactForm({
+  user,
+  theme = 'white'
+}: ContactFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -65,9 +68,9 @@ export default function ContactForm({ user, theme = 'white' }: ContactFormProps)
   }
 
   // Different placeholder text based on user login status
-  const messagePlaceholder = user 
-    ? "How can we help you today? Ask us about your account, our services, or any issues you are experiencing."
-    : "Tell us a little bit about yourself";
+  const messagePlaceholder = user
+    ? 'How can we help you today? Ask us about your account, our services, or any issues you are experiencing.'
+    : 'Tell us a little bit about yourself'
 
   return (
     <Form {...form}>
@@ -81,7 +84,7 @@ export default function ContactForm({ user, theme = 'white' }: ContactFormProps)
             <input type="hidden" {...form.register('name')} />
           </>
         )}
-        
+
         {!user && (
           <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
             <FormInput

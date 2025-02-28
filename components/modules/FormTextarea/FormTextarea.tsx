@@ -34,10 +34,12 @@ export default function FormTextarea({
       name={name}
       render={({ field }) => (
         <FormItem className={cn('w-full', className)}>
-          <FormLabel className={cn(
-            'font-semibold text-lg',
-            theme === 'white' ? 'text-white' : 'text-dark'
-          )}>
+          <FormLabel
+            className={cn(
+              'font-semibold text-lg',
+              theme === 'white' ? 'text-white' : 'text-dark'
+            )}
+          >
             <span>{label}</span>
             {required && <span className="text-secondary p-1">*</span>}
           </FormLabel>
