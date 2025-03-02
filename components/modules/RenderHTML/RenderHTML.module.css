@@ -1,0 +1,7 @@
+.content p {
+  @apply text-base tracking-wide text-white mb-3;
+}
+
+.content a {
+  @apply text-secondary hover:underline;
+}

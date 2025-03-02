@@ -149,3 +149,15 @@ export const createLoginHistory = cache(
     }
   }
 )
+
+export const updateNotification = cache(
+  async (supabase: SupabaseClient, notificationId: number) => {
+    const { data, error } = await supabase
+      .from('notifications')
+      .update({ read: true })
+      .eq('id', notificationId)
+      .select()
+
+    return { data, error }
+  }
+)

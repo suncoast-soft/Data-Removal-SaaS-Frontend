@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import {
   createMessage,
   createProfile,
+  updateNotification,
   updateProfile,
   updateUserSettings
 } from './mutations'
@@ -128,4 +129,12 @@ export async function createMessageAction(
     'Success!',
     'We got your request! Someone from our team will reach out to you soon.'
   )
+}
+
+export async function updateNotificationAction(notificationId: number) {
+  const supabase = await createClient()
+
+  const { data, error } = await updateNotification(supabase, notificationId)
+
+  return { data, error }
 }

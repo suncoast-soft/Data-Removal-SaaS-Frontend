@@ -118,3 +118,16 @@ export const getLoginHistory = cache(async (supabase: SupabaseClient) => {
 
   return loginHistory
 })
+
+export const getNotifications = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+  if (!user) return []
+
+  const { data: notifications } = await supabase
+    .from('notifications')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at')
+
+  return notifications
+})
