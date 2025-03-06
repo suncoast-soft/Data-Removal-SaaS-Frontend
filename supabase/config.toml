@@ -93,7 +93,15 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = false
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+enable_confirmations = true
+
+[auth.email.smtp]
+host = "smtp.gmail.com"
+port = 465
+user = "env(SUPABASE_AUTH_SMTP_USER)"
+pass = "env(SUPABASE_AUTH_SMTP_PASS)"
+admin_email = "noreply@puperase.com"
+sender_name = "Pup Erase"
 
 # Uncomment to customize email template
 # [auth.email.template.invite]
