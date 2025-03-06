@@ -27,8 +27,6 @@ export const createProfile = cache(
 
     if (profileError) return { data: null, error: profileError }
 
-    const is_primary = profiles.length === 0
-
     const existingProfile = profiles.find(
       (p) =>
         p.first_name === row.first_name &&
@@ -44,7 +42,7 @@ export const createProfile = cache(
     // Insert new profile
     const { data: profile, error } = await supabase
       .from('profiles')
-      .insert({ ...row, user_id: user.id, is_primary })
+      .insert({ ...row, user_id: user.id })
       .select()
       .single()
 
