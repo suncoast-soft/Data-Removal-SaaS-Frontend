@@ -14,6 +14,7 @@ import { User } from '@supabase/supabase-js'
 import SettingsForm from '@/components/sections/Forms/SettingsForm'
 import DeleteAccountForm from '@/components/sections/Forms/DeleteAccountForm'
 import LoginHistory from '@/components/modules/LoginHistory/LoginHistory'
+import Link from 'next/link'
 
 export default async function Account() {
   const supabase = await createClient()
@@ -61,7 +62,14 @@ export default async function Account() {
       <div className="mt-16 mb-20">
         <SectionHeader
           title="Account Settings"
-          cta1={<DeleteAccountForm settings={settings} />}
+          cta1={
+            <Button variant="outline" type="button" size="small" asChild>
+              <Link href="/dashboard/account/update-password">
+                Change Password
+              </Link>
+            </Button>
+          }
+          cta2={<DeleteAccountForm settings={settings} />}
         />
 
         <SettingsForm

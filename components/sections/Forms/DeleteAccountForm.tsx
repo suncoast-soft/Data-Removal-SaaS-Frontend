@@ -51,7 +51,7 @@ export default function DeleteAccountForm({ settings }: ModuleProps) {
             variant="outline"
             type="button"
             size="small"
-            className="border-secondary hover:bg-secondary/90"
+            className="border-secondary hover:bg-secondary/90 text-secondary hover:text-white"
           >
             Delete My Account
           </Button>

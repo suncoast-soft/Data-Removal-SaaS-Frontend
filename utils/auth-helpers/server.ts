@@ -162,7 +162,7 @@ export async function updatePassword(formData: FormData) {
 
   if (password !== passwordConfirm) {
     return getErrorRedirect(
-      '/auth/update-password',
+      '/dashboard/account/update-password',
       'Your password could not be updated.',
       'Passwords do not match.'
     )
@@ -175,19 +175,19 @@ export async function updatePassword(formData: FormData) {
 
   if (error) {
     return getErrorRedirect(
-      '/auth/update-password',
+      '/dashboard/account/update-password',
       'Your password could not be updated.',
       error.message
     )
   } else if (data.user) {
     return getStatusRedirect(
-      '/auth/login',
+      '/dashboard/account',
       'Success!',
       'Your password has been updated.'
     )
   } else {
     return getErrorRedirect(
-      '/auth/update-password',
+      '/dashboard/account/update-password',
       'Hmm... Something went wrong.',
       'Your password could not be updated.'
     )

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   // URL to redirect to after sign in process completes
   return NextResponse.redirect(
     getStatusRedirect(
-      `${requestUrl.origin}/auth/update-password`,
+      `${requestUrl.origin}/dashboard/account/update-password`,
       'Update your password',
       'Please enter a new password for your account.'
     )
