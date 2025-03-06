@@ -8,19 +8,20 @@ import { Form } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signInWithOtp } from '@/utils/auth-helpers/server'
+import { requestPasswordUpdate } from '@/utils/auth-helpers/server'
 import FormInput from '@/components/modules/FormInput'
 import { MailIcon } from 'lucide-react'
+import Link from 'next/link'
 
 const FormSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional()
+  email: z.string().email({ message: 'Invalid email address.' })
 })
 
-export default function EmailSignup() {
+export default function PasswordForgotForm({
+  disable_button
+}: {
+  disable_button: boolean
+}) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -33,7 +34,9 @@ export default function EmailSignup() {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     setIsSubmitting(true)
-    await handleRequest(data, signInWithOtp, router)
+
+    await handleRequest(data, requestPasswordUpdate, router)
+
     setIsSubmitting(false)
   }
 
@@ -47,20 +50,28 @@ export default function EmailSignup() {
           control={form.control}
           type="email"
           name="email"
-          label="Email Address"
-          placeholder="Your email address"
+          label="Email"
+          placeholder="Your Email Address"
           icon={<MailIcon className="w-5 text-primary" />}
-          required={false}
         />
 
         <Button
           variant="secondary"
           type="submit"
           className="w-full"
-          disabled={isSubmitting}
+          disabled={isSubmitting || disable_button}
         >
-          Register
+          Send Password Reset Link
         </Button>
+
+        <div className="text-center text-white font-semibold">
+          <p>
+            <span className="mr-2">Already have an account?</span>
+            <Link href="/auth/login" className="underline">
+              Login
+            </Link>
+          </p>
+        </div>
       </form>
     </Form>
   )

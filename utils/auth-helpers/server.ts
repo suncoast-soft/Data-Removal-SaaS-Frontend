@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import { getErrorRedirect, getStatusRedirect } from 'utils/helpers'
+import { getErrorRedirect, getStatusRedirect, getURL } from 'utils/helpers'
 import { redirect } from 'next/navigation'
 import { createProfile } from '../supabase/mutations'
 import { getUser } from '../supabase/queries'
@@ -28,7 +28,170 @@ export async function SignOut(formData: FormData) {
     )
   }
 
-  return '/signin'
+  return '/auth/login'
+}
+
+export async function signUpWithPassword(formData: FormData) {
+  const email = String(formData['email']).trim()
+  const password = String(formData['password']).trim()
+
+  const supabase = await createClient()
+  const user = await getUser(supabase)
+
+  if (user?.is_anonymous) {
+    const { data: updatedData, error: updateError } =
+      await supabase.auth.updateUser({
+        email,
+        password
+      })
+
+    console.log(updatedData)
+    console.log(updateError)
+
+    if (updateError) {
+      return getErrorRedirect(
+        '/auth/register',
+        'Sign up failed.',
+        updateError.message
+      )
+    }
+
+    return updatedData.user
+      ? getStatusRedirect(
+          '/auth/login',
+          'Success!',
+          'Please check your email for a confirmation link. You may now close this tab.'
+        )
+      : getStatusRedirect('/dashboard', 'Success!', 'You are now signed in.')
+  } else {
+    const { error, data } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: getURL('/auth/callback/supabase')
+      }
+    })
+
+    if (error) {
+      return getErrorRedirect(
+        '/auth/register',
+        'Sign up failed.',
+        error.message
+      )
+    }
+
+    if (data.session) {
+      return getStatusRedirect(
+        '/dashboard',
+        'Success!',
+        'You are now signed in.'
+      )
+    }
+
+    return data.user
+      ? getStatusRedirect(
+          '/dashboard',
+          'Success!',
+          'Please check your email for a confirmation link. You may now close this tab.'
+        )
+      : getErrorRedirect(
+          '/auth/register',
+          'Sign up failed.',
+          'Internal Server Error. Please try again.'
+        )
+  }
+}
+
+export async function signInWithPassword(formData: FormData) {
+  const email = String(formData['email']).trim()
+  const password = String(formData['password']).trim()
+
+  const supabase = await createClient()
+  const { error, data } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  })
+
+  if (error) {
+    return getErrorRedirect('/auth/login', 'Sign in failed.', error.message)
+  }
+
+  return data.user
+    ? getStatusRedirect('/dashboard', 'Success!', 'You are now signed in.')
+    : getErrorRedirect(
+        '/auth/login',
+        'Sign in failed.',
+        'You could not be signed in. Please try again'
+      )
+}
+
+export async function requestPasswordUpdate(formData: FormData) {
+  const email = String(formData['email']).trim()
+
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: getURL('/auth/callback/reset-password')
+  })
+
+  if (error) {
+    return getErrorRedirect(
+      '/auth/forgot-password',
+      error.message,
+      'Please try again.'
+    )
+  } else if (data) {
+    return getStatusRedirect(
+      '/auth/forgot-password',
+      'Success!',
+      'Please check your email for a password reset link. You may now close this tab.',
+      true
+    )
+  } else {
+    return getErrorRedirect(
+      '/auth/forgot-password',
+      'Hmm... Something went wrong.',
+      'Password reset email could not be sent.'
+    )
+  }
+}
+
+export async function updatePassword(formData: FormData) {
+  const password = String(formData['password1'])
+  const passwordConfirm = String(formData['password2'])
+
+  if (password !== passwordConfirm) {
+    return getErrorRedirect(
+      '/auth/update-password',
+      'Your password could not be updated.',
+      'Passwords do not match.'
+    )
+  }
+
+  const supabase = await createClient()
+  const { error, data } = await supabase.auth.updateUser({
+    password
+  })
+
+  if (error) {
+    return getErrorRedirect(
+      '/auth/update-password',
+      'Your password could not be updated.',
+      error.message
+    )
+  } else if (data.user) {
+    return getStatusRedirect(
+      '/auth/login',
+      'Success!',
+      'Your password has been updated.'
+    )
+  } else {
+    return getErrorRedirect(
+      '/auth/update-password',
+      'Hmm... Something went wrong.',
+      'Your password could not be updated.'
+    )
+  }
 }
 
 export async function signInWithOtp(formData: FormData) {
@@ -53,12 +216,12 @@ export async function signInWithOtp(formData: FormData) {
       })
 
       if (error) {
-        return getErrorRedirect('/signin', 'Sign ip failed.', error.message)
+        return getErrorRedirect('/auth/login', 'Sign ip failed.', error.message)
       }
 
       return data.user
         ? getStatusRedirect(
-            '/signin',
+            '/auth/login',
             'Success!',
             'Please check your email for a confirmation link. You may now close this tab.'
           )
@@ -67,7 +230,7 @@ export async function signInWithOtp(formData: FormData) {
 
     return updatedData.user
       ? getStatusRedirect(
-          '/signin',
+          '/auth/login',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
@@ -78,12 +241,12 @@ export async function signInWithOtp(formData: FormData) {
     })
 
     if (error) {
-      return getErrorRedirect('/signin', 'Sign in failed.', error.message)
+      return getErrorRedirect('/auth/login', 'Sign in failed.', error.message)
     }
 
     return data.user
       ? getStatusRedirect(
-          '/signin',
+          '/auth/login',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )

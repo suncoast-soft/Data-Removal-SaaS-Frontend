@@ -25,7 +25,7 @@ export default async function DashboardLayout({
   const user = await getUser(supabase)
 
   if (!user || user.is_anonymous) {
-    return redirect('/signin')
+    return redirect('/auth/login')
   }
 
   const pricingPlan = await getPricingPlan(supabase)

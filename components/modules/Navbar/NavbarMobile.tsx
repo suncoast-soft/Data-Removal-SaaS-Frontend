@@ -68,13 +68,13 @@ export default function NavbarMobile({
           ) : (
             <div className="flex gap-3 ml-6">
               <Button variant="outline" className="h-12" asChild>
-                <Link href="/signin" className="font-semibold">
+                <Link href="/auth/login" className="font-semibold">
                   Login
                 </Link>
               </Button>
 
               <Button variant="default" className="h-12" asChild>
-                <Link href="/signup" className="font-semibold">
+                <Link href="/auth/register" className="font-semibold">
                   Register
                 </Link>
               </Button>

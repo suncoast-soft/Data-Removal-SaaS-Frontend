@@ -11,9 +11,9 @@ import { ReactNode } from 'react'
 
 interface ModuleProps {
   control: any
-  type?: 'text' | 'email' | 'number'
+  type?: 'text' | 'email' | 'number' | 'password'
   name: string
-  label: string
+  label?: string
   placeholder?: string
   icon?: ReactNode
   required?: boolean
@@ -38,15 +38,17 @@ export default function FormInput({
       name={name}
       render={({ field }) => (
         <FormItem className={cn('w-full', className)}>
-          <FormLabel
-            className={cn(
-              'font-semibold text-lg',
-              theme === 'white' ? 'text-white' : 'text-dark'
-            )}
-          >
-            <span>{label}</span>
-            {required && <span className="text-secondary p-1">*</span>}
-          </FormLabel>
+          {label && (
+            <FormLabel
+              className={cn(
+                'font-semibold text-lg',
+                theme === 'white' ? 'text-white' : 'text-dark'
+              )}
+            >
+              <span>{label}</span>
+              {required && <span className="text-secondary p-1">*</span>}
+            </FormLabel>
+          )}
 
           <FormControl>
             <div className="relative">

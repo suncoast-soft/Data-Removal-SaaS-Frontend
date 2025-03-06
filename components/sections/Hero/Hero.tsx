@@ -2,7 +2,7 @@ import Image from 'next/image'
 import SearchForm from '../Forms/SearchForm'
 import { HeroSection } from '@/sanity.types'
 import ContactForm from '../Forms/ContactForm'
-import OauthSignIn from '../Forms/OauthSignIn'
+import OAuthForm from '../Forms/OAuthForm'
 import SanityImage from '@/components/modules/SanityImage'
 
 export default function Hero({
@@ -46,7 +46,7 @@ export default function Hero({
               ) : formType === 'contact' ? (
                 <ContactForm />
               ) : formType === 'login' ? (
-                <OauthSignIn />
+                <OAuthForm />
               ) : (
                 <></>
               )}
@@ -108,7 +108,7 @@ export default function Hero({
               ) : formType === 'contact' ? (
                 <ContactForm />
               ) : formType === 'login' ? (
-                <OauthSignIn />
+                <OAuthForm />
               ) : (
                 <></>
               )}

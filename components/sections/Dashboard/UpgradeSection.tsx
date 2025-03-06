@@ -30,7 +30,7 @@ export default function UpgradeSection({ user }: { user?: User }) {
               {user ? (
                 <Link href={'/checkout'}>Upgrade</Link>
               ) : (
-                <Link href={'/signup'}>Get Started</Link>
+                <Link href={'/auth/register'}>Get Started</Link>
               )}
             </Button>
           </div>

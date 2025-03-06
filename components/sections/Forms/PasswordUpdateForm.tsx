@@ -8,28 +8,33 @@ import { Form } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signInWithOtp } from '@/utils/auth-helpers/server'
+import { updatePassword } from '@/utils/auth-helpers/server'
 import FormInput from '@/components/modules/FormInput'
-import { MailIcon } from 'lucide-react'
+import { KeyIcon } from 'lucide-react'
+import Link from 'next/link'
 
 const FormSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' })
+  password1: z.string(),
+  password2: z.string()
 })
 
-export default function EmailSignIn() {
+export default function PasswordUpdateForm() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: ''
+      password1: '',
+      password2: ''
     }
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     setIsSubmitting(true)
-    await handleRequest(data, signInWithOtp, router)
+
+    await handleRequest(data, updatePassword, router)
+
     setIsSubmitting(false)
   }
 
@@ -41,12 +46,20 @@ export default function EmailSignIn() {
       >
         <FormInput
           control={form.control}
-          type="email"
-          name="email"
-          label="Email Address"
-          placeholder="Your email address"
-          icon={<MailIcon className="w-5 text-primary" />}
-          required={false}
+          type="password"
+          name="password1"
+          label="New Password"
+          placeholder="Enter Your New Password"
+          icon={<KeyIcon className="w-5 text-primary" />}
+        />
+
+        <FormInput
+          control={form.control}
+          type="password"
+          name="password2"
+          label="Confirm New Password"
+          placeholder="Enter Your Password Again"
+          icon={<KeyIcon className="w-5 text-primary" />}
         />
 
         <Button
@@ -55,8 +68,17 @@ export default function EmailSignIn() {
           className="w-full"
           disabled={isSubmitting}
         >
-          Login
+          Reset Password
         </Button>
+
+        <div className="text-center text-white font-semibold">
+          <p>
+            <span className="mr-2">Already have an account?</span>
+            <Link href="/auth/login" className="underline">
+              Login
+            </Link>
+          </p>
+        </div>
       </form>
     </Form>
   )

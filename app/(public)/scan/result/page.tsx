@@ -55,7 +55,7 @@ export default async function ScanResultPage({
 
       <div className="text-center my-12">
         <Button variant="secondary" asChild>
-          <Link href="/signin">Register and protect yourself today</Link>
+          <Link href="/auth/login">Register and protect yourself today</Link>
         </Button>
       </div>
     </div>

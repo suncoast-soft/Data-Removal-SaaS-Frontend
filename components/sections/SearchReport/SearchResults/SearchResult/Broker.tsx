@@ -113,7 +113,7 @@ export default function BrokerSearchResults({
                           className="w-full p-1 text-primary"
                           asChild
                         >
-                          <Link href="/signin" className="mr-1 underline">
+                          <Link href="/auth/login" className="mr-1 underline">
                             Create a free account
                           </Link>
                         </Button>

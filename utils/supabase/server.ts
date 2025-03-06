@@ -99,7 +99,11 @@ export async function updateUserSettingsAction(
 
   if (formData['deleted']) {
     await supabase.auth.signOut()
-    return getStatusRedirect('/signin', 'Success!', 'You are now signed out')
+    return getStatusRedirect(
+      '/auth/login',
+      'Success!',
+      'You are now signed out'
+    )
   }
 
   return getStatusRedirect(

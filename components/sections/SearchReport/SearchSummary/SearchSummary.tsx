@@ -179,7 +179,7 @@ export default function SearchSummary({
                 to access your full report (free to view, forever)
               </p>
               <Button variant="secondary" asChild>
-                <Link href="/signup">START FOR FREE</Link>
+                <Link href="/auth/register">START FOR FREE</Link>
               </Button>
             </div>
           )}

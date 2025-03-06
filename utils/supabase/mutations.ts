@@ -6,7 +6,7 @@ import { getUser } from './queries'
 import { supabaseAdmin } from './admin'
 
 interface RowData {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean | null
 }
 
 export const createProfile = cache(
