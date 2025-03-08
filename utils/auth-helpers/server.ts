@@ -58,7 +58,7 @@ export async function signUpWithPassword(formData: FormData) {
 
     return updatedData.user
       ? getStatusRedirect(
-          '/auth/login',
+          '/auth/register',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
@@ -68,7 +68,7 @@ export async function signUpWithPassword(formData: FormData) {
       email,
       password,
       options: {
-        emailRedirectTo: getURL('/auth/callback/supabase')
+        emailRedirectTo: getURL('/auth/callback')
       }
     })
 
@@ -90,7 +90,7 @@ export async function signUpWithPassword(formData: FormData) {
 
     return data.user
       ? getStatusRedirect(
-          '/dashboard',
+          '/auth/register',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
