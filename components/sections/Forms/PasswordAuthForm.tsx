@@ -15,6 +15,8 @@ import {
 import FormInput from '@/components/modules/FormInput'
 import { KeyIcon, MailIcon } from 'lucide-react'
 import Link from 'next/link'
+import Separator from '@/components/modules/Separator'
+import FormCheck from '@/components/modules/FormCheck'
 
 interface PasswordAuthProps {
   register: boolean
@@ -22,7 +24,10 @@ interface PasswordAuthProps {
 
 const FormSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
-  password: z.string()
+  password: z.string(),
+  term: z.literal(true, {
+    errorMap: () => ({ message: 'You must accept the terms and conditions' })
+  })
 })
 
 export default function PasswordAuthForm({ register }: PasswordAuthProps) {
@@ -103,6 +108,30 @@ export default function PasswordAuthForm({ register }: PasswordAuthProps) {
             </>
           )}
         </div>
+
+        <Separator />
+
+        <FormCheck
+          control={form.control}
+          name="term"
+          label={
+            <>
+              I have read and accept the{' '}
+              <Link
+                href="/terms-and-conditions"
+                className="font-normal underline"
+              >
+                Terms and conditions
+              </Link>
+              {', '}
+              <Link href="/privacy-policy" className="font-normal underline">
+                Privacy Policy
+              </Link>
+              {', '}
+              and all associated policies. *
+            </>
+          }
+        />
       </form>
     </Form>
   )

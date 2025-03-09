@@ -1,5 +1,5 @@
 interface SeparatorProps {
-  text: string
+  text?: string
 }
 
 export default function Separator({ text }: SeparatorProps) {
@@ -8,9 +8,11 @@ export default function Separator({ text }: SeparatorProps) {
       <div className="relative flex items-center py-1">
         <div className="grow border-t border-white/70"></div>
 
-        <span className="mx-3 shrink text-sm leading-8 text-white/70">
-          {text}
-        </span>
+        {text && (
+          <span className="mx-3 shrink text-sm leading-8 text-white/70">
+            {text}
+          </span>
+        )}
 
         <div className="grow border-t border-white/70"></div>
       </div>
