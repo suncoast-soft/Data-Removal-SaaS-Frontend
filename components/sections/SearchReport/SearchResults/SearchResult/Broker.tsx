@@ -77,10 +77,12 @@ export default function BrokerSearchResults({
                           tag.includes('Name')
                             ? 'primary'
                             : ['Address', 'Location'].includes(tag)
-                              ? 'secondary'
-                              : ['Email', 'Phone'].includes(tag)
+                              ? 'primary'
+                              : tag.includes('Email')
                                 ? 'destructive'
-                                : 'default'
+                                : tag.includes('Phone')
+                                  ? 'secondary'
+                                  : 'default'
                         }
                       >
                         {tag}
@@ -160,7 +162,7 @@ export default function BrokerSearchResults({
 
                       {isPremium ? (
                         <p className="text-white font-bold bg-secondary text-center px-2 py-1">
-                          {search.removal_status ?? 'In progress'}
+                          {search.removal_status ?? 'Queued'}
                         </p>
                       ) : (
                         <>
