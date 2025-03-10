@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import { BlogPost, BlogThumbnailSection } from '@/sanity.types'
 import { cn } from '@/utils/cn'
 import { getBlogPostByRef } from '@/utils/sanity/fetch'
+import { getUser } from '@/utils/supabase/queries'
+import { createClient } from '@/utils/supabase/server'
 import { format } from 'date-fns'
 import { TimerIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -14,6 +16,9 @@ export default async function BlogThumbnail({
   data: BlogThumbnailSection
   index: number
 }) {
+  const supabase = await createClient()
+  const user = await getUser(supabase)
+
   const blogData = await getBlogPostByRef(data.selectedBlog?._ref)
 
   const { title, slug, featuredImage, publishedAt, excerpt } =
@@ -58,7 +63,15 @@ export default async function BlogThumbnail({
               className="font-semibold"
               asChild
             >
-              <Link href={`/blog/${slug?.current}`}>Read More</Link>
+              <Link
+                href={
+                  user
+                    ? `/dashboard/blog/${slug?.current}`
+                    : `/blog/${slug?.current}`
+                }
+              >
+                Read More
+              </Link>
             </Button>
           </div>
         </div>
