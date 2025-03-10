@@ -96,7 +96,7 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
   }
 
   return (
-    <div className="flex justify-end w-full">
+    <div className="flex md:justify-end w-full">
       <Dialog>
         <DialogTrigger asChild>{children}</DialogTrigger>
 

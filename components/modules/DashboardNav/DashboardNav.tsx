@@ -30,10 +30,10 @@ type NavItem = {
 interface NavProps {
   navs: NavItem[]
   user: User
-  isPaidUser?: boolean
+  isPremium?: boolean
 }
 
-function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
+function DashboardNavDesktop({ navs, user, isPremium }: NavProps) {
   const currentPath = usePathname()
   const [search, setSearch] = useState('')
 
@@ -62,7 +62,7 @@ function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
           <div
             className={cn(
               'w-full overflow-y-auto',
-              isPaidUser ? 'max-h-[calc(100vh-428px)]' : ''
+              isPremium ? 'max-h-[calc(100vh-428px)]' : ''
             )}
           >
             {navs.map((nav, index) => (
@@ -91,13 +91,13 @@ function DashboardNavDesktop({ navs, user, isPaidUser }: NavProps) {
           </div>
         </div>
 
-        <FooterOptions user={user} isPaidUser={isPaidUser} />
+        <FooterOptions user={user} isPremium={isPremium} />
       </nav>
     </aside>
   )
 }
 
-function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
+function DashboardNavMobile({ navs, user, isPremium }: NavProps) {
   const currentPath = usePathname()
 
   return (
@@ -142,7 +142,7 @@ function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
             <SignoutForm />
           </div>
 
-          <FooterOptions user={user} isPaidUser={isPaidUser} />
+          <FooterOptions user={user} isPremium={isPremium} />
         </nav>
       </SheetContent>
     </Sheet>
@@ -151,13 +151,13 @@ function DashboardNavMobile({ navs, user, isPaidUser }: NavProps) {
 
 const FooterOptions = ({
   user,
-  isPaidUser
+  isPremium
 }: {
   user: User
-  isPaidUser?: boolean
+  isPremium?: boolean
 }) => {
   return (
-    isPaidUser && (
+    isPremium && (
       <div className="py-4 space-y-2">
         <h3 className="text-white text-xl font-bold text-center">
           Loving Pup Premium?

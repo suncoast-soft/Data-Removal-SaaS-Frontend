@@ -29,7 +29,7 @@ export default function BillingPortal({
   const router = useRouter()
   const currentPath = usePathname()
 
-  const isPaidUser = pricing ? isPremiumUser(pricing) : false
+  const isPremium = pricing ? isPremiumUser(pricing) : false
 
   const [buyLink, setBuyLink] = useState('')
   useEffect(() => {
@@ -45,170 +45,223 @@ export default function BillingPortal({
     router.push(redirectUrl)
   }
 
+  const freePlanFeatures = [
+    'Basic data removal',
+    'Limited monitoring',
+    'Standard support',
+    'Mobile app access'
+  ]
+
   const proPlanFeatures = [
-    'Everything on Growth plan',
-    'Up to 50 team members',
-    'Up to 5,000,000 tracked visits',
-    'Unlimited updates',
-    'Dedicated support',
+    'Everything in the basic plan',
+    'Advanced data removal',
+    'Continuous monitoring',
+    'Priority support',
     'Collaboration tools',
-    'Mobile app',
-    'All integrations included'
+    'Mobile app access',
+    'Full integration with all features'
   ]
 
   return (
     <>
       <div className="mt-6 lg:mt-10 flex flex-col lg:flex-row gap-6 mb-20">
-        <Card className="bg-white p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
-          <CardHeader>
-            <div className="flex flex-col lg:flex-row items-center gap-6">
-              <div>
-                <span className="text-lg font-medium">Current Plan:</span>
+        {isPremium ? (
+          <Card className="bg-white p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
+            <CardHeader>
+              <div className="flex flex-col lg:flex-row items-center gap-6">
+                <div>
+                  <span className="text-lg font-medium">Current Plan:</span>
 
-                <CardTitle className="text-2xl lg:text-4xl font-bold">
-                  {isPaidUser ? 'Pup Premium' : 'Free'}
-                </CardTitle>
+                  <CardTitle className="text-2xl lg:text-4xl font-bold">
+                    Pup Premium
+                  </CardTitle>
 
-                {!isPaidUser && (
-                  <>
-                    <p className="mt-2 text-base">
-                      It will always be free to review your reports.
-                    </p>
-                    <div className="mt-4">
-                      <p className="font-medium text-base">
-                        Upgrade to start removing your reports
-                      </p>
-                      <h4 className="font-bold text-2xl">Pup Premium</h4>
-                    </div>
-                  </>
-                )}
+                  <h4 className="font-bold text-base my-4">
+                    Billed Annually, NO Auto-renew
+                  </h4>
 
-                <h4 className="font-bold text-base my-4">
-                  Billed Annually, NO Auto-renew
-                </h4>
-
-                {isPaidUser && (
                   <p className="text-base">
                     <span className="font-bold">Next Billing Begins:</span>{' '}
                     <span className="font-normal">
                       {format(
                         addYears(
-                          new Date(pricing.updated_at ?? pricing.created_at),
+                          new Date(
+                            pricing?.updated_at ?? pricing?.created_at ?? null
+                          ),
                           1
                         ),
                         'PPP'
                       )}
                     </span>
                   </p>
-                )}
+                </div>
+
+                <Image
+                  src="/billing-pro-card-image.png"
+                  width={203}
+                  height={170}
+                  alt={`Pro Plan`}
+                  className="min-w-[153px]"
+                />
+              </div>
+            </CardHeader>
+
+            <CardContent>
+              <h4 className="font-bold text-base">Premium Benefits:</h4>
+
+              <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+                {proPlanFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <OrangeCircleCheck />
+                    <p className="font-bold text-sm">{feature}</p>
+                  </div>
+                ))}
               </div>
 
-              <Image
-                src={
-                  isPaidUser
-                    ? '/billing-pro-card-image.png'
-                    : '/billing-free-card-image.png'
-                }
-                width={203}
-                height={170}
-                alt={`Pro Plan`}
-                className="min-w-[153px]"
-              />
-            </div>
-          </CardHeader>
-
-          <CardContent>
-            <h4 className="font-bold text-base">Premium Benefits:</h4>
-
-            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-              {proPlanFeatures.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <OrangeCircleCheck />
-                  <p className="font-bold text-sm">{feature}</p>
-                </div>
-              ))}
-            </div>
-
-            {isPaidUser ? (
-              <Button variant="secondary" onClick={handleStripePortalRequest}>
+              <Button variant="default" onClick={handleStripePortalRequest}>
                 Cancel membership
               </Button>
-            ) : (
-              <Button variant="default" asChild>
-                <Link href={buyLink}>Upgrade to Pup Premium</Link>
-              </Button>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="bg-white lg:p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
+            <CardHeader>
+              <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-6">
+                <div className="flex flex-row lg:flex-col items-center lg:items-start gap-2">
+                  <span className="text-lg font-medium">Current Plan:</span>
 
-        <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
-          <CardHeader>
-            <CardTitle className="text-2xl lg:text-4xl font-bold text-white">
-              Payment Method
-            </CardTitle>
-          </CardHeader>
+                  <CardTitle className="text-2xl lg:text-4xl font-bold">
+                    Free
+                  </CardTitle>
+                </div>
 
-          <CardContent className="mt-6">
-            <div className="flex flex-col lg:flex-row justify-between gap-8">
-              <div>
-                {paymentMethods.length > 0 ? (
-                  <>
-                    {paymentMethods.map((method, index) => (
-                      <div
-                        key={index}
-                        className="flex gap-4 items-center text-white mb-5"
-                      >
-                        <Image
-                          src={'/cards/visa-card-image.png'}
-                          width={75}
-                          height={48}
-                          alt="Card Image"
-                          className="h-fit"
-                        />
+                <Image
+                  src="/billing-free-card-image.png"
+                  width={203}
+                  height={170}
+                  alt={`Free Plan`}
+                  className="min-w-[153px]"
+                />
+              </div>
+            </CardHeader>
 
-                        <div className="flex-1">
-                          <h4 className="font-bold capitalize">
-                            {method.card?.brand} ending in {method.card?.last4}
-                          </h4>
-                          <p className="text-sm">
-                            Expiry {method.card?.exp_month}/
-                            {method.card?.exp_year}
-                          </p>
-                          {method.billing_details.email && (
-                            <p className="text-sm flex items-center gap-2">
-                              <Mail className="w-5 h-5 text-primary" />
-                              {method.billing_details.email}
+            <CardContent>
+              <div className="mt-4 grid gap-4 mb-8">
+                {freePlanFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <OrangeCircleCheck />
+                    <p className="font-bold text-sm">{feature}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {isPremium ? (
+          <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1">
+            <CardHeader>
+              <CardTitle className="text-2xl lg:text-4xl font-bold text-white">
+                Payment Method
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent className="mt-6">
+              <div className="flex flex-col lg:flex-row justify-between gap-8">
+                <div>
+                  {paymentMethods.length > 0 ? (
+                    <>
+                      {paymentMethods.map((method, index) => (
+                        <div
+                          key={index}
+                          className="flex gap-4 items-center text-white mb-5"
+                        >
+                          <Image
+                            src={'/cards/visa-card-image.png'}
+                            width={75}
+                            height={48}
+                            alt="Card Image"
+                            className="h-fit"
+                          />
+
+                          <div className="flex-1">
+                            <h4 className="font-bold capitalize">
+                              {method.card?.brand} ending in{' '}
+                              {method.card?.last4}
+                            </h4>
+                            <p className="text-sm">
+                              Expiry {method.card?.exp_month}/
+                              {method.card?.exp_year}
                             </p>
-                          )}
+                            {method.billing_details.email && (
+                              <p className="text-sm flex items-center gap-2">
+                                <Mail className="w-5 h-5 text-primary" />
+                                {method.billing_details.email}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </>
-                ) : (
-                  <p className="text-xl font-bold text-white">
-                    No Payment Methods
+                      ))}
+                    </>
+                  ) : (
+                    <p className="text-xl font-bold text-white">
+                      No Payment Methods
+                    </p>
+                  )}
+                </div>
+
+                <div className="text-right">
+                  <Button variant="ghost" onClick={handleStripePortalRequest}>
+                    {paymentMethods.length > 0 ? 'Edit' : 'Add'}
+                  </Button>
+
+                  <p className="text-sm text-right text-white mt-4">
+                    Powered by{' '}
+                    <a
+                      href="https://stripe.com/"
+                      className="text-primary font-bold border-b border-primary"
+                    >
+                      Stripe
+                    </a>
                   </p>
-                )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1 text-white">
+            <CardHeader>
+              <div className="flex flex-col lg:flex-row items-center gap-6">
+                <CardTitle className="text-xl lg:text-3xl font-bold">
+                  Upgrade to Pup Premium for comprehensive privacy protection
+                </CardTitle>
+
+                <Image
+                  src="/lp-pro-pricing-image.png"
+                  width={154}
+                  height={175}
+                  alt={`Pro Plan`}
+                  className="min-w-[153px]"
+                />
+              </div>
+            </CardHeader>
+
+            <CardContent>
+              <div className="mt-4 grid grid-cols-1 gap-4 mb-8">
+                {proPlanFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <OrangeCircleCheck />
+                    <p className="font-bold text-sm">{feature}</p>
+                  </div>
+                ))}
               </div>
 
-              <div className="text-right">
-                <Button variant="ghost" onClick={handleStripePortalRequest}>
-                  {paymentMethods.length > 0 ? 'Edit' : 'Add'}
-                </Button>
-
-                <p className="text-sm text-right text-white mt-4">
-                  Powered by{' '}
-                  <a
-                    href="https://stripe.com/"
-                    className="text-primary font-bold border-b border-primary"
-                  >
-                    Stripe
-                  </a>
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              <Button variant="default" asChild>
+                <Link href={buyLink}>Upgrade Now</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </>
   )

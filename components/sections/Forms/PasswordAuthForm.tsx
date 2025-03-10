@@ -22,15 +22,19 @@ interface PasswordAuthProps {
   register: boolean
 }
 
-const FormSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
-  password: z.string(),
-  term: z.literal(true, {
-    errorMap: () => ({ message: 'You must accept the terms and conditions' })
-  })
-})
-
 export default function PasswordAuthForm({ register }: PasswordAuthProps) {
+  const FormSchema = z.object({
+    email: z.string().email({ message: 'Invalid email address.' }),
+    password: z.string(),
+    term: register
+      ? z.literal(true, {
+          errorMap: () => ({
+            message: 'You must accept the terms and conditions'
+          })
+        })
+      : z.boolean().optional()
+  })
+
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -109,29 +113,36 @@ export default function PasswordAuthForm({ register }: PasswordAuthProps) {
           )}
         </div>
 
-        <Separator />
+        {register && (
+          <>
+            <Separator />
 
-        <FormCheck
-          control={form.control}
-          name="term"
-          label={
-            <>
-              I have read and accept the{' '}
-              <Link
-                href="/terms-and-conditions"
-                className="font-normal underline"
-              >
-                Terms and conditions
-              </Link>
-              {', '}
-              <Link href="/privacy-policy" className="font-normal underline">
-                Privacy Policy
-              </Link>
-              {', '}
-              and all associated policies. *
-            </>
-          }
-        />
+            <FormCheck
+              control={form.control}
+              name="term"
+              label={
+                <>
+                  I have read and accept the{' '}
+                  <Link
+                    href="/terms-and-conditions"
+                    className="font-normal underline"
+                  >
+                    Terms and conditions
+                  </Link>
+                  {', '}
+                  <Link
+                    href="/privacy-policy"
+                    className="font-normal underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  {', '}
+                  and all associated policies. *
+                </>
+              }
+            />
+          </>
+        )}
       </form>
     </Form>
   )

@@ -80,7 +80,7 @@ export default async function DashboardLayout({
       <DashboardNavDesktop
         navs={navs}
         user={user}
-        isPaidUser={removalActivated}
+        isPremium={removalActivated}
       />
 
       <div className="w-full">
@@ -88,7 +88,7 @@ export default async function DashboardLayout({
           <DashboardNavMobile
             navs={navs}
             user={user}
-            isPaidUser={removalActivated}
+            isPremium={removalActivated}
           />
         </header>
 
