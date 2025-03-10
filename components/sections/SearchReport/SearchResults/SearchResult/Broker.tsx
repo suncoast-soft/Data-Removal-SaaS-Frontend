@@ -11,10 +11,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { getKeysInData, isValidUrl } from '@/utils/helpers'
-import { getBuyLink } from '@/utils/stripe/client'
 import { ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Tables<'brokers'>
@@ -31,15 +29,6 @@ export default function BrokerSearchResults({
   hasAccount,
   isPremium
 }: SectionProps) {
-  const [buyLink, setBuyLink] = useState('')
-  useEffect(() => {
-    async function handle() {
-      const link = await getBuyLink()
-      setBuyLink(link)
-    }
-    handle()
-  }, [])
-
   return (
     <div className="border border-b-0 border-gray/10">
       <div className="hidden lg:flex w-full bg-gray/10 text-dark font-bold">
@@ -180,7 +169,9 @@ export default function BrokerSearchResults({
                             className="p-1 w-full text-secondary hover:text-secondary"
                             asChild
                           >
-                            <Link href={buyLink}>Upgrade to Pup Premium</Link>
+                            <Link href="/dashboard/billing">
+                              Upgrade to Pup Premium
+                            </Link>
                           </Button>
 
                           <p className="text-sm text-center">

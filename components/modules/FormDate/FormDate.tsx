@@ -53,7 +53,7 @@ export default function FormDate({
                     type="button"
                     variant={'outline'}
                     className={cn(
-                      'w-full border-white justify-start px-12 py-4 text-white font-light',
+                      'w-full border-white justify-start px-12 py-4 text-white font-light hover:bg-dark hover:text-white',
                       !field.value && 'text-muted-foreground'
                     )}
                   >

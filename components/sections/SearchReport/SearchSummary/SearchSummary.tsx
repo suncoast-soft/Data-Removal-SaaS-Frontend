@@ -7,10 +7,8 @@ import MetricsChart from '@/components/modules/MetricsChart'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
 import { hasKeyInData } from '@/utils/helpers'
-import { getBuyLink } from '@/utils/stripe/client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 type BrokerSearch = Tables<'broker_searches'>
 
@@ -25,15 +23,6 @@ export default function SearchSummary({
   hasAccount,
   isPremium
 }: SectionProps) {
-  const [buyLink, setBuyLink] = useState('')
-  useEffect(() => {
-    async function handle() {
-      const link = await getBuyLink()
-      setBuyLink(link)
-    }
-    handle()
-  }, [])
-
   const totalSearches = brokerSearches.length
 
   const successfulSearches = brokerSearches.filter(
@@ -205,7 +194,7 @@ export default function SearchSummary({
                   with <strong>Pup Premium</strong>
                 </h3>
                 <Button variant="default" asChild>
-                  <Link href={buyLink}>Upgrade Now</Link>
+                  <Link href="/dashboard/billing">Upgrade Now</Link>
                 </Button>
               </>
             )}

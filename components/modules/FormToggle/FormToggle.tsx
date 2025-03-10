@@ -53,7 +53,7 @@ export default function FormToggle({
             <RadioGroup
               value={field.value}
               onValueChange={field.onChange}
-              className="flex flex-row flex-wrap gap-8"
+              className="flex flex-row items-center flex-wrap gap-8 h-12"
             >
               {options.map((option) => (
                 <div

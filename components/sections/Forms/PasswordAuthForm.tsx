@@ -84,7 +84,7 @@ export default function PasswordAuthForm({ register }: PasswordAuthProps) {
           className="w-full"
           disabled={isSubmitting}
         >
-          {register ? 'Register' : 'Login'}
+          {register ? 'Create Account' : 'Login'}
         </Button>
 
         <div className="text-center text-white font-semibold">
@@ -106,7 +106,7 @@ export default function PasswordAuthForm({ register }: PasswordAuthProps) {
               <p>
                 <span className="mr-2">Don&apos;t have an account?</span>
                 <Link href="/auth/register" className="underline">
-                  Register
+                  Create Account
                 </Link>
               </p>
             </>

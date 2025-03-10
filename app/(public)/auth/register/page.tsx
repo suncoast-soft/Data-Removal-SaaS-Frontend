@@ -10,7 +10,7 @@ export default async function SignUp() {
         <div className="flex items-center flex-col lg:flex-row justify-between gap-8 lg:gap-16">
           <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 lg:w-1/2 flex-shrink-0">
             <h1 className="font-bold text-3xl lg:text-[44px] leading-tight text-white mb-4">
-              Register
+              Create Account
             </h1>
 
             <PasswordAuthForm register={true} />

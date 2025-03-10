@@ -6,13 +6,11 @@ import {
 } from '@/components/modules/DashboardNav'
 import { Mail, MessageSquare } from 'lucide-react'
 import DashboardIcon from '@/components/icons/DashboardIcon'
-import { getPricingPlan, getUser } from '@/utils/supabase/queries'
+import { getUser } from '@/utils/supabase/queries'
 import AccountIcon from '@/components/icons/AccountIcon'
 import BillingIcon from '@/components/icons/BillingIcon'
 import FAQsIcon from '@/components/icons/FAQsIcon'
 import BlogIcon from '@/components/icons/BlogIcon'
-// import ScanHistoryIcon from '@/components/icons/ScanHistoryIcon'
-import { isPremiumUser } from '@/utils/helpers'
 import { Suspense } from 'react'
 import { Toaster } from '@/components/ui/toaster'
 
@@ -27,9 +25,6 @@ export default async function DashboardLayout({
   if (!user || user.is_anonymous) {
     return redirect('/auth/login')
   }
-
-  const pricingPlan = await getPricingPlan(supabase)
-  const removalActivated = pricingPlan && isPremiumUser(pricingPlan)
 
   const navs = [
     {
@@ -53,11 +48,6 @@ export default async function DashboardLayout({
       name: 'Billing',
       link: '/dashboard/billing'
     },
-    // {
-    //   icon: <ScanHistoryIcon />,
-    //   name: 'Scan History',
-    //   link: '/dashboard/scan-history'
-    // },
     {
       icon: <FAQsIcon />,
       name: 'FAQs',
@@ -77,19 +67,11 @@ export default async function DashboardLayout({
 
   return (
     <main className="flex min-h-screen w-full flex-row bg-white">
-      <DashboardNavDesktop
-        navs={navs}
-        user={user}
-        isPremium={removalActivated}
-      />
+      <DashboardNavDesktop navs={navs} />
 
       <div className="w-full">
         <header className="sticky top-0">
-          <DashboardNavMobile
-            navs={navs}
-            user={user}
-            isPremium={removalActivated}
-          />
+          <DashboardNavMobile navs={navs} />
         </header>
 
         <main className="container max-w-6xl">{children}</main>

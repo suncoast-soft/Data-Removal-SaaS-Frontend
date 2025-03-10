@@ -1,10 +1,8 @@
 import { Button } from '@/components/ui/button'
+import { User } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { Tables } from '../../../types_db'
-
-type User = Tables<'users'>
 
 export default function UpgradeSection({ user }: { user?: User }) {
   return (
@@ -28,7 +26,7 @@ export default function UpgradeSection({ user }: { user?: User }) {
           <div className="mt-7 flex justify-start">
             <Button variant="default" className="w-48" asChild>
               {user ? (
-                <Link href={'/checkout'}>Upgrade</Link>
+                <Link href={'/dashboard/billing'}>Upgrade</Link>
               ) : (
                 <Link href={'/auth/register'}>Get Started</Link>
               )}

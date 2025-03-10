@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function ArticlesSection() {
   return (
-    <div className="overflow-x-auto flex flex-wrap lg:flex-nowrap gap-4 lg:gap-6 justify-center">
+    <div className="overflow-x-auto flex flex-wrap lg:flex-nowrap gap-4 lg:gap-6 justify-center mb-12">
       <div className="w-[340px] min-w-[340px] px-0 py-6 lg:p-6 rounded-[20px] flex flex-col gap-4 lg:gap-6 justify-center">
         <Image
           src={'/result-article1.png'}

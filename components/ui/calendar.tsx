@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 import { DayPicker } from 'react-day-picker'
-
-import { cn } from '@/utils/cn'
 import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/utils/cn'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -17,47 +17,69 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn('p-3', className)}
+      className={cn('px-8 py-3', className)}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+        months: 'flex flex-col sm:flex-row space-y-4 sm:space-y-0',
         month: 'space-y-4',
-        caption_dropdowns: 'w-full flex justify-around',
-        caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium hidden',
-        vhidden: 'hidden',
+        month_caption: 'flex justify-center pt-1 relative items-center',
+        caption_label: 'text-sm font-medium',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
           buttonVariants({ variant: 'outline' }),
           'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
         ),
-        nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-1',
-        table: 'w-full border-collapse space-y-1',
-        head_row: 'flex',
-        head_cell:
-          'text-gray rounded-md w-9 font-normal text-[0.8rem] dark:text-dark/60',
-        row: 'flex w-full mt-2',
-        cell: 'h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-slate-100/50 [&:has([aria-selected])]:bg-slate-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected].day-outside)]:bg-dark/50 dark:[&:has([aria-selected])]:bg-dark',
-        day: cn(
-          buttonVariants({ variant: 'ghost' }),
-          'h-9 w-9 p-0 font-normal aria-selected:opacity-100'
+        button_previous: cn(
+          buttonVariants({ variant: 'outline' }),
+          'h-7 w-7 bg-slate-700 p-0 opacity-90 hover:opacity-100',
+          'absolute left-1'
         ),
-        day_range_end: 'day-range-end',
-        day_selected:
-          'bg-dark text-slate-50 hover:bg-dark hover:text-slate-50 focus:bg-dark focus:text-slate-50 dark:bg-slate-50 dark:text-dark dark:hover:bg-slate-50 dark:hover:text-dark dark:focus:bg-slate-50 dark:focus:text-dark',
-        day_today: 'bg-slate-100 text-dark dark:bg-dark dark:text-slate-50',
-        day_outside:
-          'day-outside text-gray opacity-50 aria-selected:bg-slate-100/50 aria-selected:text-gray aria-selected:opacity-30 dark:text-dark/60 dark:aria-selected:bg-dark/50 dark:aria-selected:text-dark/60',
-        day_disabled: 'text-gray opacity-50 dark:text-dark/60',
-        day_range_middle:
-          'aria-selected:bg-slate-100 aria-selected:text-dark dark:aria-selected:bg-dark dark:aria-selected:text-slate-50',
-        day_hidden: 'invisible',
+        button_next: cn(
+          buttonVariants({ variant: 'outline' }),
+          'h-7 w-7 bg-slate-700 p-0 opacity-90 hover:opacity-100',
+          'absolute right-1'
+        ),
+        month_grid: 'w-full border-collapse space-y-1',
+        weekdays: 'flex',
+        weekday:
+          'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
+        week: 'flex w-full mt-2',
+        cell: cn(
+          'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-slate-500 [&:has([aria-selected].day-outside)]:bg-slate-500/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
+          props.mode === 'range'
+            ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
+            : '[&:has([aria-selected])]:rounded-md'
+        ),
+        day_button: cn(
+          buttonVariants({ variant: 'ghost' }),
+          'h-8 w-8 p-0 font-normal aria-selected:opacity-100'
+        ),
+        range_start: 'day-range-start',
+        range_end: 'day-range-end',
+        selected:
+          'bg-primary text-white hover:bg-primary hover:text-white focus:bg-primary focus:text-white',
+        today: 'bg-slate-500 text-white',
+        outside:
+          'day-outside text-muted-foreground aria-selected:bg-slate-500/50 aria-selected:text-muted-foreground',
+        disabled: 'text-muted-foreground opacity-50',
+        range_middle: 'aria-selected:bg-slate-500 aria-selected:text-white',
+        hidden: 'invisible',
         ...classNames
       }}
-      captionLayout="dropdown"
-      fromYear={1900}
-      toYear={new Date().getFullYear()}
-      defaultMonth={new Date(1990, 0)}
+      components={{
+        Chevron: (props) => {
+          if (props.orientation === 'left') {
+            return (
+              <ChevronLeftIcon
+                className={cn('h-4 w-4', className)}
+                {...props}
+              />
+            )
+          }
+          return (
+            <ChevronRightIcon className={cn('h-4 w-4', className)} {...props} />
+          )
+        }
+      }}
       {...props}
     />
   )

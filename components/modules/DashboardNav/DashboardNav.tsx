@@ -16,8 +16,6 @@ import { SearchIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import MenuIcon from '@/components/icons/MenuIcon'
-import { User } from '@supabase/supabase-js'
-import ProfileForm from '../../sections/Forms/ProfileForm'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
 
 type NavItem = {
@@ -29,11 +27,9 @@ type NavItem = {
 
 interface NavProps {
   navs: NavItem[]
-  user: User
-  isPremium?: boolean
 }
 
-function DashboardNavDesktop({ navs, user, isPremium }: NavProps) {
+function DashboardNavDesktop({ navs }: NavProps) {
   const currentPath = usePathname()
   const [search, setSearch] = useState('')
 
@@ -59,12 +55,7 @@ function DashboardNavDesktop({ navs, user, isPremium }: NavProps) {
             />
           </div>
 
-          <div
-            className={cn(
-              'w-full overflow-y-auto',
-              isPremium ? 'max-h-[calc(100vh-428px)]' : ''
-            )}
-          >
+          <div className="w-full overflow-y-auto">
             {navs.map((nav, index) => (
               <Link
                 key={index}
@@ -79,25 +70,18 @@ function DashboardNavDesktop({ navs, user, isPremium }: NavProps) {
                   <span className="w-6 h-6 text-primary">{nav.icon}</span>
                   <span>{nav.name}</span>
                 </div>
-                {/* {nav.isInbox ? (
-                  <span className="w-[25px] h-[25px] text-white text-xs flex items-center justify-center bg-secondary rounded-full">
-                    2
-                  </span>
-                ) : null} */}
               </Link>
             ))}
 
             <SignoutForm />
           </div>
         </div>
-
-        <FooterOptions user={user} isPremium={isPremium} />
       </nav>
     </aside>
   )
 }
 
-function DashboardNavMobile({ navs, user, isPremium }: NavProps) {
+function DashboardNavMobile({ navs }: NavProps) {
   const currentPath = usePathname()
 
   return (
@@ -141,55 +125,9 @@ function DashboardNavMobile({ navs, user, isPremium }: NavProps) {
 
             <SignoutForm />
           </div>
-
-          <FooterOptions user={user} isPremium={isPremium} />
         </nav>
       </SheetContent>
     </Sheet>
-  )
-}
-
-const FooterOptions = ({
-  user,
-  isPremium
-}: {
-  user: User
-  isPremium?: boolean
-}) => {
-  return (
-    isPremium && (
-      <div className="py-4 space-y-2">
-        <h3 className="text-white text-xl font-bold text-center">
-          Loving Pup Premium?
-        </h3>
-
-        <Button
-          variant="outline"
-          size="small"
-          className="text-white border-primary hover:bg-primary w-full"
-        >
-          Send Someone a Gift
-        </Button>
-
-        <Button
-          variant="outline"
-          size="small"
-          className="text-white border-primary hover:bg-primary w-full"
-        >
-          Refer a Friend
-        </Button>
-
-        <ProfileForm user={user}>
-          <Button
-            variant="outline"
-            size="small"
-            className="text-white border-primary hover:bg-primary w-full"
-          >
-            Add a Family Member
-          </Button>
-        </ProfileForm>
-      </div>
-    )
   )
 }
 

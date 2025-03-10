@@ -2,7 +2,8 @@ import {
   getBroker,
   getBrokerSearches,
   getPricingPlan,
-  getProfiles
+  getProfiles,
+  getUser
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
@@ -11,13 +12,12 @@ import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSec
 import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
 import { getErrorRedirect, isPremiumUser } from '@/utils/helpers'
 import { redirect } from 'next/navigation'
-import { BellIcon } from 'lucide-react'
 import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import Link from 'next/link'
 import SectionHeader from '@/components/modules/SectionHeader'
 import SearchReport from '@/components/sections/SearchReport'
-import ProfileDropdown from '@/components/modules/ProfileDropdown'
 import { Tables } from '@/types_db'
+import { User } from '@supabase/supabase-js'
 
 type Profile = Tables<'profiles'>
 type Broker = Tables<'brokers'>
@@ -25,20 +25,16 @@ type BrokerSearch = Tables<'broker_searches'> & {
   broker: Broker
 }
 
-export default async function Dashboard({
-  searchParams
-}: {
-  searchParams: Promise<{ profile: string }>
-}) {
-  const selectedProfileId = (await searchParams).profile
-
+export default async function Dashboard() {
   const supabase = await createClient()
+  const user = await getUser(supabase)
+
   const [profiles, pricing] = await Promise.all([
     getProfiles(supabase) as Promise<Profile[]>,
     getPricingPlan(supabase)
   ])
 
-  if (profiles?.length === 0) {
+  if (profiles.length === 0) {
     redirect(
       getErrorRedirect(
         '/dashboard/account',
@@ -47,13 +43,10 @@ export default async function Dashboard({
       )
     )
   }
-
-  if (selectedProfileId === undefined) {
-    redirect(`/dashboard?profile=${profiles[0].id}`)
-  }
+  const profile = profiles[0]
+  const selectedProfileId = String(profile.id)
 
   const isPremium = pricing && isPremiumUser(pricing)
-  const notifications = 0
 
   // Initial loading for completed searches
   const brokerSearches = (await getBrokerSearches(
@@ -69,26 +62,7 @@ export default async function Dashboard({
 
   return (
     <div className="relative">
-      <SectionHeader
-        title="Dashboard"
-        cta1={
-          <Button variant="link" type="button" className={'p-0'}>
-            <div className="relative text-dark">
-              {notifications > 0 && (
-                <div className="absolute -right-1 -top-1 min-w-[18px] rounded-full min-h-[18px] text-white bg-secondary text-xs font-normal">
-                  {notifications}
-                </div>
-              )}
-              <BellIcon className="h-6 w-6 " />
-            </div>
-          </Button>
-        }
-      />
-
-      <ProfileDropdown
-        profiles={profiles}
-        selectedProfileId={selectedProfileId}
-      />
+      <SectionHeader title="Dashboard" />
 
       <SearchReport
         profileId={selectedProfileId}
@@ -98,7 +72,7 @@ export default async function Dashboard({
         isPremium={isPremium}
       />
 
-      <UpgradeSection />
+      {!isPremium && <UpgradeSection user={user as User} />}
 
       <PrivateFAQs />
 
@@ -106,11 +80,15 @@ export default async function Dashboard({
 
       <ArticlesSection />
 
-      <div className="text-center my-12">
-        <Button variant="secondary" asChild>
-          <Link href="/checkout">Upgrade and protect yourself today</Link>
-        </Button>
-      </div>
+      {!isPremium && (
+        <div className="text-center my-12">
+          <Button variant="secondary" asChild>
+            <Link href="/dashboard/billing">
+              Upgrade and protect yourself today
+            </Link>
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
