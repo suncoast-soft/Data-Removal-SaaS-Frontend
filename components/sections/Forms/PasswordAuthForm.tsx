@@ -15,8 +15,6 @@ import {
 import FormInput from '@/components/modules/FormInput'
 import { KeyIcon, MailIcon } from 'lucide-react'
 import Link from 'next/link'
-import Separator from '@/components/modules/Separator'
-import FormCheck from '@/components/modules/FormCheck'
 
 interface PasswordAuthProps {
   register: boolean
@@ -112,37 +110,6 @@ export default function PasswordAuthForm({ register }: PasswordAuthProps) {
             </>
           )}
         </div>
-
-        {register && (
-          <>
-            <Separator />
-
-            <FormCheck
-              control={form.control}
-              name="term"
-              label={
-                <>
-                  I have read and accept the{' '}
-                  <Link
-                    href="/terms-and-conditions"
-                    className="font-normal underline"
-                  >
-                    Terms and conditions
-                  </Link>
-                  {', '}
-                  <Link
-                    href="/privacy-policy"
-                    className="font-normal underline"
-                  >
-                    Privacy Policy
-                  </Link>
-                  {', '}
-                  and all associated policies. *
-                </>
-              }
-            />
-          </>
-        )}
       </form>
     </Form>
   )

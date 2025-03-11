@@ -2,6 +2,7 @@ import OAuthForm from '@/components/sections/Forms/OAuthForm'
 import Image from 'next/image'
 import Separator from '@/components/modules/Separator'
 import PasswordAuthForm from '@/components/sections/Forms/PasswordAuthForm'
+import Link from 'next/link'
 
 export default async function SignUp() {
   return (
@@ -19,6 +20,22 @@ export default async function SignUp() {
               <Separator text="Or continue with" />
               <OAuthForm />
             </div>
+
+            <p className="text-white text-sm mt-4">
+              By clicking sign up, you agree to our{' '}
+              <Link
+                href="/terms-and-conditions"
+                className="font-normal underline"
+              >
+                Terms and conditions
+              </Link>
+              {', '}
+              <Link href="/privacy-policy" className="font-normal underline">
+                Privacy Policy
+              </Link>
+              {', '}
+              and all associated policies. *
+            </p>
           </div>
 
           <div>
