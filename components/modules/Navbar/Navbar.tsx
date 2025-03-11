@@ -77,7 +77,7 @@ export default async function Navbar({
 
                   <Button variant="default" className="h-12" asChild>
                     <Link href="/auth/register" className="font-semibold">
-                      Register
+                      Create Account
                     </Link>
                   </Button>
                 </div>

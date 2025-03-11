@@ -11,8 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
 import { updateUserSettingsAction } from '@/utils/supabase/server'
 import FormToggle from '@/components/modules/FormToggle'
-import FormInput from '@/components/modules/FormInput'
-import { MailIcon, PhoneCallIcon } from 'lucide-react'
 import { User } from '@supabase/supabase-js'
 
 type Setting = Tables<'users'>
@@ -68,10 +66,10 @@ export default function SettingsForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid gap-8 lg:grid-cols-2 border border-dark/20 bg-gray/5 rounded-2xl">
-          <div className="p-8 space-y-6">
-            <h2 className="text-2xl font-bold text-dark">Preferences:</h2>
+        <div className="border-dark/20 bg-gray/5 rounded-2xl p-8">
+          <h2 className="text-2xl font-bold text-dark mb-8">Preferences:</h2>
 
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <FormToggle
               control={form.control}
               name="status_update_method"
@@ -117,43 +115,19 @@ export default function SettingsForm({
             />
           </div>
 
-          <div className="p-8 space-y-6">
-            <h2 className="text-2xl font-bold text-dark">Contact Details:</h2>
+          <div className="flex flex-row justify-start gap-4 mt-8">
+            <Button type="submit" size="small" className="font-bold">
+              Update settings
+            </Button>
 
-            <FormInput
-              control={form.control}
-              type="email"
-              name="email"
-              label="Contact email"
-              placeholder="example@gmail.com"
-              icon={<MailIcon className="w-5 text-primary" />}
-              required={true}
-              theme="dark"
-            />
-
-            <FormInput
-              control={form.control}
-              name="phone"
-              label="Contact phone Number"
-              placeholder="(123) 456 7890"
-              icon={<PhoneCallIcon className="w-5 text-primary" />}
-              required={true}
-              theme="dark"
-            />
-
-            <div className="flex flex-row justify-end gap-4 py-8">
-              <Button type="submit" size="small" className="font-bold">
-                Update settings
-              </Button>
-              <Button
-                type="submit"
-                size="small"
-                className="bg-dark hover:bg-gray text-white font-bold"
-                asChild
-              >
-                <Link href="/dashboard/billing">Go to billing</Link>
-              </Button>
-            </div>
+            <Button
+              type="submit"
+              size="small"
+              className="bg-dark hover:bg-gray text-white font-bold"
+              asChild
+            >
+              <Link href="/dashboard/billing">Go to billing</Link>
+            </Button>
           </div>
         </div>
       </form>
