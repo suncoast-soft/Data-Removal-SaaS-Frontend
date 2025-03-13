@@ -13,7 +13,7 @@ export default function RichText({ data }: { data: RichTextSection }) {
           <h2 className="text-2xl lg:text-4xl font-bold mb-8">{data.title}</h2>
         )}
 
-        <SanityRichText value={data.content as BlockContent} />
+        <SanityRichText content={data.content as BlockContent} />
       </div>
     </section>
   )

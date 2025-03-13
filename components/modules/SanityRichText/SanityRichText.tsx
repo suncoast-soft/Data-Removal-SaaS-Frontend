@@ -1,5 +1,6 @@
 import OrangeCircleCheck from '@/components/icons/OrangeCircleCheck'
 import { BlockContent } from '@/sanity.types'
+import { cn } from '@/utils/cn'
 import { PortableText, PortableTextReactComponents } from 'next-sanity'
 import Image from 'next/image'
 
@@ -17,9 +18,7 @@ const components: Partial<PortableTextReactComponents> = {
     h4: ({ children }) => (
       <h4 className="text-lg lg:text-xl font-medium my-3">{children}</h4>
     ),
-    normal: ({ children }) => (
-      <p className="text-lg text-gray/80 mb-2">{children}</p>
-    ),
+    normal: ({ children }) => <p className="text-lg mb-2">{children}</p>,
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-slate-300 pl-4 italic text-slate-500">
         {children}
@@ -77,17 +76,19 @@ const components: Partial<PortableTextReactComponents> = {
 }
 
 export default function SanityRichText({
-  value
+  content,
+  className
 }: {
-  value: BlockContent | undefined
+  content: BlockContent | undefined
+  className?: string
 }) {
-  if (!value) {
+  if (!content) {
     return <></>
   }
 
   return (
-    <div className="mb-8">
-      <PortableText value={value} components={components} />
+    <div className={cn('mb-8', className)}>
+      <PortableText value={content} components={components} />
     </div>
   )
 }

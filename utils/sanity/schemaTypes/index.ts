@@ -12,6 +12,7 @@ import { settingsType } from './documents/settings'
 import { blogPostType } from './documents/blogPost'
 import { blogCategoryType } from './documents/blogCategory'
 import { blogThumbnailSection } from './sections/blogThumbnail'
+import { faqsSection } from './sections/faqs'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,6 +23,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     imageCTASection,
     twoColumnCTASection,
     membersSection,
+    faqsSection,
     richTextSection,
     blogPostType,
     blogCategoryType,

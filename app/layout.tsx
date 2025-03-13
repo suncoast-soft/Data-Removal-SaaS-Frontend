@@ -13,7 +13,7 @@ const figtree = Figtree({
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const settings = await sanityClient.fetch(`*[_type == "settings"][0]`)
-  const { name, description } = settings as Settings
+  const { name, description } = (settings ?? {}) as Settings
 
   return (
     <html lang="en" className={`${figtree.variable}`}>

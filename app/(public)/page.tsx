@@ -8,7 +8,6 @@ export default async function HomePage() {
     `*[_type == "page" && slug.current == $slug][0]`,
     { slug: 'home' }
   )
-
   if (!data) {
     return notFound()
   }

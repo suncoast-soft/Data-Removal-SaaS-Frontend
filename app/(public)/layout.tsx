@@ -28,7 +28,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     navLinks,
     footerLinks,
     socialLinks
-  } = settings as Settings
+  } = (settings ?? {}) as Settings
 
   return (
     <>

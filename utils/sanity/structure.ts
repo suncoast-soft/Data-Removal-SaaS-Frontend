@@ -6,6 +6,7 @@ export const structure: StructureResolver = (S) =>
     .title('Frontend App')
     .items([
       S.documentTypeListItem('page').title('Pages'),
+
       S.listItem()
         .title('Blog')
         .child(
@@ -24,6 +25,7 @@ export const structure: StructureResolver = (S) =>
       ),
 
       S.divider(),
+
       S.documentTypeListItem('settings')
         .title('Global Settings')
         .child(

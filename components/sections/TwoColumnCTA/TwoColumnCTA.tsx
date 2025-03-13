@@ -52,7 +52,7 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                       width={160}
                       height={160}
                       alt={title}
-                      className="w-auth h-32"
+                      className="w-full h-32 object-contain"
                     />
 
                     <div>

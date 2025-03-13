@@ -23,7 +23,7 @@ export default function ImageCTA({ data }: { data: ImageCTASection }) {
           </div>
 
           <div className="lg:col-span-7 lg:px-8 self-center">
-            <SanityRichText value={description as BlockContent} />
+            <SanityRichText content={description as BlockContent} />
 
             <div className="flex flex-wrap justify-center lg:justify-start items-center gap-5">
               {buttons?.map((button, index) => (

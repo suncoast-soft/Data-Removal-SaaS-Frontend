@@ -37,7 +37,7 @@ export default function Members({ data }: { data: MembersSection }) {
               {title}
             </h1>
 
-            <SanityRichText value={description as BlockContent} />
+            <SanityRichText content={description as BlockContent} />
           </div>
 
           <div className="max-w-6xl relative">
