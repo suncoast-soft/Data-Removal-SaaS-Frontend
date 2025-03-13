@@ -43,10 +43,10 @@ export default async function Dashboard() {
   const isPremium = pricing && isPremiumUser(pricing)
 
   // Initial loading for completed searches
-  const brokerSearches = (await getBrokerSearches(
+  const brokerSearches = ((await getBrokerSearches(
     supabase,
     selectedProfileId
-  )) as BrokerSearch[]
+  )) ?? []) as BrokerSearch[]
 
   const completedSearches = (await Promise.all(
     brokerSearches
@@ -55,11 +55,17 @@ export default async function Dashboard() {
   )) as Broker[]
 
   // Additional Page data
-  const pageData = ((await sanityClient.fetch(
+  const freeDashboardData = ((await sanityClient.fetch(
     `*[_type == "page" && slug.current == $slug][0]`,
-    { slug: 'dashboard' }
+    { slug: 'free-dashboard' }
   )) ?? {}) as Page
-  const { slug, content } = pageData
+  const { content: freeDashboardContent } = freeDashboardData
+
+  const pupguardDashboardData = ((await sanityClient.fetch(
+    `*[_type == "page" && slug.current == $slug][0]`,
+    { slug: 'premium-dashboard' }
+  )) ?? {}) as Page
+  const { content: pupguardDashboardContent } = pupguardDashboardData
 
   return (
     <div className="relative">
@@ -73,8 +79,10 @@ export default async function Dashboard() {
         isPremium={isPremium}
       />
 
-      {!isPremium && (
-        <RenderSanitySections slug={slug?.current} content={content} />
+      {isPremium ? (
+        <RenderSanitySections content={pupguardDashboardContent} />
+      ) : (
+        <RenderSanitySections content={freeDashboardContent} />
       )}
     </div>
   )

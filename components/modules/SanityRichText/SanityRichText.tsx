@@ -37,7 +37,7 @@ const components: Partial<PortableTextReactComponents> = {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 hover:underline"
+          className="underline font-medium"
         >
           {children}
         </a>
@@ -53,7 +53,7 @@ const components: Partial<PortableTextReactComponents> = {
         <span className="w-fit flex-shrink-0">
           <OrangeCircleCheck />
         </span>
-        <p className="text-lg text-dark">{children}</p>
+        <p className="text-lg">{children}</p>
       </li>
     )
   },

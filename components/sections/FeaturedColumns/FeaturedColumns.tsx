@@ -2,20 +2,25 @@ import SanityImage from '@/components/modules/SanityImage'
 import Title from '@/components/modules/Title'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FeaturedColumnsSection } from '@/sanity.types'
+import { cn } from '@/utils/cn'
 
 export default function FeaturedColumns({
-  data
+  data,
+  index
 }: {
   data: FeaturedColumnsSection
+  index: number
 }) {
   const { title, subtitle, description, columns } = data
 
   return (
-    <section className="py-12 lg:py-20">
+    <section
+      className={cn('py-12 lg:py-20', index % 2 === 0 && 'bg-lp-footer-bg')}
+    >
       <div className="container max-w-7xl">
         <Title title={title} subtitle={subtitle} description={description} />
 
-        <div className="mt-6 lg:mt-10 gap-10 flex items-center flex-col lg:flex-row">
+        <div className="mt-6 lg:mt-10 gap-10 flex items-start flex-col lg:flex-row">
           {columns?.map((column, index) => (
             <Card
               key={index}

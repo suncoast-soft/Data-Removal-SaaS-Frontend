@@ -22,8 +22,8 @@ import { Button } from '@/components/ui/button'
 import ArrowRight from '@/components/icons/ArrowRight'
 import { handleRequest } from '@/utils/auth-helpers/client'
 import { anonymousSignin } from '@/utils/auth-helpers/server'
-import { InfoIcon } from 'lucide-react'
-import Link from 'next/link'
+import { BlockContent } from '@/sanity.types'
+import InformationConsent from '@/components/modules/InformationConsent'
 
 interface Address {
   city: string
@@ -36,7 +36,15 @@ const FormSchema = z.object({
   })
 })
 
-export default function AddressForm({ name }: { name: string }) {
+interface FormProps {
+  name: string
+  consent?: {
+    title?: string | undefined
+    description?: BlockContent
+  }
+}
+
+export default function AddressForm({ name, consent }: FormProps) {
   const { firstName, lastName } = splitName(name ?? '')
 
   const [loading, setLoading] = useState(true)
@@ -192,15 +200,10 @@ export default function AddressForm({ name }: { name: string }) {
         </form>
       </Form>
 
-      <div className="flex items-center gap-2 mt-4 lg:mt-3 z-10">
-        <InfoIcon className="w-[18px] h-[18px]" />
-        <Link
-          href={'/'}
-          className="text-sm leading-[18px] font-semibold transition ease-in-out duration-75 cursor-pointer text-dark hover:text-dark w-fit border-b border-dark"
-        >
-          How we use your information?
-        </Link>
-      </div>
+      <InformationConsent
+        title={consent?.title}
+        description={consent?.description}
+      />
     </>
   )
 }

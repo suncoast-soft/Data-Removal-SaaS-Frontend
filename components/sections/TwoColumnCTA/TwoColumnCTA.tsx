@@ -85,7 +85,7 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                         : 'text-secondary'
                     )}
                   >
-                    Free
+                    {column.subtitle}
                   </p>
 
                   <div className="flex flex-col lg:flex-row gap-12 items-center">

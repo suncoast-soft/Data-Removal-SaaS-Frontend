@@ -1,5 +1,5 @@
 import { sanityClient } from '@/utils/sanity/lib/client'
-import { Page } from '@/sanity.types'
+import { Page, Settings } from '@/sanity.types'
 import RenderSanitySections from '@/components/sections/RenderSanitySections'
 import { notFound } from 'next/navigation'
 
@@ -14,5 +14,14 @@ export default async function HomePage() {
 
   const { slug, content } = data as Page
 
-  return <RenderSanitySections slug={slug?.current} content={content} />
+  const settings = ((await sanityClient.fetch(`*[_type == "settings"][0]`)) ??
+    {}) as Settings
+
+  return (
+    <RenderSanitySections
+      slug={slug?.current}
+      content={content}
+      settings={settings}
+    />
+  )
 }

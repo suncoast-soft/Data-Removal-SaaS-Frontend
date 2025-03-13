@@ -6,10 +6,17 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
-import { BlockContent, FaqsSection } from '@/sanity.types'
+import { BlockContent, FaqsSection, Settings } from '@/sanity.types'
+import { cn } from '@/utils/cn'
+import { sanityClient } from '@/utils/sanity/lib/client'
 
-export default function FAQs({ data }: { data: FaqsSection }) {
-  const { title, description, image, faqs } = data
+export default async function FAQs({ data }: { data: FaqsSection }) {
+  const { title, description, image, columns } = data
+
+  const settings = (await sanityClient.fetch(
+    `*[_type == "settings"][0]`
+  )) as Settings
+  const faqs = settings?.faqs ?? []
 
   return (
     <div className="container max-w-5xl">
@@ -30,15 +37,21 @@ export default function FAQs({ data }: { data: FaqsSection }) {
         />
       </div>
 
-      <div className="mt-6 lg:mt-10">
-        <Accordion type="multiple" className="w-full">
+      <div className="mb-12">
+        <Accordion
+          type="multiple"
+          className={cn(
+            'w-full grid gap-x-8 gap-y-6',
+            columns === 1 ? 'grid-cols-1' : 'grid-cols-2'
+          )}
+        >
           {faqs?.map((faq) => (
             <AccordionItem
               key={faq._key}
               value={faq._key}
-              className="p-4 lg:p-6 rounded-[20px] border border-dark/20 mb-4 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white shrink-0 transition duration-200"
+              className="p-4 lg:p-6 rounded-[20px] border border-dark/20 [&[data-state='open']]:bg-dark [&[data-state='open']]:text-white shrink-0 transition duration-200"
             >
-              <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg lg:text-2xl">
+              <AccordionTrigger className="w-full text-left p-0 font-semibold text-lg lg:text-xl">
                 {faq.question}
               </AccordionTrigger>
 

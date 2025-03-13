@@ -1,18 +1,21 @@
 import Image from 'next/image'
 import SearchForm from '../Forms/SearchForm'
-import { HeroSection } from '@/sanity.types'
+import { HeroSection, Settings } from '@/sanity.types'
 import ContactForm from '../Forms/ContactForm'
 import OAuthForm from '../Forms/OAuthForm'
 import SanityImage from '@/components/modules/SanityImage'
 
 export default function Hero({
   slug,
-  data
+  data,
+  settings
 }: {
   slug: string | undefined
   data: HeroSection
+  settings: Settings
 }) {
   const { title, text, image, formType } = data
+  const { consent } = settings
 
   if (slug === 'home') {
     return (
@@ -42,7 +45,7 @@ export default function Hero({
               </div>
 
               {formType === 'search' ? (
-                <SearchForm />
+                <SearchForm consent={consent} />
               ) : formType === 'contact' ? (
                 <ContactForm />
               ) : formType === 'login' ? (

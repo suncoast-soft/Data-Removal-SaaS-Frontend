@@ -92,6 +92,50 @@ export const settingsType = defineType({
       title: 'PupGuard Features',
       type: 'array',
       of: [{ type: 'string' }]
+    }),
+    defineField({
+      name: 'faqs',
+      title: 'FAQs',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string'
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              type: 'blockContent'
+            })
+          ],
+          preview: {
+            select: {
+              title: 'question'
+            }
+          }
+        })
+      ]
+    }),
+    defineField({
+      name: 'consent',
+      type: 'object',
+      title: 'Information Consent Popup',
+      fields: [
+        defineField({
+          name: 'title',
+          title: 'Title',
+          type: 'string'
+        }),
+        defineField({
+          name: 'description',
+          title: 'Description',
+          type: 'blockContent'
+        })
+      ]
     })
   ],
   preview: {

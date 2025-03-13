@@ -1,10 +1,16 @@
-import { defineField, defineType, defineArrayMember } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const faqsSection = defineType({
   name: 'faqsSection',
   title: 'FAQs Section',
   type: 'object',
   fields: [
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      options: { hotspot: true }
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -16,42 +22,24 @@ export const faqsSection = defineType({
       type: 'blockContent'
     }),
     defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true }
-    }),
-    defineField({
-      name: 'faqs',
-      title: 'FAQs',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'question',
-              title: 'Question',
-              type: 'string'
-            }),
-            defineField({
-              name: 'answer',
-              title: 'Answer',
-              type: 'blockContent'
-            })
-          ],
-          preview: {
-            select: {
-              title: 'question'
-            }
-          }
-        })
-      ]
+      name: 'columns',
+      title: 'Columns',
+      type: 'number',
+      options: {
+        list: [
+          { title: '1 Column', value: 1 },
+          { title: '2 Columns', value: 2 }
+        ],
+        layout: 'radio'
+      }
     })
   ],
   preview: {
     select: {
       title: 'title'
     }
+  },
+  initialValue: {
+    columns: 1
   }
 })
