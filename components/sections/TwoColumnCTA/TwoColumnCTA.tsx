@@ -46,7 +46,7 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                     Free
                   </p>
 
-                  <div className="flex flex-col lg:flex-row lg:gap-12 items-center">
+                  <div className="flex flex-col lg:flex-row gap-12 items-center">
                     <SanityImage
                       src={column.image}
                       width={160}
@@ -89,7 +89,7 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                     )}
                   >
                     {column.features?.map((feature, index) => (
-                      <li key={index} className="flex gap-4 items-center">
+                      <li key={index} className="flex gap-4 items-start">
                         {column.backgroundType === 'white' ? (
                           <GreenCircleCheck />
                         ) : (

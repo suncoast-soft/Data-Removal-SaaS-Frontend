@@ -8,6 +8,7 @@ export default function OrangeCircleCheck() {
       viewBox="0 0 27 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="flex-shrink-0"
     >
       <g clipPath="url(#clip0_2935_25635)">
         <path
