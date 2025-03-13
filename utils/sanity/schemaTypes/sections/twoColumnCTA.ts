@@ -38,10 +38,16 @@ export const twoColumnCTASection = defineType({
               options: { hotspot: true }
             }),
             defineField({
-              name: 'features',
-              title: 'Features List',
-              type: 'array',
-              of: [{ type: 'string' }]
+              name: 'featureType',
+              title: 'Select Features Type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Basic Features', value: 'basicFeatures' },
+                  { title: 'PupGuard Features', value: 'pupGuardFeatures' }
+                ],
+                layout: 'radio'
+              }
             }),
             defineField({
               name: 'buttonText',

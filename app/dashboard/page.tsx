@@ -2,22 +2,17 @@ import {
   getBroker,
   getBrokerSearches,
   getPricingPlan,
-  getProfiles,
-  getUser
+  getProfiles
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
-import { Button } from '@/components/ui/button'
-import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
-import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
-import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
 import { getErrorRedirect, isPremiumUser } from '@/utils/helpers'
 import { redirect } from 'next/navigation'
-import PrivateFAQs from '@/components/sections/PrivateFAQs'
-import Link from 'next/link'
 import SectionHeader from '@/components/modules/SectionHeader'
 import SearchReport from '@/components/sections/SearchReport'
 import { Tables } from '@/types_db'
-import { User } from '@supabase/supabase-js'
+import { sanityClient } from '@/utils/sanity/lib/client'
+import { Page } from '@/sanity.types'
+import RenderSanitySections from '@/components/sections/RenderSanitySections'
 
 type Profile = Tables<'profiles'>
 type Broker = Tables<'brokers'>
@@ -27,7 +22,6 @@ type BrokerSearch = Tables<'broker_searches'> & {
 
 export default async function Dashboard() {
   const supabase = await createClient()
-  const user = await getUser(supabase)
 
   const [profiles, pricing] = await Promise.all([
     getProfiles(supabase) as Promise<Profile[]>,
@@ -60,6 +54,13 @@ export default async function Dashboard() {
       .map((s) => s.broker_id && getBroker(supabase, s.broker_id))
   )) as Broker[]
 
+  // Additional Page data
+  const pageData = ((await sanityClient.fetch(
+    `*[_type == "page" && slug.current == $slug][0]`,
+    { slug: 'dashboard' }
+  )) ?? {}) as Page
+  const { slug, content } = pageData
+
   return (
     <div className="relative">
       <SectionHeader title="Dashboard" />
@@ -72,22 +73,8 @@ export default async function Dashboard() {
         isPremium={isPremium}
       />
 
-      {!isPremium && <UpgradeSection user={user as User} />}
-
-      <PrivateFAQs />
-
-      <HowToProtectSection />
-
-      <ArticlesSection />
-
       {!isPremium && (
-        <div className="text-center my-12">
-          <Button variant="secondary" asChild>
-            <Link href="/dashboard/billing">
-              Upgrade and protect yourself today
-            </Link>
-          </Button>
-        </div>
+        <RenderSanitySections slug={slug?.current} content={content} />
       )}
     </div>
   )

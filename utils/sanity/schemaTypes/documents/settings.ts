@@ -80,6 +80,18 @@ export const settingsType = defineType({
           }
         })
       ]
+    }),
+    defineField({
+      name: 'basicFeatures',
+      title: 'Basic Features',
+      type: 'array',
+      of: [{ type: 'string' }]
+    }),
+    defineField({
+      name: 'pupGuardFeatures',
+      title: 'PupGuard Features',
+      type: 'array',
+      of: [{ type: 'string' }]
     })
   ],
   preview: {

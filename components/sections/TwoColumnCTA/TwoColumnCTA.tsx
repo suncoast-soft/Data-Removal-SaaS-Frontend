@@ -5,9 +5,51 @@ import SanityImage from '@/components/modules/SanityImage'
 import Title from '@/components/modules/Title'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TwoColumnCTASection } from '@/sanity.types'
+import { Settings, TwoColumnCTASection } from '@/sanity.types'
 import { cn } from '@/utils/cn'
+import { sanityClient } from '@/utils/sanity/lib/client'
 import Link from 'next/link'
+
+async function CardFeatures({
+  featureType,
+  backgroundType
+}: {
+  featureType: 'basicFeatures' | 'pupGuardFeatures' | undefined
+  backgroundType: 'white' | 'dark' | undefined
+}) {
+  const settings = (await sanityClient.fetch(
+    `*[_type == "settings"][0]`
+  )) as Settings
+  const features = featureType ? (settings?.[featureType] ?? []) : []
+
+  return (
+    <ul
+      className={cn(
+        'mt-4 lg:mt-10 mb-8 space-y-4',
+        (features?.length ?? 0) > 4 && 'lg:columns-2'
+      )}
+    >
+      {features?.map((feature: string, index: number) => (
+        <li key={index} className="flex gap-4 items-start">
+          {backgroundType === 'white' ? (
+            <GreenCircleCheck />
+          ) : (
+            <OrangeCircleCheck />
+          )}
+
+          <p
+            className={cn(
+              'font-bold text-lg',
+              backgroundType === 'white' ? 'text-dark' : 'text-white'
+            )}
+          >
+            {feature}
+          </p>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
   const { title, subtitle, description, columns } = data
@@ -82,37 +124,16 @@ export default function TwoColumnCTA({ data }: { data: TwoColumnCTASection }) {
                 </CardHeader>
 
                 <CardContent>
-                  <ul
-                    className={cn(
-                      'mt-4 lg:mt-10 mb-8 space-y-4',
-                      (column.features?.length ?? 0) > 4 && 'lg:columns-2'
-                    )}
-                  >
-                    {column.features?.map((feature, index) => (
-                      <li key={index} className="flex gap-4 items-start">
-                        {column.backgroundType === 'white' ? (
-                          <GreenCircleCheck />
-                        ) : (
-                          <OrangeCircleCheck />
-                        )}
-
-                        <p
-                          className={cn(
-                            'font-bold text-lg',
-                            column.backgroundType === 'white'
-                              ? 'text-dark'
-                              : 'text-white'
-                          )}
-                        >
-                          {feature}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
+                  <CardFeatures
+                    featureType={column.featureType}
+                    backgroundType={column.backgroundType}
+                  />
 
                   <Button
                     variant={
-                      column.backgroundType === 'white' ? 'outline' : 'default'
+                      column.backgroundType === 'white'
+                        ? 'secondary'
+                        : 'default'
                     }
                     asChild
                   >

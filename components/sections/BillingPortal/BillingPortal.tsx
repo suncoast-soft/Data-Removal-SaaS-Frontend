@@ -20,11 +20,15 @@ type Pricing = Tables<'pricing_plans'>
 interface BillingPortalProps {
   paymentMethods: Stripe.PaymentMethod[]
   pricing: Pricing
+  basicFeatures: string[]
+  pupGuardFeatures: string[]
 }
 
 export default function BillingPortal({
   paymentMethods,
-  pricing
+  pricing,
+  basicFeatures,
+  pupGuardFeatures
 }: BillingPortalProps) {
   const router = useRouter()
   const currentPath = usePathname()
@@ -45,23 +49,6 @@ export default function BillingPortal({
     router.push(redirectUrl)
   }
 
-  const freePlanFeatures = [
-    'Basic data removal',
-    'Limited monitoring',
-    'Standard support',
-    'Mobile app access'
-  ]
-
-  const proPlanFeatures = [
-    'Everything in the basic plan',
-    'Advanced data removal',
-    'Continuous monitoring',
-    'Priority support',
-    'Collaboration tools',
-    'Mobile app access',
-    'Full integration with all features'
-  ]
-
   return (
     <>
       <div className="mt-6 lg:mt-10 flex flex-col lg:flex-row gap-6 mb-20">
@@ -73,7 +60,7 @@ export default function BillingPortal({
                   <span className="text-lg font-medium">Current Plan:</span>
 
                   <CardTitle className="text-2xl lg:text-4xl font-bold">
-                    Pup Premium
+                    PupGuard
                   </CardTitle>
 
                   <h4 className="font-bold text-base my-4">
@@ -110,7 +97,7 @@ export default function BillingPortal({
               <h4 className="font-bold text-base">Premium Benefits:</h4>
 
               <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-                {proPlanFeatures.map((feature, index) => (
+                {pupGuardFeatures.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <OrangeCircleCheck />
                     <p className="font-bold text-sm">{feature}</p>
@@ -127,7 +114,7 @@ export default function BillingPortal({
           <Card className="bg-white lg:p-6 max-w-xl border-2 border-dark rounded-3xl flex-1">
             <CardHeader>
               <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-6">
-                <div className="flex flex-row lg:flex-col items-center lg:items-start gap-2">
+                <div className="flex flex-row lg:flex-col items-center lg:items-start lg:flex-shrink-0 gap-2">
                   <span className="text-lg font-medium">Current Plan:</span>
 
                   <CardTitle className="text-2xl lg:text-4xl font-bold">
@@ -140,14 +127,14 @@ export default function BillingPortal({
                   width={203}
                   height={170}
                   alt={`Free Plan`}
-                  className="min-w-[153px]"
+                  className="w-full h-44 object-contain lg:object-right"
                 />
               </div>
             </CardHeader>
 
             <CardContent>
               <div className="mt-4 grid gap-4 mb-8">
-                {freePlanFeatures.map((feature, index) => (
+                {basicFeatures.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <OrangeCircleCheck />
                     <p className="font-bold text-sm">{feature}</p>
@@ -229,11 +216,11 @@ export default function BillingPortal({
             </CardContent>
           </Card>
         ) : (
-          <Card className="bg-dark p-6 lg:p-8 border-2 border-dark rounded-3xl flex-1 text-white">
+          <Card className="bg-dark lg:p-6 border-2 border-dark rounded-3xl flex-1 text-white">
             <CardHeader>
               <div className="flex flex-col lg:flex-row items-center gap-6">
                 <CardTitle className="text-xl lg:text-3xl font-bold">
-                  Upgrade to Pup Premium for comprehensive privacy protection
+                  Upgrade to PupGuard for comprehensive privacy protection
                 </CardTitle>
 
                 <Image
@@ -241,14 +228,14 @@ export default function BillingPortal({
                   width={154}
                   height={175}
                   alt={`Pro Plan`}
-                  className="min-w-[153px]"
+                  className="w-full h-44 object-contain lg:object-right"
                 />
               </div>
             </CardHeader>
 
             <CardContent>
               <div className="mt-4 grid grid-cols-1 gap-4 mb-8">
-                {proPlanFeatures.map((feature, index) => (
+                {pupGuardFeatures.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <OrangeCircleCheck />
                     <p className="font-bold text-sm">{feature}</p>

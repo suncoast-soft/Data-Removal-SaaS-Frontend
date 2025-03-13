@@ -1,7 +1,9 @@
 import SectionHeader from '@/components/modules/SectionHeader'
 import BillingHistory from '@/components/sections/BillingHistory'
 import BillingPortal from '@/components/sections/BillingPortal'
+import { Settings } from '@/sanity.types'
 import { displayDate, formatPrice } from '@/utils/helpers'
+import { sanityClient } from '@/utils/sanity/lib/client'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
 import { getPricingPlan } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
@@ -26,6 +28,13 @@ export default async function Billing() {
       invoice_pdf: invoice.invoice_pdf
     })) ?? []
 
+  // Features from Sanity CMS
+  const settings = (await sanityClient.fetch(
+    `*[_type == "settings"][0]`
+  )) as Settings
+  const basicFeatures = settings?.basicFeatures ?? []
+  const pupGuardFeatures = settings?.pupGuardFeatures ?? []
+
   return (
     <div className="container mx-auto pt-0 px-0">
       <SectionHeader title="Billing Information" />
@@ -33,6 +42,8 @@ export default async function Billing() {
       <BillingPortal
         paymentMethods={paymentMethods?.data ?? []}
         pricing={pricing}
+        basicFeatures={basicFeatures}
+        pupGuardFeatures={pupGuardFeatures}
       />
 
       <SectionHeader title="Payment History" />

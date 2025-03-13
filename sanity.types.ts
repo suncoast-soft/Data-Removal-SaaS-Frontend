@@ -123,6 +123,8 @@ export type Settings = {
     link?: string
     _key: string
   }>
+  basicFeatures?: Array<string>
+  pupGuardFeatures?: Array<string>
 }
 
 export type Page = {
@@ -385,7 +387,7 @@ export type TwoColumnCTASection = {
       crop?: SanityImageCrop
       _type: 'image'
     }
-    features?: Array<string>
+    featureType?: 'basicFeatures' | 'pupGuardFeatures'
     buttonText?: string
     buttonLink?: string
     backgroundType?: 'white' | 'dark'

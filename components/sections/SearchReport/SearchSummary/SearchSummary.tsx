@@ -184,14 +184,14 @@ export default function SearchSummary({
                   className="mb-4"
                 />
                 <p className="text-secondary font-medium">
-                  You are protected by Pup Premium!
+                  You are protected by PupGuard!
                 </p>
               </>
             ) : (
               <>
                 <p className="text-sm">Start removing your digital footprint</p>
                 <h3 className="text-2xl font-bold mb-3">
-                  with <strong>Pup Premium</strong>
+                  with <strong>PupGuard</strong>
                 </h3>
                 <Button variant="default" asChild>
                   <Link href="/dashboard/billing">Upgrade Now</Link>

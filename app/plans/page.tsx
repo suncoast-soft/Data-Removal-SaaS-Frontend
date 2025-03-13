@@ -58,13 +58,11 @@ const PlanCard: React.FC<PlanCardProps> = ({ variant, features }) => {
         return (
           <div className="text-center">
             <p className="mb-4 text-base font-normal">
-              Most Popular: <span className="font-bold">Pup Premium</span>
+              Most Popular: <span className="font-bold">PupGuard</span>
             </p>
             <h3 className="text-xl lg:text-2xl font-bold">$99</h3>
             <span className="text-lg leading-8">for 1 year</span>
-            <p className="mt-4 text-base font-normal">
-              With Pup Premium you get:
-            </p>
+            <p className="mt-4 text-base font-normal">With PupGuard you get:</p>
           </div>
         )
       case 'pro_2':
@@ -72,7 +70,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ variant, features }) => {
           <div className="text-center">
             <p className="mb-4 text-base font-normal text-white">
               Best Value with{' '}
-              <span className="font-bold text-primary">Pup Premium</span>
+              <span className="font-bold text-primary">PupGuard</span>
             </p>
             <h3 className="text-xl lg:text-2xl font-bold text-primary">$179</h3>
             <span className="text-lg text-white">for 2 years</span>

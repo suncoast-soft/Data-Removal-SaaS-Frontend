@@ -663,6 +663,26 @@
           }
         },
         "optional": true
+      },
+      "basicFeatures": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": true
+      },
+      "pupGuardFeatures": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": true
       }
     }
   },
@@ -2370,13 +2390,20 @@
                   },
                   "optional": true
                 },
-                "features": {
+                "featureType": {
                   "type": "objectAttribute",
                   "value": {
-                    "type": "array",
-                    "of": {
-                      "type": "string"
-                    }
+                    "type": "union",
+                    "of": [
+                      {
+                        "type": "string",
+                        "value": "basicFeatures"
+                      },
+                      {
+                        "type": "string",
+                        "value": "pupGuardFeatures"
+                      }
+                    ]
                   },
                   "optional": true
                 },

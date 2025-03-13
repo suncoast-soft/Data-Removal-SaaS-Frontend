@@ -172,7 +172,7 @@ export default function BrokerSearchResults({
                             asChild
                           >
                             <Link href="/dashboard/billing">
-                              Upgrade to Pup Premium
+                              Upgrade to PupGuard
                             </Link>
                           </Button>
 
