@@ -299,7 +299,8 @@ export const assembleAddress = (profile: Record<string, any>): string => {
 }
 
 export const displayDate = (
-  dateValue: string | Date | number | null
+  dateValue: string | Date | number | null,
+  pattern?: string
 ): string => {
   if (!dateValue) return ''
 
@@ -313,7 +314,7 @@ export const displayDate = (
       date = dateValue
     }
 
-    return format(date, 'MM/dd/yyyy')
+    return format(date, pattern ?? 'MM/dd/yyyy')
   } catch {
     return ''
   }

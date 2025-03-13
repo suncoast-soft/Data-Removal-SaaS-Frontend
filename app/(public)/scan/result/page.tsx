@@ -20,10 +20,8 @@ export default async function ScanResultPage({
   // Initial loading for completed searches
   const supabase = await createClient()
 
-  const brokerSearches = (await getBrokerSearches(
-    supabase,
-    profile
-  )) as BrokerSearch[]
+  const brokerSearches = ((await getBrokerSearches(supabase, profile)) ??
+    []) as BrokerSearch[]
 
   const completedSearches = (await Promise.all(
     brokerSearches

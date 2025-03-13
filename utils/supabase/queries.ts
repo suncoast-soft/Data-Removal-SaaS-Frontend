@@ -66,12 +66,48 @@ export const getGoogleSearches = cache(
   }
 )
 
+export const getBrokerSearchVersions = cache(
+  async (supabase: SupabaseClient, profileId: string) => {
+    const { data: versions, error } = await supabase
+      .from('broker_searches')
+      .select('version')
+      .eq('profile_id', profileId)
+
+    if (error) {
+      console.error('Failed to fetch broker search versions:', error)
+      return null
+    }
+
+    const uniqueVersions = Array.from(new Set(versions.map((v) => v.version)))
+
+    return uniqueVersions
+  }
+)
+
 export const getBrokerSearches = cache(
-  async (supabase: SupabaseClient, id: string) => {
-    const { data: broker_searches } = await supabase
+  async (supabase: SupabaseClient, profileId: string, version?: string) => {
+    let selectedVersion = version
+
+    if (!selectedVersion) {
+      const versions = await getBrokerSearchVersions(supabase, profileId)
+      selectedVersion = versions?.[0]
+      if (!selectedVersion) {
+        console.log('No versions found for profile:', profileId)
+        return null
+      }
+    }
+
+    const { data: broker_searches, error } = await supabase
       .from('broker_searches')
       .select('*, broker:brokers(*)')
-      .eq('profile_id', id)
+      .eq('profile_id', profileId)
+      .eq('version', selectedVersion)
+
+    if (error) {
+      console.error('Failed to fetch broker searches:', error)
+      return null
+    }
+
     return broker_searches
   }
 )

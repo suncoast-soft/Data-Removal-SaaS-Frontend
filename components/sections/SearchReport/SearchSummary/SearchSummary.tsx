@@ -6,7 +6,8 @@ import MetricsCard from '@/components/modules/MetricsCard'
 import MetricsChart from '@/components/modules/MetricsChart'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
-import { hasKeyInData } from '@/utils/helpers'
+import { displayDate, hasKeyInData } from '@/utils/helpers'
+import { addDays } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -23,6 +24,7 @@ export default function SearchSummary({
   hasAccount,
   isPremium
 }: SectionProps) {
+  const version = brokerSearches[0].version
   const totalSearches = brokerSearches.length
 
   const successfulSearches = brokerSearches.filter(
@@ -45,7 +47,7 @@ export default function SearchSummary({
     {
       icon: <CleaningIcon />,
       count: `0/${successfulSearches}`,
-      text: 'broker reports removed',
+      text: 'data broker results removed',
       color: 'bg-dark/5 text-dark'
     }
   ]
@@ -134,7 +136,7 @@ export default function SearchSummary({
   ]
 
   return (
-    <div className="my-8">
+    <div className="mb-8">
       <Image
         width={233}
         height={185}
@@ -143,10 +145,18 @@ export default function SearchSummary({
         alt="Vector"
       />
 
-      <h1 className="text-2xl lg:text-4xl font-bold text-center mb-12">
-        We found your personal information on {successfulSearches} data broker
-        sites
-      </h1>
+      <h2 className="text-2xl lg:text-4xl font-bold text-center mb-2">
+        As of {displayDate(version, 'M/d')}, your personal information was on{' '}
+        {successfulSearches} data broker sites.
+      </h2>
+
+      <h4 className="text-xl lg:text-2xl font-semibold text-center text-dark/90 mb-12">
+        Search results will be refreshed on{' '}
+        {displayDate(
+          addDays(version ? new Date(version) : new Date(), 30),
+          'M/d'
+        )}
+      </h4>
 
       <div className="max-w-3xl mx-auto grid lg:grid-cols-3 gap-3 mb-5">
         {reportMetrics.map((card, index) => (
@@ -161,21 +171,21 @@ export default function SearchSummary({
         <div className="flex flex-col gap-3">
           {!hasAccount && (
             <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
-              <h3 className="text-2xl font-bold">
-                Create a <strong>FREE</strong> account
-              </h3>
-              <p className="text-sm mb-3">
-                to access your full report (free to view, forever)
-              </p>
-              <Button variant="secondary" asChild>
-                <Link href="/auth/register">START FOR FREE</Link>
-              </Button>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold">
+                  Create a <strong>FREE</strong> account
+                </h3>
+                <p className="text-sm mb-3">to access your full report</p>
+                <Button variant="secondary" asChild>
+                  <Link href="/auth/register">START FOR FREE</Link>
+                </Button>
+              </div>
             </div>
           )}
 
           <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
             {isPremium ? (
-              <>
+              <div className="text-center">
                 <Image
                   src={'/lp-pro-pricing-image.png'}
                   width={154}
@@ -186,17 +196,19 @@ export default function SearchSummary({
                 <p className="text-secondary font-medium">
                   You are protected by PupGuard!
                 </p>
-              </>
+              </div>
             ) : (
-              <>
-                <p className="text-sm">Start removing your digital footprint</p>
-                <h3 className="text-2xl font-bold mb-3">
-                  with <strong>PupGuard</strong>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold mb-1">
+                  Upgrade to <strong>PupGuard</strong>
                 </h3>
+                <p className="text-sm mb-3">
+                  {"and we'll remove the results for you"}
+                </p>
                 <Button variant="default" asChild>
                   <Link href="/dashboard/billing">Upgrade Now</Link>
                 </Button>
-              </>
+              </div>
             )}
           </div>
         </div>
