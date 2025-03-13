@@ -14,9 +14,10 @@ import DeleteAccountForm from '@/components/sections/Forms/DeleteAccountForm'
 import LoginHistory from '@/components/modules/LoginHistory/LoginHistory'
 import Link from 'next/link'
 import { displayDate } from '@/utils/helpers'
-import { PencilIcon } from 'lucide-react'
+import { ArrowBigRightIcon, PencilIcon } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import { Tables } from '@/types_db'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 type Profile = Tables<'profiles'>
 
@@ -42,7 +43,14 @@ export default async function Account() {
               <span className="ml-2">{displayDate(user.created_at)}</span>
             </p>
 
-            <ProfileForm user={user} profile={profile}>
+            <div className="w-full flex lg:justify-end text-sm font-light text-white">
+              <p className="max-w-64">
+                The more information you include, the more accurate the search
+                results will be.
+              </p>
+            </div>
+
+            <ProfileForm user={user} profile={profile} className="w-fit">
               <Button
                 variant="outline"
                 type="submit"
@@ -87,15 +95,15 @@ export default async function Account() {
               },
               {
                 label: 'City',
-                value: profile.address ?? ''
+                value: profile.city ?? ''
               },
               {
                 label: 'State',
-                value: profile.address ?? ''
+                value: profile.state ?? ''
               },
               {
                 label: 'Zip Code',
-                value: profile.address ?? ''
+                value: profile.zip ?? ''
               }
             ].map(({ label, value }, index) => (
               <p key={index} className="border-b border-white/20 py-2">
@@ -115,14 +123,29 @@ export default async function Account() {
       ) : (
         <div className="my-6">
           <ProfileForm user={user as User}>
-            <Button
-              variant="outline"
-              size="small"
-              type="button"
-              className="border-primary hover:bg-primary"
-            >
-              Add Profile
-            </Button>
+            <div className="flex gap-4">
+              <Alert variant="destructive">
+                <AlertTitle>
+                  <div className="flex justify-between items-center w-full">
+                    <strong>Profile</strong>
+                    <ArrowBigRightIcon size={24} />
+                  </div>
+                </AlertTitle>
+
+                <AlertDescription>
+                  Add a profile to begin your first data broker scan
+                </AlertDescription>
+              </Alert>
+
+              <Button
+                variant="outline"
+                size="small"
+                type="button"
+                className="border-primary hover:bg-primary"
+              >
+                Add Profile
+              </Button>
+            </div>
           </ProfileForm>
         </div>
       )}

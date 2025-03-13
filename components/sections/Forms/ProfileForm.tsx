@@ -32,6 +32,7 @@ import {
   createProfileAction,
   updateProfileAction
 } from '@/utils/supabase/server'
+import { cn } from '@/utils/cn'
 
 const FormSchema = z.object({
   email: z.string(),
@@ -50,10 +51,16 @@ const FormSchema = z.object({
 interface SectionProps {
   user: User
   profile?: Tables<'profiles'>
+  className?: string
   children: React.ReactNode
 }
 
-export default function ProfileForm({ user, profile, children }: SectionProps) {
+export default function ProfileForm({
+  user,
+  profile,
+  className,
+  children
+}: SectionProps) {
   const router = useRouter()
 
   const { email, user_metadata } = user ?? {}
@@ -96,7 +103,7 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
   }
 
   return (
-    <div className="flex md:justify-end w-full">
+    <div className={cn('flex lg:justify-end w-full', className)}>
       <Dialog>
         <DialogTrigger asChild>{children}</DialogTrigger>
 
@@ -107,7 +114,8 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
             </DialogTitle>
 
             <DialogDescription className="text-white/50">
-              Profile edits are only available 3 times per month
+              The more information you include, the more accurate the search
+              results will be.
             </DialogDescription>
           </DialogHeader>
 
@@ -139,6 +147,14 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
               <div className="grid grid-cols-2 gap-4">
                 <FormInput
                   control={form.control}
+                  name="address"
+                  label="Street Address"
+                  placeholder="123 ABC street"
+                  icon={<MapPinIcon className="w-5 text-primary" />}
+                />
+
+                <FormInput
+                  control={form.control}
                   name="city"
                   label="City"
                   placeholder="Chicago"
@@ -153,6 +169,14 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
                   placeholder="IL"
                   icon={<MapPinIcon className="w-5 text-primary" />}
                   required={true}
+                />
+
+                <FormInput
+                  control={form.control}
+                  name="zip"
+                  label="Zip"
+                  placeholder="12345"
+                  icon={<MapPinIcon className="w-5 text-primary" />}
                 />
               </div>
 
@@ -199,22 +223,6 @@ export default function ProfileForm({ user, profile, children }: SectionProps) {
                   label="Alternative Names"
                   placeholder="Joseph Smith, Joseph Andrew Smith"
                   icon={<Building2Icon className="w-5 text-primary" />}
-                />
-
-                <FormInput
-                  control={form.control}
-                  name="address"
-                  label="Address"
-                  placeholder="123 ABC street"
-                  icon={<MapPinIcon className="w-5 text-primary" />}
-                />
-
-                <FormInput
-                  control={form.control}
-                  name="zip"
-                  label="Zip"
-                  placeholder="12345"
-                  icon={<MapPinIcon className="w-5 text-primary" />}
                 />
               </div>
 
