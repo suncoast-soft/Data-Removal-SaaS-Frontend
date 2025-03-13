@@ -28,7 +28,7 @@ export default async function Dashboard() {
     getPricingPlan(supabase)
   ])
 
-  if (profiles.length === 0) {
+  if (profiles?.length === 0) {
     redirect(
       getErrorRedirect(
         '/dashboard/account',

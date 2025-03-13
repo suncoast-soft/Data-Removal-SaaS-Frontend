@@ -1,10 +1,4 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import SearchReport from '@/components/sections/SearchReport'
-import UpgradeSection from '@/components/sections/Dashboard/UpgradeSection'
-import HowToProtectSection from '@/components/sections/Dashboard/HowToProtectSection'
-import ArticlesSection from '@/components/sections/Dashboard/ArticlesSection'
-import PrivateFAQs from '@/components/sections/PrivateFAQs'
 import { getBroker, getBrokerSearches } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { Tables } from '@/types_db'
@@ -44,22 +38,6 @@ export default async function ScanResultPage({
         brokerSearches={brokerSearches}
         completedSearches={completedSearches}
       />
-
-      <UpgradeSection />
-
-      <PrivateFAQs />
-
-      <HowToProtectSection />
-
-      <ArticlesSection />
-
-      <div className="text-center my-12">
-        <Button variant="secondary" asChild>
-          <Link href="/auth/login">
-            Create account and protect yourself today
-          </Link>
-        </Button>
-      </div>
     </div>
   )
 }
