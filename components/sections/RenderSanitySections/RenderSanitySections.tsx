@@ -11,7 +11,7 @@ import FAQs from '../FAQs'
 interface SectionProps {
   slug?: string | undefined
   content: Page['content']
-  settings: Settings
+  settings?: Settings | undefined
 }
 
 export default function RenderSanitySections({

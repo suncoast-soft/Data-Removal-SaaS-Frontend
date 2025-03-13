@@ -12,10 +12,10 @@ export default function Hero({
 }: {
   slug: string | undefined
   data: HeroSection
-  settings: Settings
+  settings?: Settings | undefined
 }) {
   const { title, text, image, formType } = data
-  const { consent } = settings
+  const { consent } = settings ?? {}
 
   if (slug === 'home') {
     return (
