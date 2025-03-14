@@ -18,9 +18,6 @@ const ProfileCard = ({
       <h4 className="font-bold text-lg text-dark">{name}</h4>
 
       <h6 className="font-bold uppercase text-primary text-xs">{role}</h6>
-      <p className="text-center text-xs text-dark/60 line-clamp-2">
-        {description}
-      </p>
     </div>
   )
 }
