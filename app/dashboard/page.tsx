@@ -5,7 +5,7 @@ import {
   getProfiles
 } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
-import { getErrorRedirect, isPremiumUser } from '@/utils/helpers'
+import { isPremiumUser } from '@/utils/helpers'
 import { redirect } from 'next/navigation'
 import SectionHeader from '@/components/modules/SectionHeader'
 import SearchReport from '@/components/sections/SearchReport'
@@ -29,13 +29,7 @@ export default async function Dashboard() {
   ])
 
   if (profiles?.length === 0) {
-    redirect(
-      getErrorRedirect(
-        '/dashboard/account',
-        'Profile',
-        'Add a new profile to start scan'
-      )
-    )
+    redirect('/dashboard/account')
   }
   const profile = profiles[0]
   const selectedProfileId = String(profile.id)

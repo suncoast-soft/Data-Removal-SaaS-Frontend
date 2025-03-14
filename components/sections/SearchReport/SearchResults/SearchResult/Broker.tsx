@@ -162,7 +162,7 @@ export default function BrokerSearchResults({
 
                       {isPremium ? (
                         <p className="text-white font-bold bg-secondary text-center px-2 py-1">
-                          {search.removal_status ?? 'Queued'}
+                          {search.removal_status ?? 'In Progress'}
                         </p>
                       ) : (
                         <>

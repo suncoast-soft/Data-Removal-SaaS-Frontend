@@ -1,12 +1,13 @@
-import { sanityClient } from '@/utils/sanity/lib/client'
-import { Page } from '@/sanity.types'
 import RenderSanitySections from '@/components/sections/RenderSanitySections'
+import { Page } from '@/sanity.types'
+import { sanityClient } from '@/utils/sanity/lib/client'
 import { notFound } from 'next/navigation'
+import React from 'react'
 
-export default async function FAQsPage() {
+export default async function FAQPage() {
   const data = await sanityClient.fetch(
     `*[_type == "page" && slug.current == $slug][0]`,
-    { slug: 'blog' }
+    { slug: 'faq' }
   )
   if (!data) {
     return notFound()
@@ -14,5 +15,9 @@ export default async function FAQsPage() {
 
   const { slug, content } = data as Page
 
-  return <RenderSanitySections slug={slug?.current} content={content} />
+  return (
+    <div className="bg-faqs-section-bg bg-cover bg-bottom pt-8 pb-16 text-dark">
+      <RenderSanitySections slug={slug?.current} content={content} />
+    </div>
+  )
 }

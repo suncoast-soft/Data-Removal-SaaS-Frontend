@@ -145,8 +145,8 @@ export default function SearchSummary({
         alt="Vector"
       />
 
-      <h2 className="text-2xl lg:text-4xl font-bold text-center mb-2">
-        As of {displayDate(version, 'M/d')}, your personal information was on{' '}
+      <h2 className="text-2xl lg:text-4xl font-bold text-center mb-2 max-w-4xl lg:px-5 mx-auto">
+        As of {displayDate(version, 'PPP')}, your personal information was on{' '}
         {successfulSearches} data broker sites.
       </h2>
 
@@ -154,7 +154,7 @@ export default function SearchSummary({
         Search results will be refreshed on{' '}
         {displayDate(
           addDays(version ? new Date(version) : new Date(), 30),
-          'M/d'
+          'PPP'
         )}
       </h4>
 

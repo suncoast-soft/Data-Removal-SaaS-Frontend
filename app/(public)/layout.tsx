@@ -15,7 +15,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   const user = await getUser(supabase)
 
   if (user && !user.is_anonymous) {
-    return redirect('/dashboard/account')
+    return redirect('/dashboard')
   }
 
   const settings = await sanityClient.fetch(`*[_type == "settings"][0]`)
