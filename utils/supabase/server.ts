@@ -7,12 +7,14 @@ import {
   createProfile,
   updateNotification,
   updateProfile,
-  updateUserSettings
+  updateUserSettings,
+  createFeedback
 } from './mutations'
 import { getErrorRedirect, getStatusRedirect } from '../helpers'
+import { redirect } from 'next/navigation'
 
 interface FormData {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean;
 }
 
 export async function createClient() {
@@ -141,4 +143,25 @@ export async function updateNotificationAction(notificationId: number) {
   const { data, error } = await updateNotification(supabase, notificationId)
 
   return { data, error }
+}
+
+export async function createFeedbackAction(formData: FormData): Promise<string | void> {
+  const supabase = await createClient();
+
+  const data = {
+    question_1_response: formData.question_1_response as string,
+    question_2_response: formData.question_2_response as string,
+    question_3_response: formData.question_3_response as string,
+    question_4_response: formData.question_4_response as string,
+    question_5_response: formData.question_5_response as string,
+    question_6_response: formData.question_6_response as string,
+    question_7_response: formData.question_7_response as string
+  };
+
+  const { error } = await createFeedback(supabase, data);
+  if (error) {
+    return 'Your feedback could not be submitted. Please try again.';
+  }
+
+  return 'Success';
 }

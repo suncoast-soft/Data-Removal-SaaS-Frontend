@@ -159,3 +159,24 @@ export const updateNotification = cache(
     return { data, error }
   }
 )
+
+export async function createFeedback(
+  supabase: SupabaseClient,
+  data: {
+    question_1_response: string; // What service does PupErase offer
+    question_2_response: string; // Website navigation
+    question_3_response: string; // Issues or bugs
+    question_4_response: string; // Language clarity
+    question_5_response: string; // Brand and aesthetics
+    question_6_response: string; // Feature suggestions
+    question_7_response: string; // Other feedback
+  }
+) {
+  const { data: feedback, error } = await supabase
+    .from('feedback_responses')
+    .insert(data)
+    .select()
+    .single();
+
+  return { feedback, error };
+}
