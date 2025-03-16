@@ -6,7 +6,6 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import FormTextarea from '@/components/modules/FormTextarea'
 import { createFeedbackAction } from '@/utils/supabase/server'
-import { handleRequest } from '@/utils/auth-helpers/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Form } from '@/components/ui/form'
@@ -37,15 +36,19 @@ export function FeedbackForm({ onSuccess }: { onSuccess: () => void }) {
   const form = useForm<FeedbackFormData>({
     resolver: zodResolver(feedbackSchema)
   })
-  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   async function onSubmit(data: FeedbackFormData) {
     setIsSubmitting(true)
     try {
-      await handleRequest(data, createFeedbackAction, router)
-      form.reset()
-      onSuccess()
+      const response = await createFeedbackAction(data)
+      if (response === 'Success') {
+        form.reset()
+        onSuccess()
+      } else {
+        // Handle error case
+        console.error('Feedback submission failed:', response)
+      }
     } catch (error) {
       console.error('feedback submission failed:', error)
     }
