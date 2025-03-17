@@ -145,7 +145,7 @@ export async function updateNotificationAction(notificationId: number) {
   return { data, error }
 }
 
-export async function createFeedbackAction(formData: FormData): Promise<string | void> {
+export async function createFeedbackAction(formData: FormData): Promise<boolean> {
   const supabase = await createClient();
 
   const data = {
@@ -159,9 +159,5 @@ export async function createFeedbackAction(formData: FormData): Promise<string |
   };
 
   const { error } = await createFeedback(supabase, data);
-  if (error) {
-    return 'Your feedback could not be submitted. Please try again.';
-  }
-
-  return 'Success';
+  return !error;
 }

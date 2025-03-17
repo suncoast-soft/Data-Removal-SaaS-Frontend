@@ -392,6 +392,42 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback_responses: {
+        Row: {
+          created_at: string
+          id: number
+          question_1_response: string | null
+          question_2_response: string | null
+          question_3_response: string | null
+          question_4_response: string | null
+          question_5_response: string | null
+          question_6_response: string | null
+          question_7_response: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          question_1_response?: string | null
+          question_2_response?: string | null
+          question_3_response?: string | null
+          question_4_response?: string | null
+          question_5_response?: string | null
+          question_6_response?: string | null
+          question_7_response?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          question_1_response?: string | null
+          question_2_response?: string | null
+          question_3_response?: string | null
+          question_4_response?: string | null
+          question_5_response?: string | null
+          question_6_response?: string | null
+          question_7_response?: string | null
+        }
+        Relationships: []
+      }
       google_searches: {
         Row: {
           created_at: string
@@ -583,10 +619,8 @@ export type Database = {
           first_name: string | null
           gender: Database["public"]["Enums"]["gender"] | null
           id: number
-          is_primary: boolean | null
           last_name: string | null
           phone: string | null
-          ssn: string | null
           state: string | null
           user_id: string | null
           zip: string | null
@@ -602,10 +636,8 @@ export type Database = {
           first_name?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
           id?: number
-          is_primary?: boolean | null
           last_name?: string | null
           phone?: string | null
-          ssn?: string | null
           state?: string | null
           user_id?: string | null
           zip?: string | null
@@ -621,10 +653,8 @@ export type Database = {
           first_name?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
           id?: number
-          is_primary?: boolean | null
           last_name?: string | null
           phone?: string | null
-          ssn?: string | null
           state?: string | null
           user_id?: string | null
           zip?: string | null

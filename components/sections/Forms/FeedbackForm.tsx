@@ -41,13 +41,12 @@ export function FeedbackForm({ onSuccess }: { onSuccess: () => void }) {
   async function onSubmit(data: FeedbackFormData) {
     setIsSubmitting(true)
     try {
-      const response = await createFeedbackAction(data)
-      if (response === 'Success') {
+      const success = await createFeedbackAction(data)
+      if (success) {
         form.reset()
         onSuccess()
       } else {
-        // Handle error case
-        console.error('Feedback submission failed:', response)
+        console.error('Feedback submission failed')
       }
     } catch (error) {
       console.error('feedback submission failed:', error)
