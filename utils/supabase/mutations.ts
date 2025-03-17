@@ -160,6 +160,27 @@ export const updateNotification = cache(
   }
 )
 
+export async function createFeedback(
+  supabase: SupabaseClient,
+  data: {
+    question_1_response: string;
+    question_2_response: string;
+    question_3_response: string;
+    question_4_response: string;
+    question_5_response: string;
+    question_6_response: string;
+    question_7_response: string;
+  }
+) {
+  const { data: feedback, error } = await supabase
+    .from('feedback_responses')
+    .insert(data)
+    .select()
+    .single();
+
+  return { feedback, error };
+}
+
 export const createPricingPlan = cache(async (supabase: SupabaseClient) => {
   const user = await getUser(supabase)
 
