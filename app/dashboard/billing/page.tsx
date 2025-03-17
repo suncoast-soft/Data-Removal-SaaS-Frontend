@@ -7,9 +7,13 @@ import { sanityClient } from '@/utils/sanity/lib/client'
 import { listInvoices, listPaymentMethods } from '@/utils/stripe/server'
 import { getPricingPlan } from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import Stripe from 'stripe'
 
 export default async function Billing() {
+  const cookieStore = await cookies()
+  const test = cookieStore.get('test')?.value === 'true'
+
   const supabase = await createClient()
 
   const [invoices, paymentMethods, pricing] = await Promise.all([
@@ -44,6 +48,7 @@ export default async function Billing() {
         pricing={pricing}
         basicFeatures={basicFeatures}
         pupGuardFeatures={pupGuardFeatures}
+        test={test}
       />
 
       <SectionHeader title="Payment History" />

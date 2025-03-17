@@ -4,6 +4,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import {
   createMessage,
+  createPricingPlan,
   createProfile,
   updateNotification,
   updateProfile,
@@ -139,6 +140,14 @@ export async function updateNotificationAction(notificationId: number) {
   const supabase = await createClient()
 
   const { data, error } = await updateNotification(supabase, notificationId)
+
+  return { data, error }
+}
+
+export async function createPricingPlanAction() {
+  const supabase = await createClient()
+
+  const { data, error } = await createPricingPlan(supabase)
 
   return { data, error }
 }

@@ -159,3 +159,16 @@ export const updateNotification = cache(
     return { data, error }
   }
 )
+
+export const createPricingPlan = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+
+  const { data, error } = await supabase
+    .from('pricing_plans')
+    .insert({
+      user_id: user?.id
+    })
+    .select()
+
+  return { data, error }
+})

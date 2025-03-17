@@ -14,6 +14,7 @@ import { getBuyLink } from '@/utils/stripe/client'
 import { Tables } from '@/types_db'
 import { isPremiumUser } from '@/utils/helpers'
 import { addYears, format } from 'date-fns'
+import { createPricingPlanAction } from '@/utils/supabase/server'
 
 type Pricing = Tables<'pricing_plans'>
 
@@ -22,13 +23,15 @@ interface BillingPortalProps {
   pricing: Pricing
   basicFeatures: string[]
   pupGuardFeatures: string[]
+  test: boolean
 }
 
 export default function BillingPortal({
   paymentMethods,
   pricing,
   basicFeatures,
-  pupGuardFeatures
+  pupGuardFeatures,
+  test
 }: BillingPortalProps) {
   const router = useRouter()
   const currentPath = usePathname()
@@ -47,6 +50,11 @@ export default function BillingPortal({
   const handleStripePortalRequest = async () => {
     const redirectUrl = await createStripePortal(currentPath)
     router.push(redirectUrl)
+  }
+
+  const handleManualUpgrade = async () => {
+    await createPricingPlanAction()
+    router.refresh()
   }
 
   return (
@@ -243,9 +251,22 @@ export default function BillingPortal({
                 ))}
               </div>
 
-              <Button variant="default" asChild>
-                <Link href={buyLink}>Upgrade Now</Link>
-              </Button>
+              {test ? (
+                <>
+                  <Button variant="default" onClick={handleManualUpgrade}>
+                    Upgrade Now
+                  </Button>
+                  <p className="mt-2 text-sm">
+                    * Test User: clicking this button will automatically upgrade
+                    your account without payment. Access is valid until March
+                    31, 2025.
+                  </p>
+                </>
+              ) : (
+                <Button variant="default" asChild>
+                  <Link href={buyLink}>Upgrade Now</Link>
+                </Button>
+              )}
             </CardContent>
           </Card>
         )}
