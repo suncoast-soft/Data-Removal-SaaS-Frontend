@@ -11,7 +11,6 @@ import {
   createFeedback
 } from './mutations'
 import { getErrorRedirect, getStatusRedirect } from '../helpers'
-import { redirect } from 'next/navigation'
 
 interface FormData {
   [key: string]: string | number | boolean;
@@ -145,7 +144,7 @@ export async function updateNotificationAction(notificationId: number) {
   return { data, error }
 }
 
-export async function createFeedbackAction(formData: FormData): Promise<boolean> {
+export async function createFeedbackAction(formData: FormData): Promise<string | void> {
   const supabase = await createClient();
 
   const data = {
@@ -159,5 +158,17 @@ export async function createFeedbackAction(formData: FormData): Promise<boolean>
   };
 
   const { error } = await createFeedback(supabase, data);
-  return !error;
+  if (error) {
+    return getErrorRedirect(
+      '/',
+      'Your feedback could not be submitted. Please try again.',
+      error.message
+    )
+  }
+
+  return getStatusRedirect(
+    '/',
+    'Success!',
+    'Thank you for your feedback.'
+  )
 }
