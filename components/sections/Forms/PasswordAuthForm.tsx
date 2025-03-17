@@ -23,14 +23,7 @@ interface PasswordAuthProps {
 export default function PasswordAuthForm({ register }: PasswordAuthProps) {
   const FormSchema = z.object({
     email: z.string().email({ message: 'Invalid email address.' }),
-    password: z.string(),
-    term: register
-      ? z.literal(true, {
-          errorMap: () => ({
-            message: 'You must accept the terms and conditions'
-          })
-        })
-      : z.boolean().optional()
+    password: z.string()
   })
 
   const router = useRouter()

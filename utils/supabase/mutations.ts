@@ -163,13 +163,13 @@ export const updateNotification = cache(
 export async function createFeedback(
   supabase: SupabaseClient,
   data: {
-    question_1_response: string; // What service does PupErase offer
-    question_2_response: string; // Website navigation
-    question_3_response: string; // Issues or bugs
-    question_4_response: string; // Language clarity
-    question_5_response: string; // Brand and aesthetics
-    question_6_response: string; // Feature suggestions
-    question_7_response: string; // Other feedback
+    question_1_response: string;
+    question_2_response: string;
+    question_3_response: string;
+    question_4_response: string;
+    question_5_response: string;
+    question_6_response: string;
+    question_7_response: string;
   }
 ) {
   const { data: feedback, error } = await supabase
@@ -180,3 +180,16 @@ export async function createFeedback(
 
   return { feedback, error };
 }
+
+export const createPricingPlan = cache(async (supabase: SupabaseClient) => {
+  const user = await getUser(supabase)
+
+  const { data, error } = await supabase
+    .from('pricing_plans')
+    .insert({
+      user_id: user?.id
+    })
+    .select()
+
+  return { data, error }
+})

@@ -4,6 +4,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import {
   createMessage,
+  createPricingPlan,
   createProfile,
   updateNotification,
   updateProfile,
@@ -171,4 +172,12 @@ export async function createFeedbackAction(formData: FormData): Promise<string |
     'Success!',
     'Thank you for your feedback.'
   )
+}
+
+export async function createPricingPlanAction() {
+  const supabase = await createClient()
+
+  const { data, error } = await createPricingPlan(supabase)
+
+  return { data, error }
 }
