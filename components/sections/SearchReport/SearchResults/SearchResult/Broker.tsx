@@ -177,7 +177,7 @@ export default function BrokerSearchResults({
                           </Button>
 
                           <p className="text-sm text-center">
-                            and begin erasing your data today
+                            and we&apos;ll start erasing your data today
                           </p>
                         </>
                       )}
