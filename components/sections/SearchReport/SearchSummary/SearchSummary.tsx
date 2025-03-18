@@ -169,9 +169,52 @@ export default function SearchSummary({
           <MetricsChart key={index} title={chart.title} data={chart.data} />
         ))}
         <div className="flex flex-col gap-3">
-          {!hasAccount && (
+          {hasAccount ? (
+            <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
+              {isPremium ? (
+                <div className="text-center">
+                  <Image
+                    src={'/lp-pro-pricing-image.png'}
+                    width={154}
+                    height={175}
+                    alt="Protected!"
+                    className="mb-4 mx-auto"
+                  />
+                  <h3 className="text-2xl font-bold mb-1 text-secondary">
+                    You are protected by <strong>PupGuard</strong>
+                  </h3>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <Image
+                    src={'/billing-pro-card-image.png'}
+                    width={214}
+                    height={170}
+                    alt="Protected!"
+                    className="mb-4 mx-auto"
+                  />
+                  <h3 className="text-2xl font-bold mb-1">
+                    Upgrade to <strong>PupGuard</strong>
+                  </h3>
+                  <p className="text-sm mb-3">
+                    {"and we'll remove the results for you"}
+                  </p>
+                  <Button variant="default" asChild>
+                    <Link href="/dashboard/billing">Upgrade Now</Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+          ) : (
             <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
               <div className="text-center">
+                <Image
+                  src={'/results-remove-data-image-transparent.png'}
+                  width={498}
+                  height={459}
+                  alt="Protected!"
+                  className="mb-4 mx-auto w-48"
+                />
                 <h3 className="text-2xl font-bold">
                   Create a <strong>FREE</strong> account
                 </h3>
@@ -182,35 +225,6 @@ export default function SearchSummary({
               </div>
             </div>
           )}
-
-          <div className="w-full flex-grow p-4 rounded-2xl bg-dark/5 flex flex-col justify-center">
-            {isPremium ? (
-              <div className="text-center">
-                <Image
-                  src={'/lp-pro-pricing-image.png'}
-                  width={154}
-                  height={175}
-                  alt="Protected!"
-                  className="mb-4 mx-auto"
-                />
-                <p className="text-secondary font-medium">
-                  You are protected by PupGuard!
-                </p>
-              </div>
-            ) : (
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-1">
-                  Upgrade to <strong>PupGuard</strong>
-                </h3>
-                <p className="text-sm mb-3">
-                  {"and we'll remove the results for you"}
-                </p>
-                <Button variant="default" asChild>
-                  <Link href="/dashboard/billing">Upgrade Now</Link>
-                </Button>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>
