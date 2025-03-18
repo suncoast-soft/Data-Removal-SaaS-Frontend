@@ -13,11 +13,11 @@ export async function middleware(request: NextRequest) {
     }
   })
 
-  // Handle ?test=true -> set test cookie until 3/31/2025
+  // Handle ?test=true -> set test cookie until 8/31/2025
   if (searchParams.get('test') === 'true') {
     response.cookies.set('test', 'true', {
       path: '/',
-      expires: new Date('2025-03-31T23:59:59.999Z'),
+      expires: new Date('2025-08-31T23:59:59.999Z'),
       httpOnly: false
     })
   }

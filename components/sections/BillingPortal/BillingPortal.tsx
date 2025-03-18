@@ -258,7 +258,7 @@ export default function BillingPortal({
                   </Button>
                   <p className="mt-2 text-sm">
                     * Test User: clicking this button will automatically upgrade
-                    your account without payment. Access is valid until March
+                    your account without payment. Access is valid until August
                     31, 2025.
                   </p>
                 </>
