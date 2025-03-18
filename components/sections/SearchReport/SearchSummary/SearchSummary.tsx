@@ -145,18 +145,22 @@ export default function SearchSummary({
         alt="Vector"
       />
 
-      <h2 className="text-2xl lg:text-4xl font-bold text-center mb-2 max-w-4xl lg:px-5 mx-auto">
+      <h2 className="text-2xl lg:text-4xl font-bold text-center mb-4 max-w-4xl lg:px-5 mx-auto">
         As of {displayDate(version, 'PPP')}, your personal information was on{' '}
         {successfulSearches} data broker sites.
       </h2>
 
-      <h4 className="text-xl lg:text-2xl font-semibold text-center text-dark/90 mb-12">
-        Search results will be refreshed on{' '}
-        {displayDate(
-          addDays(version ? new Date(version) : new Date(), 30),
-          'PPP'
-        )}
-      </h4>
+      {hasAccount ? (
+        <h4 className="text-xl lg:text-2xl font-semibold text-center text-dark/90 mb-12">
+          Search results will be refreshed on{' '}
+          {displayDate(
+            addDays(version ? new Date(version) : new Date(), 30),
+            'PPP'
+          )}
+        </h4>
+      ) : (
+        <p className="mb-12"></p>
+      )}
 
       <div className="max-w-3xl mx-auto grid lg:grid-cols-3 gap-3 mb-5">
         {reportMetrics.map((card, index) => (
