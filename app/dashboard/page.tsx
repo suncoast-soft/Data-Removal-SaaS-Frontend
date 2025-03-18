@@ -32,14 +32,13 @@ export default async function Dashboard() {
     redirect('/dashboard/account')
   }
   const profile = profiles[0]
-  const selectedProfileId = String(profile.id)
 
   const isPremium = pricing && isPremiumUser(pricing)
 
   // Initial loading for completed searches
   const brokerSearches = ((await getBrokerSearches(
     supabase,
-    selectedProfileId
+    String(profile.id)
   )) ?? []) as BrokerSearch[]
 
   const completedSearches = (await Promise.all(
@@ -66,7 +65,7 @@ export default async function Dashboard() {
       <SectionHeader title="Dashboard" />
 
       <SearchReport
-        profileId={selectedProfileId}
+        profile={profile}
         brokerSearches={brokerSearches}
         completedSearches={completedSearches}
         hasAccount={true}

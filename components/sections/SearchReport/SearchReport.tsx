@@ -8,13 +8,14 @@ import { Tables } from '@/types_db'
 import { createClient } from '@/utils/supabase/client'
 import { getBroker, getBrokerSearches } from '@/utils/supabase/queries'
 
+type Profile = Tables<'profiles'>
 type Broker = Tables<'brokers'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Broker
 }
 
 interface SectionProps {
-  profileId: string
+  profile: Profile
   brokerSearches: BrokerSearch[]
   completedSearches: Broker[]
   hasAccount?: boolean
@@ -22,12 +23,14 @@ interface SectionProps {
 }
 
 export default function SearchReport({
-  profileId,
+  profile,
   brokerSearches: initialBrokerSearches,
   completedSearches,
   hasAccount = false,
   isPremium = false
 }: SectionProps) {
+  const profileId = String(profile.id)
+
   const [brokerSearches, setBrokerSearches] = useState<BrokerSearch[]>(
     initialBrokerSearches
   )
@@ -142,6 +145,7 @@ export default function SearchReport({
             brokerSearches={brokerSearches}
             hasAccount={hasAccount}
             isPremium={isPremium}
+            profile={profile}
           />
         </>
       )}

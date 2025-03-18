@@ -1,6 +1,7 @@
 import BrokerSearchResults from '@/components/sections/SearchReport/SearchResults/SearchResult/Broker'
 import { Tables } from '@/types_db'
 
+type Profile = Tables<'profiles'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Tables<'brokers'>
 }
@@ -9,12 +10,14 @@ interface SectionProps {
   brokerSearches: BrokerSearch[]
   hasAccount: boolean
   isPremium: boolean
+  profile: Profile
 }
 
 export default function SearchResults({
   brokerSearches,
   hasAccount,
-  isPremium
+  isPremium,
+  profile
 }: SectionProps) {
   return (
     <div className="my-20">
@@ -26,6 +29,7 @@ export default function SearchResults({
         searches={brokerSearches}
         hasAccount={hasAccount}
         isPremium={isPremium}
+        profile={profile}
       />
     </div>
   )

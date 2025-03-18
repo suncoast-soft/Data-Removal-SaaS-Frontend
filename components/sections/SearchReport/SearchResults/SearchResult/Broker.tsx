@@ -10,10 +10,11 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types_db'
-import { getKeysInData, isValidUrl } from '@/utils/helpers'
+import { buildBrokerDataURL, getKeysInData, isValidUrl } from '@/utils/helpers'
 import { ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
 
+type Profile = Tables<'profiles'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Tables<'brokers'>
 }
@@ -22,12 +23,14 @@ interface SectionProps {
   searches: BrokerSearch[]
   hasAccount: boolean
   isPremium: boolean
+  profile: Profile
 }
 
 export default function BrokerSearchResults({
   searches,
   hasAccount,
-  isPremium
+  isPremium,
+  profile
 }: SectionProps) {
   const completedSearches = searches.filter(
     (search) => search.search_status === 'completed'
@@ -152,7 +155,7 @@ export default function BrokerSearchResults({
                     </ul>
 
                     <Link
-                      href={`${search.broker.site_url}`}
+                      href={`${buildBrokerDataURL(search.broker.scraping_url, profile) || search.broker.site_url}`}
                       target="_blank"
                       className="underline flex gap-2 text-secondary font-semibold"
                     >

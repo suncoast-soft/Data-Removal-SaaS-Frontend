@@ -328,3 +328,26 @@ export const formatPrice = (price: number) => {
 
   return `$${formattedPrice}`
 }
+
+export const buildBrokerDataURL = (
+  url: string | null,
+  profile: Record<string, any>
+) => {
+  if (url === null) {
+    return ''
+  }
+
+  const { first_name, last_name, city, state, zip, age } = profile
+
+  const scraping_url = url
+    .replace('{name}', `${first_name} ${last_name}`)
+    .replace('{first_name}', first_name)
+    .replace('{last_name}', last_name)
+    .replace('{city}', city)
+    .replace('{state}', state)
+    .replace('{state_code}', getStateCode(state))
+    .replace('{zip}', zip)
+    .replace('{age}', age)
+
+  return scraping_url
+}
