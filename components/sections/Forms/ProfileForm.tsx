@@ -10,7 +10,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -62,6 +62,9 @@ export default function ProfileForm({
   children
 }: SectionProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const success = searchParams.get('status_description')
+  const error = searchParams.get('error_description')
 
   const { email, user_metadata } = user ?? {}
   const { phone, full_name } = user_metadata ?? {}
@@ -93,14 +96,12 @@ export default function ProfileForm({
         id: profile.id
       }
       await handleRequest(transformedData, updateProfileAction, router)
-      router.refresh()
     } else {
       const transformedData = {
         ...data,
         birth_date: data.birth_date?.toISOString() ?? ''
       }
       await handleRequest(transformedData, createProfileAction, router)
-      router.refresh()
     }
   }
 
@@ -231,6 +232,9 @@ export default function ProfileForm({
               <Button variant="default" type="submit">
                 {profile ? 'Update Profile' : 'Submit Profile'}
               </Button>
+
+              {success && <p className="text-primary text-center">{success}</p>}
+              {error && <p className="text-secondary text-center">{error}</p>}
             </form>
           </Form>
         </DialogContent>
