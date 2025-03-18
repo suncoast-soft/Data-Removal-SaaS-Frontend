@@ -6,8 +6,7 @@ import Image from 'next/image'
 
 const ProfileCard = ({
   name,
-  role,
-  description
+  role
 }: {
   name?: string
   role?: string

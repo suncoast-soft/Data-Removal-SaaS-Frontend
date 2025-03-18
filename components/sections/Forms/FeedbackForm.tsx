@@ -6,7 +6,6 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import FormTextarea from '@/components/modules/FormTextarea'
 import { createFeedbackAction } from '@/utils/supabase/server'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Form } from '@/components/ui/form'
 
@@ -68,14 +67,10 @@ export function FeedbackForm({ onSuccess }: { onSuccess: () => void }) {
             />
           </div>
         ))}
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={isSubmitting}
-        >
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
         </Button>
       </form>
     </Form>
   )
-} 
+}
