@@ -191,7 +191,7 @@ export default function SearchSummary({
                   width={154}
                   height={175}
                   alt="Protected!"
-                  className="mb-4"
+                  className="mb-4 mx-auto"
                 />
                 <p className="text-secondary font-medium">
                   You are protected by PupGuard!

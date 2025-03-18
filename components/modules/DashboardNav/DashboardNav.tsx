@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -12,17 +12,19 @@ import { Button } from '@/components/ui/button'
 import LogoWhite from '@/components/icons/LogoWhite'
 import { cn } from '@/utils/cn'
 import s from './DashboardNav.module.css'
-import { SearchIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { Input } from '@/components/ui/input'
 import MenuIcon from '@/components/icons/MenuIcon'
 import SignoutForm from '@/components/sections/Forms/SignoutForm'
+import { createClient } from '@/utils/supabase/client'
+import { getNotifications } from '@/utils/supabase/queries'
+import { Tables } from '@/types_db'
+
+type Notification = Tables<'notifications'>
 
 type NavItem = {
   icon: ReactElement<any>
   name: string
   link: string
-  isInbox?: boolean
 }
 
 interface NavProps {
@@ -31,7 +33,19 @@ interface NavProps {
 
 function DashboardNavDesktop({ navs }: NavProps) {
   const currentPath = usePathname()
-  const [search, setSearch] = useState('')
+
+  const supabase = createClient()
+  const [inboxCount, setInboxCount] = useState(0)
+
+  useEffect(() => {
+    async function fetchNotificationsCount() {
+      const notifications = (await getNotifications(supabase)) as Notification[]
+      setInboxCount(
+        notifications.filter((notification) => !notification.read).length
+      )
+    }
+    fetchNotificationsCount()
+  }, [supabase, currentPath])
 
   return (
     <aside className={s.root}>
@@ -40,20 +54,6 @@ function DashboardNavDesktop({ navs }: NavProps) {
           <Link href="/dashboard" className={cn(s.logo)} aria-label="Logo">
             <LogoWhite />
           </Link>
-
-          <div className="relative w-full mb-6">
-            <div className="absolute left-5 top-[50%] -translate-y-[50%]">
-              <SearchIcon className="w-[18px] h-[18px] text-primary" />
-            </div>
-
-            <Input
-              type="text"
-              placeholder="Search for..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-[48px] bg-transparent border border-white [&::placeholder]:text-white [&::placeholder]:opacity-60 text-white text-base h-12"
-            />
-          </div>
 
           <div className="w-full overflow-y-auto">
             {navs.map((nav, index) => (
@@ -69,6 +69,12 @@ function DashboardNavDesktop({ navs }: NavProps) {
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 text-primary">{nav.icon}</span>
                   <span>{nav.name}</span>
+
+                  {nav.name === 'Inbox' && inboxCount > 0 && (
+                    <span className="w-5 h-5 text-sm text-center rounded bg-secondary text-dark font-bold -mt-4">
+                      {inboxCount}
+                    </span>
+                  )}
                 </div>
               </Link>
             ))}
@@ -83,6 +89,19 @@ function DashboardNavDesktop({ navs }: NavProps) {
 
 function DashboardNavMobile({ navs }: NavProps) {
   const currentPath = usePathname()
+
+  const supabase = createClient()
+  const [inboxCount, setInboxCount] = useState(0)
+
+  useEffect(() => {
+    async function fetchNotificationsCount() {
+      const notifications = (await getNotifications(supabase)) as Notification[]
+      setInboxCount(
+        notifications.filter((notification) => !notification.read).length
+      )
+    }
+    fetchNotificationsCount()
+  }, [supabase, currentPath])
 
   return (
     <Sheet>
@@ -120,6 +139,12 @@ function DashboardNavMobile({ navs }: NavProps) {
               >
                 <span className="w-6 h-6 text-primary">{nav.icon}</span>
                 <span>{nav.name}</span>
+
+                {nav.name === 'Inbox' && inboxCount > 0 && (
+                  <span className="w-5 h-5 text-sm text-center rounded bg-secondary text-dark font-bold -mt-4">
+                    {inboxCount}
+                  </span>
+                )}
               </Link>
             ))}
 

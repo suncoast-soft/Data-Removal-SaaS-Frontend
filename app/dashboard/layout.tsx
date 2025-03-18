@@ -40,8 +40,7 @@ export default async function DashboardLayout({
     {
       icon: <Mail />,
       name: 'Inbox',
-      link: '/dashboard/inbox',
-      isInbox: true
+      link: '/dashboard/inbox'
     },
     {
       icon: <BillingIcon />,
