@@ -93,12 +93,14 @@ export default function ProfileForm({
         id: profile.id
       }
       await handleRequest(transformedData, updateProfileAction, router)
+      router.refresh()
     } else {
       const transformedData = {
         ...data,
         birth_date: data.birth_date?.toISOString() ?? ''
       }
       await handleRequest(transformedData, createProfileAction, router)
+      router.refresh()
     }
   }
 
