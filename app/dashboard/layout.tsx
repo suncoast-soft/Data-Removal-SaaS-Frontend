@@ -11,8 +11,6 @@ import AccountIcon from '@/components/icons/AccountIcon'
 import BillingIcon from '@/components/icons/BillingIcon'
 import FAQsIcon from '@/components/icons/FAQsIcon'
 import BlogIcon from '@/components/icons/BlogIcon'
-import { Suspense } from 'react'
-import { Toaster } from '@/components/ui/toaster'
 
 export default async function DashboardLayout({
   children
@@ -75,10 +73,6 @@ export default async function DashboardLayout({
 
         <main className="container max-w-6xl">{children}</main>
       </div>
-
-      <Suspense>
-        <Toaster />
-      </Suspense>
     </main>
   )
 }

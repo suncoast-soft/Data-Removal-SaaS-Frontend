@@ -8,7 +8,7 @@ export default async function ResetPassword() {
       <SectionHeader title="Your Account Password" />
 
       <div className="flex items-center flex-col lg:flex-row justify-between gap-8 lg:gap-16 my-32">
-        <div className="rounded-[30px] bg-dark p-4 py-6 lg:pb-10 lg:p-10 lg:w-1/2 flex-shrink-0">
+        <div className="rounded-3xl bg-dark p-4 py-6 lg:pb-10 lg:p-10 lg:w-1/2 flex-shrink-0">
           <PasswordUpdateForm />
         </div>
 

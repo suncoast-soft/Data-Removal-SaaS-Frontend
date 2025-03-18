@@ -28,7 +28,7 @@ export default async function Navbar({
         Skip to content
       </a>
 
-      <div className="container px-4 lg:px-[110px] mx-auto h-full">
+      <div className="container px-4 lg:px-24 mx-auto h-full">
         <div className="relative flex flex-row justify-between align-center h-full">
           <div className="flex items-center flex-1 justify-between">
             <Link href="/" aria-label="Logo">

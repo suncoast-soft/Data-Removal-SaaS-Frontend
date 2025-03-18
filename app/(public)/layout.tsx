@@ -1,7 +1,6 @@
 import Footer from '@/components/modules/Footer'
 import Navbar from '@/components/modules/Navbar'
-import { Toaster } from '@/components/ui/toaster'
-import { PropsWithChildren, Suspense } from 'react'
+import { PropsWithChildren } from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/utils/supabase/queries'
 import 'styles/main.css'
@@ -48,9 +47,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         footerLinks={footerLinks}
         socialLinks={socialLinks}
       />
-      <Suspense>
-        <Toaster />
-      </Suspense>
     </>
   )
 }

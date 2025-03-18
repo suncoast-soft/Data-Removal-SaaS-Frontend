@@ -58,7 +58,7 @@ export async function signUpWithPassword(formData: FormData) {
 
     return updatedData.user
       ? getStatusRedirect(
-          '/auth/register',
+          '/auth/success',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
@@ -90,7 +90,7 @@ export async function signUpWithPassword(formData: FormData) {
 
     return data.user
       ? getStatusRedirect(
-          '/auth/register',
+          '/auth/success',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
@@ -142,7 +142,7 @@ export async function requestPasswordUpdate(formData: FormData) {
     )
   } else if (data) {
     return getStatusRedirect(
-      '/auth/forgot-password',
+      '/auth/success',
       'Success!',
       'Please check your email for a password reset link. You may now close this tab.',
       true
@@ -221,7 +221,7 @@ export async function signInWithOtp(formData: FormData) {
 
       return data.user
         ? getStatusRedirect(
-            '/auth/login',
+            '/auth/success',
             'Success!',
             'Please check your email for a confirmation link. You may now close this tab.'
           )
@@ -230,7 +230,7 @@ export async function signInWithOtp(formData: FormData) {
 
     return updatedData.user
       ? getStatusRedirect(
-          '/auth/login',
+          '/auth/success',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )
@@ -246,7 +246,7 @@ export async function signInWithOtp(formData: FormData) {
 
     return data.user
       ? getStatusRedirect(
-          '/auth/login',
+          '/auth/success',
           'Success!',
           'Please check your email for a confirmation link. You may now close this tab.'
         )

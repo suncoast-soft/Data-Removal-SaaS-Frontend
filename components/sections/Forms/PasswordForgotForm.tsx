@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { Form } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
@@ -23,6 +23,9 @@ export default function PasswordForgotForm({
   disable_button: boolean
 }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const error = searchParams.get('error_description')
+
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -63,6 +66,8 @@ export default function PasswordForgotForm({
         >
           Send Password Reset Link
         </Button>
+
+        {error && <p className="text-secondary text-center">{error}</p>}
 
         <div className="text-center text-white font-semibold">
           <p>

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { handleRequest } from '@/utils/auth-helpers/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { Form } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
@@ -21,12 +21,15 @@ interface PasswordAuthProps {
 }
 
 export default function PasswordAuthForm({ register }: PasswordAuthProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const error = searchParams.get('error_description')
+
   const FormSchema = z.object({
     email: z.string().email({ message: 'Invalid email address.' }),
     password: z.string()
   })
 
-  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -77,6 +80,8 @@ export default function PasswordAuthForm({ register }: PasswordAuthProps) {
         >
           {register ? 'Create Account' : 'Login'}
         </Button>
+
+        {error && <p className="text-secondary text-center">{error}</p>}
 
         <div className="text-center text-white font-semibold">
           {register ? (
