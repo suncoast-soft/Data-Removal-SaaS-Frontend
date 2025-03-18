@@ -1,8 +1,13 @@
 import SearchReport from '@/components/sections/SearchReport'
-import { getBroker, getBrokerSearches } from '@/utils/supabase/queries'
+import {
+  getBroker,
+  getBrokerSearches,
+  getProfiles
+} from '@/utils/supabase/queries'
 import { createClient } from '@/utils/supabase/server'
 import { Tables } from '@/types_db'
 
+type Profile = Tables<'profiles'>
 type Broker = Tables<'brokers'>
 type BrokerSearch = Tables<'broker_searches'> & {
   broker: Broker
@@ -15,12 +20,17 @@ export default async function ScanResultPage({
     profile: string
   }>
 }) {
-  const { profile } = await searchParams
+  const { profile: profileId } = await searchParams
 
   // Initial loading for completed searches
   const supabase = await createClient()
 
-  const brokerSearches = ((await getBrokerSearches(supabase, profile)) ??
+  const profiles = ((await getProfiles(supabase)) ?? []) as Profile[]
+  const profile = profiles.filter(
+    (profile: Profile) => String(profile.id) === profileId
+  )?.[0]
+
+  const brokerSearches = ((await getBrokerSearches(supabase, profileId)) ??
     []) as BrokerSearch[]
 
   const completedSearches = (await Promise.all(
@@ -32,7 +42,7 @@ export default async function ScanResultPage({
   return (
     <div className="container max-w-6xl">
       <SearchReport
-        profileId={profile}
+        profile={profile}
         brokerSearches={brokerSearches}
         completedSearches={completedSearches}
       />
