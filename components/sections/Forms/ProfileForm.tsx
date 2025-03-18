@@ -229,12 +229,12 @@ export default function ProfileForm({
                 />
               </div>
 
+              {success && <p className="text-primary">{success}</p>}
+              {error && <p className="text-secondary">{error}</p>}
+
               <Button variant="default" type="submit">
                 {profile ? 'Update Profile' : 'Submit Profile'}
               </Button>
-
-              {success && <p className="text-primary text-center">{success}</p>}
-              {error && <p className="text-secondary text-center">{error}</p>}
             </form>
           </Form>
         </DialogContent>
