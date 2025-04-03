@@ -111,9 +111,18 @@ export const createMessage = cache(
 export const createLoginHistory = cache(
   async (supabase: SupabaseClient, user_id: string, request: Request) => {
     try {
-      // Get location from ipinfo.io
+      // Debug: Log all available headers
+      console.log('All Request Headers:', Object.fromEntries(request.headers.entries()))
+
+      const forwardedFor = request.headers.get('x-vercel-forwarded-for')
+      console.log('x-vercel-forwarded-for:', forwardedFor)
+
+      const clientIP = forwardedFor?.split(',')[0]
+      console.log('Selected client IP:', clientIP)
+
       const ipResponse = await fetch(
-        `https://ipinfo.io?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`
+        `https://ipinfo.io/${clientIP}?token=${process.env.IPINFO_TOKEN}`,
+        { headers: { 'Accept': 'application/json' } }
       )
       const ipData = await ipResponse.json()
 
