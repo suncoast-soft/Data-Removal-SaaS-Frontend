@@ -111,20 +111,22 @@ export const createMessage = cache(
 export const createLoginHistory = cache(
   async (supabase: SupabaseClient, user_id: string, request: Request) => {
     try {
-      // Debug: Log all available headers
-      console.log('All Request Headers:', Object.fromEntries(request.headers.entries()))
-
+      // Get client IP from x-vercel-forwarded-for
       const forwardedFor = request.headers.get('x-vercel-forwarded-for')
-      console.log('x-vercel-forwarded-for:', forwardedFor)
-
       const clientIP = forwardedFor?.split(',')[0]
-      console.log('Selected client IP:', clientIP)
 
-      const ipResponse = await fetch(
-        `https://ipinfo.io/${clientIP}?token=${process.env.IPINFO_TOKEN}`,
-        { headers: { 'Accept': 'application/json' } }
-      )
-      const ipData = await ipResponse.json()
+      // Get location data from Vercel headers
+      const locationData = {
+        ip: clientIP || null,
+        latitude: request.headers.get('x-vercel-ip-latitude') || null,
+        longitude: request.headers.get('x-vercel-ip-longitude') || null,
+        city: request.headers.get('x-vercel-ip-city') || null,
+        postal: request.headers.get('x-vercel-ip-postal-code') || null,
+        region: request.headers.get('x-vercel-ip-country-region') || null,
+        country: request.headers.get('x-vercel-ip-country') || null,
+        timezone: request.headers.get('x-vercel-ip-timezone') || null,
+        continent: request.headers.get('x-vercel-ip-continent') || null
+      }
 
       // Get user agent from request
       const userAgent = request.headers.get('user-agent')
@@ -140,7 +142,7 @@ export const createLoginHistory = cache(
           user_id,
           device_type: deviceType,
           user_agent: userAgent,
-          location: ipData,
+          location: locationData,
           success: true
         })
         .select()
