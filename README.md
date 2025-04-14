@@ -1,4 +1,4 @@
-# Data-Removal-SaaS-Frontend
+# Data-Removal-SaaS-Frontend Project Overview
 
 ## Local Development Setup
 
