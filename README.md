@@ -1,4 +1,4 @@
-# Pup Erase App
+# Data-Removal-SaaS-Frontend
 
 ## Local Development Setup
 
